@@ -60,17 +60,17 @@
           class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler" />
 
     <bean id="clientCredentialsTokenEndpointFilter"
-          class="com.guanshan.nlp.webapp.security.ClientCredentialsTokenEndpointFilter">
+          class="com.guanshan.opera.webapp.security.ClientCredentialsTokenEndpointFilter">
         <property name="authenticationManager" ref="clientAuthenticationManager" />
     </bean>
 
-    <bean id="accessDecisionManager" class="com.guanshan.nlp.webapp.security.UnanimousBased"
+    <bean id="accessDecisionManager" class="com.guanshan.opera.webapp.security.UnanimousBased"
           xmlns="http://www.springframework.org/schema/beans">
         <constructor-arg>
             <list>
                 <bean class="org.springframework.security.web.access.expression.WebExpressionVoter" />
                 <bean class="org.springframework.security.oauth2.provider.vote.ScopeVoter" />
-                <bean class="com.guanshan.nlp.webapp.security.RoleVoter" />
+                <bean class="com.guanshan.opera.webapp.security.RoleVoter" />
                 <bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
             </list>
         </constructor-arg>
@@ -93,7 +93,7 @@
     </authentication-manager>
 
     <!-- 对密码进行base64编码 -->
-    <bean id="passwordEncoder" class="com.guanshan.nlp.webapp.shared.util.codec.EncryptBase64">
+    <bean id="passwordEncoder" class="com.guanshan.opera.webapp.shared.util.codec.EncryptBase64">
         <constructor-arg name="algorithm" value="md5"></constructor-arg>
     </bean>
 

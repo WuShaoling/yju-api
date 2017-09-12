@@ -5,7 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.guanshan.nlp.webapp.Application;
+import com.guanshan.opera.webapp.Application;
 import com.guanshan.vc.webapp.controller.IndexController;
 import org.junit.Before;
 import org.junit.Test;

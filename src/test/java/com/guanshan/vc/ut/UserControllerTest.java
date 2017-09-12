@@ -1,6 +1,6 @@
 package com.guanshan.vc.ut;
 
-import com.guanshan.nlp.webapp.Application;
+import com.guanshan.opera.webapp.Application;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
