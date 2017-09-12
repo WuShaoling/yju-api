@@ -1,4 +1,4 @@
-package com.guanshan.vc.ut;
+package com.guanshan.opera.ut;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

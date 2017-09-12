@@ -1,4 +1,4 @@
-package com.guanshan.vc.ut;
+package com.guanshan.opera.ut;
 
 import com.guanshan.opera.webapp.Application;
 import org.junit.Before;
