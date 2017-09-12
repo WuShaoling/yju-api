@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guanshan.nlp.webapp.dao.UserDao">
+
+    <resultMap id="UserMap" type="com.guanshan.nlp.webapp.shared.entity.User">
+        <id property="id" column="ID" />
+        <result property="username" column="USERNAME" />
+        <result property="email" column="EMAIL" />
+        <result property="phone" column="PHONE" />
+        <result property="password" column="PASSWORD" />
+        <result property="role" column="ROLE" />
+
+
+    </resultMap>
+
+    <select id="getByPhone" resultMap="UserMap" resultType="com.guanshan.nlp.webapp.shared.entity.User">
+        SELECT *
+        FROM USER
+        WHERE USERNAME = #{username}
+    </select>
+
+    <insert id="insertUser"  parameterType="com.guanshan.nlp.webapp.shared.entity.User">
+        insert into user
+        (USERNAME,PHONE,EMAIL,PASSWORD,ROLE)
+        values(
+        #{username,jdbcType=VARCHAR},
+        #{phone,jdbcType=VARCHAR},
+        #{email,jdbcType=VARCHAR},
+        #{password,jdbcType=VARCHAR},
+        #{role,jdbcType=INTEGER})
+    </insert>
+</mapper>
