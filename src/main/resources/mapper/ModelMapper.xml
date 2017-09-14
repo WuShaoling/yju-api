@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.guanshan.opera.webapp.dao.ModelDao">
+<mapper namespace="com.guanshan.phoenix.webapp.dao.ModelDao">
 
-    <resultMap id="ModelMap" type="com.guanshan.opera.webapp.shared.entity.Model">
+    <resultMap id="ModelMap" type="com.guanshan.phoenix.webapp.shared.entity.Model">
         <id property="id" column="id" />
         <result property="name" column="name" />
         <result property="date" column="date" />
     </resultMap>
 
-    <select id="getByName" resultMap="ModelMap" resultType="com.guanshan.opera.webapp.shared.entity.Model">
+    <select id="getByName" resultMap="ModelMap" resultType="com.guanshan.phoenix.webapp.shared.entity.Model">
         SELECT *
         FROM MODEL
         WHERE NAME = #{modelName}

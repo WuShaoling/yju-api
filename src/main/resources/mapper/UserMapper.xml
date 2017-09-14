@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.guanshan.opera.webapp.dao.UserDao">
+<mapper namespace="com.guanshan.phoenix.webapp.dao.UserDao">
 
-    <resultMap id="UserMap" type="com.guanshan.opera.webapp.shared.entity.User">
+    <resultMap id="UserMap" type="com.guanshan.phoenix.webapp.shared.entity.User">
         <id property="id" column="ID" />
         <result property="username" column="USERNAME" />
         <result property="email" column="EMAIL" />
@@ -14,13 +14,13 @@
 
     </resultMap>
 
-    <select id="getByPhone" resultMap="UserMap" resultType="com.guanshan.opera.webapp.shared.entity.User">
+    <select id="getByPhone" resultMap="UserMap" resultType="com.guanshan.phoenix.webapp.shared.entity.User">
         SELECT *
         FROM USER
         WHERE USERNAME = #{username}
     </select>
 
-    <insert id="insertUser"  parameterType="com.guanshan.opera.webapp.shared.entity.User">
+    <insert id="insertUser"  parameterType="com.guanshan.phoenix.webapp.shared.entity.User">
         insert into user
         (USERNAME,PHONE,EMAIL,PASSWORD,ROLE)
         values(
