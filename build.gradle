@@ -1,0 +1,52 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.7.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+group = 'com.guanshan.phoenix.webapp'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+
+dependencies {
+
+	compile('org.springframework.boot:spring-boot-starter-aop')
+	compile('org.springframework.boot:spring-boot-starter-web')
+
+	// mongo 数据库相关
+//	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
+
+	// mysql 数据库相关
+	compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:1.2.0')
+	compile('mysql:mysql-connector-java:5.1.21')
+
+	//spring security加入
+	compile('org.springframework.boot:spring-boot-starter-security')
+	compile 'commons-dbcp:commons-dbcp:1.4'
+
+	//jwt 加入
+	compile('io.jsonwebtoken:jjwt:0.6.0')
+	compile("org.apache.commons:commons-lang3:3.2")
+
+	//Swagger 加入
+	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.6.1'
+	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.6.1'
+
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+//	testCompile('org.springframework.security:spring-security-test')
+}
