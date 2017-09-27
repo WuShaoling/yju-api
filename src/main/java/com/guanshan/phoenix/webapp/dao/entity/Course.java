@@ -4,77 +4,75 @@ import java.sql.Date;
 
 public class Course {
 
-    private Integer id;
-
-    private String name;
-    private String image;
-    private String dscription;
-    private String teacher;
-    private String duration;
+    private Integer teacherId;
+    private Date updateTime;
+    private String description;
+    private String studentNum;
+    private Integer termId;
     private Date date;
-    private String student_num;
+    private String duration;
+    private Date craeteTime;
+    private Integer id;
+    private String name;
 
-    public Integer getId() {
-        return id;
+    public Integer getTeacher_id() {
+        return teacherId;
     }
-
-    public void setId(Integer id) {
-        this.id = id;
+    public void setTeacher_id(Integer teacherId) {
+        this.teacherId = teacherId;
     }
-
-    public String getName() {
-        return name;
+    public Date getUpdate_time() {
+        return updateTime;
     }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setUpdate_time(Date updateTime) {
+        this.updateTime = updateTime;
     }
-
-    public String getImage() {
-        return image;
+    public String getDescription() {
+        return description;
     }
-
-    public void setImage(String image) {
-        this.image = image;
+    public void setDescription(String description) {
+        this.description = description;
     }
-
-    public String getDscription() {
-        return dscription;
+    public String getStudent_num() {
+        return studentNum;
     }
-
-    public void setDscription(String dscription) {
-        this.dscription = dscription;
+    public void setStudent_num(String studentNum) {
+        this.studentNum = studentNum;
     }
-
-    public String getTeacher() {
-        return teacher;
+    public Integer getTerm_id() {
+        return termId;
     }
-
-    public void setTeacher(String teacher) {
-        this.teacher = teacher;
+    public void setTerm_id(Integer termId) {
+        this.termId = termId;
     }
-
-    public String getDuration() {
-        return duration;
-    }
-
-    public void setDuration(String duration) {
-        this.duration = duration;
-    }
-
     public Date getDate() {
         return date;
     }
-
     public void setDate(Date date) {
         this.date = date;
     }
-
-    public String getStudent_num() {
-        return student_num;
+    public String getDuration() {
+        return duration;
     }
-
-    public void setStudent_num(String student_num) {
-        this.student_num = student_num;
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+    public Date getCraete_time() {
+        return craeteTime;
+    }
+    public void setCraete_time(Date craeteTime) {
+        this.craeteTime = craeteTime;
+    }
+    public Integer getId() {
+        return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 }

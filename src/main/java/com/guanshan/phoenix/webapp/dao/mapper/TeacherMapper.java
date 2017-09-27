@@ -1,33 +1,21 @@
 package com.guanshan.phoenix.webapp.dao.mapper;
 
-import com.guanshan.phoenix.webapp.dao.entity.Teacher;
 import org.apache.ibatis.annotations.*;
+import com.guanshan.phoenix.webapp.dao.entity.Teacher;
 
-import java.util.List;
-
-/**
- * Created by Administrator on 2017/9/22.
- */
 @Mapper
 public interface TeacherMapper {
 
-    @Insert("INSERT INTO teacher (name, username, password), " +
-            "VALUES (#{name}, #{username}, #{password}")
+    @Insert("INSERT INTO teacher (user_id, name, title, gender, contact, birth, tno, id) VALUES (#{userId}, #{name}, #{title}, #{gender}, #{contact}, #{birth}, #{tno}, #{id})")
     int insert(Teacher teacher);
 
-    @Delete("DELETE FROM teacher WHERE id={id}")
-    int deltet(@Param("id") Integer id);
+    @Delete("DELETE FROM %s WHERE id=#{id}")
+    int delete(@Param("id") Integer id);
 
-    @Update("UPDATE teacher SET name=#{name}, username=#{username}, password=#{password} " +
-            "WHERE id=#{id}")
+    @Update("UPDATE teacher SET user_id=#{userId}, name=#{name}, title=#{title}, gender=#{gender}, contact=#{contact}, birth=#{birth}, tno=#{tno}, id=#{id} WHERE id=#{id}")
     int update(Teacher teacher);
 
     @Select("SELECT * FROM teacher WHERE id=#{id}")
     Teacher findOne(@Param("id") Integer id);
 
-    @Select("SELECT * FROM teacher")
-    List<Teacher> findAll();
-
-    @Select("SELECT * FROM teacher WHERE username=#{username}")
-    Teacher findOneByUsername(@Param("username") String username);
 }

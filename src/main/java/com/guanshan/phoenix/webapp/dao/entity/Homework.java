@@ -2,12 +2,11 @@ package com.guanshan.phoenix.webapp.dao.entity;
 
 import java.sql.Date;
 
-public class Experiment {
+public class Homework {
 
     private Date updateTime;
     private Integer periodId;
     private String description;
-    private String cloudwareId;
     private Date craeteTime;
     private Integer id;
     private String name;
@@ -29,12 +28,6 @@ public class Experiment {
     }
     public void setDescription(String description) {
         this.description = description;
-    }
-    public String getCloudware_id() {
-        return cloudwareId;
-    }
-    public void setCloudware_id(String cloudwareId) {
-        this.cloudwareId = cloudwareId;
     }
     public Date getCraete_time() {
         return craeteTime;

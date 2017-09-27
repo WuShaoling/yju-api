@@ -1,30 +1,21 @@
 package com.guanshan.phoenix.webapp.dao.mapper;
 
-import com.guanshan.phoenix.webapp.dao.entity.StudentCourse;
 import org.apache.ibatis.annotations.*;
-
-import java.util.List;
+import com.guanshan.phoenix.webapp.dao.entity.StudentCourse;
 
 @Mapper
 public interface StudentCourseMapper {
 
-    @Insert("INSERT INTO student_course (student_id, course_id), " +
-            "VALUES (#{student_id}, #{course_id}")
-    int insert(StudentCourse studentCourse);
+    @Insert("INSERT INTO student_course (course_id, student_id, id, term_id) VALUES (#{courseId}, #{studentId}, #{id}, #{termId})")
+    int insert(StudentCourse student_course);
 
-    @Delete("DELETE FROM student_course WHERE id={id}")
-    int deltet(@Param("id") Integer id);
+    @Delete("DELETE FROM %s WHERE id=#{id}")
+    int delete(@Param("id") Integer id);
 
-    @Update("UPDATE student_course SET student_id=#{student_id}, course_id=#{course_id} " +
-            "WHERE id=#{id}")
-    int update(StudentCourse studentCourse);
+    @Update("UPDATE student_course SET course_id=#{courseId}, student_id=#{studentId}, id=#{id}, term_id=#{termId} WHERE id=#{id}")
+    int update(StudentCourse student_course);
 
     @Select("SELECT * FROM student_course WHERE id=#{id}")
     StudentCourse findOne(@Param("id") Integer id);
 
-    @Select("SELECT * FROM student_course")
-    List<StudentCourse> findAll();
-
-    @Select("SELECT course_id FROM student_course WHERE student_id=#{studentId}")
-    List<Integer> findAllCourseIdByStudentId(@Param("studentId") Integer studentId);
 }
