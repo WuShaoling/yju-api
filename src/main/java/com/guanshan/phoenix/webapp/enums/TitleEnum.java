@@ -1,5 +1,7 @@
 package com.guanshan.phoenix.webapp.enums;
 
+import java.util.EnumSet;
+
 public enum TitleEnum {
     PROFESSOR(1, "professor"),
     DEPUTY_PROFESSOR(2, "deputy professor"),
@@ -21,5 +23,15 @@ public enum TitleEnum {
 
     public String getString() {
         return string;
+    }
+
+    public static String getStringByCode(int code) {
+        EnumSet<TitleEnum> titleEnums = EnumSet.allOf(TitleEnum.class);
+        for (TitleEnum titleEnum : titleEnums) {
+            if (titleEnum.getCode() == code) {
+                return titleEnum.getString();
+            }
+        }
+        return null;
     }
 }

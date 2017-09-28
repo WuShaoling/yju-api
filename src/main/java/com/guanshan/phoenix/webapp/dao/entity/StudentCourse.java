@@ -2,22 +2,22 @@ package com.guanshan.phoenix.webapp.dao.entity;
 
 public class StudentCourse {
 
-    private Integer courseId;
-    private Integer studentId;
+    private Integer course_id;
+    private Integer student_id;
     private Integer id;
-    private Integer termId;
+    private Integer term_id;
 
     public Integer getCourse_id() {
-        return courseId;
+        return course_id;
     }
-    public void setCourse_id(Integer courseId) {
-        this.courseId = courseId;
+    public void setCourse_id(Integer course_id) {
+        this.course_id = course_id;
     }
     public Integer getStudent_id() {
-        return studentId;
+        return student_id;
     }
-    public void setStudent_id(Integer studentId) {
-        this.studentId = studentId;
+    public void setStudent_id(Integer student_id) {
+        this.student_id = student_id;
     }
     public Integer getId() {
         return id;
@@ -26,9 +26,9 @@ public class StudentCourse {
         this.id = id;
     }
     public Integer getTerm_id() {
-        return termId;
+        return term_id;
     }
-    public void setTerm_id(Integer termId) {
-        this.termId = termId;
+    public void setTerm_id(Integer term_id) {
+        this.term_id = term_id;
     }
 }

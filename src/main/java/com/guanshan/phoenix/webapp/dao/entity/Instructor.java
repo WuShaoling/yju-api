@@ -3,7 +3,7 @@ package com.guanshan.phoenix.webapp.dao.entity;
 public class Instructor {
 
     private String contact;
-    private Integer userId;
+    private Integer user_id;
     private String name;
     private Integer gender;
     private String tno;
@@ -16,10 +16,10 @@ public class Instructor {
         this.contact = contact;
     }
     public Integer getUser_id() {
-        return userId;
+        return user_id;
     }
-    public void setUser_id(Integer userId) {
-        this.userId = userId;
+    public void setUser_id(Integer user_id) {
+        this.user_id = user_id;
     }
     public String getName() {
         return name;

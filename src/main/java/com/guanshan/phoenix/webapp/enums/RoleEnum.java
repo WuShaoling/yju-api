@@ -1,5 +1,7 @@
 package com.guanshan.phoenix.webapp.enums;
 
+import java.util.EnumSet;
+
 public enum RoleEnum {
     STUDENT(1, "student"),
     TEACHER(2, "teacher"),
@@ -19,5 +21,15 @@ public enum RoleEnum {
 
     public String getString() {
         return string;
+    }
+
+    public static String getStringByCode(int code) {
+        EnumSet<RoleEnum> roleEnums = EnumSet.allOf(RoleEnum.class);
+        for (RoleEnum roleEnum : roleEnums) {
+            if (roleEnum.getCode() == code) {
+                return roleEnum.getString();
+            }
+        }
+        return null;
     }
 }

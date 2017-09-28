@@ -1,5 +1,7 @@
 package com.guanshan.phoenix.webapp.enums;
 
+import java.util.EnumSet;
+
 public enum SequenceEnum {
     ONE(1, "first term"),
     TWO(2, "second term"),
@@ -19,5 +21,15 @@ public enum SequenceEnum {
 
     public String getString() {
         return string;
+    }
+
+    public static String getStringByCode(int code) {
+        EnumSet<SequenceEnum> sequenceEnums = EnumSet.allOf(SequenceEnum.class);
+        for (SequenceEnum sequenceEnum : sequenceEnums) {
+            if (sequenceEnum.getCode() == code) {
+                return sequenceEnum.getString();
+            }
+        }
+        return null;
     }
 }

@@ -4,28 +4,28 @@ import java.sql.Date;
 
 public class Course {
 
-    private Integer teacherId;
-    private Date updateTime;
+    private Integer teacher_id;
+    private Date update_time;
     private String description;
-    private String studentNum;
-    private Integer termId;
+    private String student_num;
+    private Integer term_id;
     private Date date;
+    private Date create_time;
     private String duration;
-    private Date craeteTime;
     private Integer id;
     private String name;
 
     public Integer getTeacher_id() {
-        return teacherId;
+        return teacher_id;
     }
-    public void setTeacher_id(Integer teacherId) {
-        this.teacherId = teacherId;
+    public void setTeacher_id(Integer teacher_id) {
+        this.teacher_id = teacher_id;
     }
     public Date getUpdate_time() {
-        return updateTime;
+        return update_time;
     }
-    public void setUpdate_time(Date updateTime) {
-        this.updateTime = updateTime;
+    public void setUpdate_time(Date update_time) {
+        this.update_time = update_time;
     }
     public String getDescription() {
         return description;
@@ -34,16 +34,16 @@ public class Course {
         this.description = description;
     }
     public String getStudent_num() {
-        return studentNum;
+        return student_num;
     }
-    public void setStudent_num(String studentNum) {
-        this.studentNum = studentNum;
+    public void setStudent_num(String student_num) {
+        this.student_num = student_num;
     }
     public Integer getTerm_id() {
-        return termId;
+        return term_id;
     }
-    public void setTerm_id(Integer termId) {
-        this.termId = termId;
+    public void setTerm_id(Integer term_id) {
+        this.term_id = term_id;
     }
     public Date getDate() {
         return date;
@@ -51,17 +51,17 @@ public class Course {
     public void setDate(Date date) {
         this.date = date;
     }
+    public Date getCreate_time() {
+        return create_time;
+    }
+    public void setCreate_time(Date create_time) {
+        this.create_time = create_time;
+    }
     public String getDuration() {
         return duration;
     }
     public void setDuration(String duration) {
         this.duration = duration;
-    }
-    public Date getCraete_time() {
-        return craeteTime;
-    }
-    public void setCraete_time(Date craeteTime) {
-        this.craeteTime = craeteTime;
     }
     public Integer getId() {
         return id;

@@ -2,56 +2,56 @@ package com.guanshan.phoenix.webapp.dao.entity;
 
 public class StudentHomework {
 
-    private Integer studentId;
-    private String scoreComments;
-    private String answerUrl;
-    private String socre;
-    private Integer periodId;
-    private String answerContent;
-    private String cloudwareId;
+    private Integer student_id;
+    private String score_comments;
+    private String answer_url;
+    private String score;
+    private Integer period_id;
+    private String answer_content;
+    private String cloudware_id;
     private Integer id;
 
     public Integer getStudent_id() {
-        return studentId;
+        return student_id;
     }
-    public void setStudent_id(Integer studentId) {
-        this.studentId = studentId;
+    public void setStudent_id(Integer student_id) {
+        this.student_id = student_id;
     }
     public String getScore_comments() {
-        return scoreComments;
+        return score_comments;
     }
-    public void setScore_comments(String scoreComments) {
-        this.scoreComments = scoreComments;
+    public void setScore_comments(String score_comments) {
+        this.score_comments = score_comments;
     }
     public String getAnswer_url() {
-        return answerUrl;
+        return answer_url;
     }
-    public void setAnswer_url(String answerUrl) {
-        this.answerUrl = answerUrl;
+    public void setAnswer_url(String answer_url) {
+        this.answer_url = answer_url;
     }
-    public String getSocre() {
-        return socre;
+    public String getScore() {
+        return score;
     }
-    public void setSocre(String socre) {
-        this.socre = socre;
+    public void setScore(String score) {
+        this.score = score;
     }
     public Integer getPeriod_id() {
-        return periodId;
+        return period_id;
     }
-    public void setPeriod_id(Integer periodId) {
-        this.periodId = periodId;
+    public void setPeriod_id(Integer period_id) {
+        this.period_id = period_id;
     }
     public String getAnswer_content() {
-        return answerContent;
+        return answer_content;
     }
-    public void setAnswer_content(String answerContent) {
-        this.answerContent = answerContent;
+    public void setAnswer_content(String answer_content) {
+        this.answer_content = answer_content;
     }
     public String getCloudware_id() {
-        return cloudwareId;
+        return cloudware_id;
     }
-    public void setCloudware_id(String cloudwareId) {
-        this.cloudwareId = cloudwareId;
+    public void setCloudware_id(String cloudware_id) {
+        this.cloudware_id = cloudware_id;
     }
     public Integer getId() {
         return id;

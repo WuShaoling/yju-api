@@ -4,18 +4,24 @@ import java.sql.Date;
 
 public class Period {
 
-    private Date updateTime;
+    private Date update_time;
+    private Date create_time;
     private String name;
-    private Integer courseId;
-    private Integer termId;
-    private Date craeteTime;
+    private Integer course_id;
+    private Integer term_id;
     private Integer id;
 
     public Date getUpdate_time() {
-        return updateTime;
+        return update_time;
     }
-    public void setUpdate_time(Date updateTime) {
-        this.updateTime = updateTime;
+    public void setUpdate_time(Date update_time) {
+        this.update_time = update_time;
+    }
+    public Date getCreate_time() {
+        return create_time;
+    }
+    public void setCreate_time(Date create_time) {
+        this.create_time = create_time;
     }
     public String getName() {
         return name;
@@ -24,22 +30,16 @@ public class Period {
         this.name = name;
     }
     public Integer getCourse_id() {
-        return courseId;
+        return course_id;
     }
-    public void setCourse_id(Integer courseId) {
-        this.courseId = courseId;
+    public void setCourse_id(Integer course_id) {
+        this.course_id = course_id;
     }
     public Integer getTerm_id() {
-        return termId;
+        return term_id;
     }
-    public void setTerm_id(Integer termId) {
-        this.termId = termId;
-    }
-    public Date getCraete_time() {
-        return craeteTime;
-    }
-    public void setCraete_time(Date craeteTime) {
-        this.craeteTime = craeteTime;
+    public void setTerm_id(Integer term_id) {
+        this.term_id = term_id;
     }
     public Integer getId() {
         return id;

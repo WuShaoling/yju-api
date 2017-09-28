@@ -3,9 +3,9 @@ package com.guanshan.phoenix.webapp.dao.entity;
 public class UserFileSystem {
 
     private String status;
-    private String personalVolumn;
     private String remark;
-    private Integer userId;
+    private Integer user_id;
+    private String personal_volume;
     private Integer id;
 
     public String getStatus() {
@@ -14,12 +14,6 @@ public class UserFileSystem {
     public void setStatus(String status) {
         this.status = status;
     }
-    public String getPersonal_volumn() {
-        return personalVolumn;
-    }
-    public void setPersonal_volumn(String personalVolumn) {
-        this.personalVolumn = personalVolumn;
-    }
     public String getRemark() {
         return remark;
     }
@@ -27,10 +21,16 @@ public class UserFileSystem {
         this.remark = remark;
     }
     public Integer getUser_id() {
-        return userId;
+        return user_id;
     }
-    public void setUser_id(Integer userId) {
-        this.userId = userId;
+    public void setUser_id(Integer user_id) {
+        this.user_id = user_id;
+    }
+    public String getPersonal_volume() {
+        return personal_volume;
+    }
+    public void setPersonal_volume(String personal_volume) {
+        this.personal_volume = personal_volume;
     }
     public Integer getId() {
         return id;

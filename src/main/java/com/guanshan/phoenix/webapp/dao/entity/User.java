@@ -5,10 +5,10 @@ import java.sql.Date;
 public class User {
 
     private String username;
-    private Date updateTime;
-    private String password;
+    private Date update_time;
+    private Date create_time;
     private Integer role;
-    private Date craeteTime;
+    private String password;
     private Integer id;
 
     public String getUsername() {
@@ -18,16 +18,16 @@ public class User {
         this.username = username;
     }
     public Date getUpdate_time() {
-        return updateTime;
+        return update_time;
     }
-    public void setUpdate_time(Date updateTime) {
-        this.updateTime = updateTime;
+    public void setUpdate_time(Date update_time) {
+        this.update_time = update_time;
     }
-    public String getPassword() {
-        return password;
+    public Date getCreate_time() {
+        return create_time;
     }
-    public void setPassword(String password) {
-        this.password = password;
+    public void setCreate_time(Date create_time) {
+        this.create_time = create_time;
     }
     public Integer getRole() {
         return role;
@@ -35,11 +35,11 @@ public class User {
     public void setRole(Integer role) {
         this.role = role;
     }
-    public Date getCraete_time() {
-        return craeteTime;
+    public String getPassword() {
+        return password;
     }
-    public void setCraete_time(Date craeteTime) {
-        this.craeteTime = craeteTime;
+    public void setPassword(String password) {
+        this.password = password;
     }
     public Integer getId() {
         return id;

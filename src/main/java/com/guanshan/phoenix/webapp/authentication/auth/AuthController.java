@@ -34,8 +34,8 @@ public class AuthController {
         return ResponseEntity.ok(new JwtAuthenticationResponse(authenticationRequest.getUsername(), token));
     }
 
-    @RequestMapping(value = "refresh", method = RequestMethod.GET)
-    public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request) throws AuthenticationException {
+//    @RequestMapping(value = "refresh", method = RequestMethod.GET)
+//    public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request) throws AuthenticationException {
 //        String token = request.getHeader(tokenHeader);
 //        String refreshedToken = authService.refresh(token);
 //        if (refreshedToken == null) {
@@ -43,12 +43,12 @@ public class AuthController {
 //        } else {
 //            return ResponseEntity.ok(new JwtAuthenticationResponse(refreshedToken));
 //        }
-        return null;
-    }
-
-    @RequestMapping(value = "register", method = RequestMethod.POST)
-    public ResponseEntity<?> register(@RequestBody AuthUserInfo addedUserInfo) throws AuthenticationException{
-        return ResponseEntity.ok(authService.register(addedUserInfo));
-    }
+//        return null;
+//    }
+//
+//    @RequestMapping(value = "register", method = RequestMethod.POST)
+//    public ResponseEntity<?> register(@RequestBody AuthUserInfo addedUserInfo) throws AuthenticationException{
+//        return ResponseEntity.ok(authService.register(addedUserInfo));
+//    }
 
 }

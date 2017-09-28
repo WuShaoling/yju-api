@@ -4,36 +4,36 @@ import java.sql.Date;
 
 public class Homework {
 
-    private Date updateTime;
-    private Integer periodId;
+    private Date update_time;
+    private Date create_time;
+    private Integer period_id;
     private String description;
-    private Date craeteTime;
     private Integer id;
     private String name;
 
     public Date getUpdate_time() {
-        return updateTime;
+        return update_time;
     }
-    public void setUpdate_time(Date updateTime) {
-        this.updateTime = updateTime;
+    public void setUpdate_time(Date update_time) {
+        this.update_time = update_time;
+    }
+    public Date getCreate_time() {
+        return create_time;
+    }
+    public void setCreate_time(Date create_time) {
+        this.create_time = create_time;
     }
     public Integer getPeriod_id() {
-        return periodId;
+        return period_id;
     }
-    public void setPeriod_id(Integer periodId) {
-        this.periodId = periodId;
+    public void setPeriod_id(Integer period_id) {
+        this.period_id = period_id;
     }
     public String getDescription() {
         return description;
     }
     public void setDescription(String description) {
         this.description = description;
-    }
-    public Date getCraete_time() {
-        return craeteTime;
-    }
-    public void setCraete_time(Date craeteTime) {
-        this.craeteTime = craeteTime;
     }
     public Integer getId() {
         return id;
