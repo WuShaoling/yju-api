@@ -23,4 +23,7 @@ public interface StudentHomeworkMapper {
     @Select("SELECT * FROM student_homework")
     List<StudentHomework> findAll();
 
+    @Select("SELECT * FROM student_homework WHERE period_id=#{period_id}")
+    List<StudentHomework> findByPeriodId(@Param("period_id") int periodId);
+
 }

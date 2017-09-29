@@ -4,6 +4,7 @@ import com.guanshan.phoenix.webapp.service.HomeworkService;
 import com.guanshan.phoenix.webapp.shared.util.codec.Const;
 import com.guanshan.phoenix.webapp.shared.util.codec.ResponseMessage;
 import com.guanshan.phoenix.webapp.webdomain.WebHomework;
+import com.guanshan.phoenix.webapp.webdomain.WebHomeworkDetail;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,12 @@ public class HomeworkController {
                 homeworkService.getPeriodHomeworkInfo(periodId));
     }
 
-//    @ApiOperation(value = "获取已提交作业的详情")
-//    @GetMapping("")
+    @ApiOperation(value = "获取已提交作业的详情")
+    @GetMapping("detail")
+    public ResponseMessage<WebHomeworkDetail> getHomeworkInfoDetail(@RequestParam("homeworkId") int homeworkId) {
+        return new ResponseMessage<>(Const.SUCCESS,
+                "success",
+                homeworkService.getHomeworkInfoDetail(homeworkId));
+    }
 
 }

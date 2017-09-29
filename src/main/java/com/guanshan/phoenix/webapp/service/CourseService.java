@@ -1,9 +1,6 @@
 package com.guanshan.phoenix.webapp.service;
 
-import com.guanshan.phoenix.webapp.webdomain.WebCourse;
-import com.guanshan.phoenix.webapp.webdomain.WebPeriodDetail;
-import com.guanshan.phoenix.webapp.webdomain.WebStudentCourse;
-import com.guanshan.phoenix.webapp.webdomain.WebTerm;
+import com.guanshan.phoenix.webapp.webdomain.*;
 
 import java.util.List;
 
@@ -17,4 +14,5 @@ public interface CourseService {
 
     WebStudentCourse getStudentCourseInfo(int studentId);
 
+    WebCourseDetail getCourseDetailInfo(int courseId);
 }

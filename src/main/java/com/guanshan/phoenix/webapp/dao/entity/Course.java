@@ -7,7 +7,7 @@ public class Course {
     private Integer teacher_id;
     private Date update_time;
     private String description;
-    private String student_num;
+    private int student_num;
     private Integer term_id;
     private Date date;
     private Date create_time;
@@ -33,10 +33,10 @@ public class Course {
     public void setDescription(String description) {
         this.description = description;
     }
-    public String getStudent_num() {
+    public int getStudent_num() {
         return student_num;
     }
-    public void setStudent_num(String student_num) {
+    public void setStudent_num(int student_num) {
         this.student_num = student_num;
     }
     public Integer getTerm_id() {

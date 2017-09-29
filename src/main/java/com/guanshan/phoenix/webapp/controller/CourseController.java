@@ -3,10 +3,7 @@ package com.guanshan.phoenix.webapp.controller;
 import com.guanshan.phoenix.webapp.service.CourseService;
 import com.guanshan.phoenix.webapp.shared.util.codec.Const;
 import com.guanshan.phoenix.webapp.shared.util.codec.ResponseMessage;
-import com.guanshan.phoenix.webapp.webdomain.WebCourse;
-import com.guanshan.phoenix.webapp.webdomain.WebPeriodDetail;
-import com.guanshan.phoenix.webapp.webdomain.WebStudentCourse;
-import com.guanshan.phoenix.webapp.webdomain.WebTerm;
+import com.guanshan.phoenix.webapp.webdomain.*;
 import io.swagger.annotations.ApiOperation;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,4 +51,11 @@ public class CourseController {
                 courseService.getStudentCourseInfo(studentId));
     }
 
+    @ApiOperation(value = "获取课程详细信息")
+    @GetMapping("")
+    public ResponseMessage<WebCourseDetail> getCourseDetailInfo(@RequestParam("courseId") int courseId) {
+        return new ResponseMessage<>(Const.SUCCESS,
+                "success",
+                courseService.getCourseDetailInfo(courseId));
+    }
 }

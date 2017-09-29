@@ -2,12 +2,16 @@ package com.guanshan.phoenix.webapp.service.imp;
 
 import com.guanshan.phoenix.webapp.dao.entity.Teacher;
 import com.guanshan.phoenix.webapp.dao.entity.User;
+import com.guanshan.phoenix.webapp.dao.entity.UserNavbar;
+import com.guanshan.phoenix.webapp.dao.mapper.NavbarMapper;
 import com.guanshan.phoenix.webapp.dao.mapper.TeacherMapper;
 import com.guanshan.phoenix.webapp.dao.mapper.UserMapper;
+import com.guanshan.phoenix.webapp.dao.mapper.UserNavbarMapper;
 import com.guanshan.phoenix.webapp.enums.GenderEnum;
 import com.guanshan.phoenix.webapp.enums.TitleEnum;
 import com.guanshan.phoenix.webapp.service.UserService;
 import com.guanshan.phoenix.webapp.webdomain.WebTeacher;
+import com.guanshan.phoenix.webapp.webdomain.WebUserNavbar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +26,12 @@ public class UserServiceImp implements UserService {
 
     @Autowired
     private TeacherMapper teacherMapper;
+
+    @Autowired
+    private UserNavbarMapper userNavbarMapper;
+
+    @Autowired
+    private NavbarMapper navbarMapper;
 
     @Override
     public User getUserInfo(String username) {
@@ -41,5 +51,20 @@ public class UserServiceImp implements UserService {
                     teacher.getContact()));
         }
         return webTeachers;
+    }
+
+    @Override
+    public WebUserNavbar getUserNavbar(int userId) {
+        WebUserNavbar webUserNavbar = new WebUserNavbar();
+
+        webUserNavbar.setUserId(userId);
+        List<String> navbarList = new ArrayList<>();
+        List<UserNavbar> userNavbars = userNavbarMapper.findAllByUserId(userId);
+        for (UserNavbar userNavbar : userNavbars) {
+            navbarList.add(navbarMapper.findOne(userNavbar.getNavbar_id()).getNav_url());
+        }
+        webUserNavbar.setNavbarList(navbarList);
+
+        return webUserNavbar;
     }
 }

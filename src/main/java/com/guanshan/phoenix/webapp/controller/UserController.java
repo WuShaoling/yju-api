@@ -4,13 +4,11 @@ import com.guanshan.phoenix.webapp.service.UserService;
 import com.guanshan.phoenix.webapp.shared.util.codec.Const;
 import com.guanshan.phoenix.webapp.shared.util.codec.ResponseMessage;
 import com.guanshan.phoenix.webapp.webdomain.WebTeacher;
+import com.guanshan.phoenix.webapp.webdomain.WebUserNavbar;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,5 +26,13 @@ public class UserController {
         return new ResponseMessage<>(Const.SUCCESS,
                 "success",
                 userService.getAllTeacherInfo());
+    }
+
+    @ApiOperation(value = "获取用户侧边栏列表")
+    @GetMapping("navbar")
+    public ResponseMessage<WebUserNavbar> getUserNavbar(@RequestParam("userId") int userId) {
+        return new ResponseMessage<>(Const.SUCCESS,
+                "success",
+                userService.getUserNavbar(userId));
     }
 }

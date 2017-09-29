@@ -115,4 +115,27 @@ public class CourseServiceImp implements CourseService {
 
         return webStudentCourses;
     }
+
+    @Override
+    public WebCourseDetail getCourseDetailInfo(int courseId) {
+        WebCourseDetail webCourseDetail = new WebCourseDetail();
+
+        Course course = courseMapper.findOne(courseId);
+        webCourseDetail.setCourseId(courseId);
+        webCourseDetail.setCourseName(course.getName());
+        webCourseDetail.setCourseDes(course.getDescription());
+        webCourseDetail.setDate(course.getDate().toString());
+        webCourseDetail.setDuration(course.getDuration());
+        webCourseDetail.setStudentNum(course.getStudent_num());
+
+        List<Period> periods = periodMapper.findByCourseId(courseId);
+        List<WebPeriod> webPeriods = new ArrayList<>();
+        for (Period period : periods) {
+            webPeriods.add(new WebPeriod(period.getId(),
+                    period.getName()));
+        }
+        webCourseDetail.setWebPeriodList(webPeriods);
+
+        return webCourseDetail;
+    }
 }
