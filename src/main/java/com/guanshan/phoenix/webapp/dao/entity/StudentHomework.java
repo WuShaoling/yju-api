@@ -3,6 +3,7 @@ package com.guanshan.phoenix.webapp.dao.entity;
 public class StudentHomework {
 
     private Integer student_id;
+    private Integer homework_id;
     private String score_comments;
     private String answer_url;
     private String score;
@@ -10,6 +11,14 @@ public class StudentHomework {
     private String answer_content;
     private String cloudware_id;
     private Integer id;
+
+    public Integer getHomework_id() {
+        return homework_id;
+    }
+
+    public void setHomework_id(Integer homework_id) {
+        this.homework_id = homework_id;
+    }
 
     public Integer getStudent_id() {
         return student_id;
