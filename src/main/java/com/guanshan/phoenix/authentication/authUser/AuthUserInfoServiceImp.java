@@ -1,6 +1,6 @@
 package com.guanshan.phoenix.authentication.authUser;
 
-import com.guanshan.phoenix.dao2.entity.User;
+import com.guanshan.phoenix.dao.entity.User;
 import com.guanshan.phoenix.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
