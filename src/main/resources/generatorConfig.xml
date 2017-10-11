@@ -102,14 +102,14 @@
         <!--<table tableName="experiment" domainObjectName="Experiment" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" > </table>-->
         <!--<table tableName="homework" domainObjectName="Homework" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" > </table>-->
         <!--<table tableName="manager" domainObjectName="Manager" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" > </table>-->
-        <table tableName="navlist" domainObjectName="Navlist" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" >
-            <columnOverride column="class" property="uiClass" />
-        </table>
+        <!--<table tableName="navlist" domainObjectName="Navlist" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" >-->
+            <!--<columnOverride column="class" property="uiClass" />-->
+        <!--</table>-->
         <!--<table tableName="period" domainObjectName="Period" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" > </table>-->
         <!--<table tableName="role_navlist" domainObjectName="RoleNavlist" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" > </table>-->
         <!--<table tableName="student" domainObjectName="Student" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" > </table>-->
         <!--<table tableName="student_class" domainObjectName="StudentClass" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" > </table>-->
-        <!--<table tableName="student_course" domainObjectName="StudentCourse" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" > </table>-->
+        <!--<table tableName="student_course" domainObjectName="RespCourse" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" > </table>-->
         <!--<table tableName="student_homework" domainObjectName="StudentHomework" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" > </table>-->
         <!--<table tableName="teacher" domainObjectName="Teacher" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" > </table>-->
         <!--<table tableName="teacher_course" domainObjectName="TeacherCourse" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" > </table>-->

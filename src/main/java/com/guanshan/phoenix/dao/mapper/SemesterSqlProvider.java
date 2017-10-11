@@ -18,7 +18,7 @@ public class SemesterSqlProvider {
         }
         
         if (record.getSemester() != null) {
-            sql.VALUES("semester", "#{semester,jdbcType=INTEGER}");
+            sql.VALUES("semester", "#{semester,jdbcType=VARCHAR}");
         }
         
         return sql.toString();
@@ -33,7 +33,7 @@ public class SemesterSqlProvider {
         }
         
         if (record.getSemester() != null) {
-            sql.SET("semester = #{semester,jdbcType=INTEGER}");
+            sql.SET("semester = #{semester,jdbcType=VARCHAR}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

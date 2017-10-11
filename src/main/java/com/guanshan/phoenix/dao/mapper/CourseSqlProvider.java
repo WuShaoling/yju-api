@@ -18,7 +18,7 @@ public class CourseSqlProvider {
         }
         
         if (record.getCourseSid() != null) {
-            sql.VALUES("course_sid", "#{courseSid,jdbcType=INTEGER}");
+            sql.VALUES("course_sid", "#{courseSid,jdbcType=VARCHAR}");
         }
         
         if (record.getName() != null) {
@@ -57,7 +57,7 @@ public class CourseSqlProvider {
         }
         
         if (record.getCourseSid() != null) {
-            sql.SET("course_sid = #{courseSid,jdbcType=INTEGER}");
+            sql.SET("course_sid = #{courseSid,jdbcType=VARCHAR}");
         }
         
         if (record.getName() != null) {

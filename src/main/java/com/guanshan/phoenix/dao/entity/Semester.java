@@ -5,9 +5,9 @@ public class Semester {
 
     private String year;
 
-    private Integer semester;
+    private String semester;
 
-    public Semester(Integer id, String year, Integer semester) {
+    public Semester(Integer id, String year, String semester) {
         this.id = id;
         this.year = year;
         this.semester = semester;
@@ -33,11 +33,11 @@ public class Semester {
         this.year = year == null ? null : year.trim();
     }
 
-    public Integer getSemester() {
+    public String getSemester() {
         return semester;
     }
 
-    public void setSemester(Integer semester) {
-        this.semester = semester;
+    public void setSemester(String semester) {
+        this.semester = semester == null ? null : semester.trim();
     }
 }

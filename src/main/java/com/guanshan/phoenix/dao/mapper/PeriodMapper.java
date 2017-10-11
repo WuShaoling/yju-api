@@ -11,6 +11,8 @@ import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
 
+import java.util.List;
+
 public interface PeriodMapper {
     @Delete({
         "delete from period",
@@ -30,18 +32,33 @@ public interface PeriodMapper {
     int insertSelective(Period record);
 
     @Select({
-        "select",
-        "id, course_id, name, description",
-        "from period",
-        "where id = #{id,jdbcType=INTEGER}"
+            "select",
+            "id, course_id, name, description",
+            "from period",
+            "where id = #{id,jdbcType=INTEGER}"
     })
     @ConstructorArgs({
-        @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
-        @Arg(column="course_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
-        @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
-        @Arg(column="description", javaType=String.class, jdbcType=JdbcType.VARCHAR)
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="course_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="description", javaType=String.class, jdbcType=JdbcType.VARCHAR)
     })
     Period selectByPrimaryKey(Integer id);
+
+    @Select({
+            "select",
+            "id, course_id, name, description",
+            "from period",
+            "where course_id = #{courseId,jdbcType=INTEGER}"
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="course_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="description", javaType=String.class, jdbcType=JdbcType.VARCHAR)
+    })
+    List<Period> selectByCourseId(Integer courseId);
+
 
     @UpdateProvider(type=PeriodSqlProvider.class, method="updateByPrimaryKeySelective")
     int updateByPrimaryKeySelective(Period record);

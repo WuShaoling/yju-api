@@ -7,7 +7,7 @@ public class Course {
 
     private Integer semesterId;
 
-    private Integer courseSid;
+    private String courseSid;
 
     private String name;
 
@@ -21,7 +21,7 @@ public class Course {
 
     private Integer studentNumber;
 
-    public Course(Integer id, Integer semesterId, Integer courseSid, String name, String image, String description, Date date, String duration, Integer studentNumber) {
+    public Course(Integer id, Integer semesterId, String courseSid, String name, String image, String description, Date date, String duration, Integer studentNumber) {
         this.id = id;
         this.semesterId = semesterId;
         this.courseSid = courseSid;
@@ -53,12 +53,12 @@ public class Course {
         this.semesterId = semesterId;
     }
 
-    public Integer getCourseSid() {
+    public String getCourseSid() {
         return courseSid;
     }
 
-    public void setCourseSid(Integer courseSid) {
-        this.courseSid = courseSid;
+    public void setCourseSid(String courseSid) {
+        this.courseSid = courseSid == null ? null : courseSid.trim();
     }
 
     public String getName() {

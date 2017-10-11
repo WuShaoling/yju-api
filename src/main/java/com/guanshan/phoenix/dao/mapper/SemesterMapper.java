@@ -22,7 +22,7 @@ public interface SemesterMapper {
         "insert into semester (id, year, ",
         "semester)",
         "values (#{id,jdbcType=INTEGER}, #{year,jdbcType=VARCHAR}, ",
-        "#{semester,jdbcType=INTEGER})"
+        "#{semester,jdbcType=VARCHAR})"
     })
     int insert(Semester record);
 
@@ -38,7 +38,7 @@ public interface SemesterMapper {
     @ConstructorArgs({
         @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
         @Arg(column="year", javaType=String.class, jdbcType=JdbcType.VARCHAR),
-        @Arg(column="semester", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
+        @Arg(column="semester", javaType=String.class, jdbcType=JdbcType.VARCHAR)
     })
     Semester selectByPrimaryKey(Integer id);
 
@@ -48,7 +48,7 @@ public interface SemesterMapper {
     @Update({
         "update semester",
         "set year = #{year,jdbcType=VARCHAR},",
-          "semester = #{semester,jdbcType=INTEGER}",
+          "semester = #{semester,jdbcType=VARCHAR}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Semester record);

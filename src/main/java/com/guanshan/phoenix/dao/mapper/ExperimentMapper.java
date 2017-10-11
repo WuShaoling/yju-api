@@ -2,6 +2,8 @@ package com.guanshan.phoenix.dao.mapper;
 
 import com.guanshan.phoenix.dao.entity.Experiment;
 import java.util.Date;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Arg;
 import org.apache.ibatis.annotations.ConstructorArgs;
 import org.apache.ibatis.annotations.Delete;
@@ -50,6 +52,23 @@ public interface ExperimentMapper {
         @Arg(column="expire_date", javaType=Date.class, jdbcType=JdbcType.DATE)
     })
     Experiment selectByPrimaryKey(Integer id);
+
+    @Select({
+            "select",
+            "id, period_id, name, description, cloudware_id, publish_date, expire_date",
+            "from experiment",
+            "where period_id = #{periodId,jdbcType=INTEGER}"
+    })
+    @ConstructorArgs({
+            @Arg(column = "id", javaType = Integer.class, jdbcType = JdbcType.INTEGER, id = true),
+            @Arg(column = "period_id", javaType = Integer.class, jdbcType = JdbcType.INTEGER),
+            @Arg(column = "name", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Arg(column = "description", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Arg(column = "cloudware_id", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Arg(column = "publish_date", javaType = Date.class, jdbcType = JdbcType.DATE),
+            @Arg(column = "expire_date", javaType = Date.class, jdbcType = JdbcType.DATE)
+    })
+    List<Experiment> selectByPeriodId(Integer periodId);
 
     @UpdateProvider(type=ExperimentSqlProvider.class, method="updateByPrimaryKeySelective")
     int updateByPrimaryKeySelective(Experiment record);

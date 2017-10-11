@@ -25,7 +25,7 @@ public interface CourseMapper {
         "image, description, ",
         "date, duration, student_number)",
         "values (#{id,jdbcType=INTEGER}, #{semesterId,jdbcType=INTEGER}, ",
-        "#{courseSid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, ",
+        "#{courseSid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, ",
         "#{image,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, ",
         "#{date,jdbcType=DATE}, #{duration,jdbcType=VARCHAR}, #{studentNumber,jdbcType=INTEGER})"
     })
@@ -43,7 +43,7 @@ public interface CourseMapper {
     @ConstructorArgs({
         @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
         @Arg(column="semester_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
-        @Arg(column="course_sid", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+        @Arg(column="course_sid", javaType=String.class, jdbcType=JdbcType.VARCHAR),
         @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
         @Arg(column="image", javaType=String.class, jdbcType=JdbcType.VARCHAR),
         @Arg(column="description", javaType=String.class, jdbcType=JdbcType.VARCHAR),
@@ -59,7 +59,7 @@ public interface CourseMapper {
     @Update({
         "update course",
         "set semester_id = #{semesterId,jdbcType=INTEGER},",
-          "course_sid = #{courseSid,jdbcType=INTEGER},",
+          "course_sid = #{courseSid,jdbcType=VARCHAR},",
           "name = #{name,jdbcType=VARCHAR},",
           "image = #{image,jdbcType=VARCHAR},",
           "description = #{description,jdbcType=VARCHAR},",
@@ -69,4 +69,5 @@ public interface CourseMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Course record);
+
 }

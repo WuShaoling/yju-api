@@ -11,6 +11,8 @@ import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
 
+import java.util.List;
+
 public interface ClazzMapper {
     @Delete({
         "delete from class",
@@ -58,4 +60,8 @@ public interface ClazzMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Clazz record);
+
+    /*----- customer start -----*/
+    @Select("SELECT * FROM class WHERE course_id=#{courseId,jdbcType=Integer")
+    List<Clazz> selectClazzByCourseId(Integer courseId);
 }
