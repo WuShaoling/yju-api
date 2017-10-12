@@ -34,4 +34,14 @@ public enum TitleEnum {
         }
         return null;
     }
+
+    public static int getCodeByString(String string) {
+        EnumSet<TitleEnum> titleEnums = EnumSet.allOf(TitleEnum.class);
+        for (TitleEnum titleEnum : titleEnums) {
+            if (titleEnum.getString() == string) {
+                return titleEnum.getCode();
+            }
+        }
+        return -1;
+    }
 }

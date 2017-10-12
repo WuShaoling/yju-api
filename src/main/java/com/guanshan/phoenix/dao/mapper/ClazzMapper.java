@@ -62,6 +62,6 @@ public interface ClazzMapper {
     int updateByPrimaryKey(Clazz record);
 
     /*----- customer start -----*/
-    @Select("SELECT * FROM class WHERE course_id=#{courseId,jdbcType=Integer")
+    @Select("SELECT * FROM class WHERE course_id=#{courseId,jdbcType=INTEGER")
     List<Clazz> selectClazzByCourseId(Integer courseId);
 }

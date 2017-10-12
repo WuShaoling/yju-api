@@ -2,14 +2,9 @@ package com.guanshan.phoenix.dao.mapper;
 
 import com.guanshan.phoenix.dao.entity.Teacher;
 import java.util.Date;
-import org.apache.ibatis.annotations.Arg;
-import org.apache.ibatis.annotations.ConstructorArgs;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-import org.apache.ibatis.annotations.UpdateProvider;
+import java.util.List;
+
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 public interface TeacherMapper {
@@ -69,4 +64,21 @@ public interface TeacherMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Teacher record);
+
+
+    /*-- customer start --*/
+    @Select("select * from teacher")
+    List<Teacher> selectAll();
+
+    @Select("select id from teacher where teacher_id=#{teacherId}")
+    Integer selectPrimaryKeyByTeacherId(@Param("teacherId") String teacherId);
+
+    @Select("select user_id from teacher where teacher_id=#{teacherId}")
+    Integer selectUserIdByTeacherId(@Param("teacherId") String teacherId);
+
+    @Delete({
+            "delete from teacher",
+            "where teacher_id = #{teacherId,jdbcType=VARCHAR}"
+    })
+    int deleteByTeacherId(String teacherId);
 }

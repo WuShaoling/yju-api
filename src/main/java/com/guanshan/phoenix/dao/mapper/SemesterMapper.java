@@ -11,6 +11,8 @@ import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
 
+import java.util.List;
+
 public interface SemesterMapper {
     @Delete({
         "delete from semester",
@@ -52,4 +54,8 @@ public interface SemesterMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Semester record);
+
+
+    @Select("SELECT * FROM semester")
+    List<Semester> selectAll();
 }
