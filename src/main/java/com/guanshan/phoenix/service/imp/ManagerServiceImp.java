@@ -49,7 +49,7 @@ public class ManagerServiceImp implements ManagerService {
     }
 
     @Override
-    public int addTeacherInfo(ReqAddTeacher reqAddTeacher) {
+    public void addTeacherInfo(ReqAddTeacher reqAddTeacher) {
         Teacher teacher = new Teacher();
         teacher.setTno(reqAddTeacher.getTeacherId());
         teacher.setName(reqAddTeacher.getTeacherName());
@@ -57,11 +57,10 @@ public class ManagerServiceImp implements ManagerService {
         teacher.setGender(reqAddTeacher.getGender());
         teacher.setEmail(reqAddTeacher.getTeacherContact());
         teacherMapper.insertSelective(teacher);
-        return 0;
     }
 
     @Override
-    public int updateTeacherInfo(ReqUpdateTeacher reqUpdateTeacher) {
+    public void updateTeacherInfo(ReqUpdateTeacher reqUpdateTeacher) {
         int id = teacherMapper.selectPrimaryKeyByTeacherId(reqUpdateTeacher.getTeacherId());
 
         Teacher teacher = new Teacher();
@@ -72,24 +71,21 @@ public class ManagerServiceImp implements ManagerService {
         teacher.setGender(reqUpdateTeacher.getGender());
         teacher.setEmail(reqUpdateTeacher.getTeacherContact());
         teacherMapper.updateByPrimaryKeySelective(teacher);
-        return 0;
     }
 
     @Override
-    public int resetTeacherPassword(String  teacherId) {
+    public void resetTeacherPassword(String  teacherId) {
         int userId = teacherMapper.selectUserIdByTeacherId(teacherId);
         User user = new User();
         user.setId(userId);
         // todo new password ??
         user.setPassword("12345678");
         userMapper.updateByPrimaryKeySelective(user);
-        return 0;
     }
 
     @Override
-    public int deleteTeacherInfo(String teacherId) {
+    public void deleteTeacherInfo(String teacherId) {
         teacherMapper.deleteByTeacherId(teacherId);
-        return 0;
     }
 
     @Override
@@ -110,27 +106,24 @@ public class ManagerServiceImp implements ManagerService {
     }
 
     @Override
-    public int addSemesterInfo(ReqAddSemester reqAddSemester) {
+    public void addSemesterInfo(ReqAddSemester reqAddSemester) {
         Semester semester = new Semester();
         semester.setYear(reqAddSemester.getSemesterYear());
         semester.setSemester(reqAddSemester.getSemester());
         semesterMapper.insertSelective(semester);
-        return 0;
     }
 
     @Override
-    public int updateSemesterInfo(ReqUpdateSemester reqUpdateSemester) {
+    public void updateSemesterInfo(ReqUpdateSemester reqUpdateSemester) {
         Semester semester = new Semester();
         semester.setId(reqUpdateSemester.getId());
         semester.setYear(reqUpdateSemester.getSemesterYear());
         semester.setSemester(reqUpdateSemester.getSemester());
         semesterMapper.updateByPrimaryKeySelective(semester);
-        return 0;
     }
 
     @Override
-    public int deleteSemesterInfo(int semesterId) {
+    public void deleteSemesterInfo(int semesterId) {
         semesterMapper.deleteByPrimaryKey(semesterId);
-        return 0;
     }
 }

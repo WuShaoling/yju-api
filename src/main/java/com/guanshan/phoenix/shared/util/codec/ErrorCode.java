@@ -1,0 +1,32 @@
+package com.guanshan.phoenix.shared.util.codec;
+
+public enum ErrorCode {
+    @ErrorMessage("操作成功")
+    Success(0),
+
+    @ErrorMessage("旧密码不正确。")
+    IncorrectOldPassword(1),
+
+    @ErrorMessage("服务器出错，请联系管理员。")
+    GeneralError(Integer.MAX_VALUE);
+
+    private int code;
+
+    ErrorCode(int code) {
+        this.code = code;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public String getErrorStringFormat(){
+        String format = "";
+        try{
+            format = ErrorCode.class.getDeclaredField(this.toString()).getAnnotation(ErrorMessage.class).value();
+        }catch (NoSuchFieldException ex){
+            //Impossible to occur
+        }
+        return format;
+    }
+}

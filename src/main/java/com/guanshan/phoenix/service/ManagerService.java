@@ -6,20 +6,20 @@ public interface ManagerService {
 
     RespTeacherInfo getAllTeacherInfo();
 
-    int addTeacherInfo(ReqAddTeacher reqAddTeacher);
+    void addTeacherInfo(ReqAddTeacher reqAddTeacher);
 
-    int updateTeacherInfo(ReqUpdateTeacher reqUpdateTeacher);
+    void updateTeacherInfo(ReqUpdateTeacher reqUpdateTeacher);
 
-    int resetTeacherPassword(String teacherId);
+    void resetTeacherPassword(String teacherId);
 
-    int deleteTeacherInfo(String teacherId);
+    void deleteTeacherInfo(String teacherId);
 
     RespSemesterInfo getAllSemesterInfo();
 
-    int addSemesterInfo(ReqAddSemester reqAddSemester);
+    void addSemesterInfo(ReqAddSemester reqAddSemester);
 
-    int updateSemesterInfo(ReqUpdateSemester reqUpdateSemester);
+    void updateSemesterInfo(ReqUpdateSemester reqUpdateSemester);
 
-    int deleteSemesterInfo(int semesterId);
+    void deleteSemesterInfo(int semesterId);
 
 }

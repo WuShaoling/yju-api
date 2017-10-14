@@ -1,7 +1,6 @@
 package com.guanshan.phoenix.controller;
 
 import com.guanshan.phoenix.service.TeacherService;
-import com.guanshan.phoenix.shared.util.codec.Const;
 import com.guanshan.phoenix.shared.util.codec.ResponseMessage;
 import com.guanshan.phoenix.webdomain.RespTeacherCourse;
 import io.swagger.annotations.ApiOperation;
@@ -21,8 +20,6 @@ public class TeacherController {
     @ApiOperation(value = "获取老师的课程情况")
     @GetMapping("/teacher/{teacherId}/course/all")
     public ResponseMessage<RespTeacherCourse> getTeacherCourse(@PathVariable("teacherId") int teacherId) {
-        return new ResponseMessage<>(Const.SUCCESS,
-                "success",
-                teacherService.getTeacherCourse(teacherId));
+        return new ResponseMessage.Success<>(teacherService.getTeacherCourse(teacherId));
     }
 }

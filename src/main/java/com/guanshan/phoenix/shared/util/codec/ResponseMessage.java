@@ -4,47 +4,52 @@ package com.guanshan.phoenix.shared.util.codec;
  * Created by Dell on 2017/6/12.
  */
 public class ResponseMessage<T> {
-    String errorCode;
+    private int errorCode;
 
-    String message;
+    private String message;
 
-    T data;
+    private T data;
 
-    public ResponseMessage() {
-    }
-
-    public ResponseMessage(String errorCode, String message) {
+    ResponseMessage(int errorCode, String message) {
         this.errorCode = errorCode;
         this.message = message;
     }
 
-    public ResponseMessage(String errorCode, String message, T data) {
+    ResponseMessage(int errorCode, String message, T data) {
         this.errorCode = errorCode;
         this.message = message;
         this.data = data;
     }
 
-    public String getErrorCode() {
+    public int getErrorCode() {
         return errorCode;
-    }
-
-    public void setErrorCode(String errorCode) {
-        this.errorCode = errorCode;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
     public T getData() {
         return data;
     }
 
-    public void setData(T data) {
-        this.data = data;
+    public static class Success<T> extends ResponseMessage<T>{
+        public Success(){
+            super(ErrorCode.Success.getCode(), ErrorCode.Success.getErrorStringFormat());
+        }
+
+        public Success(T data){
+            super(ErrorCode.Success.getCode(), ErrorCode.Success.getErrorStringFormat(), data);
+        }
+    }
+
+    public static class Fail extends ResponseMessage{
+        public Fail(int errorCode, String message) {
+            super(errorCode, message);
+        }
+
+        public Fail(ApplicationErrorException ex){
+            super(ex.getErrorCode(), ex.getMessage());
+        }
     }
 }

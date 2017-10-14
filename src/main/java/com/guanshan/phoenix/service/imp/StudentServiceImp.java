@@ -3,6 +3,8 @@ package com.guanshan.phoenix.service.imp;
 import com.guanshan.phoenix.dao.entity.*;
 import com.guanshan.phoenix.dao.mapper.*;
 import com.guanshan.phoenix.service.StudentService;
+import com.guanshan.phoenix.shared.util.codec.ApplicationErrorException;
+import com.guanshan.phoenix.shared.util.codec.ErrorCode;
 import com.guanshan.phoenix.webdomain.ReqPasswdModify;
 import com.guanshan.phoenix.webdomain.RespStudentCourse;
 import com.guanshan.phoenix.webdomain.RespStudentCourseDetail;
@@ -44,18 +46,17 @@ public class StudentServiceImp implements StudentService {
     private StudentCourseMapper studentCourseMapper;
 
     @Override
-    public int updatePassword(ReqPasswdModify reqPasswdModify) {
+    public void updatePassword(ReqPasswdModify reqPasswdModify) throws ApplicationErrorException {
         Student student = studentMapper.selectByPrimaryKey(reqPasswdModify.getId());
         User user = userMapper.selectByPrimaryKey(student.getUserId());
 
         // todo 加密
-        if (user.getPassword().equals(reqPasswdModify.getOldPass())) {
-            user.setPassword(reqPasswdModify.getNewPass());
-            userMapper.updateByPrimaryKey(user);
-            return 0;
-        } else {
-            return -1;
+        if (!user.getPassword().equals(reqPasswdModify.getOldPass())) {
+            throw new ApplicationErrorException(ErrorCode.IncorrectOldPassword);
         }
+
+        user.setPassword(reqPasswdModify.getNewPass());
+        userMapper.updateByPrimaryKey(user);
     }
 
     @Override
