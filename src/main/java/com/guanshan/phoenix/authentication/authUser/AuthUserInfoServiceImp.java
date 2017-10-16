@@ -17,7 +17,6 @@ public class AuthUserInfoServiceImp implements AuthUserInfoService {
 
     @Override
     public AuthUserInfo getUserInfo(String username) {
-//        User user = studentService.getStudentInfo(username);
         User user = userService.getUserInfo(username);
         if (user == null) {
             return null;
