@@ -1,0 +1,78 @@
+package com.guanshan.phoenix.dao.entity;
+
+import java.util.Date;
+
+public class Clazz {
+    private Integer id;
+
+    private Integer termId;
+
+    private Integer courseId;
+
+    private Date date;
+
+    private String duration;
+
+    private Integer studentNum;
+
+    public Clazz(Integer id, Integer termId, Integer courseId, Date date, String duration, Integer studentNum) {
+        this.id = id;
+        this.termId = termId;
+        this.courseId = courseId;
+        this.date = date;
+        this.duration = duration;
+        this.studentNum = studentNum;
+    }
+
+    public Clazz() {
+        super();
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getTermId() {
+        return termId;
+    }
+
+    public void setTermId(Integer termId) {
+        this.termId = termId;
+    }
+
+    public Integer getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(Integer courseId) {
+        this.courseId = courseId;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration == null ? null : duration.trim();
+    }
+
+    public Integer getStudentNum() {
+        return studentNum;
+    }
+
+    public void setStudentNum(Integer studentNum) {
+        this.studentNum = studentNum;
+    }
+}

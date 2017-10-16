@@ -1,0 +1,54 @@
+package com.guanshan.phoenix.dao.entity;
+
+public class Cloudware {
+    private Integer id;
+
+    private String webSocket;
+
+    private String serviceId;
+
+    private String instance;
+
+    public Cloudware(Integer id, String webSocket, String serviceId, String instance) {
+        this.id = id;
+        this.webSocket = webSocket;
+        this.serviceId = serviceId;
+        this.instance = instance;
+    }
+
+    public Cloudware() {
+        super();
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getWebSocket() {
+        return webSocket;
+    }
+
+    public void setWebSocket(String webSocket) {
+        this.webSocket = webSocket == null ? null : webSocket.trim();
+    }
+
+    public String getServiceId() {
+        return serviceId;
+    }
+
+    public void setServiceId(String serviceId) {
+        this.serviceId = serviceId == null ? null : serviceId.trim();
+    }
+
+    public String getInstance() {
+        return instance;
+    }
+
+    public void setInstance(String instance) {
+        this.instance = instance == null ? null : instance.trim();
+    }
+}
