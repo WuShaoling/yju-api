@@ -1,8 +1,5 @@
-package com.guanshan.phoenix.controller;
+package com.guanshan.phoenix.error;
 
-import com.guanshan.phoenix.shared.util.codec.ApplicationErrorException;
-import com.guanshan.phoenix.shared.util.codec.ErrorCode;
-import com.guanshan.phoenix.shared.util.codec.ResponseMessage;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;

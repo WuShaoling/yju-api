@@ -1,8 +1,8 @@
 package com.guanshan.phoenix.controller;
 
 import com.guanshan.phoenix.service.StudentService;
-import com.guanshan.phoenix.shared.util.codec.ApplicationErrorException;
-import com.guanshan.phoenix.shared.util.codec.ResponseMessage;
+import com.guanshan.phoenix.error.ApplicationErrorException;
+import com.guanshan.phoenix.error.ResponseMessage;
 import com.guanshan.phoenix.webdomain.ReqPasswdModify;
 import com.guanshan.phoenix.webdomain.RespStudentCourse;
 import com.guanshan.phoenix.webdomain.RespStudentCourseDetail;

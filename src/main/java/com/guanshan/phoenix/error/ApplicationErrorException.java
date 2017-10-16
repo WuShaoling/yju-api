@@ -1,4 +1,4 @@
-package com.guanshan.phoenix.shared.util.codec;
+package com.guanshan.phoenix.error;
 
 public class ApplicationErrorException extends Throwable{
     private final ErrorCode errorCode;

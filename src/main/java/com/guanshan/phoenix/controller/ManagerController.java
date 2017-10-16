@@ -1,7 +1,7 @@
 package com.guanshan.phoenix.controller;
 
 import com.guanshan.phoenix.service.ManagerService;
-import com.guanshan.phoenix.shared.util.codec.ResponseMessage;
+import com.guanshan.phoenix.error.ResponseMessage;
 import com.guanshan.phoenix.webdomain.*;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

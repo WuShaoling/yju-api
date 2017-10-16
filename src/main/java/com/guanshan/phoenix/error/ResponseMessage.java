@@ -1,4 +1,4 @@
-package com.guanshan.phoenix.shared.util.codec;
+package com.guanshan.phoenix.error;
 
 /**
  * Created by Dell on 2017/6/12.

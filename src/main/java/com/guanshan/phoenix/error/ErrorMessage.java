@@ -1,4 +1,4 @@
-package com.guanshan.phoenix.shared.util.codec;
+package com.guanshan.phoenix.error;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
