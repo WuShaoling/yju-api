@@ -1,34 +1,46 @@
 package com.guanshan.phoenix.enums;
 
-import java.util.EnumSet;
-
-public enum GenderEnum {
-    MALE(1, "male"),
-    FEMALE(2, "female");
+public enum  GenderEnum {
+    STUDENT(1, "male", "男"),
+    TEACHER(2, "female", "女");
 
     private int code;
-    private String string;
-
-    GenderEnum(int code, String string) {
-        this.code = code;
-        this.string = string;
-    }
+    private String en;
+    private String zh;
 
     public int getCode() {
         return code;
     }
 
-    public String getString() {
-        return string;
+    public String getEn() {
+        return en;
     }
 
-    public static String getStringByCode(int code) {
-        EnumSet<GenderEnum> genderEnums = EnumSet.allOf(GenderEnum.class);
-        for (GenderEnum genderEnum : genderEnums) {
+    public String getZh() {
+        return zh;
+    }
+
+    GenderEnum(int index, String en, String zh) {
+        this.code = index;
+        this.en = en;
+        this.zh = zh;
+    }
+
+    public static String getEnFromCode(int code) {
+        for (GenderEnum genderEnum : GenderEnum.values()) {
             if (genderEnum.getCode() == code) {
-                return genderEnum.getString();
+                return genderEnum.getEn();
             }
         }
-        return null;
+        return "null";
+    }
+
+    public static String getZhFromCode(int code) {
+        for (GenderEnum genderEnum : GenderEnum.values()) {
+            if (genderEnum.getCode() == code) {
+                return genderEnum.getZh();
+            }
+        }
+        return "null";
     }
 }

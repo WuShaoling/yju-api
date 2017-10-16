@@ -1,9 +1,9 @@
 package com.guanshan.phoenix.enums;
 
-public enum RoleEnum {
-    STUDENT(1, "student", "学生"),
-    TEACHER(2, "teacher", "教师"),
-    MANAGER(2, "manager", "教务员");
+public enum SemesterEnum {
+    STUDENT(1, "the first term", "第一学期"),
+    TEACHER(2, "the second term", "第二学期"),
+    MANAGER(3, "the third term", "第三学期");
 
     private int code;
     private String en;
@@ -21,25 +21,25 @@ public enum RoleEnum {
         return zh;
     }
 
-    RoleEnum(int index, String en, String zh) {
+    SemesterEnum(int index, String en, String zh) {
         this.code = index;
         this.en = en;
         this.zh = zh;
     }
 
     public static String getEnFromCode(int code) {
-        for (RoleEnum roleEnum : RoleEnum.values()) {
-            if (roleEnum.getCode() == code) {
-                return roleEnum.getEn();
+        for (SemesterEnum semesterEnum : SemesterEnum.values()) {
+            if (semesterEnum.getCode() == code) {
+                return semesterEnum.getEn();
             }
         }
         return "null";
     }
 
     public static String getZhFromCode(int code) {
-        for (RoleEnum roleEnum : RoleEnum.values()) {
-            if (roleEnum.getCode() == code) {
-                return roleEnum.getZh();
+        for (SemesterEnum semesterEnum : SemesterEnum.values()) {
+            if (semesterEnum.getCode() == code) {
+                return semesterEnum.getZh();
             }
         }
         return "null";

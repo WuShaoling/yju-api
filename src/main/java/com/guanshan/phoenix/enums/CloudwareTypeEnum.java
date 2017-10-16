@@ -1,9 +1,8 @@
 package com.guanshan.phoenix.enums;
 
-public enum RoleEnum {
-    STUDENT(1, "student", "学生"),
-    TEACHER(2, "teacher", "教师"),
-    MANAGER(2, "manager", "教务员");
+public enum CloudwareTypeEnum {
+    CTYPE1(1, "type 1", "第一个类型"),
+    CTYPE2(2, "type 2", "第二个类型");
 
     private int code;
     private String en;
@@ -21,25 +20,25 @@ public enum RoleEnum {
         return zh;
     }
 
-    RoleEnum(int index, String en, String zh) {
+    CloudwareTypeEnum(int index, String en, String zh) {
         this.code = index;
         this.en = en;
         this.zh = zh;
     }
 
     public static String getEnFromCode(int code) {
-        for (RoleEnum roleEnum : RoleEnum.values()) {
-            if (roleEnum.getCode() == code) {
-                return roleEnum.getEn();
+        for (CloudwareTypeEnum cloudwareTypeEnum : CloudwareTypeEnum.values()) {
+            if (cloudwareTypeEnum.getCode() == code) {
+                return cloudwareTypeEnum.getEn();
             }
         }
         return "null";
     }
 
     public static String getZhFromCode(int code) {
-        for (RoleEnum roleEnum : RoleEnum.values()) {
-            if (roleEnum.getCode() == code) {
-                return roleEnum.getZh();
+        for (CloudwareTypeEnum cloudwareTypeEnum : CloudwareTypeEnum.values()) {
+            if (cloudwareTypeEnum.getCode() == code) {
+                return cloudwareTypeEnum.getZh();
             }
         }
         return "null";

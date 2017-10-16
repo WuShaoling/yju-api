@@ -1,47 +1,49 @@
 package com.guanshan.phoenix.enums;
 
-import java.util.EnumSet;
-
-public enum TitleEnum {
-    PROFESSOR(1, "professor"),
-    DEPUTY_PROFESSOR(2, "deputy professor"),
-    LECTURER(3, "lecturer"),
-    RESEARCHER(4, "RESEARCHER"),
-    ASSISTANT(5, "assistant");
+public enum  TitleEnum {
+    PROFESSOR(1, "professor", "教授"),
+    DEPUTY_PROFESSOR(2, "deputy professor", "副教师"),
+    LECTURER(3, "lecturer", "讲师"),
+    RESEARCHER(4, "RESEARCHER", "研究员"),
+    ASSISTANT(5, "assistant", "助教");
 
     private int code;
-    private String string;
-
-    TitleEnum(int code, String string) {
-        this.code = code;
-        this.string = string;
-    }
+    private String en;
+    private String zh;
 
     public int getCode() {
         return code;
     }
 
-    public String getString() {
-        return string;
+    public String getEn() {
+        return en;
     }
 
-    public static String getStringByCode(int code) {
-        EnumSet<TitleEnum> titleEnums = EnumSet.allOf(TitleEnum.class);
-        for (TitleEnum titleEnum : titleEnums) {
+    public String getZh() {
+        return zh;
+    }
+
+    TitleEnum(int index, String en, String zh) {
+        this.code = index;
+        this.en = en;
+        this.zh = zh;
+    }
+
+    public static String getEnFromCode(int code) {
+        for (TitleEnum titleEnum : TitleEnum.values()) {
             if (titleEnum.getCode() == code) {
-                return titleEnum.getString();
+                return titleEnum.getEn();
             }
         }
-        return null;
+        return "null";
     }
 
-    public static int getCodeByString(String string) {
-        EnumSet<TitleEnum> titleEnums = EnumSet.allOf(TitleEnum.class);
-        for (TitleEnum titleEnum : titleEnums) {
-            if (titleEnum.getString() == string) {
-                return titleEnum.getCode();
+    public static String getZhFromCode(int code) {
+        for (TitleEnum titleEnum : TitleEnum.values()) {
+            if (titleEnum.getCode() == code) {
+                return titleEnum.getZh();
             }
         }
-        return -1;
+        return "null";
     }
 }
