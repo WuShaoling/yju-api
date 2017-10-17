@@ -1,6 +1,7 @@
 package com.guanshan.phoenix.controller;
 
 import com.guanshan.phoenix.dao.mapper.*;
+import com.guanshan.phoenix.error.ResponseMessage;
 import com.guanshan.phoenix.service.StudentService;
 import com.guanshan.phoenix.webdomain.ResStudentClassList;
 import io.swagger.annotations.ApiOperation;
@@ -17,7 +18,7 @@ public class StudentController {
 
     @ApiOperation(value = "选课列表", notes = "列出所有该学生的选课")
     @GetMapping(value = "course/all/{studentId}")
-    public ResStudentClassList getAllStudentCourses(@PathVariable int studentId) {
-        return studentService.getAllStudentClassInfoById(studentId);
+    public ResponseMessage<ResStudentClassList> getAllStudentCourses(@PathVariable int studentId) {
+        return new ResponseMessage.Success<>(studentService.getAllStudentClassInfoById(studentId));
     }
 }
