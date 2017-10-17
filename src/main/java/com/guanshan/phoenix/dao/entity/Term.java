@@ -1,5 +1,7 @@
 package com.guanshan.phoenix.dao.entity;
 
+import com.guanshan.phoenix.enums.SemesterEnum;
+
 public class Term {
     private Integer id;
 
@@ -39,5 +41,10 @@ public class Term {
 
     public void setSemester(Integer semester) {
         this.semester = semester;
+    }
+
+    public String getDescription() {
+        return String.format("%s%s",
+                year, SemesterEnum.fromInt(semester).getZh());
     }
 }

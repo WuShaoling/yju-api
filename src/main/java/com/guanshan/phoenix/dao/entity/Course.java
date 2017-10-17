@@ -9,6 +9,8 @@ public class Course {
 
     private String description;
 
+    private String imageUrl;
+
     public Course(Integer id, Integer teacherId, String name, String description) {
         this.id = id;
         this.teacherId = teacherId;
@@ -50,5 +52,13 @@ public class Course {
 
     public void setDescription(String description) {
         this.description = description == null ? null : description.trim();
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

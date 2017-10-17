@@ -11,6 +11,8 @@ import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
 
+import java.util.List;
+
 public interface StudentClassMapper {
     @Delete({
         "delete from student_class",
@@ -52,4 +54,11 @@ public interface StudentClassMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(StudentClass record);
+
+    @Select({
+            "select *",
+            "from student_class",
+            "where student_id = #{studentID, jdbcType=INTEGER}"
+    })
+    List<StudentClass> selectByStudentID(Integer studentID);
 }

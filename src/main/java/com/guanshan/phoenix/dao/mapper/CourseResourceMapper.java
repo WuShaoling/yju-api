@@ -52,4 +52,17 @@ public interface CourseResourceMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(CourseResource record);
+
+    @Select({
+            "select",
+            "id, course_id, resource_id",
+            "from course_resource",
+            "where id = #{id,jdbcType=INTEGER} and type = #{type,jdbcType=INTEGER}"
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="course_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="resource_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
+    })
+    CourseResource selectByPrimaryKeyAndType(Integer id, Integer type);
 }

@@ -7,10 +7,13 @@ public class CourseResource {
 
     private Integer resourceId;
 
-    public CourseResource(Integer id, Integer courseId, Integer resourceId) {
+    private Integer type;
+
+    public CourseResource(Integer id, Integer courseId, Integer resourceId, Integer type) {
         this.id = id;
         this.courseId = courseId;
         this.resourceId = resourceId;
+        this.type = type;
     }
 
     public CourseResource() {
@@ -39,5 +42,13 @@ public class CourseResource {
 
     public void setResourceId(Integer resourceId) {
         this.resourceId = resourceId;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }

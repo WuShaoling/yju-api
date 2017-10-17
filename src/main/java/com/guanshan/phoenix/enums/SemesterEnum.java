@@ -1,6 +1,7 @@
 package com.guanshan.phoenix.enums;
 
 public enum SemesterEnum {
+    //todo: improve globalization
     STUDENT(1, "the first term", "第一学期"),
     TEACHER(2, "the second term", "第二学期"),
     MANAGER(3, "the third term", "第三学期");
@@ -43,5 +44,13 @@ public enum SemesterEnum {
             }
         }
         return "null";
+    }
+
+    public static SemesterEnum fromInt(int i){
+        if(i >= SemesterEnum.values().length){
+            return null;
+        }
+
+        return SemesterEnum.values()[i-1];
     }
 }

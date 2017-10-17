@@ -15,13 +15,16 @@ public class Clazz {
 
     private Integer studentNum;
 
-    public Clazz(Integer id, Integer termId, Integer courseId, Date date, String duration, Integer studentNum) {
+    private String name;
+
+    public Clazz(Integer id, Integer termId, Integer courseId, Date date, String duration, Integer studentNum, String name) {
         this.id = id;
         this.termId = termId;
         this.courseId = courseId;
         this.date = date;
         this.duration = duration;
         this.studentNum = studentNum;
+        this.name = name;
     }
 
     public Clazz() {
@@ -74,5 +77,13 @@ public class Clazz {
 
     public void setStudentNum(Integer studentNum) {
         this.studentNum = studentNum;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

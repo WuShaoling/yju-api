@@ -3,10 +3,10 @@ package com.guanshan.phoenix.webdomain;
 import java.util.List;
 
 public class ResStudentClassList {
-    private List<ResStudentClass> resStudentClassList;
+    private List<ResStudentClass> studentClassList;
 
     
-    public class ResStudentClass {
+    public static class ResStudentClass {
         private int classId;
         private String className;
         private String term;
@@ -17,7 +17,10 @@ public class ResStudentClassList {
         private int courseId;
         private String courseName;
         private String courseDescription;
+        private String classDate;
         private String teacherName;
+
+        private String teacherContract;
 
         public int getClassId() {
             return classId;
@@ -95,6 +98,14 @@ public class ResStudentClassList {
             return courseDescription;
         }
 
+        public String getClassDate() {
+            return classDate;
+        }
+
+        public void setClassDate(String classDate) {
+            this.classDate = classDate;
+        }
+
         public void setCourseDescription(String courseDescription) {
             this.courseDescription = courseDescription;
         }
@@ -106,13 +117,17 @@ public class ResStudentClassList {
         public void setTeacherName(String teacherName) {
             this.teacherName = teacherName;
         }
+
+        public void setTeacherContract(String teacherContract) { this.teacherContract = teacherContract; }
+
+        public String getTeacherContract() { return teacherContract; }
     }
 
-    public List<ResStudentClass> getResStudentClassList() {
-        return resStudentClassList;
+    public List<ResStudentClass> getStudentClassList() {
+        return studentClassList;
     }
 
-    public void setResStudentClassList(List<ResStudentClass> resStudentClassList) {
-        this.resStudentClassList = resStudentClassList;
+    public void setStudentClassList(List<ResStudentClass> studentClassList) {
+        this.studentClassList = studentClassList;
     }
 }
