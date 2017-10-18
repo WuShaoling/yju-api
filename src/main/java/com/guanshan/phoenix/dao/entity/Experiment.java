@@ -1,5 +1,7 @@
 package com.guanshan.phoenix.dao.entity;
 
+import java.util.Date;
+
 public class Experiment {
     private Integer id;
 
@@ -11,12 +13,18 @@ public class Experiment {
 
     private Integer cloudwareType;
 
-    public Experiment(Integer id, Integer moduleId, String name, String description, Integer cloudwareType) {
+    private Date publishDate;
+
+    private Date deadlineDate;
+
+    public Experiment(Integer id, Integer moduleId, String name, String description, Integer cloudwareType, Date publishDate, Date deadlineDate) {
         this.id = id;
         this.moduleId = moduleId;
         this.name = name;
         this.description = description;
         this.cloudwareType = cloudwareType;
+        this.publishDate = publishDate;
+        this.deadlineDate = deadlineDate;
     }
 
     public Experiment() {
@@ -61,5 +69,21 @@ public class Experiment {
 
     public void setCloudwareType(Integer cloudwareType) {
         this.cloudwareType = cloudwareType;
+    }
+
+    public Date getPublishDate() {
+        return publishDate;
+    }
+
+    public void setPublishDate(Date publishDate) {
+        this.publishDate = publishDate;
+    }
+
+    public Date getDeadlineDate() {
+        return deadlineDate;
+    }
+
+    public void setDeadlineDate(Date deadlineDate) {
+        this.deadlineDate = deadlineDate;
     }
 }

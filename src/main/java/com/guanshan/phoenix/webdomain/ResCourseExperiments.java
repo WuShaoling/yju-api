@@ -65,6 +65,10 @@ public class ResCourseExperiments {
 
         private String cloudwareType;
 
+        private String dueDate;
+
+        private String publishDate;
+
         public int getId() {
             return id;
         }
@@ -95,6 +99,22 @@ public class ResCourseExperiments {
 
         public void setCloudwareType(String cloudwareType) {
             this.cloudwareType = cloudwareType;
+        }
+
+        public String getDueDate() {
+            return dueDate;
+        }
+
+        public void setDueDate(String dueDate) {
+            this.dueDate = dueDate;
+        }
+
+        public String getPublishDate() {
+            return publishDate;
+        }
+
+        public void setPublishDate(String publishDate) {
+            this.publishDate = publishDate;
         }
     }
 }

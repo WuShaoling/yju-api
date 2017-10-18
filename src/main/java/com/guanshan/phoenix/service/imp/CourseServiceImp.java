@@ -78,6 +78,8 @@ public class CourseServiceImp implements CourseService {
                 experimentInfo.setExperimentDes(experiment.getDescription());
                 experimentInfo.setCloudwareType(
                         CloudwareTypeEnum.fromInt(experiment.getCloudwareType()).toString());
+                experimentInfo.setDueDate(experiment.getDeadlineDate().toString());
+                experimentInfo.setPublishDate(experiment.getPublishDate().toString());
             }
         }
 

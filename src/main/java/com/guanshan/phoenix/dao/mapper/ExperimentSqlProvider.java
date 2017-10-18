@@ -29,6 +29,14 @@ public class ExperimentSqlProvider {
             sql.VALUES("cloudware_type", "#{cloudwareType,jdbcType=INTEGER}");
         }
         
+        if (record.getPublishDate() != null) {
+            sql.VALUES("publish_date", "#{publishDate,jdbcType=DATE}");
+        }
+        
+        if (record.getDeadlineDate() != null) {
+            sql.VALUES("deadline_date", "#{deadlineDate,jdbcType=DATE}");
+        }
+        
         return sql.toString();
     }
 
@@ -50,6 +58,14 @@ public class ExperimentSqlProvider {
         
         if (record.getCloudwareType() != null) {
             sql.SET("cloudware_type = #{cloudwareType,jdbcType=INTEGER}");
+        }
+        
+        if (record.getPublishDate() != null) {
+            sql.SET("publish_date = #{publishDate,jdbcType=DATE}");
+        }
+        
+        if (record.getDeadlineDate() != null) {
+            sql.SET("deadline_date = #{deadlineDate,jdbcType=DATE}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

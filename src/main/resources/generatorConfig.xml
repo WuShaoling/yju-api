@@ -22,9 +22,9 @@
         <!--jdbc的数据库连接 -->
         <jdbcConnection
                 driverClass="com.mysql.jdbc.Driver"
-                connectionURL="jdbc:mysql://xlab.rainlf.com:3306/phoenix"
+                connectionURL="jdbc:mysql://www.x-lab.ac:32768/phoenix"
                 userId="root"
-                password="MySQL1234!">
+                password="guanshantech">
         </jdbcConnection>
 
         <!-- java类型处理器
@@ -103,7 +103,7 @@
         <!--<table tableName="cloudware" domainObjectName="Cloudware" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" > </table>-->
         <!--<table tableName="course" domainObjectName="Course" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" > </table>-->
         <!--<table tableName="course_resource" domainObjectName="CourseResource" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" > </table>-->
-        <!--<table tableName="experiment" domainObjectName="Experiment" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" > </table>-->
+        <table tableName="experiment" domainObjectName="Experiment" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" > </table>
         <!--<table tableName="homework" domainObjectName="Homework" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" > </table>-->
         <!--<table tableName="homework_resource" domainObjectName="HomeworkResource" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" > </table>-->
         <!--<table tableName="manager" domainObjectName="Manager" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" > </table>-->
