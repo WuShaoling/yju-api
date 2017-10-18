@@ -17,10 +17,6 @@ public class ResourceSqlProvider {
             sql.VALUES("name", "#{name,jdbcType=VARCHAR}");
         }
         
-        if (record.getType() != null) {
-            sql.VALUES("type", "#{type,jdbcType=INTEGER}");
-        }
-        
         if (record.getUrl() != null) {
             sql.VALUES("url", "#{url,jdbcType=VARCHAR}");
         }
@@ -42,10 +38,6 @@ public class ResourceSqlProvider {
         
         if (record.getName() != null) {
             sql.SET("name = #{name,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getType() != null) {
-            sql.SET("type = #{type,jdbcType=INTEGER}");
         }
         
         if (record.getUrl() != null) {

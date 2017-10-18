@@ -6,10 +6,12 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
 @EnableAutoConfiguration
 @MapperScan("com.guanshan.phoenix.dao.mapper")
+@EnableTransactionManagement
 public class PhoenixApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {

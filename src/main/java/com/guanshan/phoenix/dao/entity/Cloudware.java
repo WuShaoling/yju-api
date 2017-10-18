@@ -16,6 +16,10 @@ public class Cloudware {
         this.instanceId = instanceId;
     }
 
+    public Cloudware(String webSocket, String serviceId, String instanceId) {
+        this(0, webSocket,serviceId,instanceId);
+    }
+
     public Cloudware() {
         super();
     }

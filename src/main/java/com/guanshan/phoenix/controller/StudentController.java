@@ -4,11 +4,9 @@ import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ResponseMessage;
 import com.guanshan.phoenix.service.CourseService;
 import com.guanshan.phoenix.service.HomeworkService;
+import com.guanshan.phoenix.service.StudentHomeworkService;
 import com.guanshan.phoenix.service.StudentService;
-import com.guanshan.phoenix.webdomain.ResCourseExperiments;
-import com.guanshan.phoenix.webdomain.ResCourseHomeworks;
-import com.guanshan.phoenix.webdomain.ResHomeworkDetail;
-import com.guanshan.phoenix.webdomain.ResStudentClassList;
+import com.guanshan.phoenix.webdomain.*;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +24,9 @@ public class StudentController {
 
     @Autowired
     private HomeworkService homeworkService;
+
+    @Autowired
+    private StudentHomeworkService studentHomeworkService;
 
     @ApiOperation(value = "选课列表", notes = "列出所有该学生的选课")
     @GetMapping(value = "course/all/{studentId}")
@@ -49,5 +50,12 @@ public class StudentController {
     @GetMapping(value = "homework/{homeworkId}")
     public ResponseMessage<ResHomeworkDetail> getHomeworkDetail(@PathVariable int homeworkId) throws ApplicationErrorException {
         return new ResponseMessage.Success<>(homeworkService.getHomeworkDetail(homeworkId));
+    }
+
+    @ApiOperation(value = "提交作业", notes = "")
+    @PostMapping(value = "homework/submission")
+    public ResponseMessage submitHomeWork(@RequestBody ReqHomeworkSubmission homeworkSubmission) throws ApplicationErrorException {
+        studentHomeworkService.submitStudentHomework(homeworkSubmission);
+        return new ResponseMessage.Success();
     }
 }

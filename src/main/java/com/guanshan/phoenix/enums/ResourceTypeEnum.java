@@ -1,7 +1,9 @@
 package com.guanshan.phoenix.enums;
 
 public enum  ResourceTypeEnum {
-    IMAGE(1);
+    IMAGE(1),
+
+    HOMEWORK(2);
 
     private int code;
 

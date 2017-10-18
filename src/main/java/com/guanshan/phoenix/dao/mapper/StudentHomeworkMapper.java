@@ -1,14 +1,7 @@
 package com.guanshan.phoenix.dao.mapper;
 
 import com.guanshan.phoenix.dao.entity.StudentHomework;
-import org.apache.ibatis.annotations.Arg;
-import org.apache.ibatis.annotations.ConstructorArgs;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 public interface StudentHomeworkMapper {
@@ -26,6 +19,7 @@ public interface StudentHomeworkMapper {
         "#{homeworkId,jdbcType=INTEGER}, #{cloudwareId,jdbcType=INTEGER}, ",
         "#{comment,jdbcType=VARCHAR}, #{score,jdbcType=INTEGER})"
     })
+    @Options(useGeneratedKeys = true, keyColumn = "id")
     int insert(StudentHomework record);
 
     @InsertProvider(type=StudentHomeworkSqlProvider.class, method="insertSelective")
@@ -60,4 +54,20 @@ public interface StudentHomeworkMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(StudentHomework record);
+
+    @Select({
+        "select",
+        "id, student_id, homework_id, cloudware_id, comment, score",
+        "from student_homework",
+        "where student_id = #{studentId,jdbcType=INTEGER} and homework_id = #{homeworkId,jdbcType=INTEGER)"
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="student_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="homework_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="cloudware_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="comment", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="score", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
+    })
+    StudentHomework selectByStudentIdAndHomeworkId(int studentId, int homeworkId);
 }

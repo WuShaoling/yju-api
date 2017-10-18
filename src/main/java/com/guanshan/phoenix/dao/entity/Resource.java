@@ -5,21 +5,22 @@ public class Resource {
 
     private String name;
 
-    private Integer type;
-
     private String url;
 
     private String width;
 
     private String height;
 
-    public Resource(Integer id, String name, Integer type, String url, String width, String height) {
+    public Resource(Integer id, String name, String url, String width, String height) {
         this.id = id;
         this.name = name;
-        this.type = type;
         this.url = url;
         this.width = width;
         this.height = height;
+    }
+
+    public Resource(String name, String url, String width, String height) {
+        this(0, name, url, width, height);
     }
 
     public Resource() {
@@ -40,14 +41,6 @@ public class Resource {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
     }
 
     public String getUrl() {

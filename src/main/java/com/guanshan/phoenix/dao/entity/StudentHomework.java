@@ -22,6 +22,10 @@ public class StudentHomework {
         this.score = score;
     }
 
+    public StudentHomework(Integer studentId, Integer homeworkId, Integer cloudwareId, String comment, Integer score) {
+        this(0, studentId, homeworkId, cloudwareId, comment, score);
+    }
+
     public StudentHomework() {
         super();
     }

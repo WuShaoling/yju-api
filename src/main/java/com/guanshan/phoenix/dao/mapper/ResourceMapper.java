@@ -20,11 +20,9 @@ public interface ResourceMapper {
 
     @Insert({
         "insert into resource (id, name, ",
-        "type, url, width, ",
-        "height)",
+        "url, width, height)",
         "values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, ",
-        "#{type,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{width,jdbcType=VARCHAR}, ",
-        "#{height,jdbcType=VARCHAR})"
+        "#{url,jdbcType=VARCHAR}, #{width,jdbcType=VARCHAR}, #{height,jdbcType=VARCHAR})"
     })
     int insert(Resource record);
 
@@ -33,14 +31,13 @@ public interface ResourceMapper {
 
     @Select({
         "select",
-        "id, name, type, url, width, height",
+        "id, name, url, width, height",
         "from resource",
         "where id = #{id,jdbcType=INTEGER}"
     })
     @ConstructorArgs({
         @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
         @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
-        @Arg(column="type", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
         @Arg(column="url", javaType=String.class, jdbcType=JdbcType.VARCHAR),
         @Arg(column="width", javaType=String.class, jdbcType=JdbcType.VARCHAR),
         @Arg(column="height", javaType=String.class, jdbcType=JdbcType.VARCHAR)
@@ -53,7 +50,6 @@ public interface ResourceMapper {
     @Update({
         "update resource",
         "set name = #{name,jdbcType=VARCHAR},",
-          "type = #{type,jdbcType=INTEGER},",
           "url = #{url,jdbcType=VARCHAR},",
           "width = #{width,jdbcType=VARCHAR},",
           "height = #{height,jdbcType=VARCHAR}",

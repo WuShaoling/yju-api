@@ -1,0 +1,103 @@
+package com.guanshan.phoenix.service.imp;
+
+import com.guanshan.phoenix.dao.entity.*;
+import com.guanshan.phoenix.dao.mapper.*;
+import com.guanshan.phoenix.enums.ResourceTypeEnum;
+import com.guanshan.phoenix.error.ApplicationErrorException;
+import com.guanshan.phoenix.error.ErrorCode;
+import com.guanshan.phoenix.service.StudentHomeworkService;
+import com.guanshan.phoenix.webdomain.ReqHomeworkSubmission;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+
+public class StudentHomeworkServiceImp implements StudentHomeworkService {
+    @Autowired
+    private HomeworkMapper homeworkMapper;
+
+    @Autowired
+    private StudentMapper studentMapper;
+
+    @Autowired
+    private StudentHomeworkMapper studentHomeworkMapper;
+
+    @Autowired
+    private CloudwareMapper cloudwareMapper;
+
+    @Autowired
+    private ResourceMapper resourceMapper;
+
+    @Autowired
+    private StudentHomeworkResourceMapper studentHomeworkResourceMapper;
+
+    @Override
+    public void submitStudentHomework(ReqHomeworkSubmission homeworkSubmission) throws ApplicationErrorException {
+        this.validStudentHomeWork(homeworkSubmission.getStudentId(), homeworkSubmission.getHomeworkId());
+        StudentHomework studentHomework = studentHomeworkMapper.selectByStudentIdAndHomeworkId(
+                homeworkSubmission.getStudentId(), homeworkSubmission.getHomeworkId());
+
+        if(studentHomework == null){
+            insertStudentHomeWork(homeworkSubmission);
+        } else {
+            updateStudentHomeWork(studentHomework.getId(), studentHomework.getCloudwareId(), homeworkSubmission);
+        }
+    }
+
+    @Override
+    public void validStudentHomeWork(int studentId, int homeworkId) throws ApplicationErrorException {
+        if(studentMapper.selectByPrimaryKey(studentId) == null){
+            throw new ApplicationErrorException(ErrorCode.StudentIDNotExists);
+        }
+
+        if(homeworkMapper.selectByPrimaryKey(homeworkId) == null){
+            throw new ApplicationErrorException(ErrorCode.HomeworkIDNotExists);
+        }
+    }
+
+    @Transactional(rollbackFor = Throwable.class)
+    protected void insertStudentHomeWork(ReqHomeworkSubmission homeworkSubmission){
+
+        Cloudware cloudware = new Cloudware(
+                homeworkSubmission.getCloudware_url(),
+                homeworkSubmission.getCloudware_serviceId(),
+                homeworkSubmission.getCloudware_instanceId());
+
+        cloudwareMapper.insert(cloudware);
+
+        StudentHomework studentHomework = new StudentHomework(
+                homeworkSubmission.getStudentId(),
+                homeworkSubmission.getHomeworkId(),
+                cloudware.getId(),
+                "",
+                0
+        );
+        studentHomeworkMapper.insert(studentHomework);
+
+        Resource resource = new Resource(
+                "", homeworkSubmission.getHomework_url(), "", "");
+        resourceMapper.insert(resource);
+
+        StudentHomeworkResource studentHomeworkResource = new StudentHomeworkResource(
+                studentHomework.getId(),
+                resource.getId(),
+                ResourceTypeEnum.HOMEWORK.getCode());
+        studentHomeworkResourceMapper.insert(studentHomeworkResource);
+    }
+
+    @Transactional(rollbackFor = Throwable.class)
+    protected void updateStudentHomeWork(int studentHomeworkId, int cloudwareId, ReqHomeworkSubmission homeworkSubmission){
+        Cloudware cloudware = new Cloudware(
+                cloudwareId,
+                homeworkSubmission.getCloudware_url(),
+                homeworkSubmission.getCloudware_serviceId(),
+                homeworkSubmission.getCloudware_instanceId());
+        cloudwareMapper.updateByPrimaryKey(cloudware);
+
+        StudentHomeworkResource studentHomeworkResource =
+                studentHomeworkResourceMapper.selectByPrimaryKeyAndType(studentHomeworkId, ResourceTypeEnum.HOMEWORK.getCode());
+
+        Resource resource = new Resource(
+                studentHomeworkResource.getResourceId(), "",
+                homeworkSubmission.getHomework_url(), "", "");
+        resourceMapper.updateByPrimaryKey(resource);
+    }
+}
