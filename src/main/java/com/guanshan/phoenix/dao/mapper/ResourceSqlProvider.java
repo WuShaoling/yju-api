@@ -25,6 +25,14 @@ public class ResourceSqlProvider {
             sql.VALUES("url", "#{url,jdbcType=VARCHAR}");
         }
         
+        if (record.getWidth() != null) {
+            sql.VALUES("width", "#{width,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getHeight() != null) {
+            sql.VALUES("height", "#{height,jdbcType=VARCHAR}");
+        }
+        
         return sql.toString();
     }
 
@@ -42,6 +50,14 @@ public class ResourceSqlProvider {
         
         if (record.getUrl() != null) {
             sql.SET("url = #{url,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getWidth() != null) {
+            sql.SET("width = #{width,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getHeight() != null) {
+            sql.SET("height = #{height,jdbcType=VARCHAR}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

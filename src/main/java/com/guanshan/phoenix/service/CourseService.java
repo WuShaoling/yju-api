@@ -1,9 +1,14 @@
 package com.guanshan.phoenix.service;
 
-import com.guanshan.phoenix.dao.entity.Clazz;
 import com.guanshan.phoenix.dao.entity.Course;
-import com.guanshan.phoenix.dao.entity.Term;
+import com.guanshan.phoenix.error.ApplicationErrorException;
+import com.guanshan.phoenix.webdomain.ResCourseExperiments;
+import com.guanshan.phoenix.webdomain.ResCourseHomeworks;
 
 public interface CourseService {
-    Course getCourseById(int courseID);
+    Course getCourseById(int courseID) throws ApplicationErrorException;
+
+    ResCourseExperiments getCourseExperiments(int courseID) throws ApplicationErrorException;
+
+    ResCourseHomeworks getCourseHomeworks(int classID) throws ApplicationErrorException;
 }

@@ -84,6 +84,6 @@ public class Clazz {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name == null ? null : name.trim();
     }
 }

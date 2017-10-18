@@ -3,6 +3,7 @@ package com.guanshan.phoenix.service.imp;
 import com.guanshan.phoenix.dao.entity.*;
 import com.guanshan.phoenix.dao.mapper.StudentClassMapper;
 import com.guanshan.phoenix.dao.mapper.StudentMapper;
+import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.service.*;
 import com.guanshan.phoenix.webdomain.ResStudentClassList;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class StudentServiceImp implements StudentService {
     }
 
     @Override
-    public ResStudentClassList getAllStudentClassInfoById(int studentID) {
+    public ResStudentClassList getAllStudentClassInfoById(int studentID) throws ApplicationErrorException {
         ResStudentClassList resStudentClassInfoList = new ResStudentClassList();
         List<ResStudentClassList.ResStudentClass> resStudentClasses = new ArrayList<>();
         resStudentClassInfoList.setStudentClassList(resStudentClasses);

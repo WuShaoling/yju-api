@@ -1,7 +1,5 @@
 package com.guanshan.phoenix.dao.entity;
 
-import java.util.Date;
-
 public class Student {
     private Integer id;
 
@@ -13,9 +11,9 @@ public class Student {
 
     private Integer gender;
 
-    private Date birthday;
+    private String birthday;
 
-    public Student(Integer id, Integer userId, String sno, String name, Integer gender, Date birthday) {
+    public Student(Integer id, Integer userId, String sno, String name, Integer gender, String birthday) {
         this.id = id;
         this.userId = userId;
         this.sno = sno;
@@ -68,11 +66,11 @@ public class Student {
         this.gender = gender;
     }
 
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
+    public void setBirthday(String birthday) {
+        this.birthday = birthday == null ? null : birthday.trim();
     }
 }

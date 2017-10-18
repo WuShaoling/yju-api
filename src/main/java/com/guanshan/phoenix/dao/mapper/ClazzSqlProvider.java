@@ -33,6 +33,10 @@ public class ClazzSqlProvider {
             sql.VALUES("student_num", "#{studentNum,jdbcType=INTEGER}");
         }
         
+        if (record.getName() != null) {
+            sql.VALUES("name", "#{name,jdbcType=VARCHAR}");
+        }
+        
         return sql.toString();
     }
 
@@ -58,6 +62,10 @@ public class ClazzSqlProvider {
         
         if (record.getStudentNum() != null) {
             sql.SET("student_num = #{studentNum,jdbcType=INTEGER}");
+        }
+        
+        if (record.getName() != null) {
+            sql.SET("name = #{name,jdbcType=VARCHAR}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

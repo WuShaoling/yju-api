@@ -1,7 +1,6 @@
 package com.guanshan.phoenix.dao.mapper;
 
 import com.guanshan.phoenix.dao.entity.Student;
-import java.util.Date;
 import org.apache.ibatis.annotations.Arg;
 import org.apache.ibatis.annotations.ConstructorArgs;
 import org.apache.ibatis.annotations.Delete;
@@ -25,7 +24,7 @@ public interface StudentMapper {
         "birthday)",
         "values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, ",
         "#{sno,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, ",
-        "#{birthday,jdbcType=DATE})"
+        "#{birthday,jdbcType=VARCHAR})"
     })
     int insert(Student record);
 
@@ -44,7 +43,7 @@ public interface StudentMapper {
         @Arg(column="sno", javaType=String.class, jdbcType=JdbcType.VARCHAR),
         @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
         @Arg(column="gender", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
-        @Arg(column="birthday", javaType=Date.class, jdbcType=JdbcType.DATE)
+        @Arg(column="birthday", javaType=String.class, jdbcType=JdbcType.VARCHAR)
     })
     Student selectByPrimaryKey(Integer id);
 
@@ -57,7 +56,7 @@ public interface StudentMapper {
           "sno = #{sno,jdbcType=VARCHAR},",
           "name = #{name,jdbcType=VARCHAR},",
           "gender = #{gender,jdbcType=INTEGER},",
-          "birthday = #{birthday,jdbcType=DATE}",
+          "birthday = #{birthday,jdbcType=VARCHAR}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Student record);

@@ -58,7 +58,12 @@ public interface StudentClassMapper {
     @Select({
             "select *",
             "from student_class",
-            "where student_id = #{studentID, jdbcType=INTEGER}"
+            "where student_id = #{studentId,jdbcType=INTEGER}"
     })
-    List<StudentClass> selectByStudentID(Integer studentID);
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="student_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="class_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
+    })
+    List<StudentClass> selectByStudentID(Integer studentId);
 }

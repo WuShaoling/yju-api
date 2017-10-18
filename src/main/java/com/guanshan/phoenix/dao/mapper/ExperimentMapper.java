@@ -11,6 +11,8 @@ import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
 
+import java.util.List;
+
 public interface ExperimentMapper {
     @Delete({
         "delete from experiment",
@@ -58,4 +60,18 @@ public interface ExperimentMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Experiment record);
+
+    @Select({
+            "select *",
+            "from experiment",
+            "where module_id = #{moduleId,jdbcType=INTEGER}"
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="module_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="description", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="cloudware_type", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
+    })
+    List<Experiment> selectByModuleId(Integer moduleId);
 }

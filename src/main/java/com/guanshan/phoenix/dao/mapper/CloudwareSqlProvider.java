@@ -21,8 +21,8 @@ public class CloudwareSqlProvider {
             sql.VALUES("service_id", "#{serviceId,jdbcType=VARCHAR}");
         }
         
-        if (record.getInstance() != null) {
-            sql.VALUES("instance", "#{instance,jdbcType=VARCHAR}");
+        if (record.getInstanceId() != null) {
+            sql.VALUES("instance_id", "#{instanceId,jdbcType=VARCHAR}");
         }
         
         return sql.toString();
@@ -40,8 +40,8 @@ public class CloudwareSqlProvider {
             sql.SET("service_id = #{serviceId,jdbcType=VARCHAR}");
         }
         
-        if (record.getInstance() != null) {
-            sql.SET("instance = #{instance,jdbcType=VARCHAR}");
+        if (record.getInstanceId() != null) {
+            sql.SET("instance_id = #{instanceId,jdbcType=VARCHAR}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

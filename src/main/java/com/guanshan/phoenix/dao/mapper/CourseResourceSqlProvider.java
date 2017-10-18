@@ -21,6 +21,10 @@ public class CourseResourceSqlProvider {
             sql.VALUES("resource_id", "#{resourceId,jdbcType=INTEGER}");
         }
         
+        if (record.getType() != null) {
+            sql.VALUES("type", "#{type,jdbcType=INTEGER}");
+        }
+        
         return sql.toString();
     }
 
@@ -34,6 +38,10 @@ public class CourseResourceSqlProvider {
         
         if (record.getResourceId() != null) {
             sql.SET("resource_id = #{resourceId,jdbcType=INTEGER}");
+        }
+        
+        if (record.getType() != null) {
+            sql.SET("type = #{type,jdbcType=INTEGER}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

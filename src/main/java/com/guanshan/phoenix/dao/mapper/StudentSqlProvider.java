@@ -30,7 +30,7 @@ public class StudentSqlProvider {
         }
         
         if (record.getBirthday() != null) {
-            sql.VALUES("birthday", "#{birthday,jdbcType=DATE}");
+            sql.VALUES("birthday", "#{birthday,jdbcType=VARCHAR}");
         }
         
         return sql.toString();
@@ -57,7 +57,7 @@ public class StudentSqlProvider {
         }
         
         if (record.getBirthday() != null) {
-            sql.SET("birthday = #{birthday,jdbcType=DATE}");
+            sql.SET("birthday = #{birthday,jdbcType=VARCHAR}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

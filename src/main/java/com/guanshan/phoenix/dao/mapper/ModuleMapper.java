@@ -11,6 +11,8 @@ import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
 
+import java.util.List;
+
 public interface ModuleMapper {
     @Delete({
         "delete from module",
@@ -20,9 +22,9 @@ public interface ModuleMapper {
 
     @Insert({
         "insert into module (id, course_id, ",
-        "name, description)",
+        "name)",
         "values (#{id,jdbcType=INTEGER}, #{courseId,jdbcType=INTEGER}, ",
-        "#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR})"
+        "#{name,jdbcType=VARCHAR})"
     })
     int insert(Module record);
 
@@ -31,15 +33,14 @@ public interface ModuleMapper {
 
     @Select({
         "select",
-        "id, course_id, name, description",
+        "id, course_id, name",
         "from module",
         "where id = #{id,jdbcType=INTEGER}"
     })
     @ConstructorArgs({
         @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
         @Arg(column="course_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
-        @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
-        @Arg(column="description", javaType=String.class, jdbcType=JdbcType.VARCHAR)
+        @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR)
     })
     Module selectByPrimaryKey(Integer id);
 
@@ -49,9 +50,20 @@ public interface ModuleMapper {
     @Update({
         "update module",
         "set course_id = #{courseId,jdbcType=INTEGER},",
-          "name = #{name,jdbcType=VARCHAR},",
-          "description = #{description,jdbcType=VARCHAR}",
+          "name = #{name,jdbcType=VARCHAR}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Module record);
+
+    @Select({
+            "select *",
+            "from module",
+            "where course_id = #{courseId,jdbcType=INTEGER}"
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="course_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR)
+    })
+    List<Module> selectByCourseID(Integer courseId);
 }

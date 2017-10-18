@@ -37,6 +37,10 @@ public class HomeworkSqlProvider {
             sql.VALUES("deadline_date", "#{deadlineDate,jdbcType=DATE}");
         }
         
+        if (record.getClassId() != null) {
+            sql.VALUES("class_id", "#{classId,jdbcType=INTEGER}");
+        }
+        
         return sql.toString();
     }
 
@@ -66,6 +70,10 @@ public class HomeworkSqlProvider {
         
         if (record.getDeadlineDate() != null) {
             sql.SET("deadline_date = #{deadlineDate,jdbcType=DATE}");
+        }
+        
+        if (record.getClassId() != null) {
+            sql.SET("class_id = #{classId,jdbcType=INTEGER}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

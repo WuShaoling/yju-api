@@ -22,10 +22,10 @@ public interface ClazzMapper {
     @Insert({
         "insert into class (id, term_id, ",
         "course_id, date, duration, ",
-        "student_num)",
+        "student_num, name)",
         "values (#{id,jdbcType=INTEGER}, #{termId,jdbcType=INTEGER}, ",
         "#{courseId,jdbcType=INTEGER}, #{date,jdbcType=DATE}, #{duration,jdbcType=VARCHAR}, ",
-        "#{studentNum,jdbcType=INTEGER})"
+        "#{studentNum,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR})"
     })
     int insert(Clazz record);
 
@@ -34,7 +34,7 @@ public interface ClazzMapper {
 
     @Select({
         "select",
-        "id, term_id, course_id, date, duration, student_num",
+        "id, term_id, course_id, date, duration, student_num, name",
         "from class",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -44,7 +44,8 @@ public interface ClazzMapper {
         @Arg(column="course_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
         @Arg(column="date", javaType=Date.class, jdbcType=JdbcType.DATE),
         @Arg(column="duration", javaType=String.class, jdbcType=JdbcType.VARCHAR),
-        @Arg(column="student_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
+        @Arg(column="student_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+        @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR)
     })
     Clazz selectByPrimaryKey(Integer id);
 
@@ -57,7 +58,8 @@ public interface ClazzMapper {
           "course_id = #{courseId,jdbcType=INTEGER},",
           "date = #{date,jdbcType=DATE},",
           "duration = #{duration,jdbcType=VARCHAR},",
-          "student_num = #{studentNum,jdbcType=INTEGER}",
+          "student_num = #{studentNum,jdbcType=INTEGER},",
+          "name = #{name,jdbcType=VARCHAR}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Clazz record);

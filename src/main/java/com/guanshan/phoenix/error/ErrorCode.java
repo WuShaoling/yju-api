@@ -7,6 +7,18 @@ public enum ErrorCode {
     @ErrorMessage("旧密码不正确。")
     IncorrectOldPassword(1),
 
+    @ErrorMessage("该课程不存在")
+    CourseNotExists(2),
+
+    @ErrorMessage("该班级不存在")
+    ClassIDNotExists(3),
+
+    @ErrorMessage("该作业不存在")
+    HomeworkIDNotExists(4),
+
+    @ErrorMessage("该学生不存在")
+    StudentIDNotExists(5),
+
     @ErrorMessage("服务器出错，请联系管理员。")
     GeneralError(Integer.MAX_VALUE);
 

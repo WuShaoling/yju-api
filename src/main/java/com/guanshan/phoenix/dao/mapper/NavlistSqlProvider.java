@@ -13,12 +13,12 @@ public class NavlistSqlProvider {
             sql.VALUES("id", "#{id,jdbcType=INTEGER}");
         }
         
-        if (record.getName() != null) {
-            sql.VALUES("name", "#{name,jdbcType=VARCHAR}");
-        }
-        
         if (record.getUrl() != null) {
             sql.VALUES("url", "#{url,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getName() != null) {
+            sql.VALUES("name", "#{name,jdbcType=VARCHAR}");
         }
         
         if (record.getUiClass() != null) {
@@ -32,12 +32,12 @@ public class NavlistSqlProvider {
         SQL sql = new SQL();
         sql.UPDATE("navlist");
         
-        if (record.getName() != null) {
-            sql.SET("name = #{name,jdbcType=VARCHAR}");
-        }
-        
         if (record.getUrl() != null) {
             sql.SET("url = #{url,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getName() != null) {
+            sql.SET("name = #{name,jdbcType=VARCHAR}");
         }
         
         if (record.getUiClass() != null) {

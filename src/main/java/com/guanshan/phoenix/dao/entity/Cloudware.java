@@ -7,13 +7,13 @@ public class Cloudware {
 
     private String serviceId;
 
-    private String instance;
+    private String instanceId;
 
-    public Cloudware(Integer id, String webSocket, String serviceId, String instance) {
+    public Cloudware(Integer id, String webSocket, String serviceId, String instanceId) {
         this.id = id;
         this.webSocket = webSocket;
         this.serviceId = serviceId;
-        this.instance = instance;
+        this.instanceId = instanceId;
     }
 
     public Cloudware() {
@@ -44,11 +44,11 @@ public class Cloudware {
         this.serviceId = serviceId == null ? null : serviceId.trim();
     }
 
-    public String getInstance() {
-        return instance;
+    public String getInstanceId() {
+        return instanceId;
     }
 
-    public void setInstance(String instance) {
-        this.instance = instance == null ? null : instance.trim();
+    public void setInstanceId(String instanceId) {
+        this.instanceId = instanceId == null ? null : instanceId.trim();
     }
 }

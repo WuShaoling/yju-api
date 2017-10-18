@@ -43,8 +43,7 @@ public class Term {
         this.semester = semester;
     }
 
-    public String getDescription() {
-        return String.format("%s%s",
-                year, SemesterEnum.fromInt(semester).getZh());
+    public String getDescription(){
+        return String.format("%s%s", year, SemesterEnum.fromInt(semester).getZh());
     }
 }

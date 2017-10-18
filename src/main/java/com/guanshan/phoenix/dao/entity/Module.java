@@ -7,13 +7,10 @@ public class Module {
 
     private String name;
 
-    private String description;
-
-    public Module(Integer id, Integer courseId, String name, String description) {
+    public Module(Integer id, Integer courseId, String name) {
         this.id = id;
         this.courseId = courseId;
         this.name = name;
-        this.description = description;
     }
 
     public Module() {
@@ -42,13 +39,5 @@ public class Module {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
     }
 }

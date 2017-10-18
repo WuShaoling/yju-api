@@ -1,8 +1,7 @@
 package com.guanshan.phoenix.enums;
 
 public enum CloudwareTypeEnum {
-    CTYPE1(1, "type 1", "第一个类型"),
-    CTYPE2(2, "type 2", "第二个类型");
+    RSTUDIO(1, "type 1", "第一个类型");
 
     private int code;
     private String en;
@@ -42,5 +41,18 @@ public enum CloudwareTypeEnum {
             }
         }
         return "null";
+    }
+
+    @Override
+    public String toString(){
+        return super.toString().toLowerCase();
+    }
+
+    public static CloudwareTypeEnum fromInt(int i){
+        if(i >= CloudwareTypeEnum.values().length){
+            return null;
+        }
+
+        return CloudwareTypeEnum.values()[i-1];
     }
 }

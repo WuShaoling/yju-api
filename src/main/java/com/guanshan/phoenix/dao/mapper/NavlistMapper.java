@@ -19,10 +19,10 @@ public interface NavlistMapper {
     int deleteByPrimaryKey(Integer id);
 
     @Insert({
-        "insert into navlist (id, name, ",
-        "url, class)",
-        "values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, ",
-        "#{url,jdbcType=VARCHAR}, #{uiClass,jdbcType=VARCHAR})"
+        "insert into navlist (id, url, ",
+        "name, class)",
+        "values (#{id,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, ",
+        "#{name,jdbcType=VARCHAR}, #{uiClass,jdbcType=VARCHAR})"
     })
     int insert(Navlist record);
 
@@ -31,14 +31,14 @@ public interface NavlistMapper {
 
     @Select({
         "select",
-        "id, name, url, class",
+        "id, url, name, class",
         "from navlist",
         "where id = #{id,jdbcType=INTEGER}"
     })
     @ConstructorArgs({
         @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
-        @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
         @Arg(column="url", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+        @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
         @Arg(column="class", javaType=String.class, jdbcType=JdbcType.VARCHAR)
     })
     Navlist selectByPrimaryKey(Integer id);
@@ -48,8 +48,8 @@ public interface NavlistMapper {
 
     @Update({
         "update navlist",
-        "set name = #{name,jdbcType=VARCHAR},",
-          "url = #{url,jdbcType=VARCHAR},",
+        "set url = #{url,jdbcType=VARCHAR},",
+          "name = #{name,jdbcType=VARCHAR},",
           "class = #{uiClass,jdbcType=VARCHAR}",
         "where id = #{id,jdbcType=INTEGER}"
     })

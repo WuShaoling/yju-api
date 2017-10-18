@@ -21,10 +21,6 @@ public class ModuleSqlProvider {
             sql.VALUES("name", "#{name,jdbcType=VARCHAR}");
         }
         
-        if (record.getDescription() != null) {
-            sql.VALUES("description", "#{description,jdbcType=VARCHAR}");
-        }
-        
         return sql.toString();
     }
 
@@ -38,10 +34,6 @@ public class ModuleSqlProvider {
         
         if (record.getName() != null) {
             sql.SET("name = #{name,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getDescription() != null) {
-            sql.SET("description = #{description,jdbcType=VARCHAR}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");
