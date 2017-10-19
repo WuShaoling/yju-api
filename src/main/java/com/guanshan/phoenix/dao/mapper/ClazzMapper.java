@@ -2,6 +2,8 @@ package com.guanshan.phoenix.dao.mapper;
 
 import com.guanshan.phoenix.dao.entity.Clazz;
 import java.util.Date;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Arg;
 import org.apache.ibatis.annotations.ConstructorArgs;
 import org.apache.ibatis.annotations.Delete;
@@ -63,4 +65,22 @@ public interface ClazzMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Clazz record);
+
+    @Select({
+            "select *",
+            "from class",
+            "where course_id in",
+            "(select course.id from course inner join teacher on course.teacher_id=teacher.id",
+              "where teacher.id=#{teacherId, jdbcType=INTEGER})"
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="term_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="course_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="date", javaType=Date.class, jdbcType=JdbcType.DATE),
+            @Arg(column="duration", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="student_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR)
+    })
+    List<Clazz> selectByTeacherId(int teacherId);
 }

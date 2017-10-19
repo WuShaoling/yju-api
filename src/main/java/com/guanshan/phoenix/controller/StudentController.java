@@ -28,7 +28,7 @@ public class StudentController {
     @Autowired
     private StudentHomeworkService studentHomeworkService;
 
-    @ApiOperation(value = "选课列表", notes = "列出所有该学生的选课")
+    @ApiOperation(value = "选课列表", notes = "列出所有该学生的班级列表")
     @GetMapping(value = "course/all/{studentId}")
     public ResponseMessage<ResStudentClassList> getAllStudentCourses(@PathVariable int studentId) throws ApplicationErrorException {
         return new ResponseMessage.Success<>(studentService.getAllStudentClassInfoById(studentId));

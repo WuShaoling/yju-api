@@ -19,6 +19,9 @@ public enum ErrorCode {
     @ErrorMessage("该学生不存在")
     StudentIDNotExists(5),
 
+    @ErrorMessage("该教师不存在")
+    TeacherIDNotExists(6),
+
     @ErrorMessage("服务器出错，请联系管理员。")
     GeneralError(Integer.MAX_VALUE);
 
