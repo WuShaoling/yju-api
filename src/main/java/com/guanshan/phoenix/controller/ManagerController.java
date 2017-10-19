@@ -7,6 +7,11 @@ import com.guanshan.phoenix.service.HomeworkService;
 import com.guanshan.phoenix.service.TeacherService;
 import com.guanshan.phoenix.service.TermService;
 import com.guanshan.phoenix.webdomain.*;
+import com.guanshan.phoenix.service.CourseService;
+import com.guanshan.phoenix.webdomain.ReqUpdateTeacher;
+import com.guanshan.phoenix.webdomain.ResCourseList;
+import com.guanshan.phoenix.webdomain.ResSemesterList;
+import com.guanshan.phoenix.webdomain.ResTeacherList;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +29,9 @@ public class ManagerController {
 
     @Autowired
     private HomeworkService homeworkService;
+
+    @Autowired
+    private CourseService courseService;
 
     @ApiOperation(value = "获取所有老师信息", notes = "")
     @GetMapping(value = "teacher/all")
@@ -102,4 +110,9 @@ public class ManagerController {
 
 
 
+    @ApiOperation(value = "获取课程信息", notes = "")
+    @GetMapping(value = "course/all")
+    public ResponseMessage<ResCourseList> getAllCourses() throws ApplicationErrorException {
+        return new ResponseMessage.Success<>(courseService.getAllCourses());
+    }
 }

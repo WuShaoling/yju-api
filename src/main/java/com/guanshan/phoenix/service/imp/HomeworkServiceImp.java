@@ -196,6 +196,7 @@ public class HomeworkServiceImp implements HomeworkService {
         for (Student student : studentsInClass){
             ResHomeworkSubmissionList.ResHomeworkSubmissionDetail submissionDetail =
                     new ResHomeworkSubmissionList.ResHomeworkSubmissionDetail();
+            submissionDetails.add(submissionDetail);
 
             submissionDetail.setHomeworkId(homework.getId());
             submissionDetail.setStudentId(student.getId());

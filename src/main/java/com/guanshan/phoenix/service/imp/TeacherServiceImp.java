@@ -90,6 +90,7 @@ public class TeacherServiceImp implements TeacherService {
 
         for (Teacher teacher : teacherMapper.getAllTeachers()){
             ResTeacherList.ResTeacherInfo teacherInfo = new ResTeacherList.ResTeacherInfo();
+            teacherInfoList.add(teacherInfo);
 
             teacherInfo.setId(teacher.getUserId());
             teacherInfo.setTeacherId(teacher.getId());
