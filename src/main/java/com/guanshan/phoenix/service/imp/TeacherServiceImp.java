@@ -18,7 +18,6 @@ import com.guanshan.phoenix.service.StudentHomeworkService;
 import com.guanshan.phoenix.service.TeacherService;
 import com.guanshan.phoenix.service.UserService;
 import com.guanshan.phoenix.webdomain.*;
-import com.sun.tools.javah.Gen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

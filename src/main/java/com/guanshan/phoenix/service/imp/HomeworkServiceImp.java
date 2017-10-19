@@ -11,10 +11,12 @@ import com.guanshan.phoenix.webdomain.ResHomeworkDetail;
 import com.guanshan.phoenix.webdomain.ResHomeworkSubmissionList;
 import com.guanshan.phoenix.webdomain.ResStudentHomeworkDetail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class HomeworkServiceImp implements HomeworkService {
     @Autowired
     private HomeworkMapper homeworkMapper;

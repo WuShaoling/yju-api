@@ -8,10 +8,12 @@ import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.StudentHomeworkService;
 import com.guanshan.phoenix.webdomain.ReqHomeworkSubmission;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
+@Service
 public class StudentHomeworkServiceImp implements StudentHomeworkService {
     @Autowired
     private HomeworkMapper homeworkMapper;
