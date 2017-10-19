@@ -11,6 +11,8 @@ import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
 
+import java.util.List;
+
 public interface CourseMapper {
     @Delete({
         "delete from course",
@@ -54,4 +56,16 @@ public interface CourseMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Course record);
+
+    @Select({
+            "select *",
+            "from course",
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="teacher_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="description", javaType=String.class, jdbcType=JdbcType.VARCHAR)
+    })
+    List<Course> getAllCourses();
 }

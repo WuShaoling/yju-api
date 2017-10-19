@@ -8,8 +8,10 @@ import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.ClassService;
 import com.guanshan.phoenix.service.CourseService;
+import com.guanshan.phoenix.service.TeacherService;
 import com.guanshan.phoenix.webdomain.ResCourseExperiments;
 import com.guanshan.phoenix.webdomain.ResCourseHomeworks;
+import com.guanshan.phoenix.webdomain.ResCourseList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +41,9 @@ public class CourseServiceImp implements CourseService {
 
     @Autowired
     private HomeworkMapper homeworkMapper;
+
+    @Autowired
+    private TeacherService teacherService;
 
     public Course getCourseById(int courseID) throws ApplicationErrorException {
 
@@ -122,6 +127,28 @@ public class CourseServiceImp implements CourseService {
         }
 
         return courseDetail;
+    }
+
+    @Override
+    public ResCourseList getAllCourses() throws ApplicationErrorException {
+        ResCourseList courseList = new ResCourseList();
+        List<ResCourseList.CourseInfo> courseInfoList = new ArrayList<>();
+        courseList.setCourseInfoList(courseInfoList);
+
+        for(Course course : courseMapper.getAllCourses()){
+            ResCourseList.CourseInfo courseInfo = new ResCourseList.CourseInfo();
+            courseInfoList.add(courseInfo);
+
+            courseInfo.setId(course.getId());
+            courseInfo.setCourseName(course.getName());
+            courseInfo.setCourseDes(course.getDescription());
+
+            Teacher teacher = teacherService.getTeacherById(course.getTeacherId());
+            courseInfo.setTeacherName(teacher.getName());
+            courseInfo.setTeacherContact(teacher.getEmail());
+        }
+
+        return courseList;
     }
 
     private String getImageUrl(int courseID){

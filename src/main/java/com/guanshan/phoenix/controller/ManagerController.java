@@ -3,9 +3,11 @@ package com.guanshan.phoenix.controller;
 import com.guanshan.phoenix.dao.entity.Term;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ResponseMessage;
+import com.guanshan.phoenix.service.CourseService;
 import com.guanshan.phoenix.service.TeacherService;
 import com.guanshan.phoenix.service.TermService;
 import com.guanshan.phoenix.webdomain.ReqUpdateTeacher;
+import com.guanshan.phoenix.webdomain.ResCourseList;
 import com.guanshan.phoenix.webdomain.ResSemesterList;
 import com.guanshan.phoenix.webdomain.ResTeacherList;
 import io.swagger.annotations.ApiOperation;
@@ -22,6 +24,9 @@ public class ManagerController {
 
     @Autowired
     private TeacherService teacherService;
+
+    @Autowired
+    private CourseService courseService;
 
     @ApiOperation(value = "获取所有老师信息", notes = "")
     @GetMapping(value = "teacher/all")
@@ -68,5 +73,11 @@ public class ManagerController {
     public ResponseMessage deleteSemester(@PathVariable int semesterId) throws ApplicationErrorException {
         termService.delete(semesterId);
         return new ResponseMessage.Success();
+    }
+
+    @ApiOperation(value = "获取课程信息", notes = "")
+    @GetMapping(value = "course/all")
+    public ResponseMessage<ResCourseList> getAllCourses() throws ApplicationErrorException {
+        return new ResponseMessage.Success<>(courseService.getAllCourses());
     }
 }
