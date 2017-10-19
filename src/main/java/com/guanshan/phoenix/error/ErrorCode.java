@@ -25,6 +25,12 @@ public enum ErrorCode {
     @ErrorMessage("该学生作业不存在")
     StudentHomeworkNotExists(7),
 
+    @ErrorMessage("该学期'%s'已存在")
+    TermAlreadyExists(8),
+
+    @ErrorMessage("该学期不存在")
+    TermNotExists(9),
+
     @ErrorMessage("服务器出错，请联系管理员。")
     GeneralError(Integer.MAX_VALUE);
 

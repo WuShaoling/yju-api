@@ -15,6 +15,10 @@ public class Term {
         this.semester = semester;
     }
 
+    public Term(String year, Integer semester){
+        this(0, year, semester);
+    }
+
     public Term() {
         super();
     }

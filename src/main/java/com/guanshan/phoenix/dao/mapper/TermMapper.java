@@ -11,6 +11,8 @@ import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
 
+import java.util.List;
+
 public interface TermMapper {
     @Delete({
         "delete from term",
@@ -52,4 +54,29 @@ public interface TermMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Term record);
+
+    @Select({
+            "select",
+            "id, year, semester",
+            "from term"
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="year", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="semester", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
+    })
+    List<Term> getAllTerms();
+
+    @Select({
+            "select",
+            "id, year, semester",
+            "from term",
+            "where year = #{year,jdbcType=VARCHAR} and semester = #{semester,jdbcType=VARCHAR}"
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="year", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="semester", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
+    })
+    Term selectByYearAndSemester(String year, Integer semester);
 }
