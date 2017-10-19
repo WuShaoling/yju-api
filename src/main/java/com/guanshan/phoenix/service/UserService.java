@@ -5,4 +5,6 @@ import com.guanshan.phoenix.dao.entity.User;
 public interface UserService {
 
     User getUserInfo(String username);
+
+    void deleteUserById(int id);
 }

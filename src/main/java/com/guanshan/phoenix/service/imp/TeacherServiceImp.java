@@ -4,9 +4,11 @@ import com.guanshan.phoenix.Util.Utility;
 import com.guanshan.phoenix.dao.entity.Clazz;
 import com.guanshan.phoenix.dao.entity.StudentHomework;
 import com.guanshan.phoenix.dao.entity.Teacher;
+import com.guanshan.phoenix.dao.entity.User;
 import com.guanshan.phoenix.dao.mapper.ClazzMapper;
 import com.guanshan.phoenix.dao.mapper.StudentHomeworkMapper;
 import com.guanshan.phoenix.dao.mapper.TeacherMapper;
+import com.guanshan.phoenix.dao.mapper.UserMapper;
 import com.guanshan.phoenix.enums.GenderEnum;
 import com.guanshan.phoenix.enums.TitleEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
@@ -14,10 +16,12 @@ import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.ClassService;
 import com.guanshan.phoenix.service.StudentHomeworkService;
 import com.guanshan.phoenix.service.TeacherService;
+import com.guanshan.phoenix.service.UserService;
 import com.guanshan.phoenix.webdomain.*;
 import com.sun.tools.javah.Gen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +42,9 @@ public class TeacherServiceImp implements TeacherService {
 
     @Autowired
     private StudentHomeworkService studentHomeworkService;
+
+    @Autowired
+    private UserService userService;
 
     @Override
     public Teacher getTeacherById(int teacherID) throws ApplicationErrorException {
@@ -102,6 +109,17 @@ public class TeacherServiceImp implements TeacherService {
         Teacher teacher = validateTeacher(reqUpdateTeacher);
 
         teacherMapper.updateByPrimaryKey(teacher);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Throwable.class)
+    public void deleteTeacherByTeacherId(int teacherId) {
+        Teacher teacher = teacherMapper.selectByPrimaryKey(teacherId);
+        if(teacher == null)
+            return;
+
+        userService.deleteUserById(teacher.getUserId());
+        teacherMapper.deleteByPrimaryKey(teacherId);
     }
 
     private Teacher validateTeacher(ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException {

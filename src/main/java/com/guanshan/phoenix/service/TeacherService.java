@@ -19,4 +19,6 @@ public interface TeacherService {
     ResTeacherList getAllTeacherList() throws ApplicationErrorException;
 
     void updateTeacher(ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException;
+
+    void deleteTeacherByTeacherId(int teacherId);
 }

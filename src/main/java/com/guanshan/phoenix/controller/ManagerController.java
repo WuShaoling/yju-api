@@ -36,6 +36,13 @@ public class ManagerController {
         return new ResponseMessage.Success();
     }
 
+    @ApiOperation(value = "删除老师", notes = "")
+    @PostMapping(value = "teacher/{teacherId}/deletion")
+    public ResponseMessage delteTeacher(@PathVariable int teacherId) throws ApplicationErrorException {
+        teacherService.deleteTeacherByTeacherId(teacherId);
+        return new ResponseMessage.Success();
+    }
+
     @ApiOperation(value = "获取所有学期信息", notes = "")
     @GetMapping(value = "semester/all")
     public ResponseMessage<ResSemesterList> getAllSemesters() throws ApplicationErrorException {
