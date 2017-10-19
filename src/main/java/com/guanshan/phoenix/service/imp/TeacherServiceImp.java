@@ -1,5 +1,6 @@
 package com.guanshan.phoenix.service.imp;
 
+import com.guanshan.phoenix.Util.Utility;
 import com.guanshan.phoenix.dao.entity.Clazz;
 import com.guanshan.phoenix.dao.entity.StudentHomework;
 import com.guanshan.phoenix.dao.entity.Teacher;
@@ -13,10 +14,7 @@ import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.ClassService;
 import com.guanshan.phoenix.service.StudentHomeworkService;
 import com.guanshan.phoenix.service.TeacherService;
-import com.guanshan.phoenix.webdomain.ReqHomeworkGrade;
-import com.guanshan.phoenix.webdomain.ResClassDetail;
-import com.guanshan.phoenix.webdomain.ResTeacherClassList;
-import com.guanshan.phoenix.webdomain.ResTeacherList;
+import com.guanshan.phoenix.webdomain.*;
 import com.sun.tools.javah.Gen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -97,5 +95,26 @@ public class TeacherServiceImp implements TeacherService {
         }
 
         return teacherList;
+    }
+
+    @Override
+    public void updateTeacher(ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException {
+        Teacher teacher = validateTeacher(reqUpdateTeacher);
+
+        teacherMapper.updateByPrimaryKey(teacher);
+    }
+
+    private Teacher validateTeacher(ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException {
+        Teacher teacher = this.getTeacherById(reqUpdateTeacher.getTeacherId());
+        //validate title enum
+        TitleEnum title = TitleEnum.fromInt(reqUpdateTeacher.getTeacherTitleId());
+        teacher.setTitle(title.getCode());
+        teacher.setGender(reqUpdateTeacher.getGender() == GenderEnum.MALE.getCode() ?
+                GenderEnum.MALE.getCode(): GenderEnum.FEMALE.getCode()
+        );
+
+        Utility.ValidateEmail(reqUpdateTeacher.getTeacherContact());
+        teacher.setEmail(reqUpdateTeacher.getTeacherContact());
+        return teacher;
     }
 }

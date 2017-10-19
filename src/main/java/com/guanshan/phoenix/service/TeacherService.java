@@ -3,6 +3,7 @@ package com.guanshan.phoenix.service;
 import com.guanshan.phoenix.dao.entity.Teacher;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.webdomain.ReqHomeworkGrade;
+import com.guanshan.phoenix.webdomain.ReqUpdateTeacher;
 import com.guanshan.phoenix.webdomain.ResTeacherClassList;
 import com.guanshan.phoenix.webdomain.ResTeacherList;
 
@@ -16,4 +17,6 @@ public interface TeacherService {
     void gradeHomework(ReqHomeworkGrade homeworkGrade) throws ApplicationErrorException;
 
     ResTeacherList getAllTeacherList() throws ApplicationErrorException;
+
+    void updateTeacher(ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException;
 }

@@ -5,6 +5,7 @@ import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ResponseMessage;
 import com.guanshan.phoenix.service.TeacherService;
 import com.guanshan.phoenix.service.TermService;
+import com.guanshan.phoenix.webdomain.ReqUpdateTeacher;
 import com.guanshan.phoenix.webdomain.ResSemesterList;
 import com.guanshan.phoenix.webdomain.ResTeacherList;
 import io.swagger.annotations.ApiOperation;
@@ -26,6 +27,13 @@ public class ManagerController {
     @GetMapping(value = "teacher/all")
     public ResponseMessage<ResTeacherList> getAllTeachers() throws ApplicationErrorException {
         return new ResponseMessage.Success<>(teacherService.getAllTeacherList());
+    }
+
+    @ApiOperation(value = "更新老师信息", notes = "")
+    @PostMapping(value = "teacher/updation")
+    public ResponseMessage updateTeacher(@RequestBody ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException {
+        teacherService.updateTeacher(reqUpdateTeacher);
+        return new ResponseMessage.Success();
     }
 
     @ApiOperation(value = "获取所有学期信息", notes = "")

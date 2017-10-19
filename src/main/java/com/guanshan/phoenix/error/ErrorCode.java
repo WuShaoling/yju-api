@@ -31,8 +31,11 @@ public enum ErrorCode {
     @ErrorMessage("该学期不存在")
     TermNotExists(9),
 
-    @ErrorMessage("")
+    @ErrorMessage("属性'头衔'不合法")
     InvalidTitle(10),
+
+    @ErrorMessage("电子邮件'%s'格式不正确")
+    InvalidEmail(11),
 
     @ErrorMessage("服务器出错，请联系管理员。")
     GeneralError(Integer.MAX_VALUE);
