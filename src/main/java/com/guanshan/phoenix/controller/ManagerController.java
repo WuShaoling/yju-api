@@ -3,11 +3,10 @@ package com.guanshan.phoenix.controller;
 import com.guanshan.phoenix.dao.entity.Term;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ResponseMessage;
+import com.guanshan.phoenix.service.HomeworkService;
 import com.guanshan.phoenix.service.TeacherService;
 import com.guanshan.phoenix.service.TermService;
-import com.guanshan.phoenix.webdomain.ReqUpdateTeacher;
-import com.guanshan.phoenix.webdomain.ResSemesterList;
-import com.guanshan.phoenix.webdomain.ResTeacherList;
+import com.guanshan.phoenix.webdomain.*;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +21,9 @@ public class ManagerController {
 
     @Autowired
     private TeacherService teacherService;
+
+    @Autowired
+    private HomeworkService homeworkService;
 
     @ApiOperation(value = "获取所有老师信息", notes = "")
     @GetMapping(value = "teacher/all")
@@ -69,4 +71,35 @@ public class ManagerController {
         termService.delete(semesterId);
         return new ResponseMessage.Success();
     }
+
+    @ApiOperation(value = "删除作业", notes = "")
+    @PostMapping(value = "class/homework/deletion")
+    public ResponseMessage deleteHomework(@RequestParam("homeworkId") int homeworkId) throws ApplicationErrorException {
+        homeworkService.deleteHomework(homeworkId);
+        return new ResponseMessage.Success();
+    }
+
+
+    @ApiOperation(value = "更新作业", notes = "")
+    @PostMapping(value = "class/homework/updation")
+    public ResponseMessage updateHomework(@RequestBody ReqUpdateHomework reqUpdateHomework) throws ApplicationErrorException {
+        homeworkService.updateHomework(reqUpdateHomework);
+        return new ResponseMessage.Success();
+    }
+
+    @ApiOperation(value = "添加作业", notes = "")
+    @PostMapping(value = "class/homework/creation")
+    public ResponseMessage updateHomework(@RequestBody ReqCreateHomework reqUpdateHomework) throws ApplicationErrorException {
+        homeworkService.createHomework(reqUpdateHomework);
+        return new ResponseMessage.Success();
+    }
+
+    @ApiOperation(value = "获取班级作业", notes = "")
+    @GetMapping(value = "/class/{classId}/homework")
+    public ResponseMessage<ResClassHomework> getClassHomework(@PathVariable("classId") int classId) throws ApplicationErrorException {
+        return new ResponseMessage.Success<>(homeworkService.getClassHomework(classId));
+    }
+
+
+
 }

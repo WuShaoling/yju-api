@@ -7,17 +7,20 @@ import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.HomeworkService;
 import com.guanshan.phoenix.service.StudentHomeworkService;
-import com.guanshan.phoenix.webdomain.ResHomeworkDetail;
-import com.guanshan.phoenix.webdomain.ResHomeworkSubmissionList;
-import com.guanshan.phoenix.webdomain.ResStudentHomeworkDetail;
+import com.guanshan.phoenix.webdomain.*;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class HomeworkServiceImp implements HomeworkService {
+
     @Autowired
     private HomeworkMapper homeworkMapper;
 
@@ -35,6 +38,9 @@ public class HomeworkServiceImp implements HomeworkService {
 
     @Autowired
     private StudentHomeworkService studentHomeworkService;
+
+    @Autowired
+    private ClazzMapper clazzMapper;
 
     @Override
     public ResHomeworkDetail getHomeworkDetail(int homeworkID) throws ApplicationErrorException {
@@ -95,6 +101,88 @@ public class HomeworkServiceImp implements HomeworkService {
         homeworkDetail.setHomeworkUrl(studentHomework.getHomeworkUrl());
 
         return homeworkDetail;
+    }
+
+    @Override
+    public int deleteHomework(int homeworkID) throws ApplicationErrorException {
+        homeworkMapper.deleteByPrimaryKey(homeworkID);
+        return 0;
+    }
+
+    @Override
+    public int updateHomework(ReqUpdateHomework reqUpdateHomework) throws ApplicationErrorException {
+        Homework homework = new Homework();
+        homework.setId(reqUpdateHomework.getHomeworkId());
+        homework.setName(reqUpdateHomework.getHomeworkName());
+        homework.setDescription(reqUpdateHomework.getHomeworkDes());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            homework.setPublishDate(sdf.parse(reqUpdateHomework.getHomeworkCreateDate()));
+            homework.setDeadlineDate(sdf.parse(reqUpdateHomework.getHomeworkDueDate()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        homework.setCloudwareType(reqUpdateHomework.getCloudwareType());
+
+        homeworkMapper.updateByPrimaryKeySelective(homework);
+        return 0;
+    }
+
+    @Override
+    public int createHomework(ReqCreateHomework reqCreateHomework) throws ApplicationErrorException {
+        Homework homework = new Homework();
+        homework.setClassId(reqCreateHomework.getClassId());
+        homework.setModuleId(reqCreateHomework.getModuleId());
+        homework.setName(reqCreateHomework.getHomeworkName());
+        homework.setDescription(reqCreateHomework.getHomeworkDes());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            homework.setPublishDate(sdf.parse(reqCreateHomework.getHomeworkCreateDate()));
+            homework.setDeadlineDate(sdf.parse(reqCreateHomework.getHomeworkDueDate()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        homework.setCloudwareType(reqCreateHomework.getCloudwareType());
+
+        homeworkMapper.insertSelective(homework);
+        return 0;
+    }
+
+    @Override
+    public ResClassHomework getClassHomework(int classId) throws ApplicationErrorException {
+        ResClassHomework resClassHomework = new ResClassHomework();
+
+        Clazz clazz = clazzMapper.selectByPrimaryKey(classId);
+        resClassHomework.setClassId(classId);
+        resClassHomework.setClassName(clazz.getName());
+
+        List<ResClassHomework.ResClassHomeworkModule> modules = new ArrayList<>();
+        List<Module> moduleList = moduleMapper.selectByCourseID(clazz.getCourseId());
+        for (Module module : moduleList) {
+            ResClassHomework.ResClassHomeworkModule resClassHomeworkModule = new ResClassHomework().new ResClassHomeworkModule();
+            resClassHomeworkModule.setModuleId(module.getId());
+            resClassHomeworkModule.setModuleName(module.getName());
+
+            List<ResClassHomework.ResClassHomeworkModuleHomework> homeworks =  new ArrayList<>();
+            List<Homework> homeworkList = homeworkMapper.selectByModuleId(module.getId());
+            for (Homework homework : homeworkList) {
+                ResClassHomework.ResClassHomeworkModuleHomework resClassHomeworkModuleHomework = new ResClassHomework().new ResClassHomeworkModuleHomework();
+                resClassHomeworkModuleHomework.setHomeworkId(homework.getId());
+                resClassHomeworkModuleHomework.setHomeworkName(homework.getName());
+                resClassHomeworkModuleHomework.setHomeworkDes(homework.getDescription());
+                resClassHomeworkModuleHomework.setHomeworkCreateDate(homework.getPublishDate().toString());
+                resClassHomeworkModuleHomework.setHomeworkDueDate(homework.getDeadlineDate().toString());
+                resClassHomeworkModuleHomework.setCloudwareType(homework.getCloudwareType());
+
+                homeworks.add(resClassHomeworkModuleHomework);
+            }
+            resClassHomeworkModule.setHomeworks(homeworks);
+            modules.add(resClassHomeworkModule);
+        }
+        resClassHomework.setModules(modules);
+
+        return resClassHomework;
     }
 
     private List<ResHomeworkSubmissionList.ResHomeworkSubmissionDetail> getHomeworkSubmissionDetail(
