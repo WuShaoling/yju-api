@@ -32,6 +32,17 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
     private StudentHomeworkResourceMapper studentHomeworkResourceMapper;
 
     @Override
+    public StudentHomework getStudentHomeworkById(int studentHomeworkId) throws ApplicationErrorException {
+        StudentHomework studentHomework = studentHomeworkMapper.selectByPrimaryKey(studentHomeworkId);
+
+        if(studentHomework == null){
+            throw new ApplicationErrorException(ErrorCode.StudentHomeworkNotExists);
+        }
+
+        return studentHomework;
+    }
+
+    @Override
     public void submitStudentHomework(ReqHomeworkSubmission homeworkSubmission) throws ApplicationErrorException {
         this.validStudentHomeWork(homeworkSubmission.getStudentId(), homeworkSubmission.getHomeworkId());
         StudentHomework studentHomework = studentHomeworkMapper.selectByStudentIdAndHomeworkId(

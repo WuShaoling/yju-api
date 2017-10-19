@@ -6,6 +6,7 @@ import com.guanshan.phoenix.enums.CloudwareTypeEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.HomeworkService;
+import com.guanshan.phoenix.service.StudentHomeworkService;
 import com.guanshan.phoenix.webdomain.ResHomeworkDetail;
 import com.guanshan.phoenix.webdomain.ResHomeworkSubmissionList;
 import com.guanshan.phoenix.webdomain.ResStudentHomeworkDetail;
@@ -29,6 +30,9 @@ public class HomeworkServiceImp implements HomeworkService {
 
     @Autowired
     private StudentHomeworkMapper studentHomeworkMapper;
+
+    @Autowired
+    private StudentHomeworkService studentHomeworkService;
 
     @Override
     public ResHomeworkDetail getHomeworkDetail(int homeworkID) throws ApplicationErrorException {
@@ -71,11 +75,7 @@ public class HomeworkServiceImp implements HomeworkService {
 
     @Override
     public ResStudentHomeworkDetail getStudentHomeworkDetailById(int studentHomeworkId) throws ApplicationErrorException {
-        StudentHomework studentHomework = studentHomeworkMapper.selectByPrimaryKey(studentHomeworkId);
-
-        if(studentHomework == null){
-            throw new ApplicationErrorException(ErrorCode.StudentHomeworkNotExists);
-        }
+        StudentHomework studentHomework = studentHomeworkService.getStudentHomeworkById(studentHomeworkId);
 
         ResStudentHomeworkDetail homeworkDetail = new ResStudentHomeworkDetail();
 

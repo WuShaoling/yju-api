@@ -1,13 +1,17 @@
 package com.guanshan.phoenix.service.imp;
 
 import com.guanshan.phoenix.dao.entity.Clazz;
+import com.guanshan.phoenix.dao.entity.StudentHomework;
 import com.guanshan.phoenix.dao.entity.Teacher;
 import com.guanshan.phoenix.dao.mapper.ClazzMapper;
+import com.guanshan.phoenix.dao.mapper.StudentHomeworkMapper;
 import com.guanshan.phoenix.dao.mapper.TeacherMapper;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.ClassService;
+import com.guanshan.phoenix.service.StudentHomeworkService;
 import com.guanshan.phoenix.service.TeacherService;
+import com.guanshan.phoenix.webdomain.ReqHomeworkGrade;
 import com.guanshan.phoenix.webdomain.ResClassDetail;
 import com.guanshan.phoenix.webdomain.ResTeacherClassList;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +30,12 @@ public class TeacherServiceImp implements TeacherService {
 
     @Autowired
     private ClassService classService;
+
+    @Autowired
+    private StudentHomeworkMapper studentHomeworkMapper;
+
+    @Autowired
+    private StudentHomeworkService studentHomeworkService;
 
     @Override
     public Teacher getTeacherById(int teacherID) throws ApplicationErrorException {
@@ -51,5 +61,16 @@ public class TeacherServiceImp implements TeacherService {
         }
 
         return resTeacherClassList;
+    }
+
+    @Override
+    public void gradeHomework(ReqHomeworkGrade homeworkGrade) throws ApplicationErrorException {
+        StudentHomework studentHomework = studentHomeworkService.getStudentHomeworkById(
+                homeworkGrade.getStudentHomeworkId());
+
+        studentHomework.setComment(homeworkGrade.getComment());
+        studentHomework.setScore(homeworkGrade.getGrade());
+
+        studentHomeworkMapper.updateByPrimaryKey(studentHomework);
     }
 }

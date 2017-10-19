@@ -5,10 +5,7 @@ import com.guanshan.phoenix.error.ResponseMessage;
 import com.guanshan.phoenix.service.CourseService;
 import com.guanshan.phoenix.service.HomeworkService;
 import com.guanshan.phoenix.service.TeacherService;
-import com.guanshan.phoenix.webdomain.ResCourseExperiments;
-import com.guanshan.phoenix.webdomain.ResHomeworkSubmissionList;
-import com.guanshan.phoenix.webdomain.ResStudentHomeworkDetail;
-import com.guanshan.phoenix.webdomain.ResTeacherClassList;
+import com.guanshan.phoenix.webdomain.*;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -48,5 +45,12 @@ public class TeacherController {
     @GetMapping(value = "course/homework/{studentHomeworkId}")
     public ResponseMessage<ResStudentHomeworkDetail> getStudentHomeworkDetailById(@PathVariable int studentHomeworkId) throws ApplicationErrorException {
         return new ResponseMessage.Success<>(homeworkService.getStudentHomeworkDetailById(studentHomeworkId));
+    }
+
+    @ApiOperation(value = "批改作业", notes = "")
+    @PostMapping(value = "course/homework/grade")
+    public ResponseMessage gradeHomework(@RequestBody ReqHomeworkGrade homeworkGrade) throws ApplicationErrorException {
+        teacherService.gradeHomework(homeworkGrade);
+        return new ResponseMessage.Success();
     }
 }
