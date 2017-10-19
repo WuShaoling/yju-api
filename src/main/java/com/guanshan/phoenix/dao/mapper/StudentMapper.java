@@ -11,6 +11,8 @@ import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
 
+import java.util.List;
+
 public interface StudentMapper {
     @Delete({
         "delete from student",
@@ -60,4 +62,21 @@ public interface StudentMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Student record);
+
+    @Select({
+            "select",
+            "s.id, s.user_id, s.sno, s.name, s.gender, s.birthday",
+            "from student s",
+                "inner join student_class sc on sc.student_id = s.id",
+            "where sc.id = #{classId,jdbcType=INTEGER}"
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="user_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="sno", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="gender", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="birthday", javaType=String.class, jdbcType=JdbcType.VARCHAR)
+    })
+    List<Student> selectByClassId(int classId);
 }

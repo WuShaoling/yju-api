@@ -1,15 +1,17 @@
 package com.guanshan.phoenix.service.imp;
 
-import com.guanshan.phoenix.dao.entity.Course;
-import com.guanshan.phoenix.dao.entity.Homework;
-import com.guanshan.phoenix.dao.entity.Module;
+import com.guanshan.phoenix.dao.entity.*;
 import com.guanshan.phoenix.dao.mapper.*;
 import com.guanshan.phoenix.enums.CloudwareTypeEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.HomeworkService;
 import com.guanshan.phoenix.webdomain.ResHomeworkDetail;
+import com.guanshan.phoenix.webdomain.ResHomeworkSubmissionList;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeworkServiceImp implements HomeworkService {
     @Autowired
@@ -20,6 +22,12 @@ public class HomeworkServiceImp implements HomeworkService {
 
     @Autowired
     private CourseMapper courseMapper;
+
+    @Autowired
+    private StudentMapper studentMapper;
+
+    @Autowired
+    private StudentHomeworkMapper studentHomeworkMapper;
 
     @Override
     public ResHomeworkDetail getHomeworkDetail(int homeworkID) throws ApplicationErrorException {
@@ -43,5 +51,52 @@ public class HomeworkServiceImp implements HomeworkService {
         homeworkDetail.setPublishDate(homework.getPublishDate().toString());
 
         return homeworkDetail;
+    }
+
+    @Override
+    public ResHomeworkSubmissionList getAllHomeworkSubmissionByModuleId(int moduleId) {
+        List<Homework> homeworks = homeworkMapper.selectByModuleId(moduleId);
+        ResHomeworkSubmissionList submissionList = new ResHomeworkSubmissionList();
+        List<ResHomeworkSubmissionList.ResHomeworkSubmissionDetail> submissionDetails =
+                new ArrayList<>();
+        submissionList.setHomeworkSubmissionList(submissionDetails);
+
+        for(Homework homework : homeworks){
+            submissionDetails.addAll(this.getHomeworkSubmissionDetail(homework));
+        }
+
+        return submissionList;
+    }
+
+    private List<ResHomeworkSubmissionList.ResHomeworkSubmissionDetail> getHomeworkSubmissionDetail(
+            Homework homework
+    ){
+        List<ResHomeworkSubmissionList.ResHomeworkSubmissionDetail> submissionDetails =
+                new ArrayList<>();
+
+        List<Student> studentsInClass = studentMapper.selectByClassId(homework.getClassId());
+
+        for (Student student : studentsInClass){
+            ResHomeworkSubmissionList.ResHomeworkSubmissionDetail submissionDetail =
+                    new ResHomeworkSubmissionList.ResHomeworkSubmissionDetail();
+
+            submissionDetail.setHomeworkId(homework.getId());
+            submissionDetail.setStudentId(student.getId());
+            submissionDetail.setStudentName(student.getName());
+            submissionDetail.setDueDate(homework.getDeadlineDate().toString());
+
+            StudentHomework studentHomework =
+                studentHomeworkMapper.selectByStudentIdAndHomeworkId(student.getId(), homework.getId());
+
+            if(studentHomework == null){
+                submissionDetail.setCompleted(false);
+            }else{
+                submissionDetail.setCompleted(true);
+                submissionDetail.setSubmissionDate(studentHomework.getSubmissionDate().toString());
+                submissionDetail.setLastEditDate(studentHomework.getLastEditDate().toString());
+            }
+        }
+
+        return submissionDetails;
     }
 }
