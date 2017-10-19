@@ -31,6 +31,9 @@ public enum ErrorCode {
     @ErrorMessage("该学期不存在")
     TermNotExists(9),
 
+    @ErrorMessage("")
+    InvalidTitle(10),
+
     @ErrorMessage("服务器出错，请联系管理员。")
     GeneralError(Integer.MAX_VALUE);
 

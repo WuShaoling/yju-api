@@ -6,6 +6,8 @@ import com.guanshan.phoenix.dao.entity.Teacher;
 import com.guanshan.phoenix.dao.mapper.ClazzMapper;
 import com.guanshan.phoenix.dao.mapper.StudentHomeworkMapper;
 import com.guanshan.phoenix.dao.mapper.TeacherMapper;
+import com.guanshan.phoenix.enums.GenderEnum;
+import com.guanshan.phoenix.enums.TitleEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.ClassService;
@@ -14,6 +16,8 @@ import com.guanshan.phoenix.service.TeacherService;
 import com.guanshan.phoenix.webdomain.ReqHomeworkGrade;
 import com.guanshan.phoenix.webdomain.ResClassDetail;
 import com.guanshan.phoenix.webdomain.ResTeacherClassList;
+import com.guanshan.phoenix.webdomain.ResTeacherList;
+import com.sun.tools.javah.Gen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -72,5 +76,26 @@ public class TeacherServiceImp implements TeacherService {
         studentHomework.setScore(homeworkGrade.getGrade());
 
         studentHomeworkMapper.updateByPrimaryKey(studentHomework);
+    }
+
+    @Override
+    public ResTeacherList getAllTeacherList() throws ApplicationErrorException {
+        ResTeacherList teacherList = new ResTeacherList();
+        List<ResTeacherList.ResTeacherInfo> teacherInfoList = new ArrayList<>();
+        teacherList.setTeacherInfoList(teacherInfoList);
+
+        for (Teacher teacher : teacherMapper.getAllTeachers()){
+            ResTeacherList.ResTeacherInfo teacherInfo = new ResTeacherList.ResTeacherInfo();
+
+            teacherInfo.setId(teacher.getUserId());
+            teacherInfo.setTeacherId(teacher.getId());
+            teacherInfo.setTeacherName(teacher.getName());
+            teacherInfo.setTeacherTitle(TitleEnum.fromInt(teacher.getTitle()).getZh());
+            teacherInfo.setGender(teacher.getGender() == GenderEnum.MALE.getCode() ?
+                    GenderEnum.MALE.getZh() : GenderEnum.FEMALE.getZh());
+            teacherInfo.setTeacherContact(teacher.getEmail());
+        }
+
+        return teacherList;
     }
 }

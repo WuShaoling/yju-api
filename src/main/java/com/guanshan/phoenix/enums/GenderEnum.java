@@ -1,8 +1,8 @@
 package com.guanshan.phoenix.enums;
 
 public enum  GenderEnum {
-    STUDENT(1, "male", "男"),
-    TEACHER(2, "female", "女");
+    MALE(1, "male", "男"),
+    FEMALE(2, "female", "女");
 
     private int code;
     private String en;

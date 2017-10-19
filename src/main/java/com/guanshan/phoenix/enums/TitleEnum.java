@@ -1,6 +1,9 @@
 package com.guanshan.phoenix.enums;
 
-public enum  TitleEnum {
+import com.guanshan.phoenix.error.ApplicationErrorException;
+import com.guanshan.phoenix.error.ErrorCode;
+
+public enum TitleEnum {
     PROFESSOR(1, "professor", "教授"),
     DEPUTY_PROFESSOR(2, "deputy professor", "副教师"),
     LECTURER(3, "lecturer", "讲师"),
@@ -45,5 +48,12 @@ public enum  TitleEnum {
             }
         }
         return "null";
+    }
+
+    public static TitleEnum fromInt(int i) throws ApplicationErrorException {
+        if(i >= TitleEnum.values().length){
+            throw new ApplicationErrorException(ErrorCode.InvalidTitle);
+        }
+        return TitleEnum.values()[i-1];
     }
 }
