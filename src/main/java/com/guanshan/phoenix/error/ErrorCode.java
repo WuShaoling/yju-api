@@ -11,16 +11,19 @@ public enum ErrorCode {
     CourseNotExists(2),
 
     @ErrorMessage("该班级不存在")
-    ClassIDNotExists(3),
+    ClassNotExists(3),
 
     @ErrorMessage("该作业不存在")
-    HomeworkIDNotExists(4),
+    HomeworkNotExists(4),
 
     @ErrorMessage("该学生不存在")
-    StudentIDNotExists(5),
+    StudentNotExists(5),
 
     @ErrorMessage("该教师不存在")
-    TeacherIDNotExists(6),
+    TeacherNotExists(6),
+
+    @ErrorMessage("该学生作业不存在")
+    StudentHomeworkNotExists(7),
 
     @ErrorMessage("服务器出错，请联系管理员。")
     GeneralError(Integer.MAX_VALUE);

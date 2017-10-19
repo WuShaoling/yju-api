@@ -7,6 +7,7 @@ import com.guanshan.phoenix.service.HomeworkService;
 import com.guanshan.phoenix.service.TeacherService;
 import com.guanshan.phoenix.webdomain.ResCourseExperiments;
 import com.guanshan.phoenix.webdomain.ResHomeworkSubmissionList;
+import com.guanshan.phoenix.webdomain.ResStudentHomeworkDetail;
 import com.guanshan.phoenix.webdomain.ResTeacherClassList;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +38,15 @@ public class TeacherController {
         return new ResponseMessage.Success<>(courseService.getCourseExperiments(classId));
     }
 
-    @ApiOperation(value = "作业详情", notes = "列出该课时所有学生作业的完成情况")
+    @ApiOperation(value = "所有学生作业详情", notes = "列出该课时所有学生作业的完成情况")
     @GetMapping(value = "course/homework/{moduleId}")
     public ResponseMessage<ResHomeworkSubmissionList> getAllHomeworkSubmissionByModuleId(@PathVariable int moduleId) throws ApplicationErrorException {
         return new ResponseMessage.Success<>(homeworkService.getAllHomeworkSubmissionByModuleId(moduleId));
+    }
+
+    @ApiOperation(value = "单个学生作业详情", notes = "")
+    @GetMapping(value = "course/homework/{studentHomeworkId}")
+    public ResponseMessage<ResStudentHomeworkDetail> getStudentHomeworkDetailById(@PathVariable int studentHomeworkId) throws ApplicationErrorException {
+        return new ResponseMessage.Success<>(homeworkService.getStudentHomeworkDetailById(studentHomeworkId));
     }
 }

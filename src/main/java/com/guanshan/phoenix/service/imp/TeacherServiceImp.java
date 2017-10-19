@@ -9,7 +9,6 @@ import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.ClassService;
 import com.guanshan.phoenix.service.TeacherService;
 import com.guanshan.phoenix.webdomain.ResClassDetail;
-import com.guanshan.phoenix.webdomain.ResStudentClassList;
 import com.guanshan.phoenix.webdomain.ResTeacherClassList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +32,7 @@ public class TeacherServiceImp implements TeacherService {
 
         Teacher teacher = teacherMapper.selectByPrimaryKey(teacherID);
         if(teacher == null){
-            throw new ApplicationErrorException(ErrorCode.TeacherIDNotExists);
+            throw new ApplicationErrorException(ErrorCode.TeacherNotExists);
         }
 
         return teacher;

@@ -19,7 +19,12 @@ public class StudentHomework {
 
     private Date lastEditDate;
 
-    public StudentHomework(Integer id, Integer studentId, Integer homeworkId, Integer cloudwareId, String comment, Integer score, Date submissionDate, Date lastEditDate) {
+    private String cloudwareUrl;
+
+    private String homeworkUrl;
+
+    public StudentHomework(Integer id, Integer studentId, Integer homeworkId, Integer cloudwareId, String comment,
+                           Integer score, Date submissionDate, Date lastEditDate, String cloudwareUrl, String homeworkUrl) {
         this.id = id;
         this.studentId = studentId;
         this.homeworkId = homeworkId;
@@ -28,10 +33,15 @@ public class StudentHomework {
         this.score = score;
         this.submissionDate = submissionDate;
         this.lastEditDate = lastEditDate;
+        this.cloudwareUrl = cloudwareUrl;
+        this.homeworkUrl = homeworkUrl;
     }
 
-    public StudentHomework(Integer studentId, Integer homeworkId, Integer cloudwareId, String comment, Integer score, Date submissionDate, Date lastEditDate) {
-        this(0, studentId, homeworkId, cloudwareId, comment, score, submissionDate, lastEditDate);
+    public StudentHomework(Integer studentId, Integer homeworkId, Integer cloudwareId,
+                           String comment, Integer score, Date submissionDate,
+                           Date lastEditDate, String cloudwareUrl, String homeworkUrl) {
+        this(0, studentId, homeworkId, cloudwareId, comment, score,
+                submissionDate, lastEditDate, cloudwareUrl, homeworkUrl);
     }
 
     public StudentHomework() {
@@ -100,5 +110,21 @@ public class StudentHomework {
 
     public void setLastEditDate(Date lastEditDate) {
         this.lastEditDate = lastEditDate;
+    }
+
+    public String getCloudwareUrl() {
+        return cloudwareUrl;
+    }
+
+    public void setCloudwareUrl(String cloudwareUrl) {
+        this.cloudwareUrl = cloudwareUrl;
+    }
+
+    public String getHomeworkUrl() {
+        return homeworkUrl;
+    }
+
+    public void setHomeworkUrl(String homeworkUrl) {
+        this.homeworkUrl = homeworkUrl;
     }
 }

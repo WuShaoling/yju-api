@@ -35,7 +35,7 @@ public class ClassServiceImp implements ClassService {
 
         Clazz clazz = clazzMapper.selectByPrimaryKey(classID);
         if(clazz == null){
-            throw new ApplicationErrorException(ErrorCode.ClassIDNotExists);
+            throw new ApplicationErrorException(ErrorCode.ClassNotExists);
         }
 
         return clazz;

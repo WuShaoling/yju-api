@@ -14,6 +14,7 @@ public class ResHomeworkSubmissionList {
     }
 
     public static class ResHomeworkSubmissionDetail{
+        private int studentHomeworkId;
         private int homeworkId;
         private int studentId;
         private String studentName;
@@ -21,6 +22,14 @@ public class ResHomeworkSubmissionList {
         private String dueDate;
         private String submissionDate;
         private String lastEditDate;
+
+        public int getStudentHomeworkId() {
+            return studentHomeworkId;
+        }
+
+        public void setStudentHomeworkId(int studentHomeworkId) {
+            this.studentHomeworkId = studentHomeworkId;
+        }
 
         public int getHomeworkId() {
             return homeworkId;

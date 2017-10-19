@@ -8,6 +8,7 @@ import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.HomeworkService;
 import com.guanshan.phoenix.webdomain.ResHomeworkDetail;
 import com.guanshan.phoenix.webdomain.ResHomeworkSubmissionList;
+import com.guanshan.phoenix.webdomain.ResStudentHomeworkDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class HomeworkServiceImp implements HomeworkService {
         Course course = courseMapper.selectByPrimaryKey(module.getCourseId());
 
         if(homework == null){
-            throw new ApplicationErrorException(ErrorCode.HomeworkIDNotExists);
+            throw new ApplicationErrorException(ErrorCode.HomeworkNotExists);
         }
 
         homeworkDetail.setCourseName(course.getName());
@@ -68,6 +69,32 @@ public class HomeworkServiceImp implements HomeworkService {
         return submissionList;
     }
 
+    @Override
+    public ResStudentHomeworkDetail getStudentHomeworkDetailById(int studentHomeworkId) throws ApplicationErrorException {
+        StudentHomework studentHomework = studentHomeworkMapper.selectByPrimaryKey(studentHomeworkId);
+
+        if(studentHomework == null){
+            throw new ApplicationErrorException(ErrorCode.StudentHomeworkNotExists);
+        }
+
+        ResStudentHomeworkDetail homeworkDetail = new ResStudentHomeworkDetail();
+
+        Homework homework = homeworkMapper.selectByPrimaryKey(studentHomework.getHomeworkId());
+        Module module = moduleMapper.selectByPrimaryKey(homework.getModuleId());
+        Course course = courseMapper.selectByPrimaryKey(module.getCourseId());
+        Student student = studentMapper.selectByPrimaryKey(studentHomework.getStudentId());
+
+        homeworkDetail.setCourseName(course.getName());
+        homeworkDetail.setModuleName(module.getName());
+        homeworkDetail.setHomeworkName(homework.getName());
+        homeworkDetail.setStudentId(student.getId());
+        homeworkDetail.setStudentName(student.getName());
+        homeworkDetail.setCloudwareUrl(studentHomework.getCloudwareUrl());
+        homeworkDetail.setHomeworkUrl(studentHomework.getHomeworkUrl());
+
+        return homeworkDetail;
+    }
+
     private List<ResHomeworkSubmissionList.ResHomeworkSubmissionDetail> getHomeworkSubmissionDetail(
             Homework homework
     ){
@@ -89,8 +116,10 @@ public class HomeworkServiceImp implements HomeworkService {
                 studentHomeworkMapper.selectByStudentIdAndHomeworkId(student.getId(), homework.getId());
 
             if(studentHomework == null){
+                submissionDetail.setStudentHomeworkId(0);
                 submissionDetail.setCompleted(false);
             }else{
+                submissionDetail.setStudentHomeworkId(studentHomework.getId());
                 submissionDetail.setCompleted(true);
                 submissionDetail.setSubmissionDate(studentHomework.getSubmissionDate().toString());
                 submissionDetail.setLastEditDate(studentHomework.getLastEditDate().toString());

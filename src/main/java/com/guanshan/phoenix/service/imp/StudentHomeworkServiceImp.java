@@ -47,11 +47,11 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
     @Override
     public void validStudentHomeWork(int studentId, int homeworkId) throws ApplicationErrorException {
         if(studentMapper.selectByPrimaryKey(studentId) == null){
-            throw new ApplicationErrorException(ErrorCode.StudentIDNotExists);
+            throw new ApplicationErrorException(ErrorCode.StudentNotExists);
         }
 
         if(homeworkMapper.selectByPrimaryKey(homeworkId) == null){
-            throw new ApplicationErrorException(ErrorCode.HomeworkIDNotExists);
+            throw new ApplicationErrorException(ErrorCode.HomeworkNotExists);
         }
     }
 
@@ -72,7 +72,9 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
                 "",
                 0,
                 new Date(),
-                new Date()
+                new Date(),
+                null,
+                null
         );
         studentHomeworkMapper.insert(studentHomework);
 
