@@ -1,5 +1,6 @@
 package com.guanshan.phoenix.controller;
 
+import com.guanshan.phoenix.dao.entity.Course;
 import com.guanshan.phoenix.dao.entity.Term;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ResponseMessage;
@@ -43,7 +44,7 @@ public class ManagerController {
 
     @ApiOperation(value = "删除老师", notes = "")
     @PostMapping(value = "teacher/{teacherId}/deletion")
-    public ResponseMessage delteTeacher(@PathVariable int teacherId) throws ApplicationErrorException {
+    public ResponseMessage deleteTeacher(@PathVariable int teacherId) throws ApplicationErrorException {
         teacherService.deleteTeacherByTeacherId(teacherId);
         return new ResponseMessage.Success();
     }
@@ -79,5 +80,26 @@ public class ManagerController {
     @GetMapping(value = "course/all")
     public ResponseMessage<ResCourseList> getAllCourses() throws ApplicationErrorException {
         return new ResponseMessage.Success<>(courseService.getAllCourses());
+    }
+
+    @ApiOperation(value = "创建课程信息", notes = "")
+    @PostMapping(value = "course/creation")
+    public ResponseMessage createCourse(@RequestBody Course course) throws ApplicationErrorException {
+        courseService.createCourse(course);
+        return new ResponseMessage.Success();
+    }
+
+    @ApiOperation(value = "更新课程信息", notes = "")
+    @PostMapping(value = "course/updation")
+    public ResponseMessage updateCourse(@RequestBody Course course) throws ApplicationErrorException {
+        courseService.updateCourse(course);
+        return new ResponseMessage.Success();
+    }
+
+    @ApiOperation(value = "删除课程信息", notes = "")
+    @PostMapping(value = "course/{courseId}/deletion")
+    public ResponseMessage deleteCourse(@PathVariable int courseId){
+        courseService.deleteCourse(courseId);
+        return new ResponseMessage.Success();
     }
 }

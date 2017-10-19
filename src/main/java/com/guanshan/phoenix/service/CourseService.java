@@ -14,4 +14,10 @@ public interface CourseService {
     ResCourseHomeworks getCourseHomeworks(int classID) throws ApplicationErrorException;
 
     ResCourseList getAllCourses() throws ApplicationErrorException;
+
+    void createCourse(Course course) throws ApplicationErrorException;
+
+    void updateCourse(Course course) throws ApplicationErrorException;
+
+    void deleteCourse(int courseId);
 }

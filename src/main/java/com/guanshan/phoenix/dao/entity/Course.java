@@ -18,6 +18,10 @@ public class Course {
         this.description = description;
     }
 
+    public Course(Integer teacherId, String name, String description) {
+        this(0, teacherId, name, description);
+    }
+
     public Course() {
         super();
     }

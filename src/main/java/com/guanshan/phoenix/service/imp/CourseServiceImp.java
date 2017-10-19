@@ -151,6 +151,31 @@ public class CourseServiceImp implements CourseService {
         return courseList;
     }
 
+    @Override
+    public void createCourse(Course course) throws ApplicationErrorException {
+        validateCourse(course);
+
+        courseMapper.insert(course);
+    }
+
+    @Override
+    public void updateCourse(Course course) throws ApplicationErrorException {
+        int rowUpdate = courseMapper.updateByPrimaryKey(course);
+
+        if(rowUpdate == 0){
+            throw new ApplicationErrorException(ErrorCode.CourseNotExists);
+        }
+    }
+
+    @Override
+    public void deleteCourse(int courseId) {
+        courseMapper.deleteByPrimaryKey(courseId);
+    }
+
+    private void validateCourse(Course course) throws ApplicationErrorException {
+        teacherService.getAllTeacherClassInfoById(course.getTeacherId());
+    }
+
     private String getImageUrl(int courseID){
         CourseResource courseResource =
                 courseResourceMapper.selectByPrimaryKeyAndType(courseID, ResourceTypeEnum.IMAGE.getCode());
