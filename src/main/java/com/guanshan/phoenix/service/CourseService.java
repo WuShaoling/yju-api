@@ -8,7 +8,7 @@ import com.guanshan.phoenix.webdomain.ResCourseHomeworks;
 public interface CourseService {
     Course getCourseById(int courseID) throws ApplicationErrorException;
 
-    ResCourseExperiments getCourseExperiments(int courseID) throws ApplicationErrorException;
+    ResCourseExperiments getCourseExperiments(int classID) throws ApplicationErrorException;
 
     ResCourseHomeworks getCourseHomeworks(int classID) throws ApplicationErrorException;
 }

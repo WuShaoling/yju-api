@@ -6,6 +6,7 @@ import com.guanshan.phoenix.enums.CloudwareTypeEnum;
 import com.guanshan.phoenix.enums.ResourceTypeEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
+import com.guanshan.phoenix.service.ClassService;
 import com.guanshan.phoenix.service.CourseService;
 import com.guanshan.phoenix.webdomain.ResCourseExperiments;
 import com.guanshan.phoenix.webdomain.ResCourseHomeworks;
@@ -34,7 +35,7 @@ public class CourseServiceImp implements CourseService {
     private ExperimentMapper experimentMapper;
 
     @Autowired
-    private ClazzMapper clazzMapper;
+    private ClassService classService;
 
     @Autowired
     private HomeworkMapper homeworkMapper;
@@ -52,15 +53,16 @@ public class CourseServiceImp implements CourseService {
     }
 
     @Override
-    public ResCourseExperiments getCourseExperiments(int courseID) throws ApplicationErrorException {
+    public ResCourseExperiments getCourseExperiments(int classID) throws ApplicationErrorException {
         ResCourseExperiments courseDetail = new ResCourseExperiments();
 
-        Course courseInfo = this.getCourseById(courseID);
-        courseDetail.setCourseName(courseInfo.getName());
+        Clazz clazz = classService.getClassById(classID);
+        Course course = this.getCourseById(clazz.getCourseId());
+        courseDetail.setCourseName(course.getName());
 
         List<ResCourseExperiments.ModuleInfo> moduleList = new ArrayList<>();
         courseDetail.setModuleList(moduleList);
-        for(Module module : moduleMapper.selectByCourseID(courseID)){
+        for(Module module : moduleMapper.selectByCourseID(clazz.getCourseId())){
             ResCourseExperiments.ModuleInfo moduleInfo = new ResCourseExperiments.ModuleInfo();
             moduleList.add(moduleInfo);
 
@@ -90,16 +92,13 @@ public class CourseServiceImp implements CourseService {
     public ResCourseHomeworks getCourseHomeworks(int classID) throws ApplicationErrorException {
         ResCourseHomeworks courseDetail = new ResCourseHomeworks();
 
-        Clazz clazzInfo = clazzMapper.selectByPrimaryKey(classID);
-        if(clazzInfo == null){
-            throw new ApplicationErrorException(ErrorCode.ClassIDNotExists);
-        }
-        Course courseInfo = this.getCourseById(clazzInfo.getCourseId());
+        Clazz clazz = classService.getClassById(classID);
+        Course courseInfo = this.getCourseById(clazz.getCourseId());
         courseDetail.setCourseName(courseInfo.getName());
 
         List<ResCourseHomeworks.ModuleInfo> moduleList = new ArrayList<>();
         courseDetail.setModuleList(moduleList);
-        for(Module module : moduleMapper.selectByCourseID(clazzInfo.getCourseId())){
+        for(Module module : moduleMapper.selectByCourseID(clazz.getCourseId())){
             ResCourseHomeworks.ModuleInfo moduleInfo = new ResCourseHomeworks.ModuleInfo();
             moduleList.add(moduleInfo);
 
