@@ -10,6 +10,8 @@ import com.guanshan.phoenix.webdomain.ReqHomeworkSubmission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+
 public class StudentHomeworkServiceImp implements StudentHomeworkService {
     @Autowired
     private HomeworkMapper homeworkMapper;
@@ -38,7 +40,7 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
         if(studentHomework == null){
             insertStudentHomeWork(homeworkSubmission);
         } else {
-            updateStudentHomeWork(studentHomework.getId(), studentHomework.getCloudwareId(), homeworkSubmission);
+            updateStudentHomeWork(studentHomework, homeworkSubmission);
         }
     }
 
@@ -68,7 +70,9 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
                 homeworkSubmission.getHomeworkId(),
                 cloudware.getId(),
                 "",
-                0
+                0,
+                new Date(),
+                new Date()
         );
         studentHomeworkMapper.insert(studentHomework);
 
@@ -84,16 +88,20 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    protected void updateStudentHomeWork(int studentHomeworkId, int cloudwareId, ReqHomeworkSubmission homeworkSubmission){
+    protected void updateStudentHomeWork(StudentHomework studentHomework, ReqHomeworkSubmission homeworkSubmission){
         Cloudware cloudware = new Cloudware(
-                cloudwareId,
+                studentHomework.getCloudwareId(),
                 homeworkSubmission.getCloudware_url(),
                 homeworkSubmission.getCloudware_serviceId(),
                 homeworkSubmission.getCloudware_instanceId());
         cloudwareMapper.updateByPrimaryKey(cloudware);
 
+        studentHomework.setLastEditDate(new Date());
+        studentHomeworkMapper.updateByPrimaryKey(studentHomework);
+
         StudentHomeworkResource studentHomeworkResource =
-                studentHomeworkResourceMapper.selectByPrimaryKeyAndType(studentHomeworkId, ResourceTypeEnum.HOMEWORK.getCode());
+                studentHomeworkResourceMapper.selectByPrimaryKeyAndType(
+                        studentHomework.getId(), ResourceTypeEnum.HOMEWORK.getCode());
 
         Resource resource = new Resource(
                 studentHomeworkResource.getResourceId(), "",

@@ -1,5 +1,7 @@
 package com.guanshan.phoenix.dao.entity;
 
+import java.util.Date;
+
 public class StudentHomework {
     private Integer id;
 
@@ -13,17 +15,23 @@ public class StudentHomework {
 
     private Integer score;
 
-    public StudentHomework(Integer id, Integer studentId, Integer homeworkId, Integer cloudwareId, String comment, Integer score) {
+    private Date submissionDate;
+
+    private Date lastEditDate;
+
+    public StudentHomework(Integer id, Integer studentId, Integer homeworkId, Integer cloudwareId, String comment, Integer score, Date submissionDate, Date lastEditDate) {
         this.id = id;
         this.studentId = studentId;
         this.homeworkId = homeworkId;
         this.cloudwareId = cloudwareId;
         this.comment = comment;
         this.score = score;
+        this.submissionDate = submissionDate;
+        this.lastEditDate = lastEditDate;
     }
 
-    public StudentHomework(Integer studentId, Integer homeworkId, Integer cloudwareId, String comment, Integer score) {
-        this(0, studentId, homeworkId, cloudwareId, comment, score);
+    public StudentHomework(Integer studentId, Integer homeworkId, Integer cloudwareId, String comment, Integer score, Date submissionDate, Date lastEditDate) {
+        this(0, studentId, homeworkId, cloudwareId, comment, score, submissionDate, lastEditDate);
     }
 
     public StudentHomework() {
@@ -76,5 +84,21 @@ public class StudentHomework {
 
     public void setScore(Integer score) {
         this.score = score;
+    }
+
+    public Date getSubmissionDate() {
+        return submissionDate;
+    }
+
+    public void setSubmissionDate(Date submissionDate) {
+        this.submissionDate = submissionDate;
+    }
+
+    public Date getLastEditDate() {
+        return lastEditDate;
+    }
+
+    public void setLastEditDate(Date lastEditDate) {
+        this.lastEditDate = lastEditDate;
     }
 }

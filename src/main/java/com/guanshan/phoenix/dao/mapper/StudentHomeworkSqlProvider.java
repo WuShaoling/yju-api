@@ -33,6 +33,14 @@ public class StudentHomeworkSqlProvider {
             sql.VALUES("score", "#{score,jdbcType=INTEGER}");
         }
         
+        if (record.getSubmissionDate() != null) {
+            sql.VALUES("submission_date", "#{submissionDate,jdbcType=TIMESTAMP}");
+        }
+        
+        if (record.getLastEditDate() != null) {
+            sql.VALUES("lastEdit_date", "#{lastEditDate,jdbcType=TIMESTAMP}");
+        }
+        
         return sql.toString();
     }
 
@@ -58,6 +66,14 @@ public class StudentHomeworkSqlProvider {
         
         if (record.getScore() != null) {
             sql.SET("score = #{score,jdbcType=INTEGER}");
+        }
+        
+        if (record.getSubmissionDate() != null) {
+            sql.SET("submission_date = #{submissionDate,jdbcType=TIMESTAMP}");
+        }
+        
+        if (record.getLastEditDate() != null) {
+            sql.SET("lastEdit_date = #{lastEditDate,jdbcType=TIMESTAMP}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");
