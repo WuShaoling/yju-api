@@ -9,9 +9,10 @@ import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.ClassService;
 import com.guanshan.phoenix.service.CourseService;
 import com.guanshan.phoenix.service.TeacherService;
-import com.guanshan.phoenix.webdomain.ResCourseExperiments;
+import com.guanshan.phoenix.webdomain.ResCourseModuleExperiments;
 import com.guanshan.phoenix.webdomain.ResCourseHomeworks;
 import com.guanshan.phoenix.webdomain.ResCourseList;
+import com.guanshan.phoenix.webdomain.ResExperimentInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,35 +59,27 @@ public class CourseServiceImp implements CourseService {
     }
 
     @Override
-    public ResCourseExperiments getCourseExperiments(int classID) throws ApplicationErrorException {
-        ResCourseExperiments courseDetail = new ResCourseExperiments();
+    public ResCourseModuleExperiments getCourseExperiments(int classID) throws ApplicationErrorException {
+        ResCourseModuleExperiments courseDetail = new ResCourseModuleExperiments();
 
         Clazz clazz = classService.getClassById(classID);
         Course course = this.getCourseById(clazz.getCourseId());
         courseDetail.setCourseName(course.getName());
 
-        List<ResCourseExperiments.ModuleInfo> moduleList = new ArrayList<>();
+        List<ResCourseModuleExperiments.ModuleInfo> moduleList = new ArrayList<>();
         courseDetail.setModuleList(moduleList);
         for(Module module : moduleMapper.selectByCourseID(clazz.getCourseId())){
-            ResCourseExperiments.ModuleInfo moduleInfo = new ResCourseExperiments.ModuleInfo();
+            ResCourseModuleExperiments.ModuleInfo moduleInfo = new ResCourseModuleExperiments.ModuleInfo();
             moduleList.add(moduleInfo);
 
             moduleInfo.setModuleId(module.getId());
             moduleInfo.setModuleName(module.getName());
 
-            List<ResCourseExperiments.ExperimentInfo> experiments = new ArrayList<>();
+            List<ResExperimentInfo> experiments = new ArrayList<>();
             moduleInfo.setModuleContent(experiments);
             for(Experiment experiment : experimentMapper.selectByModuleId(module.getId())){
-                ResCourseExperiments.ExperimentInfo experimentInfo = new ResCourseExperiments.ExperimentInfo();
-                experiments.add(experimentInfo);
-
-                experimentInfo.setId(experiment.getId());
-                experimentInfo.setExperimentName(experiment.getName());
-                experimentInfo.setExperimentDes(experiment.getDescription());
-                experimentInfo.setCloudwareType(
-                        CloudwareTypeEnum.fromInt(experiment.getCloudwareType()).toString());
-                experimentInfo.setDueDate(experiment.getDeadlineDate().toString());
-                experimentInfo.setPublishDate(experiment.getPublishDate().toString());
+                ResExperimentInfo resExperimentInfo = new ResExperimentInfo(experiment);
+                experiments.add(resExperimentInfo);
             }
         }
 

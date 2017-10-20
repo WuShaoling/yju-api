@@ -1,62 +1,9 @@
 package com.guanshan.phoenix.webdomain;
 
-import java.util.List;
+import com.guanshan.phoenix.dao.entity.Experiment;
+import com.guanshan.phoenix.enums.CloudwareTypeEnum;
 
-public class ResCourseExperiments {
-    private String courseName;
-
-    private List<ModuleInfo> moduleList;
-
-    public String getCourseName() {
-        return courseName;
-    }
-
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
-    }
-
-    public List<ModuleInfo> getModuleList() {
-        return moduleList;
-    }
-
-    public void setModuleList(List<ModuleInfo> moduleList) {
-        this.moduleList = moduleList;
-    }
-
-    public static class ModuleInfo {
-
-        private int moduleId;
-
-        private String moduleName;
-
-        private List<ExperimentInfo> moduleContent;
-
-        public int getModuleId() {
-            return moduleId;
-        }
-
-        public void setModuleId(int moduleId) {
-            this.moduleId = moduleId;
-        }
-
-        public String getModuleName() {
-            return moduleName;
-        }
-
-        public void setModuleName(String moduleName) {
-            this.moduleName = moduleName;
-        }
-
-        public List<ExperimentInfo> getModuleContent() {
-            return moduleContent;
-        }
-
-        public void setModuleContent(List<ExperimentInfo> moduleContent) {
-            this.moduleContent = moduleContent;
-        }
-    }
-
-    public static class ExperimentInfo{
+public class ResExperimentInfo {
         private int id;
 
         private String experimentName;
@@ -68,6 +15,18 @@ public class ResCourseExperiments {
         private String dueDate;
 
         private String publishDate;
+
+        public ResExperimentInfo(){};
+
+        public ResExperimentInfo(Experiment experiment){
+            this.setId(experiment.getId());
+            this.setExperimentName(experiment.getName());
+            this.setExperimentDes(experiment.getDescription());
+            CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt(experiment.getCloudwareType());
+            this.setCloudwareType(cloudwareType == null ? "" : cloudwareType.getZh());
+            this.setDueDate(experiment.getDeadlineDate().toString());
+            this.setPublishDate(experiment.getPublishDate().toString());
+        }
 
         public int getId() {
             return id;
@@ -116,5 +75,4 @@ public class ResCourseExperiments {
         public void setPublishDate(String publishDate) {
             this.publishDate = publishDate;
         }
-    }
 }

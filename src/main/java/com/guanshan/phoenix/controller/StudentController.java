@@ -36,7 +36,7 @@ public class StudentController {
 
     @ApiOperation(value = "课程详情", notes = "列出所有该课程的课时以及属于这些课时的所有实验内容")
     @GetMapping(value = "course/{classId}/detail")
-    public ResponseMessage<ResCourseExperiments> getCourseExperiments(@PathVariable int classId) throws ApplicationErrorException {
+    public ResponseMessage<ResCourseModuleExperiments> getCourseExperiments(@PathVariable int classId) throws ApplicationErrorException {
         return new ResponseMessage.Success<>(courseService.getCourseExperiments(classId));
     }
 
