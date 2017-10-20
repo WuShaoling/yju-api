@@ -62,6 +62,13 @@ public class ManagerController {
         return new ResponseMessage.Success<>(teacherService.getAllTeacherList());
     }
 
+    @ApiOperation(value = "创建老师信息", notes = "")
+    @PostMapping(value = "teacher/creation")
+    public ResponseMessage createTeacher(@RequestBody ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException {
+        teacherService.createTeacher(reqUpdateTeacher);
+        return new ResponseMessage.Success();
+    }
+
     @ApiOperation(value = "更新老师信息", notes = "")
     @PostMapping(value = "teacher/updation")
     public ResponseMessage updateTeacher(@RequestBody ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException {

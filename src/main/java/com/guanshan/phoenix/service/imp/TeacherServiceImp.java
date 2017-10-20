@@ -4,17 +4,17 @@ import com.guanshan.phoenix.Util.Utility;
 import com.guanshan.phoenix.dao.entity.Clazz;
 import com.guanshan.phoenix.dao.entity.StudentHomework;
 import com.guanshan.phoenix.dao.entity.Teacher;
+import com.guanshan.phoenix.dao.entity.User;
 import com.guanshan.phoenix.dao.mapper.ClazzMapper;
 import com.guanshan.phoenix.dao.mapper.StudentHomeworkMapper;
 import com.guanshan.phoenix.dao.mapper.TeacherMapper;
+import com.guanshan.phoenix.dao.mapper.UserMapper;
 import com.guanshan.phoenix.enums.GenderEnum;
+import com.guanshan.phoenix.enums.RoleEnum;
 import com.guanshan.phoenix.enums.TitleEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
-import com.guanshan.phoenix.service.ClassService;
-import com.guanshan.phoenix.service.StudentHomeworkService;
-import com.guanshan.phoenix.service.TeacherService;
-import com.guanshan.phoenix.service.UserService;
+import com.guanshan.phoenix.service.*;
 import com.guanshan.phoenix.webdomain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +42,12 @@ public class TeacherServiceImp implements TeacherService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private ManagerService managerService;
 
     @Override
     public Teacher getTeacherByUserId(int teacherID) throws ApplicationErrorException {
@@ -95,10 +101,41 @@ public class TeacherServiceImp implements TeacherService {
     }
 
     @Override
-    public void updateTeacher(ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException {
-        Teacher teacher = validateTeacher(reqUpdateTeacher);
+    @Transactional(rollbackFor = Throwable.class)
+    public void createTeacher(ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException {
+        validateTeacher(reqUpdateTeacher);
 
+        User newUser = managerService.createUser(reqUpdateTeacher.getTeacherName(), RoleEnum.TEACHER);
+        Teacher teacher = new Teacher();
+        teacher.setUserId(newUser.getId());
+        teacher.setTno(reqUpdateTeacher.getTeacherNo());
+        teacher.setName(reqUpdateTeacher.getTeacherName());
+        teacher.setTitle(reqUpdateTeacher.getTeacherTitleId());
+        teacher.setGender(reqUpdateTeacher.getGender());
+        teacher.setEmail(reqUpdateTeacher.getTeacherContact());
+
+        teacherMapper.insert(teacher);
+    }
+
+    @Override
+    @Transactional
+    public void updateTeacher(ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException {
+        Teacher teacher = teacherMapper.selectByUserId(reqUpdateTeacher.getId());
+        if(teacher == null){
+            throw new ApplicationErrorException(ErrorCode.TeacherNotExists);
+        }
+        validateTeacher(reqUpdateTeacher);
+
+        teacher.setTitle(reqUpdateTeacher.getTeacherTitleId());
+        teacher.setEmail(reqUpdateTeacher.getTeacherContact());
+        teacher.setTno(reqUpdateTeacher.getTeacherNo());
+        teacher.setName(reqUpdateTeacher.getTeacherName());
+        teacher.setGender(reqUpdateTeacher.getGender());
         teacherMapper.updateByUserId(teacher);
+
+        User user = userMapper.selectByPrimaryKey(teacher.getUserId());
+        user.setUsername(teacher.getName());
+        userMapper.updateByPrimaryKey(user);
     }
 
     @Override
@@ -112,20 +149,13 @@ public class TeacherServiceImp implements TeacherService {
         teacherMapper.deleteByUserId(teacherId);
     }
 
-    private Teacher validateTeacher(ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException {
-        Teacher teacher = this.getTeacherByUserId(reqUpdateTeacher.getId());
-        //validate title enum
+    private void validateTeacher(ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException {
+
         TitleEnum title = TitleEnum.fromInt(reqUpdateTeacher.getTeacherTitleId());
         if(title == null){
             throw new ApplicationErrorException(ErrorCode.InvalidTitle);
         }
-        teacher.setTitle(title.getCode());
-        teacher.setGender(reqUpdateTeacher.getGender() == GenderEnum.MALE.getCode() ?
-                GenderEnum.MALE.getCode(): GenderEnum.FEMALE.getCode()
-        );
 
         Utility.ValidateEmail(reqUpdateTeacher.getTeacherContact());
-        teacher.setEmail(reqUpdateTeacher.getTeacherContact());
-        return teacher;
     }
 }
