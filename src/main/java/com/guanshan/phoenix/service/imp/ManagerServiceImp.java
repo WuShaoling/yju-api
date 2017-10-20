@@ -34,7 +34,7 @@ public class ManagerServiceImp implements ManagerService {
         user.setRole(role.getCode());
         user.setPassword("I am a password");
 
-        userMapper.updateByPrimaryKey(user);
+        userMapper.insert(user);
         return user;
     }
 }

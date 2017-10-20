@@ -17,6 +17,7 @@ public interface UserMapper {
         "values (#{id,jdbcType=INTEGER}, #{role,jdbcType=INTEGER}, ",
         "#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})"
     })
+    @Options(useGeneratedKeys = true, keyColumn = "id")
     int insert(User record);
 
     @InsertProvider(type=UserSqlProvider.class, method="insertSelective")
@@ -46,6 +47,5 @@ public interface UserMapper {
           "password = #{password,jdbcType=VARCHAR}",
         "where id = #{id,jdbcType=INTEGER}"
     })
-    @Options(useGeneratedKeys = true, keyColumn = "id")
     int updateByPrimaryKey(User record);
 }
