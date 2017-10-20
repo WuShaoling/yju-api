@@ -1,6 +1,7 @@
 package com.guanshan.phoenix.controller;
 
 import com.guanshan.phoenix.dao.entity.Course;
+import com.guanshan.phoenix.dao.entity.Experiment;
 import com.guanshan.phoenix.dao.entity.Module;
 import com.guanshan.phoenix.dao.entity.Term;
 import com.guanshan.phoenix.error.ApplicationErrorException;
@@ -43,6 +44,9 @@ public class ManagerController {
 
     @Autowired
     private ModuleService moduleService;
+
+    @Autowired
+    private ExperimentService experimentService;
 
     @ApiOperation(value = "获取所有老师信息", notes = "")
     @GetMapping(value = "teacher/all")
@@ -169,8 +173,8 @@ public class ManagerController {
 
     @ApiOperation(value = "添加班级学生", notes = "")
     @PostMapping(value = "/class/student/creation")
-    public ResponseMessage addClassStudent(@RequestParam("classId") int classId, @RequestParam("studentId") int studentId) throws ApplicationErrorException {
-        classService.addClassStudent(classId, studentId);
+    public ResponseMessage addClassStudent(@RequestBody ReqAddClassStudent reqAddClassStudent) throws ApplicationErrorException {
+        classService.addClassStudent(reqAddClassStudent);
         return new ResponseMessage.Success();
     }
 
@@ -225,5 +229,32 @@ public class ManagerController {
     public ResponseMessage deleteModule(@RequestParam("moduleId") int moduleId) throws ApplicationErrorException {
         moduleService.deleteModule(moduleId);
         return new ResponseMessage.Success();
+    }
+
+    @ApiOperation(value = "删除实验", notes = "")
+    @PostMapping(value = "/course/experiment/deletion")
+    public ResponseMessage deleteExperiment(@RequestParam("id") int id) throws ApplicationErrorException {
+        experimentService.deleteExperiment(id);
+        return new ResponseMessage.Success();
+    }
+
+    @ApiOperation(value = "增加实验", notes = "")
+    @PostMapping(value = "/course/module/experiment/creation")
+    public ResponseMessage createExperiment(@RequestBody ReqExperiment reqExperiment) throws ApplicationErrorException {
+        experimentService.createExperiment(reqExperiment);
+        return new ResponseMessage.Success();
+    }
+
+    @ApiOperation(value = "更新实验", notes = "")
+    @PostMapping(value = "/course/module/experiment/updation")
+    public ResponseMessage updateExperiment(@RequestBody ReqExperiment reqExperiment) throws ApplicationErrorException {
+        experimentService.updateExperiment(reqExperiment);
+        return new ResponseMessage.Success();
+    }
+
+    @ApiOperation(value = "获取课时图片资源", notes = "")
+    @PostMapping(value = "/admin/course/{moduleId}/lib")
+    public ResponseMessage<ResModuleImages> getModuleImageUrls(@PathVariable("moduleId") int moduleId) throws ApplicationErrorException {
+        return new ResponseMessage.Success<ResModuleImages>(moduleService.getModuleImageUrls(moduleId));
     }
 }
