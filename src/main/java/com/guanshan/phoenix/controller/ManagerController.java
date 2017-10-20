@@ -48,8 +48,8 @@ public class ManagerController {
     }
 
     @ApiOperation(value = "删除老师", notes = "")
-    @PostMapping(value = "teacher/{teacherId}/deletion")
-    public ResponseMessage deleteTeacher(@PathVariable int teacherId) throws ApplicationErrorException {
+    @PostMapping(value = "teacher/deletion")
+    public ResponseMessage deleteTeacher(@RequestParam int teacherId) throws ApplicationErrorException {
         teacherService.deleteTeacherByTeacherId(teacherId);
         return new ResponseMessage.Success();
     }
@@ -75,8 +75,8 @@ public class ManagerController {
     }
 
     @ApiOperation(value = "删除学期", notes = "")
-    @PostMapping(value = "semester/{semesterId}/deletion")
-    public ResponseMessage deleteSemester(@PathVariable int semesterId) throws ApplicationErrorException {
+    @PostMapping(value = "semester/deletion")
+    public ResponseMessage deleteSemester(@RequestParam int semesterId) throws ApplicationErrorException {
         termService.delete(semesterId);
         return new ResponseMessage.Success();
     }
@@ -132,9 +132,9 @@ public class ManagerController {
     }
 
     @ApiOperation(value = "删除课程信息", notes = "")
-    @PostMapping(value = "course/{courseId}/deletion")
-    public ResponseMessage deleteCourse(@PathVariable int courseId){
-        courseService.deleteCourse(courseId);
+    @PostMapping(value = "course/deletion")
+    public ResponseMessage deleteCourse(@RequestParam int id){
+        courseService.deleteCourse(id);
         return new ResponseMessage.Success();
     }
 }
