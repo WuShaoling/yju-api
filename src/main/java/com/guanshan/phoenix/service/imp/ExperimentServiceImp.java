@@ -7,6 +7,11 @@ import com.guanshan.phoenix.service.ExperimentService;
 import com.guanshan.phoenix.webdomain.ReqExperiment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServlet;
+import java.io.File;
+import java.io.IOException;
 
 @Service
 public class ExperimentServiceImp implements ExperimentService {
@@ -23,7 +28,7 @@ public class ExperimentServiceImp implements ExperimentService {
     }
 
     @Override
-    public int createExperiment(ReqExperiment reqExperiment) {
+    public int createExperiment(ReqExperiment reqExperiment) throws ApplicationErrorException {
         Experiment experiment = new Experiment();
         experiment.setModuleId(reqExperiment.getModuleId());
         experiment.setName(reqExperiment.getExperimentName());
@@ -35,7 +40,7 @@ public class ExperimentServiceImp implements ExperimentService {
     }
 
     @Override
-    public int updateExperiment(ReqExperiment reqExperiment) {
+    public int updateExperiment(ReqExperiment reqExperiment) throws ApplicationErrorException {
         Experiment experiment = new Experiment();
         experiment.setId(reqExperiment.getId());
         experiment.setModuleId(reqExperiment.getModuleId());
