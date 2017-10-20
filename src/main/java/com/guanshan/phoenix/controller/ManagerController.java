@@ -173,9 +173,36 @@ public class ManagerController {
     }
 
     @ApiOperation(value = "获取班级所有学生信息", notes = "")
-    @PostMapping(value = "class/{classId}/students/all")
+    @GetMapping(value = "class/{classId}/students/all")
     public ResponseMessage<ResClassStudents> getAllClassStudentInfo(@PathVariable("classId") int classId) throws ApplicationErrorException {
         return new ResponseMessage.Success<>(classService.getAllClassStudentInfo(classId));
+    }
+
+    @ApiOperation(value = "删除选课", notes = "")
+    @PostMapping(value = "class/deletion")
+    public ResponseMessage deleteClass(@RequestParam("classId") int classId) throws ApplicationErrorException {
+        classService.deleteClass(classId);
+        return new ResponseMessage.Success();
+    }
+
+    @ApiOperation(value = "更新选课信息", notes = "")
+    @PostMapping(value = "class/updation")
+    public ResponseMessage updateClassInfo(@RequestBody ReqUpdateClass reqUpdateClass) throws ApplicationErrorException {
+        classService.updateClassInfo(reqUpdateClass);
+        return new ResponseMessage.Success();
+    }
+
+    @ApiOperation(value = "新增选课", notes = "")
+    @PostMapping(value = "class/creation")
+    public ResponseMessage createClass(@RequestBody ReqAddClass reqAddClass) throws ApplicationErrorException {
+        classService.createClass(reqAddClass);
+        return new ResponseMessage.Success();
+    }
+
+    @ApiOperation(value = "获取所有班级信息", notes = "")
+    @GetMapping(value = "class/all")
+    public ResponseMessage<ResClassInfos> getAllClassInfo() throws ApplicationErrorException {
+        return new ResponseMessage.Success<ResClassInfos>(classService.getAllClassInfo());
     }
     
 }

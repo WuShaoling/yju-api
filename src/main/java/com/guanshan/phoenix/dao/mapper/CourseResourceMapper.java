@@ -68,4 +68,18 @@ public interface CourseResourceMapper {
             @Arg(column="type", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
     })
     CourseResource selectByPrimaryKeyAndType(Integer id, Integer type);
+
+    @Select({
+            "select",
+            "id, course_id, resource_id, type",
+            "from course_resource",
+            "where course_id = #{courseId,jdbcType=INTEGER}"
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="course_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="resource_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="type", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
+    })
+    CourseResource selectByCourseId(Integer courseId);
 }

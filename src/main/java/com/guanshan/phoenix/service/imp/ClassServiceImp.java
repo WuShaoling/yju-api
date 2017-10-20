@@ -1,18 +1,15 @@
 package com.guanshan.phoenix.service.imp;
 
 import com.guanshan.phoenix.dao.entity.*;
-import com.guanshan.phoenix.dao.mapper.ClazzMapper;
-import com.guanshan.phoenix.dao.mapper.StudentClassMapper;
-import com.guanshan.phoenix.dao.mapper.StudentMapper;
+import com.guanshan.phoenix.dao.mapper.*;
+import com.guanshan.phoenix.enums.SemesterEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.ClassService;
 import com.guanshan.phoenix.service.CourseService;
 import com.guanshan.phoenix.service.TeacherService;
 import com.guanshan.phoenix.service.TermService;
-import com.guanshan.phoenix.webdomain.ReqDeleteClassStudent;
-import com.guanshan.phoenix.webdomain.ResClassDetail;
-import com.guanshan.phoenix.webdomain.ResClassStudents;
+import com.guanshan.phoenix.webdomain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +36,21 @@ public class ClassServiceImp implements ClassService {
 
     @Autowired
     private StudentMapper studentMapper;
+
+    @Autowired
+    private TermMapper termMapper;
+
+    @Autowired
+    private CourseMapper courseMapper;
+
+    @Autowired
+    private TeacherMapper teacherMapper;
+
+    @Autowired
+    private CourseResourceMapper courseResourceMapper;
+
+    @Autowired
+    private ResourceMapper resourceMapper;
 
     @Override
     public Clazz getClassById(int classID) throws ApplicationErrorException {
@@ -109,6 +121,79 @@ public class ClassServiceImp implements ClassService {
         resClassStudents.setStudentList(resClassStudentList);
 
         return resClassStudents;
+    }
+
+    @Override
+    public int deleteClass(int classId) {
+        clazzMapper.deleteByPrimaryKey(classId);
+        studentClassMapper.deleteByClassId(classId);
+        return 0;
+    }
+
+    @Override
+    public int updateClassInfo(ReqUpdateClass reqUpdateClass) {
+        Clazz clazz = new Clazz();
+        clazz.setId(reqUpdateClass.getClassId());
+        clazz.setName(reqUpdateClass.getClassName());
+        clazz.setCourseId(reqUpdateClass.getCourseId());
+        clazzMapper.updateByPrimaryKeySelective(clazz);
+
+        Term term = new Term();
+        term.setId(clazz.getTermId());
+        term.setYear(reqUpdateClass.getTermYear());
+        term.setSemester(reqUpdateClass.getTermSemester());
+        termMapper.updateByPrimaryKeySelective(term);
+
+        return 0;
+    }
+
+    @Override
+    public int createClass(ReqAddClass reqAddClass) {
+        Clazz clazz = new Clazz();
+        clazz.setName(reqAddClass.getClassName());
+        clazz.setCourseId(reqAddClass.getCourseId());
+        clazz.setTermId(reqAddClass.getTermId());
+
+        clazzMapper.insertSelective(clazz);
+        return 0;
+    }
+
+    @Override
+    public ResClassInfos getAllClassInfo() {
+        ResClassInfos resClassInfos = new ResClassInfos();
+        List<ResClassInfos.ResClassInfo> resClassInfoList = new ArrayList<>();
+
+        List<Clazz> clazzList = clazzMapper.selectAll();
+        for (Clazz clazz : clazzList) {
+            ResClassInfos.ResClassInfo resClassInfo = new ResClassInfos().new ResClassInfo();
+
+            resClassInfo.setClassId(clazz.getId());
+            resClassInfo.setCourseId(clazz.getCourseId());
+
+            Course course = courseMapper.selectByPrimaryKey(clazz.getCourseId());
+            resClassInfo.setCourseName(course.getName());
+            resClassInfo.setCourseDes(course.getDescription());
+
+            Teacher teacher = teacherMapper.selectByPrimaryKey(course.getTeacherId());
+            resClassInfo.setTeacherName(teacher.getName());
+            resClassInfo.setTeacherContact(teacher.getEmail());
+
+            Term term = termMapper.selectByPrimaryKey(clazz.getTermId());
+            resClassInfo.setTerm(term.getYear()+""+ SemesterEnum.getZhFromCode(term.getSemester()));
+
+            CourseResource courseResource = courseResourceMapper.selectByCourseId(clazz.getCourseId());
+            Resource resource = resourceMapper.selectByPrimaryKey(courseResource.getResourceId());
+            resClassInfo.setCourseImage(resource.getUrl());
+
+            resClassInfo.setDuration(clazz.getDuration());
+            resClassInfo.setStudentNum(clazz.getStudentNum());
+            resClassInfo.setCourseDate(clazz.getDate().toString());
+
+            resClassInfoList.add(resClassInfo);
+        }
+        resClassInfos.setClassInfoList(resClassInfoList);
+
+        return resClassInfos;
     }
 
 }
