@@ -1,5 +1,8 @@
 package com.guanshan.phoenix.webdomain;
 
+import com.guanshan.phoenix.dao.entity.Homework;
+import com.guanshan.phoenix.enums.CloudwareTypeEnum;
+
 import java.util.List;
 
 public class ResCourseHomeworks {
@@ -68,6 +71,18 @@ public class ResCourseHomeworks {
         private String dueDate;
 
         private String publishDate;
+
+        public HomeworkInfo(){}
+
+        public HomeworkInfo(Homework homework){
+            this.setId(homework.getId());
+            this.setHomeworkName(homework.getName());
+            this.setHomeworkDes(homework.getDescription());
+            CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt(homework.getCloudwareType());
+            this.setCloudwareType(cloudwareType == null ? "" : cloudwareType.toString());
+            this.setDueDate(homework.getDeadlineDate().toString());
+            this.setPublishDate(homework.getPublishDate().toString());
+        }
 
         public int getId() {
             return id;
