@@ -13,6 +13,10 @@ public class Module {
         this.name = name;
     }
 
+    public Module(Integer courseId, String name) {
+        this(0, courseId, name);
+    }
+
     public Module() {
         super();
     }

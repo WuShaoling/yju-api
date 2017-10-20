@@ -1,6 +1,7 @@
 package com.guanshan.phoenix.controller;
 
 import com.guanshan.phoenix.dao.entity.Course;
+import com.guanshan.phoenix.dao.entity.Module;
 import com.guanshan.phoenix.dao.entity.Term;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ResponseMessage;
@@ -40,6 +41,9 @@ public class ManagerController {
     @Autowired
     private StudentService studentService;
 
+    @Autowired
+    private ModuleService moduleService;
+
     @ApiOperation(value = "获取所有老师信息", notes = "")
     @GetMapping(value = "teacher/all")
     public ResponseMessage<ResTeacherList> getAllTeachers() throws ApplicationErrorException {
@@ -55,7 +59,7 @@ public class ManagerController {
 
     @ApiOperation(value = "删除老师", notes = "")
     @PostMapping(value = "teacher/deletion")
-    public ResponseMessage deleteTeacher(@RequestParam int teacherId) throws ApplicationErrorException {
+    public ResponseMessage deleteTeacher(@RequestParam("teacherId") int teacherId) throws ApplicationErrorException {
         teacherService.deleteTeacherByTeacherId(teacherId);
         return new ResponseMessage.Success();
     }
@@ -82,7 +86,7 @@ public class ManagerController {
 
     @ApiOperation(value = "删除学期", notes = "")
     @PostMapping(value = "semester/deletion")
-    public ResponseMessage deleteSemester(@RequestParam int semesterId) throws ApplicationErrorException {
+    public ResponseMessage deleteSemester(@RequestParam("semesterId") int semesterId) throws ApplicationErrorException {
         termService.delete(semesterId);
         return new ResponseMessage.Success();
     }
@@ -139,7 +143,7 @@ public class ManagerController {
 
     @ApiOperation(value = "删除课程信息", notes = "")
     @PostMapping(value = "course/deletion")
-    public ResponseMessage deleteCourse(@RequestParam int id){
+    public ResponseMessage deleteCourse(@RequestParam("id") int id){
         courseService.deleteCourse(id);
         return new ResponseMessage.Success();
     }
@@ -209,5 +213,19 @@ public class ManagerController {
     @GetMapping(value = "course/{courseId}/experiments/")
     public ResponseMessage<ResCourseExperiments> getCourseExperiments(@PathVariable int courseId) throws ApplicationErrorException {
         return new ResponseMessage.Success<>(courseService.getCourseExperiments(courseId));
+    }
+
+    @ApiOperation(value = "新增课时", notes = "")
+    @PostMapping(value = "course/module/creation")
+    public ResponseMessage createModule(@RequestBody Module module) throws ApplicationErrorException {
+        moduleService.createModule(module);
+        return new ResponseMessage.Success();
+    }
+
+    @ApiOperation(value = "删除课时", notes = "")
+    @PostMapping(value = "course/module/deletion")
+    public ResponseMessage deleteModule(@RequestParam("moduleId") int moduleId) throws ApplicationErrorException {
+        moduleService.deleteModule(moduleId);
+        return new ResponseMessage.Success();
     }
 }
