@@ -37,6 +37,9 @@ public enum ErrorCode {
     @ErrorMessage("电子邮件'%s'格式不正确")
     InvalidEmail(11),
 
+    @ErrorMessage("该教师'%s'已存在")
+    TeacherAlreadyExists(12),
+
     @ErrorMessage("服务器出错，请联系管理员。")
     GeneralError(Integer.MAX_VALUE);
 

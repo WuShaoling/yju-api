@@ -48,6 +48,7 @@ public class Term {
     }
 
     public String getDescription(){
-        return String.format("%s%s", year, SemesterEnum.fromInt(semester).getZh());
+        SemesterEnum semesterEnum = SemesterEnum.fromInt(semester);
+        return String.format("%s%s", year, semesterEnum == null ? "" : semesterEnum.getZh());
     }
 }

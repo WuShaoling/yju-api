@@ -1,14 +1,7 @@
 package com.guanshan.phoenix.dao.mapper;
 
 import com.guanshan.phoenix.dao.entity.Teacher;
-import org.apache.ibatis.annotations.Arg;
-import org.apache.ibatis.annotations.ConstructorArgs;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 import java.util.List;
@@ -102,6 +95,24 @@ public interface TeacherMapper {
             @Arg(column="phone", javaType=String.class, jdbcType=JdbcType.VARCHAR)
     })
     Teacher selectByUserId(Integer userId);
+
+    @Select({
+            "select",
+            "id, user_id, tno, name, gender, title, email, phone",
+            "from teacher",
+            "where tno = #{teacherNo,jdbcType=VARCHAR}"
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="user_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="tno", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="gender", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="title", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="email", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="phone", javaType=String.class, jdbcType=JdbcType.VARCHAR)
+    })
+    Teacher selectByTeacherNo(@Param("teacherNo")String teacherNo);
 
     @Select({
             "select",

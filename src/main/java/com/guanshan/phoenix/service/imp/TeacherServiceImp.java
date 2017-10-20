@@ -150,6 +150,11 @@ public class TeacherServiceImp implements TeacherService {
     }
 
     private void validateTeacher(ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException {
+        Teacher teacher = teacherMapper.selectByTeacherNo(reqUpdateTeacher.getTeacherNo());
+
+        if(teacher != null){
+            throw new ApplicationErrorException(ErrorCode.TeacherAlreadyExists, teacher.getTno());
+        }
 
         TitleEnum title = TitleEnum.fromInt(reqUpdateTeacher.getTeacherTitleId());
         if(title == null){
