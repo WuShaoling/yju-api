@@ -4,11 +4,8 @@ import com.guanshan.phoenix.dao.entity.Course;
 import com.guanshan.phoenix.dao.entity.Term;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ResponseMessage;
-import com.guanshan.phoenix.service.HomeworkService;
-import com.guanshan.phoenix.service.TeacherService;
-import com.guanshan.phoenix.service.TermService;
+import com.guanshan.phoenix.service.*;
 import com.guanshan.phoenix.webdomain.*;
-import com.guanshan.phoenix.service.CourseService;
 import com.guanshan.phoenix.webdomain.ReqUpdateTeacher;
 import com.guanshan.phoenix.webdomain.ResCourseList;
 import com.guanshan.phoenix.webdomain.ResSemesterList;
@@ -33,6 +30,15 @@ public class ManagerController {
 
     @Autowired
     private CourseService courseService;
+
+    @Autowired
+    private ClassService classService;
+
+    @Autowired
+    private ManagerService managerService;
+
+    @Autowired
+    private StudentService studentService;
 
     @ApiOperation(value = "获取所有老师信息", notes = "")
     @GetMapping(value = "teacher/all")
@@ -133,8 +139,43 @@ public class ManagerController {
 
     @ApiOperation(value = "删除课程信息", notes = "")
     @PostMapping(value = "course/{courseId}/deletion")
-    public ResponseMessage deleteCourse(@PathVariable int courseId){
+    public ResponseMessage deleteCourse(@PathVariable int courseId) throws ApplicationErrorException {
         courseService.deleteCourse(courseId);
         return new ResponseMessage.Success();
     }
+
+    @ApiOperation(value = "删除班级学生", notes = "删除班级里的一个学生")
+    @PostMapping(value = "/class/student/deletion")
+    public ResponseMessage deleteClassStudent(@RequestBody ReqDeleteClassStudent reqDeleteClassStudent) throws ApplicationErrorException {
+        classService.deleteClassStudent(reqDeleteClassStudent);
+        return new ResponseMessage.Success();
+    }
+
+    @ApiOperation(value = "重置密码", notes = "")
+    @PostMapping(value = "/password/resetion")
+    public ResponseMessage resetPassword(@RequestParam("userId") int userId) throws ApplicationErrorException {
+        managerService.resetPassword(userId);
+        return new ResponseMessage.Success();
+    }
+
+    @ApiOperation(value = "更新学生信息", notes = "")
+    @PostMapping(value = "/class/student/updation")
+    public ResponseMessage updateStudentInfo(ReqUpdateStudent reqUpdateStudent) throws ApplicationErrorException {
+        studentService.updateStudentInfo(reqUpdateStudent);
+        return new ResponseMessage.Success();
+    }
+
+    @ApiOperation(value = "添加班级学生", notes = "")
+    @PostMapping(value = "/class/student/creation")
+    public ResponseMessage addClassStudent(@RequestParam("classId") int classId, @RequestParam("studentId") int studentId) throws ApplicationErrorException {
+        classService.addClassStudent(classId, studentId);
+        return new ResponseMessage.Success();
+    }
+
+    @ApiOperation(value = "获取班级所有学生信息", notes = "")
+    @PostMapping(value = "class/{classId}/students/all")
+    public ResponseMessage<ResClassStudents> getAllClassStudentInfo(@PathVariable("classId") int classId) throws ApplicationErrorException {
+        return new ResponseMessage.Success<>(classService.getAllClassStudentInfo(classId));
+    }
+    
 }

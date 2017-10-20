@@ -1,14 +1,7 @@
 package com.guanshan.phoenix.dao.mapper;
 
 import com.guanshan.phoenix.dao.entity.StudentClass;
-import org.apache.ibatis.annotations.Arg;
-import org.apache.ibatis.annotations.ConstructorArgs;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 import java.util.List;
@@ -66,4 +59,19 @@ public interface StudentClassMapper {
             @Arg(column="class_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
     })
     List<StudentClass> selectByStudentID(Integer studentId);
+
+    @Delete("DELETE FROM student_class WHERE student_id=#{studentId} AND class_id=#{classId}")
+    int deleteByClassIdAndStudentId(@Param("classId") Integer classId, @Param("studentId") Integer studentId);
+
+    @Select({
+            "select *",
+            "from student_class",
+            "where class_id = #{classId,jdbcType=INTEGER}"
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="student_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="class_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
+    })
+    List<StudentClass> selectByClassID(Integer classId);
 }

@@ -5,6 +5,7 @@ import com.guanshan.phoenix.dao.mapper.StudentClassMapper;
 import com.guanshan.phoenix.dao.mapper.StudentMapper;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.service.*;
+import com.guanshan.phoenix.webdomain.ReqUpdateStudent;
 import com.guanshan.phoenix.webdomain.ResClassDetail;
 import com.guanshan.phoenix.webdomain.ResStudentClassList;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,10 @@ public class StudentServiceImp implements StudentService {
 
     @Autowired
     private ClassService classService;
+
+    @Autowired
+    private StudentMapper studentMapper;
+
 
     @Override
     public List<StudentClass> getAllStudentClassById(int studentID) {
@@ -39,6 +44,17 @@ public class StudentServiceImp implements StudentService {
         }
 
         return resStudentClassInfoList;
+    }
+
+    @Override
+    public int updateStudentInfo(ReqUpdateStudent reqUpdateStudent) throws ApplicationErrorException {
+        Student student = new Student();
+        student.setId(reqUpdateStudent.getStudentId());
+        student.setName(reqUpdateStudent.getStudentName());
+        student.setGender(reqUpdateStudent.getGender());
+        studentMapper.updateByPrimaryKeySelective(student);
+
+        return 0;
     }
 
 
