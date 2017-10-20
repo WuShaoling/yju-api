@@ -1,6 +1,6 @@
 package com.guanshan.phoenix.error;
 
-public class ApplicationErrorException extends Throwable{
+public class ApplicationErrorException extends Exception{
     private final ErrorCode errorCode;
     private final Object[] params;
 

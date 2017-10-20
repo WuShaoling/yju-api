@@ -1,14 +1,7 @@
 package com.guanshan.phoenix.dao.mapper;
 
 import com.guanshan.phoenix.dao.entity.Term;
-import org.apache.ibatis.annotations.Arg;
-import org.apache.ibatis.annotations.ConstructorArgs;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 import java.util.List;
@@ -71,12 +64,12 @@ public interface TermMapper {
             "select",
             "id, year, semester",
             "from term",
-            "where year = #{year,jdbcType=VARCHAR} and semester = #{semester,jdbcType=VARCHAR}"
+            "where year = #{year,jdbcType=VARCHAR} and semester = #{semester,jdbcType=INTEGER}"
     })
     @ConstructorArgs({
             @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
             @Arg(column="year", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="semester", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
     })
-    Term selectByYearAndSemester(String year, Integer semester);
+    Term selectByYearAndSemester(@Param("year") String year, @Param("semester") Integer semester);
 }
