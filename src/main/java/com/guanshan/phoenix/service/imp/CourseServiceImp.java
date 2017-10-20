@@ -43,6 +43,9 @@ public class CourseServiceImp implements CourseService {
     @Autowired
     private TeacherService teacherService;
 
+    @Autowired
+    private TeacherMapper teacherMapper;
+
     public Course getCourseById(int courseID) throws ApplicationErrorException {
 
         Course course = courseMapper.selectByPrimaryKey(courseID);
@@ -159,11 +162,13 @@ public class CourseServiceImp implements CourseService {
 
     @Override
     public void updateCourse(Course course) throws ApplicationErrorException {
-        int rowUpdate = courseMapper.updateByPrimaryKey(course);
-
-        if(rowUpdate == 0){
+        if(courseMapper.selectByPrimaryKey(course.getId()) == null){
             throw new ApplicationErrorException(ErrorCode.CourseNotExists);
         }
+
+        validateCourse(course);
+
+        courseMapper.updateByPrimaryKey(course);
     }
 
     @Override
@@ -172,7 +177,10 @@ public class CourseServiceImp implements CourseService {
     }
 
     private void validateCourse(Course course) throws ApplicationErrorException {
-        teacherService.getAllTeacherClassInfoById(course.getTeacherId());
+        Teacher teacher = teacherMapper.selectByPrimaryKey(course.getTeacherId());
+        if(teacher == null){
+            throw new ApplicationErrorException(ErrorCode.TeacherNotExists);
+        }
     }
 
     private String getImageUrl(int courseID){
