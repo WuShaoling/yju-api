@@ -3,7 +3,7 @@ package com.guanshan.phoenix.enums;
 public enum RoleEnum {
     STUDENT(1, "student", "学生"),
     TEACHER(2, "teacher", "教师"),
-    MANAGER(2, "manager", "教务员");
+    MANAGER(3, "manager", "教务员");
 
     private int code;
     private String en;
