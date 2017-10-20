@@ -1,14 +1,7 @@
 package com.guanshan.phoenix.dao.mapper;
 
 import com.guanshan.phoenix.dao.entity.StudentExperiment;
-import org.apache.ibatis.annotations.Arg;
-import org.apache.ibatis.annotations.ConstructorArgs;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 public interface StudentExperimentMapper {
@@ -54,4 +47,8 @@ public interface StudentExperimentMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(StudentExperiment record);
+
+
+    @Select("SELECT cloudware_id FROM student_experiment WHERE student_id=#{studentId} AND experiment_id=#{experimentId}")
+    int selectCloudwareIdByStudentIdAndExperimentId(@Param("studentId") Integer studentId, @Param("experimentId") Integer experimentId);
 }

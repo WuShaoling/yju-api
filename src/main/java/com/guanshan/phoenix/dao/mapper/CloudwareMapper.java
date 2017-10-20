@@ -48,4 +48,7 @@ public interface CloudwareMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Cloudware record);
+
+    @Select("SELECT web_socket FROM cloudware WHERE id=#{id}")
+    String selectWebSocketById(@Param("id") Integer id);
 }
