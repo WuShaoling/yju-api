@@ -69,7 +69,8 @@ public interface ExperimentMapper {
     int updateByPrimaryKey(Experiment record);
 
     @Select({
-            "select *",
+            "select",
+            "id, module_id, name, description, cloudware_type, publish_date, deadline_date",
             "from experiment",
             "where module_id = #{moduleId,jdbcType=INTEGER}"
     })
@@ -78,7 +79,26 @@ public interface ExperimentMapper {
             @Arg(column="module_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="description", javaType=String.class, jdbcType=JdbcType.VARCHAR),
-            @Arg(column="cloudware_type", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
+            @Arg(column="cloudware_type", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="publish_date", javaType=Date.class, jdbcType=JdbcType.DATE),
+            @Arg(column="deadline_date", javaType=Date.class, jdbcType=JdbcType.DATE)
     })
     List<Experiment> selectByModuleId(Integer moduleId);
+
+    @Select({
+            "select",
+            "e.id, e.module_id, e.name, e.description, e.cloudware_type, e.publish_date, e.deadline_date",
+            "from experiment e inner join module m on e.module_id = m.id",
+            "where m.course_id = #{courseId,jdbcType=INTEGER}"
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="module_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="description", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="cloudware_type", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="publish_date", javaType=Date.class, jdbcType=JdbcType.DATE),
+            @Arg(column="deadline_date", javaType=Date.class, jdbcType=JdbcType.DATE)
+    })
+    List<Experiment> selectByCourseId(Integer courseId);
 }

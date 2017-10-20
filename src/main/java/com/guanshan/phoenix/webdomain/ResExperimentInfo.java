@@ -23,7 +23,7 @@ public class ResExperimentInfo {
             this.setExperimentName(experiment.getName());
             this.setExperimentDes(experiment.getDescription());
             CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt(experiment.getCloudwareType());
-            this.setCloudwareType(cloudwareType == null ? "" : cloudwareType.getZh());
+            this.setCloudwareType(cloudwareType == null ? "" : cloudwareType.toString());
             this.setDueDate(experiment.getDeadlineDate().toString());
             this.setPublishDate(experiment.getPublishDate().toString());
         }
