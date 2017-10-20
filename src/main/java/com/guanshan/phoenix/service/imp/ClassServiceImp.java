@@ -89,7 +89,6 @@ public class ClassServiceImp implements ClassService {
     @Override
     public int deleteClassStudent(ReqDeleteClassStudent reqDeleteClassStudent) throws ApplicationErrorException {
         studentClassMapper.deleteByClassIdAndStudentId(reqDeleteClassStudent.getClassId(), reqDeleteClassStudent.getStudnetId());
-        studentMapper.deleteByPrimaryKey(reqDeleteClassStudent.getStudnetId());
         return 0;
     }
 
@@ -99,11 +98,6 @@ public class ClassServiceImp implements ClassService {
         studentClass.setClassId(reqAddClassStudent.getClassId());
         studentClass.setStudentId(reqAddClassStudent.getStudentId());
         studentClassMapper.insert(studentClass);
-
-        Student student = new Student();
-        student.setName(reqAddClassStudent.getStudentName());
-        student.setGender(reqAddClassStudent.getGender());
-        studentMapper.insertSelective(student);
 
         return 0;
     }
