@@ -4,6 +4,7 @@ import com.guanshan.phoenix.dao.entity.Course;
 import com.guanshan.phoenix.dao.entity.Experiment;
 import com.guanshan.phoenix.dao.entity.Module;
 import com.guanshan.phoenix.dao.entity.Term;
+import com.guanshan.phoenix.enums.ResourceTypeEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ResponseMessage;
 import com.guanshan.phoenix.service.*;
@@ -15,6 +16,9 @@ import com.guanshan.phoenix.webdomain.ResTeacherList;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+
 
 @CrossOrigin
 @RestController
@@ -47,6 +51,10 @@ public class ManagerController {
 
     @Autowired
     private ExperimentService experimentService;
+
+    @Autowired
+    private FileService fileService;
+
 
     @ApiOperation(value = "获取所有老师信息", notes = "")
     @GetMapping(value = "teacher/all")
@@ -255,6 +263,20 @@ public class ManagerController {
     @ApiOperation(value = "获取课时图片资源", notes = "")
     @PostMapping(value = "/admin/course/{moduleId}/lib")
     public ResponseMessage<ResModuleImages> getModuleImageUrls(@PathVariable("moduleId") int moduleId) throws ApplicationErrorException {
-        return new ResponseMessage.Success<ResModuleImages>(moduleService.getModuleImageUrls(moduleId));
+        return new ResponseMessage.Success<>(moduleService.getModuleImageUrls(moduleId));
+    }
+
+    @ApiOperation(value = "上传markdown文档", notes = "")
+    @PostMapping(value = "/course/experiment/markdown")
+    public ResponseMessage<String> uploadMarkdown(@RequestParam("file") MultipartFile file) throws ApplicationErrorException {
+        return new ResponseMessage.Success<>(fileService.uploadFile(file, ResourceTypeEnum.MARKDOWN));
+    }
+
+    @ApiOperation(value = "上传图片资源", notes = "")
+    @PostMapping(value = "/course/experiment/piclib")
+    public ResponseMessage<String> uploadImage(@RequestParam("file") MultipartFile file) throws ApplicationErrorException {
+        return new ResponseMessage.Success<>(fileService.uploadFile(file, ResourceTypeEnum.IMAGE));
     }
 }
+
+
