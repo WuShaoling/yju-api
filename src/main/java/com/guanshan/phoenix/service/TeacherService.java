@@ -20,5 +20,7 @@ public interface TeacherService {
 
     void updateTeacher(ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException;
 
+    void createTeacher(ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException;
+
     void deleteTeacherByTeacherUserId(int teacherId);
 }

@@ -28,6 +28,10 @@ public class Teacher {
         this.phone = phone;
     }
 
+    public Teacher(Integer userId, String tno, String name, Integer gender, Integer title, String email, String phone) {
+        this(0, userId, tno, name, gender, title, email, phone);
+    }
+
     public Teacher() {
         super();
     }
