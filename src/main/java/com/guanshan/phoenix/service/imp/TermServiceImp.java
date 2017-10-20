@@ -38,11 +38,11 @@ public class TermServiceImp implements TermService {
 
     @Override
     public void update(Term term) throws ApplicationErrorException {
-        int rowUpdated = termMapper.updateByPrimaryKey(term);
-
-        if(rowUpdated == 0){
+        if(termMapper.selectByPrimaryKey(term.getId()) == null){
             throw new ApplicationErrorException(ErrorCode.TermNotExists);
         }
+
+        termMapper.updateByPrimaryKey(term);
     }
 
     @Override
