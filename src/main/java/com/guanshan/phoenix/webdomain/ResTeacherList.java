@@ -1,5 +1,9 @@
 package com.guanshan.phoenix.webdomain;
 
+import com.guanshan.phoenix.dao.entity.Teacher;
+import com.guanshan.phoenix.enums.GenderEnum;
+import com.guanshan.phoenix.enums.TitleEnum;
+
 import java.util.List;
 
 public class ResTeacherList {
@@ -21,6 +25,19 @@ public class ResTeacherList {
         private String teacherTitle;
         private String gender;
         private String teacherContact;
+
+        public ResTeacherInfo(){}
+
+        public ResTeacherInfo(Teacher teacher){
+            this.setId(teacher.getUserId());
+            this.setTeacherId(teacher.getId());
+            this.setTeacherName(teacher.getName());
+            TitleEnum title = TitleEnum.fromInt(teacher.getTitle());
+            this.setTeacherTitle(title == null ? "" : title.getZh());
+            this.setGender(teacher.getGender() == GenderEnum.MALE.getCode() ?
+                    GenderEnum.MALE.getZh() : GenderEnum.FEMALE.getZh());
+            this.setTeacherContact(teacher.getEmail());
+        }
 
         public int getId() {
             return id;

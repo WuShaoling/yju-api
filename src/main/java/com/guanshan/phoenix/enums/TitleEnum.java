@@ -50,9 +50,9 @@ public enum TitleEnum {
         return "null";
     }
 
-    public static TitleEnum fromInt(int i) throws ApplicationErrorException {
+    public static TitleEnum fromInt(int i) {
         if(i >= TitleEnum.values().length){
-            throw new ApplicationErrorException(ErrorCode.InvalidTitle);
+            return null;
         }
         return TitleEnum.values()[i-1];
     }

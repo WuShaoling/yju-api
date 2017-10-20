@@ -89,16 +89,8 @@ public class TeacherServiceImp implements TeacherService {
         teacherList.setTeacherInfoList(teacherInfoList);
 
         for (Teacher teacher : teacherMapper.getAllTeachers()){
-            ResTeacherList.ResTeacherInfo teacherInfo = new ResTeacherList.ResTeacherInfo();
+            ResTeacherList.ResTeacherInfo teacherInfo = new ResTeacherList.ResTeacherInfo(teacher);
             teacherInfoList.add(teacherInfo);
-
-            teacherInfo.setId(teacher.getUserId());
-            teacherInfo.setTeacherId(teacher.getId());
-            teacherInfo.setTeacherName(teacher.getName());
-            teacherInfo.setTeacherTitle(TitleEnum.fromInt(teacher.getTitle()).getZh());
-            teacherInfo.setGender(teacher.getGender() == GenderEnum.MALE.getCode() ?
-                    GenderEnum.MALE.getZh() : GenderEnum.FEMALE.getZh());
-            teacherInfo.setTeacherContact(teacher.getEmail());
         }
 
         return teacherList;
@@ -126,6 +118,9 @@ public class TeacherServiceImp implements TeacherService {
         Teacher teacher = this.getTeacherById(reqUpdateTeacher.getTeacherId());
         //validate title enum
         TitleEnum title = TitleEnum.fromInt(reqUpdateTeacher.getTeacherTitleId());
+        if(title == null){
+            throw new ApplicationErrorException(ErrorCode.InvalidTitle);
+        }
         teacher.setTitle(title.getCode());
         teacher.setGender(reqUpdateTeacher.getGender() == GenderEnum.MALE.getCode() ?
                 GenderEnum.MALE.getCode(): GenderEnum.FEMALE.getCode()
