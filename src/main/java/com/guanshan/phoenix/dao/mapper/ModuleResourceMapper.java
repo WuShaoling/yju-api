@@ -11,6 +11,8 @@ import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
 
+import java.util.List;
+
 public interface ModuleResourceMapper {
     @Delete({
         "delete from module_resource",
@@ -52,4 +54,17 @@ public interface ModuleResourceMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(ModuleResource record);
+
+    @Select({
+            "select",
+            "id, module_id, resource_id",
+            "from module_resource",
+            "where module_id = #{moduleId,jdbcType=INTEGER}"
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="module_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="resource_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
+    })
+    List<ModuleResource> selectByModuleId(Integer moduleId);
 }
