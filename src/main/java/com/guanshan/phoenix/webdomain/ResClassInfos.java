@@ -6,7 +6,7 @@ public class ResClassInfos {
 
     private List<ResClassInfo> classInfoList;
 
-    public class ResClassInfo {
+    public static class ResClassInfo {
         private int classId;
         private int courseId;
         private String courseName;

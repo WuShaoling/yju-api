@@ -59,7 +59,8 @@ public class HomeworkServiceImp implements HomeworkService {
         homeworkDetail.setHomeworkName(homework.getName());
         homeworkDetail.setHomeworkDes(homework.getDescription());
         homeworkDetail.setClassId(homework.getClassId());
-        homeworkDetail.setCloudwareType(CloudwareTypeEnum.fromInt(homework.getCloudwareType()).toString());
+        CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt(homework.getCloudwareType());
+        homeworkDetail.setCloudwareType(cloudwareType == null ? "" : cloudwareType.toString());
         homeworkDetail.setDueDate(homework.getDeadlineDate().toString());
         homeworkDetail.setPublishDate(homework.getPublishDate().toString());
 
@@ -95,7 +96,7 @@ public class HomeworkServiceImp implements HomeworkService {
         homeworkDetail.setCourseName(course.getName());
         homeworkDetail.setModuleName(module.getName());
         homeworkDetail.setHomeworkName(homework.getName());
-        homeworkDetail.setStudentId(student.getId());
+        homeworkDetail.setStudentId(student.getUserId());
         homeworkDetail.setStudentName(student.getName());
         homeworkDetail.setCloudwareUrl(studentHomework.getCloudwareUrl());
         homeworkDetail.setHomeworkUrl(studentHomework.getHomeworkUrl());
@@ -105,6 +106,7 @@ public class HomeworkServiceImp implements HomeworkService {
 
     @Override
     public int deleteHomework(int homeworkID) throws ApplicationErrorException {
+        //todo: delete related student_homework and cloudware table
         homeworkMapper.deleteByPrimaryKey(homeworkID);
         return 0;
     }
@@ -173,7 +175,8 @@ public class HomeworkServiceImp implements HomeworkService {
                 resClassHomeworkModuleHomework.setHomeworkDes(homework.getDescription());
                 resClassHomeworkModuleHomework.setHomeworkCreateDate(homework.getPublishDate().toString());
                 resClassHomeworkModuleHomework.setHomeworkDueDate(homework.getDeadlineDate().toString());
-                resClassHomeworkModuleHomework.setCloudwareType(homework.getCloudwareType());
+                CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt(homework.getCloudwareType());
+                resClassHomeworkModuleHomework.setCloudwareType(cloudwareType == null ? "" : cloudwareType.toString());
 
                 homeworks.add(resClassHomeworkModuleHomework);
             }
@@ -199,12 +202,12 @@ public class HomeworkServiceImp implements HomeworkService {
             submissionDetails.add(submissionDetail);
 
             submissionDetail.setHomeworkId(homework.getId());
-            submissionDetail.setStudentId(student.getId());
+            submissionDetail.setStudentId(student.getUserId());
             submissionDetail.setStudentName(student.getName());
             submissionDetail.setDueDate(homework.getDeadlineDate().toString());
 
             StudentHomework studentHomework =
-                studentHomeworkMapper.selectByStudentIdAndHomeworkId(student.getId(), homework.getId());
+                studentHomeworkMapper.selectByStudentIdAndHomeworkId(student.getUserId(), homework.getId());
 
             if(studentHomework == null){
                 submissionDetail.setStudentHomeworkId(0);

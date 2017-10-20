@@ -10,9 +10,9 @@ import com.guanshan.phoenix.webdomain.ResTeacherList;
 import java.util.List;
 
 public interface TeacherService {
-    Teacher getTeacherById(int teacherID) throws ApplicationErrorException;
+    Teacher getTeacherByUserId(int teacherID) throws ApplicationErrorException;
 
-    ResTeacherClassList getAllTeacherClassInfoById(int teacherId) throws ApplicationErrorException;
+    ResTeacherClassList getAllTeacherClassInfoByUserId(int teacherId) throws ApplicationErrorException;
 
     void gradeHomework(ReqHomeworkGrade homeworkGrade) throws ApplicationErrorException;
 
@@ -20,5 +20,5 @@ public interface TeacherService {
 
     void updateTeacher(ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException;
 
-    void deleteTeacherByTeacherId(int teacherId);
+    void deleteTeacherByTeacherUserId(int teacherId);
 }

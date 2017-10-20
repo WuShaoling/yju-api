@@ -68,7 +68,7 @@ public class ClassServiceImp implements ClassService {
         Clazz classInfo = this.getClassById(classID);
         Term termInfo = termService.getTermById(classInfo.getTermId());
         Course courseInfo = courseService.getCourseById(classInfo.getCourseId());
-        Teacher teacherInfo = teacherService.getTeacherById(courseInfo.getTeacherId());
+        Teacher teacherInfo = teacherService.getTeacherByUserId(courseInfo.getTeacherId());
 
         ResClassDetail resClassDetailInfo = new ResClassDetail();
         resClassDetailInfo.setClassId(classInfo.getId());
@@ -110,8 +110,8 @@ public class ClassServiceImp implements ClassService {
         List<StudentClass> studentClassList = studentClassMapper.selectByClassID(classId);
         for (StudentClass studentClass : studentClassList) {
             ResClassStudents.ResClassStudent resClassStudent = new ResClassStudents().new ResClassStudent();
-            Student student = studentMapper.selectByPrimaryKey(studentClass.getStudentId());
-            resClassStudent.setId(student.getId());
+            Student student = studentMapper.selectByUserId(studentClass.getStudentId());
+            resClassStudent.setId(student.getUserId());
             resClassStudent.setSno(student.getSno());
             resClassStudent.setStudentName(student.getName());
             resClassStudent.setGender(student.getGender());
@@ -125,6 +125,7 @@ public class ClassServiceImp implements ClassService {
 
     @Override
     public int deleteClass(int classId) {
+        //todo: delete homework, student_homework, cloudware
         clazzMapper.deleteByPrimaryKey(classId);
         studentClassMapper.deleteByClassId(classId);
         return 0;
@@ -165,7 +166,7 @@ public class ClassServiceImp implements ClassService {
 
         List<Clazz> clazzList = clazzMapper.selectAll();
         for (Clazz clazz : clazzList) {
-            ResClassInfos.ResClassInfo resClassInfo = new ResClassInfos().new ResClassInfo();
+            ResClassInfos.ResClassInfo resClassInfo = new ResClassInfos.ResClassInfo();
 
             resClassInfo.setClassId(clazz.getId());
             resClassInfo.setCourseId(clazz.getCourseId());
@@ -174,12 +175,12 @@ public class ClassServiceImp implements ClassService {
             resClassInfo.setCourseName(course.getName());
             resClassInfo.setCourseDes(course.getDescription());
 
-            Teacher teacher = teacherMapper.selectByPrimaryKey(course.getTeacherId());
+            Teacher teacher = teacherMapper.selectByUserId(course.getTeacherId());
             resClassInfo.setTeacherName(teacher.getName());
             resClassInfo.setTeacherContact(teacher.getEmail());
 
             Term term = termMapper.selectByPrimaryKey(clazz.getTermId());
-            resClassInfo.setTerm(term.getYear()+""+ SemesterEnum.getZhFromCode(term.getSemester()));
+            resClassInfo.setTerm(term.getDescription());
 
             CourseResource courseResource = courseResourceMapper.selectByCourseId(clazz.getCourseId());
             Resource resource = resourceMapper.selectByPrimaryKey(courseResource.getResourceId());

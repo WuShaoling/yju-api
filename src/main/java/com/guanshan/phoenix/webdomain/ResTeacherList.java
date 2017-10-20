@@ -20,7 +20,7 @@ public class ResTeacherList {
 
     public static class ResTeacherInfo {
         private int id;
-        private int teacherId;
+        private String teacherNo;
         private String teacherName;
         private String teacherTitle;
         private String gender;
@@ -30,7 +30,7 @@ public class ResTeacherList {
 
         public ResTeacherInfo(Teacher teacher){
             this.setId(teacher.getUserId());
-            this.setTeacherId(teacher.getId());
+            this.setTeacherNo(teacher.getTno());
             this.setTeacherName(teacher.getName());
             TitleEnum title = TitleEnum.fromInt(teacher.getTitle());
             this.setTeacherTitle(title == null ? "" : title.getZh());
@@ -47,12 +47,12 @@ public class ResTeacherList {
             this.id = id;
         }
 
-        public int getTeacherId() {
-            return teacherId;
+        public String getTeacherNo() {
+            return teacherNo;
         }
 
-        public void setTeacherId(int teacherId) {
-            this.teacherId = teacherId;
+        public void setTeacherNo(String teacherNo) {
+            this.teacherNo = teacherNo;
         }
 
         public String getTeacherName() {

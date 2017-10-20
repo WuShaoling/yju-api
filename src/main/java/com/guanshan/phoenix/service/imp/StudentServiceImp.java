@@ -27,17 +27,17 @@ public class StudentServiceImp implements StudentService {
 
 
     @Override
-    public List<StudentClass> getAllStudentClassById(int studentID) {
-        return studentClassMapper.selectByStudentID(studentID);
+    public List<StudentClass> getAllStudentClassByUserId(int studentID) {
+        return studentClassMapper.selectByStudentUserId(studentID);
     }
 
     @Override
-    public ResStudentClassList getAllStudentClassInfoById(int studentID) throws ApplicationErrorException {
+    public ResStudentClassList getAllStudentClassInfoByUserId(int studentID) throws ApplicationErrorException {
         ResStudentClassList resStudentClassInfoList = new ResStudentClassList();
         List<ResClassDetail> resStudentClasses = new ArrayList<>();
         resStudentClassInfoList.setStudentClassList(resStudentClasses);
 
-        List<StudentClass> studentClasses = this.getAllStudentClassById(studentID);
+        List<StudentClass> studentClasses = this.getAllStudentClassByUserId(studentID);
         for (StudentClass studentClass : studentClasses) {
             ResClassDetail resClassDetailInfo = classService.getClassDetailInfo(studentClass.getClassId());
             resStudentClasses.add(resClassDetailInfo);
@@ -49,10 +49,10 @@ public class StudentServiceImp implements StudentService {
     @Override
     public int updateStudentInfo(ReqUpdateStudent reqUpdateStudent) throws ApplicationErrorException {
         Student student = new Student();
-        student.setId(reqUpdateStudent.getStudentId());
+        student.setUserId(reqUpdateStudent.getStudentId());
         student.setName(reqUpdateStudent.getStudentName());
         student.setGender(reqUpdateStudent.getGender());
-        studentMapper.updateByPrimaryKeySelective(student);
+        studentMapper.updateByUserId(student);
 
         return 0;
     }

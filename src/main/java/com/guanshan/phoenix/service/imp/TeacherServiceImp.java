@@ -4,11 +4,9 @@ import com.guanshan.phoenix.Util.Utility;
 import com.guanshan.phoenix.dao.entity.Clazz;
 import com.guanshan.phoenix.dao.entity.StudentHomework;
 import com.guanshan.phoenix.dao.entity.Teacher;
-import com.guanshan.phoenix.dao.entity.User;
 import com.guanshan.phoenix.dao.mapper.ClazzMapper;
 import com.guanshan.phoenix.dao.mapper.StudentHomeworkMapper;
 import com.guanshan.phoenix.dao.mapper.TeacherMapper;
-import com.guanshan.phoenix.dao.mapper.UserMapper;
 import com.guanshan.phoenix.enums.GenderEnum;
 import com.guanshan.phoenix.enums.TitleEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
@@ -46,9 +44,9 @@ public class TeacherServiceImp implements TeacherService {
     private UserService userService;
 
     @Override
-    public Teacher getTeacherById(int teacherID) throws ApplicationErrorException {
+    public Teacher getTeacherByUserId(int teacherID) throws ApplicationErrorException {
 
-        Teacher teacher = teacherMapper.selectByPrimaryKey(teacherID);
+        Teacher teacher = teacherMapper.selectByUserId(teacherID);
         if(teacher == null){
             throw new ApplicationErrorException(ErrorCode.TeacherNotExists);
         }
@@ -57,12 +55,12 @@ public class TeacherServiceImp implements TeacherService {
     }
 
     @Override
-    public ResTeacherClassList getAllTeacherClassInfoById(int teacherId) throws ApplicationErrorException {
+    public ResTeacherClassList getAllTeacherClassInfoByUserId(int teacherUserId) throws ApplicationErrorException {
         ResTeacherClassList resTeacherClassList = new ResTeacherClassList();
         List<ResClassDetail> resTeacherClasses = new ArrayList<>();
         resTeacherClassList.setTeacherClassList(resTeacherClasses);
 
-        List<Clazz> classes = clazzMapper.selectByTeacherId(teacherId);
+        List<Clazz> classes = clazzMapper.selectByTeacherUserId(teacherUserId);
         for (Clazz clazz : classes) {
             ResClassDetail resClassDetailInfo = classService.getClassDetailInfo(clazz.getId());
             resTeacherClasses.add(resClassDetailInfo);
@@ -100,22 +98,22 @@ public class TeacherServiceImp implements TeacherService {
     public void updateTeacher(ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException {
         Teacher teacher = validateTeacher(reqUpdateTeacher);
 
-        teacherMapper.updateByPrimaryKey(teacher);
+        teacherMapper.updateByUserId(teacher);
     }
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
-    public void deleteTeacherByTeacherId(int teacherId) {
-        Teacher teacher = teacherMapper.selectByPrimaryKey(teacherId);
+    public void deleteTeacherByTeacherUserId(int teacherId) {
+        Teacher teacher = teacherMapper.selectByUserId(teacherId);
         if(teacher == null)
             return;
 
         userService.deleteUserById(teacher.getUserId());
-        teacherMapper.deleteByPrimaryKey(teacherId);
+        teacherMapper.deleteByUserId(teacherId);
     }
 
     private Teacher validateTeacher(ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException {
-        Teacher teacher = this.getTeacherById(reqUpdateTeacher.getTeacherId());
+        Teacher teacher = this.getTeacherByUserId(reqUpdateTeacher.getId());
         //validate title enum
         TitleEnum title = TitleEnum.fromInt(reqUpdateTeacher.getTeacherTitleId());
         if(title == null){

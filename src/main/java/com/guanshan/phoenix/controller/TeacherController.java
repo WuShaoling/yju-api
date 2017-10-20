@@ -26,7 +26,7 @@ public class TeacherController {
     @ApiOperation(value = "选课列表", notes = "列出所有该教师的班级列表")
     @GetMapping(value = "{teacherId}/course/all")
     public ResponseMessage<ResTeacherClassList> getAllTeacherCourses(@PathVariable int teacherId) throws ApplicationErrorException {
-        return new ResponseMessage.Success<>(teacherService.getAllTeacherClassInfoById(teacherId));
+        return new ResponseMessage.Success<>(teacherService.getAllTeacherClassInfoByUserId(teacherId));
     }
 
     @ApiOperation(value = "课程详情", notes = "列出所有该课程的课时以及属于这些课时的所有实验内容")

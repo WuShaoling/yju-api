@@ -2,7 +2,6 @@ package com.guanshan.phoenix.service.imp;
 
 import com.guanshan.phoenix.dao.entity.*;
 import com.guanshan.phoenix.dao.mapper.*;
-import com.guanshan.phoenix.enums.CloudwareTypeEnum;
 import com.guanshan.phoenix.enums.ResourceTypeEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
@@ -145,7 +144,7 @@ public class CourseServiceImp implements CourseService {
             courseInfo.setCourseName(course.getName());
             courseInfo.setCourseDes(course.getDescription());
 
-            Teacher teacher = teacherService.getTeacherById(course.getTeacherId());
+            Teacher teacher = teacherService.getTeacherByUserId(course.getTeacherId());
             courseInfo.setTeacherName(teacher.getName());
             courseInfo.setTeacherContact(teacher.getEmail());
         }
@@ -177,7 +176,7 @@ public class CourseServiceImp implements CourseService {
     }
 
     private void validateCourse(Course course) throws ApplicationErrorException {
-        Teacher teacher = teacherMapper.selectByPrimaryKey(course.getTeacherId());
+        Teacher teacher = teacherMapper.selectByUserId(course.getTeacherId());
         if(teacher == null){
             throw new ApplicationErrorException(ErrorCode.TeacherNotExists);
         }

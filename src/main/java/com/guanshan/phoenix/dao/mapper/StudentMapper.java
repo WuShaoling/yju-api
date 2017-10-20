@@ -63,11 +63,21 @@ public interface StudentMapper {
     })
     int updateByPrimaryKey(Student record);
 
+    @Update({
+            "update student",
+            "set sno = #{sno,jdbcType=VARCHAR},",
+            "name = #{name,jdbcType=VARCHAR},",
+            "gender = #{gender,jdbcType=INTEGER},",
+            "birthday = #{birthday,jdbcType=VARCHAR}",
+            "where user_id = #{userId,jdbcType=INTEGER}"
+    })
+    int updateByUserId(Student record);
+
     @Select({
             "select",
             "s.id, s.user_id, s.sno, s.name, s.gender, s.birthday",
             "from student s",
-                "inner join student_class sc on sc.student_id = s.id",
+                "inner join student_class sc on sc.student_id = s.user_id",
             "where sc.id = #{classId,jdbcType=INTEGER}"
     })
     @ConstructorArgs({
@@ -79,4 +89,20 @@ public interface StudentMapper {
             @Arg(column="birthday", javaType=String.class, jdbcType=JdbcType.VARCHAR)
     })
     List<Student> selectByClassId(int classId);
+
+    @Select({
+            "select",
+            "id, user_id, sno, name, gender, birthday",
+            "from student",
+            "where user_id = #{userId,jdbcType=INTEGER}"
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="user_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="sno", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="gender", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="birthday", javaType=String.class, jdbcType=JdbcType.VARCHAR)
+    })
+    Student selectByUserId(Integer userId);
 }

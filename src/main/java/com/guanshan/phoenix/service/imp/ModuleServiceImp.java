@@ -32,6 +32,7 @@ public class ModuleServiceImp implements ModuleService {
 
     @Override
     public void deleteModule(int moduleId) {
+        //todo: delete all homework, student_homework and cloudware
         moduleMapper.deleteByPrimaryKey(moduleId);
     }
 }

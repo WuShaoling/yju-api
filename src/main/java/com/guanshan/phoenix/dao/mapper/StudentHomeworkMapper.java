@@ -80,11 +80,11 @@ public interface StudentHomeworkMapper {
             "select",
             "sh.id, sh.student_id, sh.homework_id, sh.cloudware_id, sh.comment, sh.score, sh.submission_date, ",
             "sh.lastEdit_date, cw.web_socket, r.url",
-            "from student_homework sh inner join cloudware cw on cw.id=cloudware_id",
+            "from student_homework sh inner join cloudware cw on cw.id=sh.cloudware_id",
             "left out join student_homework_resource shr on shr.student_homework_id = sh.id",
             "and shr.type = 1",
             "inner join resource r on r.id = shr.resource_id",
-            "where sh.id = #{id,jdbcType=INTEGER}"
+            "where sh.student_id = #{studentId,jdbcType=INTEGER} and sh.homework_id = #{homeworkId,jdbcType=INTEGER}"
     })
     @ConstructorArgs({
             @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),

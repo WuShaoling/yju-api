@@ -59,7 +59,7 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
 
     @Override
     public void validStudentHomeWork(int studentId, int homeworkId) throws ApplicationErrorException {
-        if(studentMapper.selectByPrimaryKey(studentId) == null){
+        if(studentMapper.selectByUserId(studentId) == null){
             throw new ApplicationErrorException(ErrorCode.StudentNotExists);
         }
 

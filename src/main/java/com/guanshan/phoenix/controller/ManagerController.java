@@ -60,7 +60,7 @@ public class ManagerController {
     @ApiOperation(value = "删除老师", notes = "")
     @PostMapping(value = "teacher/deletion")
     public ResponseMessage deleteTeacher(@RequestParam("teacherId") int teacherId) throws ApplicationErrorException {
-        teacherService.deleteTeacherByTeacherId(teacherId);
+        teacherService.deleteTeacherByTeacherUserId(teacherId);
         return new ResponseMessage.Success();
     }
 
@@ -86,7 +86,7 @@ public class ManagerController {
 
     @ApiOperation(value = "删除学期", notes = "")
     @PostMapping(value = "semester/deletion")
-    public ResponseMessage deleteSemester(@RequestParam("semesterId") int semesterId) throws ApplicationErrorException {
+    public ResponseMessage deleteSemester(@RequestParam int semesterId) throws ApplicationErrorException {
         termService.delete(semesterId);
         return new ResponseMessage.Success();
     }
@@ -108,8 +108,8 @@ public class ManagerController {
 
     @ApiOperation(value = "添加作业", notes = "")
     @PostMapping(value = "class/homework/creation")
-    public ResponseMessage updateHomework(@RequestBody ReqCreateHomework reqUpdateHomework) throws ApplicationErrorException {
-        homeworkService.createHomework(reqUpdateHomework);
+    public ResponseMessage createHomework(@RequestBody ReqCreateHomework reqCreateHomework) throws ApplicationErrorException {
+        homeworkService.createHomework(reqCreateHomework);
         return new ResponseMessage.Success();
     }
 
@@ -118,8 +118,6 @@ public class ManagerController {
     public ResponseMessage<ResClassHomework> getClassHomework(@PathVariable("classId") int classId) throws ApplicationErrorException {
         return new ResponseMessage.Success<>(homeworkService.getClassHomework(classId));
     }
-
-
 
     @ApiOperation(value = "获取课程信息", notes = "")
     @GetMapping(value = "course/all")

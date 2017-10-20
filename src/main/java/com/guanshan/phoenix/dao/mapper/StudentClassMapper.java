@@ -58,7 +58,7 @@ public interface StudentClassMapper {
             @Arg(column="student_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="class_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
     })
-    List<StudentClass> selectByStudentID(Integer studentId);
+    List<StudentClass> selectByStudentUserId(Integer studentId);
 
     @Delete("DELETE FROM student_class WHERE student_id=#{studentId} AND class_id=#{classId}")
     int deleteByClassIdAndStudentId(@Param("classId") Integer classId, @Param("studentId") Integer studentId);

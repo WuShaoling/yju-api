@@ -20,6 +20,12 @@ public interface TeacherMapper {
     })
     int deleteByPrimaryKey(Integer id);
 
+    @Delete({
+            "delete from teacher",
+            "where user_id = #{userId,jdbcType=INTEGER}"
+    })
+    int deleteByUserId(Integer userId);
+
     @Insert({
         "insert into teacher (id, user_id, ",
         "tno, name, gender, ",
@@ -66,6 +72,36 @@ public interface TeacherMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Teacher record);
+
+    @Update({
+            "update teacher",
+            "set tno = #{tno,jdbcType=VARCHAR},",
+            "name = #{name,jdbcType=VARCHAR},",
+            "gender = #{gender,jdbcType=INTEGER},",
+            "title = #{title,jdbcType=INTEGER},",
+            "email = #{email,jdbcType=VARCHAR},",
+            "phone = #{phone,jdbcType=VARCHAR}",
+            "where user_id = #{userId,jdbcType=INTEGER}"
+    })
+    int updateByUserId(Teacher record);
+
+    @Select({
+            "select",
+            "id, user_id, tno, name, gender, title, email, phone",
+            "from teacher",
+            "where user_id = #{userId,jdbcType=INTEGER}"
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="user_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="tno", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="gender", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="title", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="email", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="phone", javaType=String.class, jdbcType=JdbcType.VARCHAR)
+    })
+    Teacher selectByUserId(Integer userId);
 
     @Select({
             "select",

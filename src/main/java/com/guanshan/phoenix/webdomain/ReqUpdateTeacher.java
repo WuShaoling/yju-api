@@ -1,18 +1,27 @@
 package com.guanshan.phoenix.webdomain;
 
 public class ReqUpdateTeacher {
-    private int teacherId;
+    private int id;
+    private String teacherNo;
     private String teacherName;
     private int teacherTitleId;
     private int gender;
     private String teacherContact;
 
-    public int getTeacherId() {
-        return teacherId;
+    public int getId() {
+        return id;
     }
 
-    public void setTeacherId(int teacherId) {
-        this.teacherId = teacherId;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTeacherNo() {
+        return teacherNo;
+    }
+
+    public void setTeacherNo(String teacherNo) {
+        this.teacherNo = teacherNo;
     }
 
     public String getTeacherName() {
