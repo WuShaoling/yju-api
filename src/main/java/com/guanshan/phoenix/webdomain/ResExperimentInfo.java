@@ -1,5 +1,6 @@
 package com.guanshan.phoenix.webdomain;
 
+import com.guanshan.phoenix.Util.Utility;
 import com.guanshan.phoenix.dao.entity.Experiment;
 import com.guanshan.phoenix.enums.CloudwareTypeEnum;
 
@@ -24,8 +25,8 @@ public class ResExperimentInfo {
             this.setExperimentDes(experiment.getDescription());
             CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt(experiment.getCloudwareType());
             this.setCloudwareType(cloudwareType == null ? "" : cloudwareType.toString());
-            this.setDueDate(experiment.getDeadlineDate().toString());
-            this.setPublishDate(experiment.getPublishDate().toString());
+            this.setDueDate(Utility.formatDate(experiment.getDeadlineDate()));
+            this.setPublishDate(Utility.formatDate(experiment.getPublishDate()));
         }
 
         public int getId() {

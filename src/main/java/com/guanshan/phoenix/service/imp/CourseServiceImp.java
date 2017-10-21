@@ -98,6 +98,7 @@ public class CourseServiceImp implements CourseService {
         courseDetail.setCourseName(course.getName());
 
         List<ResExperimentInfo> experimentInfoList = new ArrayList<>();
+        courseDetail.setExperiments(experimentInfoList);
         for(Experiment experiment : experimentMapper.selectByCourseId(courseId)){
             ResExperimentInfo resExperimentInfo = new ResExperimentInfo(experiment);
             experimentInfoList.add(resExperimentInfo);
