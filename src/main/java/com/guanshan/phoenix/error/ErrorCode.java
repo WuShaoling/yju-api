@@ -64,6 +64,9 @@ public enum ErrorCode {
     @ErrorMessage("你不在这个班级里，无法提交作业")
     StudentNotInClass(20),
 
+    @ErrorMessage("该课时不存在")
+    ModuleNotExists(21),
+
     @ErrorMessage("服务器出错，请联系管理员。")
     GeneralError(Integer.MAX_VALUE);
 

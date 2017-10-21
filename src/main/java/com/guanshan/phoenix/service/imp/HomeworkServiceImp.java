@@ -73,7 +73,11 @@ public class HomeworkServiceImp implements HomeworkService {
     }
 
     @Override
-    public ResHomeworkSubmissionList getAllHomeworkSubmissionByModuleId(int moduleId) {
+    public ResHomeworkSubmissionList getAllHomeworkSubmissionByModuleId(int moduleId) throws ApplicationErrorException {
+        if(moduleMapper.selectByPrimaryKey(moduleId) == null){
+            throw new ApplicationErrorException(ErrorCode.ModuleNotExists);
+        }
+
         List<Homework> homeworks = homeworkMapper.selectByModuleId(moduleId);
         ResHomeworkSubmissionList submissionList = new ResHomeworkSubmissionList();
         List<ResHomeworkSubmissionList.ResHomeworkSubmissionDetail> submissionDetails =
@@ -209,7 +213,7 @@ public class HomeworkServiceImp implements HomeworkService {
             submissionDetail.setHomeworkId(homework.getId());
             submissionDetail.setStudentId(student.getUserId());
             submissionDetail.setStudentName(student.getName());
-            submissionDetail.setDueDate(homework.getDeadlineDate().toString());
+            submissionDetail.setDueDate(Utility.formatDate(homework.getDeadlineDate()));
 
             StudentHomework studentHomework =
                 studentHomeworkMapper.selectByStudentIdAndHomeworkId(student.getUserId(), homework.getId());
@@ -220,8 +224,8 @@ public class HomeworkServiceImp implements HomeworkService {
             }else{
                 submissionDetail.setStudentHomeworkId(studentHomework.getId());
                 submissionDetail.setCompleted(true);
-                submissionDetail.setSubmissionDate(studentHomework.getSubmissionDate().toString());
-                submissionDetail.setLastEditDate(studentHomework.getLastEditDate().toString());
+                submissionDetail.setSubmissionDate(Utility.formatDate(studentHomework.getSubmissionDate()));
+                submissionDetail.setLastEditDate(Utility.formatDate(studentHomework.getLastEditDate()));
             }
         }
 

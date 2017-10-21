@@ -64,7 +64,7 @@ public interface ClazzMapper {
             "from class",
             "where course_id in",
             "(select course.id from course inner join teacher on course.teacher_id=teacher.user_id",
-              "where teacher.user_id=#{teacherId, jdbcType=INTEGER})"
+              "where teacher.user_id=#{teacherUserId, jdbcType=INTEGER})"
     })
     @ConstructorArgs({
             @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),

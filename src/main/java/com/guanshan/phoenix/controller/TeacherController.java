@@ -36,7 +36,7 @@ public class TeacherController {
     }
 
     @ApiOperation(value = "所有学生作业详情", notes = "列出该课时所有学生作业的完成情况")
-    @GetMapping(value = "course/homework/{moduleId}")
+    @GetMapping(value = "course/{moduleId}/homework")
     public ResponseMessage<ResHomeworkSubmissionList> getAllHomeworkSubmissionByModuleId(@PathVariable int moduleId) throws ApplicationErrorException {
         return new ResponseMessage.Success<>(homeworkService.getAllHomeworkSubmissionByModuleId(moduleId));
     }

@@ -78,7 +78,7 @@ public interface StudentMapper {
             "s.id, s.user_id, s.sno, s.name, s.gender, s.birthday",
             "from student s",
                 "inner join student_class sc on sc.student_id = s.user_id",
-            "where sc.id = #{classId,jdbcType=INTEGER}"
+            "where sc.class_id = #{classId,jdbcType=INTEGER}"
     })
     @ConstructorArgs({
             @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),

@@ -6,7 +6,7 @@ import com.guanshan.phoenix.webdomain.*;
 public interface HomeworkService {
     ResHomeworkDetail getHomeworkDetail(int homeworkID) throws ApplicationErrorException;
 
-    ResHomeworkSubmissionList getAllHomeworkSubmissionByModuleId(int moduleId);
+    ResHomeworkSubmissionList getAllHomeworkSubmissionByModuleId(int moduleId) throws ApplicationErrorException;
 
     ResStudentHomeworkDetail getStudentHomeworkDetailById(int studentHomeworkId) throws ApplicationErrorException;
 
