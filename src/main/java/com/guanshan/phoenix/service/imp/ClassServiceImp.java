@@ -1,5 +1,6 @@
 package com.guanshan.phoenix.service.imp;
 
+import com.guanshan.phoenix.Util.Utility;
 import com.guanshan.phoenix.dao.entity.*;
 import com.guanshan.phoenix.dao.mapper.*;
 import com.guanshan.phoenix.enums.SemesterEnum;
@@ -51,6 +52,9 @@ public class ClassServiceImp implements ClassService {
 
     @Autowired
     private ResourceMapper resourceMapper;
+
+    @Autowired
+    private HomeworkMapper homeworkMapper;
 
     @Override
     public Clazz getClassById(int classID) throws ApplicationErrorException {
@@ -124,36 +128,49 @@ public class ClassServiceImp implements ClassService {
     }
 
     @Override
-    public int deleteClass(int classId) {
-        //todo: delete homework, student_homework, cloudware
+    public int deleteClass(int classId) throws ApplicationErrorException {
+        if(clazzMapper.selectByPrimaryKey(classId) == null){
+            throw new ApplicationErrorException(ErrorCode.ClassNotExists);
+        }
+
+        if(homeworkMapper.isClassUsedByHomework(classId)){
+            throw new ApplicationErrorException(ErrorCode.ClassIsUsedByHomework);
+        }
+        if(studentClassMapper.isClassUsedByStudentClass(classId)){
+            throw new ApplicationErrorException(ErrorCode.ClassIsUsedByStudentClass);
+        }
+
         clazzMapper.deleteByPrimaryKey(classId);
         studentClassMapper.deleteByClassId(classId);
         return 0;
     }
 
     @Override
-    public int updateClassInfo(ReqUpdateClass reqUpdateClass) {
+    public int updateClassInfo(ReqUpdateClass reqUpdateClass) throws ApplicationErrorException {
+        if(clazzMapper.selectByPrimaryKey(reqUpdateClass.getClassId()) == null){
+            throw new ApplicationErrorException(ErrorCode.ClassNotExists);
+        }
+
         Clazz clazz = new Clazz();
         clazz.setId(reqUpdateClass.getClassId());
         clazz.setName(reqUpdateClass.getClassName());
         clazz.setCourseId(reqUpdateClass.getCourseId());
+        clazz.setTermId(reqUpdateClass.getTermId());
+
+        validateClass(clazz);
+
         clazzMapper.updateByPrimaryKeySelective(clazz);
-
-        Term term = new Term();
-        term.setId(clazz.getTermId());
-        term.setYear(reqUpdateClass.getTermYear());
-        term.setSemester(reqUpdateClass.getTermSemester());
-        termMapper.updateByPrimaryKeySelective(term);
-
         return 0;
     }
 
     @Override
-    public int createClass(ReqAddClass reqAddClass) {
+    public int createClass(ReqAddClass reqAddClass) throws ApplicationErrorException {
         Clazz clazz = new Clazz();
         clazz.setName(reqAddClass.getClassName());
         clazz.setCourseId(reqAddClass.getCourseId());
         clazz.setTermId(reqAddClass.getTermId());
+
+        validateClass(clazz);
 
         clazzMapper.insertSelective(clazz);
         return 0;
@@ -188,7 +205,7 @@ public class ClassServiceImp implements ClassService {
 
             resClassInfo.setDuration(clazz.getDuration());
             resClassInfo.setStudentNum(clazz.getStudentNum());
-            resClassInfo.setCourseDate(clazz.getDate().toString());
+            resClassInfo.setCourseDate(Utility.formatDate(clazz.getDate()));
 
             resClassInfoList.add(resClassInfo);
         }
@@ -197,4 +214,13 @@ public class ClassServiceImp implements ClassService {
         return resClassInfos;
     }
 
+    private void validateClass(Clazz clazz) throws ApplicationErrorException {
+        if(termMapper.selectByPrimaryKey(clazz.getTermId()) == null){
+            throw new ApplicationErrorException(ErrorCode.TermNotExists);
+        }
+
+        if(courseMapper.selectByPrimaryKey(clazz.getCourseId()) == null){
+            throw new ApplicationErrorException(ErrorCode.CourseNotExists);
+        }
+    }
 }

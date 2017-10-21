@@ -6,7 +6,6 @@ import com.guanshan.phoenix.dao.entity.StudentHomework;
 import com.guanshan.phoenix.dao.entity.Teacher;
 import com.guanshan.phoenix.dao.entity.User;
 import com.guanshan.phoenix.dao.mapper.*;
-import com.guanshan.phoenix.enums.GenderEnum;
 import com.guanshan.phoenix.enums.RoleEnum;
 import com.guanshan.phoenix.enums.TitleEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
@@ -165,6 +164,6 @@ public class TeacherServiceImp implements TeacherService {
             throw new ApplicationErrorException(ErrorCode.InvalidTitle);
         }
 
-        Utility.ValidateEmail(reqUpdateTeacher.getTeacherContact());
+        Utility.validateEmail(reqUpdateTeacher.getTeacherContact());
     }
 }

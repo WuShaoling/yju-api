@@ -15,11 +15,11 @@ public interface ClassService {
 
     ResClassStudents getAllClassStudentInfo(int classId);
 
-    int deleteClass(int classId);
+    int deleteClass(int classId) throws ApplicationErrorException;
 
-    int updateClassInfo(ReqUpdateClass reqUpdateClass);
+    int updateClassInfo(ReqUpdateClass reqUpdateClass) throws ApplicationErrorException;
 
-    int createClass(ReqAddClass reqAddClass);
+    int createClass(ReqAddClass reqAddClass) throws ApplicationErrorException;
 
     ResClassInfos getAllClassInfo();
 }

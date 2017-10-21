@@ -78,4 +78,9 @@ public interface StudentClassMapper {
     @Delete("DELETE FROM student_class WHERE class_id=#{classId}")
     int deleteByClassId(@Param("classId") Integer classId);
 
+    @Select({
+            "select exists (select 1 from student_class",
+            "where class_id=#{classId, jdbcType=INTEGER})"
+    })
+    boolean isClassUsedByStudentClass(int classId);
 }

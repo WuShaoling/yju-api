@@ -88,4 +88,11 @@ public interface HomeworkMapper {
             @Arg(column="class_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
     })
     List<Homework> selectByModuleId(Integer moduleId);
+
+    @Select({
+            "select exists (select 1 from homework",
+            "where class_id=#{classId, jdbcType=INTEGER})"
+    })
+    boolean isClassUsedByHomework(int classId);
+
 }

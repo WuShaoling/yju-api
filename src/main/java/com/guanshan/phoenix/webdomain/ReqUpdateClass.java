@@ -5,7 +5,7 @@ public class ReqUpdateClass {
     private String className;
     private int courseId;
     private String termYear;
-    private int termSemester;
+    private int termId;
 
     public int getClassId() {
         return classId;
@@ -39,11 +39,11 @@ public class ReqUpdateClass {
         this.termYear = termYear;
     }
 
-    public int getTermSemester() {
-        return termSemester;
+    public int getTermId() {
+        return termId;
     }
 
-    public void setTermSemester(int termSemester) {
-        this.termSemester = termSemester;
+    public void setTermId(int termId) {
+        this.termId = termId;
     }
 }

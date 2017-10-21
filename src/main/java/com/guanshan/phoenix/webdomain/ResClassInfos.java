@@ -1,5 +1,7 @@
 package com.guanshan.phoenix.webdomain;
 
+import io.swagger.models.auth.In;
+
 import java.util.List;
 
 public class ResClassInfos {
@@ -16,7 +18,7 @@ public class ResClassInfos {
         private String term;
         private String courseImage;
         private String duration;
-        private int studentNum;
+        private Integer studentNum;
         private String courseDate;
 
         public int getClassId() {
@@ -91,11 +93,11 @@ public class ResClassInfos {
             this.duration = duration;
         }
 
-        public int getStudentNum() {
+        public Integer getStudentNum() {
             return studentNum;
         }
 
-        public void setStudentNum(int studentNum) {
+        public void setStudentNum(Integer studentNum) {
             this.studentNum = studentNum;
         }
 
