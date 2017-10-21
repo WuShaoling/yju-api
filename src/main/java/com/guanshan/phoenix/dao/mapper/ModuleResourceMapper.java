@@ -22,9 +22,9 @@ public interface ModuleResourceMapper {
 
     @Insert({
         "insert into module_resource (id, module_id, ",
-        "resource_id)",
+        "resource_id, type)",
         "values (#{id,jdbcType=INTEGER}, #{moduleId,jdbcType=INTEGER}, ",
-        "#{resourceId,jdbcType=INTEGER})"
+        "#{resourceId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER})"
     })
     int insert(ModuleResource record);
 
@@ -33,14 +33,15 @@ public interface ModuleResourceMapper {
 
     @Select({
         "select",
-        "id, module_id, resource_id",
+        "id, module_id, resource_id, type",
         "from module_resource",
         "where id = #{id,jdbcType=INTEGER}"
     })
     @ConstructorArgs({
         @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
         @Arg(column="module_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
-        @Arg(column="resource_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
+        @Arg(column="resource_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+        @Arg(column="type", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
     })
     ModuleResource selectByPrimaryKey(Integer id);
 
@@ -50,7 +51,8 @@ public interface ModuleResourceMapper {
     @Update({
         "update module_resource",
         "set module_id = #{moduleId,jdbcType=INTEGER},",
-          "resource_id = #{resourceId,jdbcType=INTEGER}",
+          "resource_id = #{resourceId,jdbcType=INTEGER},",
+          "type = #{type,jdbcType=INTEGER}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(ModuleResource record);
