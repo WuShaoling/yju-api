@@ -4,6 +4,7 @@ import com.guanshan.phoenix.dao.entity.*;
 import com.guanshan.phoenix.dao.mapper.StudentClassMapper;
 import com.guanshan.phoenix.dao.mapper.StudentMapper;
 import com.guanshan.phoenix.error.ApplicationErrorException;
+import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.*;
 import com.guanshan.phoenix.webdomain.ReqUpdateStudent;
 import com.guanshan.phoenix.webdomain.ResClassDetail;
@@ -33,6 +34,9 @@ public class StudentServiceImp implements StudentService {
 
     @Override
     public ResStudentClassList getAllStudentClassInfoByUserId(int studentID) throws ApplicationErrorException {
+        if(studentMapper.selectByUserId(studentID) == null){
+            throw new ApplicationErrorException(ErrorCode.StudentNotExists);
+        }
         ResStudentClassList resStudentClassInfoList = new ResStudentClassList();
         List<ResClassDetail> resStudentClasses = new ArrayList<>();
         resStudentClassInfoList.setStudentClassList(resStudentClasses);

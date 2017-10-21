@@ -49,7 +49,7 @@ public enum CloudwareTypeEnum {
     }
 
     public static CloudwareTypeEnum fromInt(int i){
-        if(i >= CloudwareTypeEnum.values().length){
+        if(i > CloudwareTypeEnum.values().length){
             return null;
         }
 

@@ -2,9 +2,9 @@ package com.guanshan.phoenix.enums;
 
 public enum SemesterEnum {
     //todo: improve globalization
-    STUDENT(1, "the first term", "第一学期"),
-    TEACHER(2, "the second term", "第二学期"),
-    MANAGER(3, "the third term", "第三学期");
+    NO1(1, "the first term", "第一学期"),
+    NO2(2, "the second term", "第二学期"),
+    NO3(3, "the third term", "第三学期");
 
     private int code;
     private String en;
@@ -47,7 +47,7 @@ public enum SemesterEnum {
     }
 
     public static SemesterEnum fromInt(int i){
-        if(i >= SemesterEnum.values().length){
+        if(i > SemesterEnum.values().length){
             return null;
         }
 
