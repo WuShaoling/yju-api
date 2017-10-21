@@ -5,7 +5,6 @@ public class ResClassDetail {
     private String className;
     private String term;
     private String image;
-    private String date;
     private String duration;
     private int studentNumber;
     private int courseId;
@@ -46,14 +45,6 @@ public class ResClassDetail {
 
     public void setImage(String image) {
         this.image = image;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
     }
 
     public String getDuration() {

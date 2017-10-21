@@ -161,6 +161,7 @@ insert into student_class (id, student_id, class_id) values (9, 1, 5); -- 9
 insert into student_class (id, student_id, class_id) values (10, 2, 5); -- 10
 insert into student_class (id, student_id, class_id) values (11, 3, 5); -- 11
 insert into student_class (id, student_id, class_id) values (12, 4, 5); -- 12
+insert into student_class (id, student_id, class_id) values (13, 1, 8); -- 12
 
 insert into cloudware (id, web_socket) values (11, "192.168.1.11"); -- 11
 insert into cloudware (id, web_socket) values (12, "192.168.1.12"); -- 12

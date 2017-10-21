@@ -87,7 +87,7 @@ public class ClassServiceImp implements ClassService {
         resClassDetailInfo.setCourseName(courseInfo.getName());
         resClassDetailInfo.setTeacherContract(teacherInfo.getEmail());
         resClassDetailInfo.setTeacherName(teacherInfo.getName());
-        resClassDetailInfo.setClassDate(classInfo.getDate().toString());
+        resClassDetailInfo.setClassDate(Utility.formatDate(classInfo.getDate()));
         return resClassDetailInfo;
     }
 
