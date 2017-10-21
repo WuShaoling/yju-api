@@ -31,6 +31,9 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
     private ResourceMapper resourceMapper;
 
     @Autowired
+    private ClazzMapper clazzMapper;
+
+    @Autowired
     private StudentHomeworkResourceMapper studentHomeworkResourceMapper;
 
     @Override
@@ -63,13 +66,18 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
             throw new ApplicationErrorException(ErrorCode.StudentNotExists);
         }
 
-        if(homeworkMapper.selectByPrimaryKey(homeworkId) == null){
+        Homework homework = homeworkMapper.selectByPrimaryKey(homeworkId);
+        if(homework == null){
             throw new ApplicationErrorException(ErrorCode.HomeworkNotExists);
+        }
+
+        if(!clazzMapper.isStudentInClass(studentId, homework.getClassId())){
+            throw new ApplicationErrorException(ErrorCode.StudentNotInClass);
         }
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    protected void insertStudentHomeWork(ReqHomeworkSubmission homeworkSubmission){
+    protected void insertStudentHomeWork(ReqHomeworkSubmission homeworkSubmission) {
 
         Cloudware cloudware = new Cloudware(
                 homeworkSubmission.getCloudware_url(),
@@ -118,9 +126,8 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
                 studentHomeworkResourceMapper.selectByPrimaryKeyAndType(
                         studentHomework.getId(), ResourceTypeEnum.HOMEWORK.getCode());
 
-        Resource resource = new Resource(
-                studentHomeworkResource.getResourceId(), "",
-                homeworkSubmission.getHomework_url(), "", "");
+        Resource resource = resourceMapper.selectByPrimaryKey(studentHomeworkResource.getResourceId());
+        resource.setUrl(homeworkSubmission.getHomework_url());
         resourceMapper.updateByPrimaryKey(resource);
     }
 }

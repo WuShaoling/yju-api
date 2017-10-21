@@ -4,14 +4,7 @@ import com.guanshan.phoenix.dao.entity.Clazz;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Arg;
-import org.apache.ibatis.annotations.ConstructorArgs;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 public interface ClazzMapper {
@@ -111,4 +104,10 @@ public interface ClazzMapper {
             "where course_id=#{courseId, jdbcType=INTEGER})"
     })
     boolean isCourseUsedByClass(int courseId);
+
+    @Select({
+            "select exists (select 1 from student_class",
+            "where student_id=#{studentId, jdbcType=INTEGER} and class_id=#{classId, jdbcType=INTEGER})"
+    })
+    boolean isStudentInClass(@Param("studentId") Integer studentId, @Param("classId") Integer classId);
 }

@@ -4,14 +4,7 @@ import com.guanshan.phoenix.dao.entity.StudentHomework;
 import java.util.Date;
 
 import com.guanshan.phoenix.enums.ResourceTypeEnum;
-import org.apache.ibatis.annotations.Arg;
-import org.apache.ibatis.annotations.ConstructorArgs;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 public interface StudentHomeworkMapper {
@@ -22,15 +15,16 @@ public interface StudentHomeworkMapper {
     int deleteByPrimaryKey(Integer id);
 
     @Insert({
-        "insert into student_homework (id, student_id, ",
+        "insert into student_homework (student_id, ",
         "homework_id, cloudware_id, ",
         "comment, score, ",
         "submission_date, lastEdit_date)",
-        "values (#{id,jdbcType=INTEGER}, #{studentId,jdbcType=INTEGER}, ",
+        "values (#{studentId,jdbcType=INTEGER}, ",
         "#{homeworkId,jdbcType=INTEGER}, #{cloudwareId,jdbcType=INTEGER}, ",
         "#{comment,jdbcType=VARCHAR}, #{score,jdbcType=INTEGER}, ",
         "#{submissionDate,jdbcType=TIMESTAMP}, #{lastEditDate,jdbcType=TIMESTAMP})"
     })
+    @Options(useGeneratedKeys = true, keyColumn = "id")
     int insert(StudentHomework record);
 
     @InsertProvider(type=StudentHomeworkSqlProvider.class, method="insertSelective")
@@ -81,8 +75,8 @@ public interface StudentHomeworkMapper {
             "sh.id, sh.student_id, sh.homework_id, sh.cloudware_id, sh.comment, sh.score, sh.submission_date, ",
             "sh.lastEdit_date, cw.web_socket, r.url",
             "from student_homework sh inner join cloudware cw on cw.id=sh.cloudware_id",
-            "left out join student_homework_resource shr on shr.student_homework_id = sh.id",
-            "and shr.type = 1",
+            "left join student_homework_resource shr on shr.student_homework_id = sh.id",
+            "and shr.type = 2",
             "inner join resource r on r.id = shr.resource_id",
             "where sh.student_id = #{studentId,jdbcType=INTEGER} and sh.homework_id = #{homeworkId,jdbcType=INTEGER}"
     })
@@ -98,5 +92,5 @@ public interface StudentHomeworkMapper {
             @Arg(column="web_socket", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="url", javaType=String.class, jdbcType=JdbcType.VARCHAR)
     })
-    StudentHomework selectByStudentIdAndHomeworkId(int studentId, int homeworkId);
+    StudentHomework selectByStudentIdAndHomeworkId(@Param("studentId") int studentId, @Param("homeworkId") int homeworkId);
 }

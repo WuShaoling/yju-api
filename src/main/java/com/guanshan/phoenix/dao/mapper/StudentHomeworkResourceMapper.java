@@ -1,14 +1,7 @@
 package com.guanshan.phoenix.dao.mapper;
 
 import com.guanshan.phoenix.dao.entity.StudentHomeworkResource;
-import org.apache.ibatis.annotations.Arg;
-import org.apache.ibatis.annotations.ConstructorArgs;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 public interface StudentHomeworkResourceMapper {
@@ -67,5 +60,5 @@ public interface StudentHomeworkResourceMapper {
             @Arg(column="resource_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="type", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
     })
-    StudentHomeworkResource selectByPrimaryKeyAndType(Integer id, Integer type);
+    StudentHomeworkResource selectByPrimaryKeyAndType(@Param("id") Integer id, @Param("type") Integer type);
 }
