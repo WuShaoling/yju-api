@@ -61,6 +61,10 @@ public class TeacherServiceImp implements TeacherService {
 
     @Override
     public ResTeacherClassList getAllTeacherClassInfoByUserId(int teacherUserId) throws ApplicationErrorException {
+        if(teacherMapper.selectByUserId(teacherUserId) == null){
+            throw new ApplicationErrorException(ErrorCode.TeacherNotExists);
+        }
+
         ResTeacherClassList resTeacherClassList = new ResTeacherClassList();
         List<ResClassDetail> resTeacherClasses = new ArrayList<>();
         resTeacherClassList.setTeacherClassList(resTeacherClasses);
