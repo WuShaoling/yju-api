@@ -140,13 +140,13 @@ public class TeacherServiceImp implements TeacherService {
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
-    public void deleteTeacherByTeacherUserId(int teacherId) {
+    public void deleteTeacherByTeacherUserId(int teacherId) throws ApplicationErrorException {
         Teacher teacher = teacherMapper.selectByUserId(teacherId);
         if(teacher == null)
-            return;
+            throw new ApplicationErrorException(ErrorCode.TeacherNotExists);
 
-        userService.deleteUserById(teacher.getUserId());
         teacherMapper.deleteByUserId(teacherId);
+        userService.deleteUserById(teacher.getUserId());
     }
 
     private void validateTeacher(ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException {
