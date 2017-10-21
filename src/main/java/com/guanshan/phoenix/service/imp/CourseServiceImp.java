@@ -109,6 +109,10 @@ public class CourseServiceImp implements CourseService {
 
     @Override
     public ResCourseHomeworks getCourseHomeworks(int classID) throws ApplicationErrorException {
+        if(clazzMapper.selectByPrimaryKey(classID) == null){
+            throw new ApplicationErrorException(ErrorCode.ClassNotExists);
+        }
+
         ResCourseHomeworks courseDetail = new ResCourseHomeworks();
 
         Clazz clazz = classService.getClassById(classID);
@@ -119,16 +123,19 @@ public class CourseServiceImp implements CourseService {
         courseDetail.setModuleList(moduleList);
         for(Module module : moduleMapper.selectByCourseID(clazz.getCourseId())){
             ResCourseHomeworks.ModuleInfo moduleInfo = new ResCourseHomeworks.ModuleInfo();
-            moduleList.add(moduleInfo);
 
             moduleInfo.setModuleId(module.getId());
             moduleInfo.setModuleName(module.getName());
 
             List<ResCourseHomeworks.HomeworkInfo> homeworks = new ArrayList<>();
             moduleInfo.setModuleContent(homeworks);
-            for(Homework homework : homeworkMapper.selectByModuleId(module.getId())){
+            for(Homework homework : homeworkMapper.selectByModuleIdAndClassId(module.getId(), classID)){
                 ResCourseHomeworks.HomeworkInfo homeworkInfo = new ResCourseHomeworks.HomeworkInfo(homework);
                 homeworks.add(homeworkInfo);
+            }
+
+            if(homeworks.size() > 0){
+                moduleList.add(moduleInfo);
             }
         }
 
