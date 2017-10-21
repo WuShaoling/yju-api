@@ -76,7 +76,6 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
         }
     }
 
-    @Transactional(rollbackFor = Throwable.class)
     protected void insertStudentHomeWork(ReqHomeworkSubmission homeworkSubmission) {
 
         Cloudware cloudware = new Cloudware(
@@ -110,7 +109,6 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
         studentHomeworkResourceMapper.insert(studentHomeworkResource);
     }
 
-    @Transactional(rollbackFor = Throwable.class)
     protected void updateStudentHomeWork(StudentHomework studentHomework, ReqHomeworkSubmission homeworkSubmission){
         Cloudware cloudware = new Cloudware(
                 studentHomework.getCloudwareId(),

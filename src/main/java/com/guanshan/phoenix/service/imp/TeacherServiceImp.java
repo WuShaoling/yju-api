@@ -104,7 +104,6 @@ public class TeacherServiceImp implements TeacherService {
     }
 
     @Override
-    @Transactional(rollbackFor = Throwable.class)
     public void createTeacher(ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException {
         validateTeacher(reqUpdateTeacher);
 
@@ -121,7 +120,6 @@ public class TeacherServiceImp implements TeacherService {
     }
 
     @Override
-    @Transactional
     public void updateTeacher(ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException {
         Teacher teacher = teacherMapper.selectByUserId(reqUpdateTeacher.getId());
         if(teacher == null){
@@ -142,7 +140,6 @@ public class TeacherServiceImp implements TeacherService {
     }
 
     @Override
-    @Transactional(rollbackFor = Throwable.class)
     public void deleteTeacherByTeacherUserId(int teacherId) throws ApplicationErrorException {
         Teacher teacher = teacherMapper.selectByUserId(teacherId);
         if(teacher == null)

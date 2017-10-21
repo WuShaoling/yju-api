@@ -165,7 +165,6 @@ public class CourseServiceImp implements CourseService {
     }
 
     @Override
-    @Transactional
     public void createCourse(ReqAddCourse reqAddCourse) throws ApplicationErrorException {
         Course course = new Course(
                 reqAddCourse.getTeacherId(), reqAddCourse.getName(), reqAddCourse.getDescription());
@@ -193,7 +192,6 @@ public class CourseServiceImp implements CourseService {
     }
 
     @Override
-    @Transactional(rollbackFor = Throwable.class)
     public void deleteCourse(int courseId) throws ApplicationErrorException {
         Course course = courseMapper.selectByPrimaryKey(courseId);
         if(course == null){

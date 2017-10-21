@@ -15,6 +15,7 @@ import com.guanshan.phoenix.webdomain.ResSemesterList;
 import com.guanshan.phoenix.webdomain.ResTeacherList;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -64,6 +65,7 @@ public class ManagerController {
 
     @ApiOperation(value = "创建老师信息", notes = "")
     @PostMapping(value = "teacher/creation")
+    @Transactional(rollbackFor = Throwable.class)
     public ResponseMessage createTeacher(@RequestBody ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException {
         teacherService.createTeacher(reqUpdateTeacher);
         return new ResponseMessage.Success();
@@ -71,6 +73,7 @@ public class ManagerController {
 
     @ApiOperation(value = "更新老师信息", notes = "")
     @PostMapping(value = "teacher/updation")
+    @Transactional(rollbackFor = Throwable.class)
     public ResponseMessage updateTeacher(@RequestBody ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException {
         teacherService.updateTeacher(reqUpdateTeacher);
         return new ResponseMessage.Success();
@@ -78,6 +81,7 @@ public class ManagerController {
 
     @ApiOperation(value = "删除老师", notes = "")
     @PostMapping(value = "teacher/deletion")
+    @Transactional(rollbackFor = Throwable.class)
     public ResponseMessage deleteTeacher(@RequestParam("teacherId") int teacherId) throws ApplicationErrorException {
         teacherService.deleteTeacherByTeacherUserId(teacherId);
         return new ResponseMessage.Success();
@@ -146,6 +150,7 @@ public class ManagerController {
 
     @ApiOperation(value = "创建课程信息", notes = "")
     @PostMapping(value = "course/creation")
+    @Transactional(rollbackFor = Throwable.class)
     public ResponseMessage createCourse(@RequestBody ReqAddCourse reqAddCourse) throws ApplicationErrorException {
         courseService.createCourse(reqAddCourse);
         return new ResponseMessage.Success();
@@ -160,6 +165,7 @@ public class ManagerController {
 
     @ApiOperation(value = "删除课程信息", notes = "")
     @PostMapping(value = "course/deletion")
+    @Transactional(rollbackFor = Throwable.class)
     public ResponseMessage deleteCourse(@RequestParam("id") int id) throws ApplicationErrorException {
         courseService.deleteCourse(id);
         return new ResponseMessage.Success();

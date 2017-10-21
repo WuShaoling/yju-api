@@ -9,6 +9,7 @@ import com.guanshan.phoenix.service.StudentService;
 import com.guanshan.phoenix.webdomain.*;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
@@ -54,6 +55,7 @@ public class StudentController {
 
     @ApiOperation(value = "提交作业", notes = "")
     @PostMapping(value = "homework/submission")
+    @Transactional(rollbackFor = Throwable.class)
     public ResponseMessage submitHomeWork(@RequestBody ReqHomeworkSubmission homeworkSubmission) throws ApplicationErrorException {
         studentHomeworkService.submitStudentHomework(homeworkSubmission);
         return new ResponseMessage.Success();
