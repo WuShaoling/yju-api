@@ -1,5 +1,6 @@
 package com.guanshan.phoenix.service.imp;
 
+import com.guanshan.phoenix.Util.Utility;
 import com.guanshan.phoenix.dao.entity.*;
 import com.guanshan.phoenix.dao.mapper.*;
 import com.guanshan.phoenix.enums.CloudwareTypeEnum;
@@ -44,6 +45,10 @@ public class HomeworkServiceImp implements HomeworkService {
 
     @Override
     public ResHomeworkDetail getHomeworkDetail(int homeworkID) throws ApplicationErrorException {
+        if(homeworkMapper.selectByPrimaryKey(homeworkID) == null){
+            throw new ApplicationErrorException(ErrorCode.HomeworkNotExists);
+        }
+
         ResHomeworkDetail homeworkDetail = new ResHomeworkDetail();
 
         Homework homework = homeworkMapper.selectByPrimaryKey(homeworkID);
@@ -61,8 +66,8 @@ public class HomeworkServiceImp implements HomeworkService {
         homeworkDetail.setClassId(homework.getClassId());
         CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt(homework.getCloudwareType());
         homeworkDetail.setCloudwareType(cloudwareType == null ? "" : cloudwareType.toString());
-        homeworkDetail.setDueDate(homework.getDeadlineDate().toString());
-        homeworkDetail.setPublishDate(homework.getPublishDate().toString());
+        homeworkDetail.setDueDate(Utility.formatDate(homework.getDeadlineDate()));
+        homeworkDetail.setPublishDate(Utility.formatDate(homework.getPublishDate()));
 
         return homeworkDetail;
     }
