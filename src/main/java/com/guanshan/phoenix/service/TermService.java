@@ -13,5 +13,5 @@ public interface TermService {
 
     void update(Term term) throws ApplicationErrorException;
 
-    void delete(int termId);
+    void delete(int termId) throws ApplicationErrorException;
 }

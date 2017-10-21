@@ -99,4 +99,10 @@ public interface ClazzMapper {
             @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR)
     })
     List<Clazz> selectAll();
+
+    @Select({
+            "select exists (select 1 from class",
+            "where term_id=#{termId, jdbcType=INTEGER})"
+    })
+    boolean isTermUsedByClass(int termId);
 }

@@ -1,7 +1,9 @@
 package com.guanshan.phoenix.service.imp;
 
 import com.guanshan.phoenix.dao.entity.Term;
+import com.guanshan.phoenix.dao.mapper.ClazzMapper;
 import com.guanshan.phoenix.dao.mapper.TermMapper;
+import com.guanshan.phoenix.enums.SemesterEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.TermService;
@@ -14,6 +16,9 @@ public class TermServiceImp implements TermService {
 
     @Autowired
     private TermMapper termMapper;
+
+    @Autowired
+    private ClazzMapper clazzMapper;
 
     @Override
     public Term getTermById(int termID) {
@@ -29,9 +34,7 @@ public class TermServiceImp implements TermService {
 
     @Override
     public void create(Term term) throws ApplicationErrorException {
-        if(termMapper.selectByYearAndSemester(term.getYear(), term.getSemester()) != null){
-            throw new ApplicationErrorException(ErrorCode.TermAlreadyExists, term.getDescription());
-        }
+        validate(term);
 
         termMapper.insert(term);
     }
@@ -42,11 +45,31 @@ public class TermServiceImp implements TermService {
             throw new ApplicationErrorException(ErrorCode.TermNotExists);
         }
 
+        validate(term);
+
         termMapper.updateByPrimaryKey(term);
     }
 
     @Override
-    public void delete(int termId) {
+    public void delete(int termId) throws ApplicationErrorException {
+        if(termMapper.selectByPrimaryKey(termId) == null){
+            throw new ApplicationErrorException(ErrorCode.TermNotExists);
+        }
+
+        if(clazzMapper.isTermUsedByClass(termId)){
+            throw new ApplicationErrorException(ErrorCode.TermIsUsedByClass);
+        }
+
         termMapper.deleteByPrimaryKey(termId);
+    }
+
+    private void validate(Term term) throws ApplicationErrorException {
+        if(termMapper.selectByYearAndSemester(term.getYear(), term.getSemester()) != null){
+            throw new ApplicationErrorException(ErrorCode.TermAlreadyExists, term.getDescription());
+        }
+
+        if(SemesterEnum.fromInt(term.getSemester()) == null){
+            throw new ApplicationErrorException(ErrorCode.InvalidSemester, term.getSemester());
+        }
     }
 }

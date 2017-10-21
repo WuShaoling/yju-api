@@ -68,4 +68,10 @@ public interface CourseMapper {
             @Arg(column="description", javaType=String.class, jdbcType=JdbcType.VARCHAR)
     })
     List<Course> getAllCourses();
+
+    @Select({
+            "select exists (select 1 from course",
+            "where teacher_id=#{teacherId, jdbcType=INTEGER})"
+    })
+    boolean isTeacherUsedByCourse(int teacherId);
 }

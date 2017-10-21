@@ -5,10 +5,7 @@ import com.guanshan.phoenix.dao.entity.Clazz;
 import com.guanshan.phoenix.dao.entity.StudentHomework;
 import com.guanshan.phoenix.dao.entity.Teacher;
 import com.guanshan.phoenix.dao.entity.User;
-import com.guanshan.phoenix.dao.mapper.ClazzMapper;
-import com.guanshan.phoenix.dao.mapper.StudentHomeworkMapper;
-import com.guanshan.phoenix.dao.mapper.TeacherMapper;
-import com.guanshan.phoenix.dao.mapper.UserMapper;
+import com.guanshan.phoenix.dao.mapper.*;
 import com.guanshan.phoenix.enums.GenderEnum;
 import com.guanshan.phoenix.enums.RoleEnum;
 import com.guanshan.phoenix.enums.TitleEnum;
@@ -33,6 +30,9 @@ public class TeacherServiceImp implements TeacherService {
 
     @Autowired
     private ClassService classService;
+
+    @Autowired
+    private CourseMapper courseMapper;
 
     @Autowired
     private StudentHomeworkMapper studentHomeworkMapper;
@@ -144,6 +144,10 @@ public class TeacherServiceImp implements TeacherService {
         Teacher teacher = teacherMapper.selectByUserId(teacherId);
         if(teacher == null)
             throw new ApplicationErrorException(ErrorCode.TeacherNotExists);
+
+        if(courseMapper.isTeacherUsedByCourse(teacherId)){
+            throw new ApplicationErrorException(ErrorCode.TeacherIsUsedByCourse);
+        }
 
         teacherMapper.deleteByUserId(teacherId);
         userService.deleteUserById(teacher.getUserId());

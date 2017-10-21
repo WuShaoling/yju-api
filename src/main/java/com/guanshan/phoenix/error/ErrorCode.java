@@ -40,6 +40,15 @@ public enum ErrorCode {
     @ErrorMessage("该教师'%s'已存在")
     TeacherAlreadyExists(12),
 
+    @ErrorMessage("该学期'%d'不合法")
+    InvalidSemester(13),
+
+    @ErrorMessage("该学期正在被班级表使用")
+    TermIsUsedByClass(14),
+
+    @ErrorMessage("该教师正在被课程表使用")
+    TeacherIsUsedByCourse(15),
+
     @ErrorMessage("服务器出错，请联系管理员。")
     GeneralError(Integer.MAX_VALUE);
 
