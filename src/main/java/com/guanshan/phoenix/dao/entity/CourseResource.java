@@ -16,9 +16,11 @@ public class CourseResource {
         this.type = type;
     }
 
-    public CourseResource() {
-        super();
+    public CourseResource(Integer courseId, Integer resourceId, Integer type) {
+        this(0, courseId, resourceId, type);
     }
+
+    public CourseResource() { }
 
     public Integer getId() {
         return id;

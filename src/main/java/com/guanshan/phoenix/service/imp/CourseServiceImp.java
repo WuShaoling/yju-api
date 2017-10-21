@@ -11,6 +11,7 @@ import com.guanshan.phoenix.service.TeacherService;
 import com.guanshan.phoenix.webdomain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,9 @@ public class CourseServiceImp implements CourseService {
 
     @Autowired
     private ClassService classService;
+
+    @Autowired
+    private ClazzMapper clazzMapper;
 
     @Autowired
     private HomeworkMapper homeworkMapper;
@@ -153,10 +157,20 @@ public class CourseServiceImp implements CourseService {
     }
 
     @Override
-    public void createCourse(Course course) throws ApplicationErrorException {
+    @Transactional
+    public void createCourse(ReqAddCourse reqAddCourse) throws ApplicationErrorException {
+        Course course = new Course(
+                reqAddCourse.getTeacherId(), reqAddCourse.getName(), reqAddCourse.getDescription());
         validateCourse(course);
 
         courseMapper.insert(course);
+        Resource resource = new Resource(
+                reqAddCourse.getImageName(), reqAddCourse.getImageUrl(), "", "");
+        resourceMapper.insert(resource);
+        CourseResource courseResource = new CourseResource(
+            course.getId(), resource.getId(), ResourceTypeEnum.IMAGE.getCode()
+        );
+        courseResourceMapper.insert(courseResource);
     }
 
     @Override
@@ -171,8 +185,28 @@ public class CourseServiceImp implements CourseService {
     }
 
     @Override
-    public void deleteCourse(int courseId) {
+    @Transactional(rollbackFor = Throwable.class)
+    public void deleteCourse(int courseId) throws ApplicationErrorException {
+        Course course = courseMapper.selectByPrimaryKey(courseId);
+        if(course == null){
+            throw new ApplicationErrorException(ErrorCode.CourseNotExists);
+        }
+
+        if(moduleMapper.isCourseUsedByModule(courseId)){
+            throw new ApplicationErrorException(ErrorCode.CourseIsUsedByModule);
+        }
+
+        if(clazzMapper.isCourseUsedByClass(courseId)){
+            throw new ApplicationErrorException(ErrorCode.CourseIsUsedByClass);
+        }
+
+        CourseResource courseResource =
+                courseResourceMapper.selectByCourseIdAndType(courseId, ResourceTypeEnum.IMAGE.getCode());
+        if(courseResource != null){
+            courseResourceMapper.deleteByPrimaryKey(courseResource.getId());
+        }
         courseMapper.deleteByPrimaryKey(courseId);
+        resourceMapper.deleteByPrimaryKey(courseResource.getResourceId());
     }
 
     private void validateCourse(Course course) throws ApplicationErrorException {
@@ -184,7 +218,7 @@ public class CourseServiceImp implements CourseService {
 
     private String getImageUrl(int courseID){
         CourseResource courseResource =
-                courseResourceMapper.selectByPrimaryKeyAndType(courseID, ResourceTypeEnum.IMAGE.getCode());
+                courseResourceMapper.selectByCourseIdAndType(courseID, ResourceTypeEnum.IMAGE.getCode());
 
         if(courseResource == null){
             return "";

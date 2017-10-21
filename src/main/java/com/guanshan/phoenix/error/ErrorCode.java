@@ -55,6 +55,12 @@ public enum ErrorCode {
     @ErrorMessage("该班级正在被学生班级表使用")
     ClassIsUsedByStudentClass(17),
 
+    @ErrorMessage("该课程正在被课时表使用")
+    CourseIsUsedByModule(18),
+
+    @ErrorMessage("该课程正在被班级表使用")
+    CourseIsUsedByClass(19),
+
     @ErrorMessage("服务器出错，请联系管理员。")
     GeneralError(Integer.MAX_VALUE);
 

@@ -1,14 +1,7 @@
 package com.guanshan.phoenix.dao.mapper;
 
 import com.guanshan.phoenix.dao.entity.Course;
-import org.apache.ibatis.annotations.Arg;
-import org.apache.ibatis.annotations.ConstructorArgs;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 import java.util.List;
@@ -26,6 +19,7 @@ public interface CourseMapper {
         "values (#{id,jdbcType=INTEGER}, #{teacherId,jdbcType=INTEGER}, ",
         "#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR})"
     })
+    @Options(useGeneratedKeys = true, keyColumn = "id")
     int insert(Course record);
 
     @InsertProvider(type=CourseSqlProvider.class, method="insertSelective")

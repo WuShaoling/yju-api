@@ -3,6 +3,7 @@ package com.guanshan.phoenix.service.imp;
 import com.guanshan.phoenix.Util.Utility;
 import com.guanshan.phoenix.dao.entity.*;
 import com.guanshan.phoenix.dao.mapper.*;
+import com.guanshan.phoenix.enums.ResourceTypeEnum;
 import com.guanshan.phoenix.enums.SemesterEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
@@ -199,7 +200,8 @@ public class ClassServiceImp implements ClassService {
             Term term = termMapper.selectByPrimaryKey(clazz.getTermId());
             resClassInfo.setTerm(term.getDescription());
 
-            CourseResource courseResource = courseResourceMapper.selectByCourseId(clazz.getCourseId());
+            CourseResource courseResource =
+                    courseResourceMapper.selectByCourseIdAndType(clazz.getCourseId(), ResourceTypeEnum.IMAGE.getCode());
             Resource resource = resourceMapper.selectByPrimaryKey(courseResource.getResourceId());
             resClassInfo.setCourseImage(resource.getUrl());
 

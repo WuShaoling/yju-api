@@ -1,14 +1,7 @@
 package com.guanshan.phoenix.dao.mapper;
 
 import com.guanshan.phoenix.dao.entity.CourseResource;
-import org.apache.ibatis.annotations.Arg;
-import org.apache.ibatis.annotations.ConstructorArgs;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 public interface CourseResourceMapper {
@@ -59,7 +52,7 @@ public interface CourseResourceMapper {
             "select",
             "id, course_id, resource_id, type",
             "from course_resource",
-            "where id = #{id,jdbcType=INTEGER} and type = #{type, jdbcType=INTEGER}"
+            "where course_id = #{courseId,jdbcType=INTEGER} and type = #{type, jdbcType=INTEGER}"
     })
     @ConstructorArgs({
             @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
@@ -67,19 +60,5 @@ public interface CourseResourceMapper {
             @Arg(column="resource_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="type", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
     })
-    CourseResource selectByPrimaryKeyAndType(Integer id, Integer type);
-
-    @Select({
-            "select",
-            "id, course_id, resource_id, type",
-            "from course_resource",
-            "where course_id = #{courseId,jdbcType=INTEGER}"
-    })
-    @ConstructorArgs({
-            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
-            @Arg(column="course_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
-            @Arg(column="resource_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
-            @Arg(column="type", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
-    })
-    CourseResource selectByCourseId(Integer courseId);
+    CourseResource selectByCourseIdAndType(@Param("courseId") Integer courseId, @Param("type") Integer type);
 }

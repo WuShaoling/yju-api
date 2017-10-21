@@ -66,4 +66,10 @@ public interface ModuleMapper {
             @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR)
     })
     List<Module> selectByCourseID(Integer courseId);
+
+    @Select({
+            "select exists (select 1 from module",
+            "where course_id=#{courseId, jdbcType=INTEGER})"
+    })
+    boolean isCourseUsedByModule(int courseId);
 }

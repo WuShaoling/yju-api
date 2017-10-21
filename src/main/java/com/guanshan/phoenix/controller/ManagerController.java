@@ -146,8 +146,8 @@ public class ManagerController {
 
     @ApiOperation(value = "创建课程信息", notes = "")
     @PostMapping(value = "course/creation")
-    public ResponseMessage createCourse(@RequestBody Course course) throws ApplicationErrorException {
-        courseService.createCourse(course);
+    public ResponseMessage createCourse(@RequestBody ReqAddCourse reqAddCourse) throws ApplicationErrorException {
+        courseService.createCourse(reqAddCourse);
         return new ResponseMessage.Success();
     }
 
@@ -160,7 +160,7 @@ public class ManagerController {
 
     @ApiOperation(value = "删除课程信息", notes = "")
     @PostMapping(value = "course/deletion")
-    public ResponseMessage deleteCourse(@RequestParam("id") int id){
+    public ResponseMessage deleteCourse(@RequestParam("id") int id) throws ApplicationErrorException {
         courseService.deleteCourse(id);
         return new ResponseMessage.Success();
     }

@@ -105,4 +105,10 @@ public interface ClazzMapper {
             "where term_id=#{termId, jdbcType=INTEGER})"
     })
     boolean isTermUsedByClass(int termId);
+
+    @Select({
+            "select exists (select 1 from class",
+            "where course_id=#{courseId, jdbcType=INTEGER})"
+    })
+    boolean isCourseUsedByClass(int courseId);
 }
