@@ -101,4 +101,10 @@ public interface ExperimentMapper {
             @Arg(column="deadline_date", javaType=Date.class, jdbcType=JdbcType.DATE)
     })
     List<Experiment> selectByCourseId(Integer courseId);
+
+    @Select({
+            "select exists (select 1 from experiment",
+            "where module_id=#{moduleId, jdbcType=INTEGER})"
+    })
+    boolean isModuleUsedByExperiment(int moduleId);
 }

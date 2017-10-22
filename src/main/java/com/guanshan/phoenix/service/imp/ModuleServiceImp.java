@@ -4,10 +4,7 @@ import com.guanshan.phoenix.dao.entity.Course;
 import com.guanshan.phoenix.dao.entity.Module;
 import com.guanshan.phoenix.dao.entity.ModuleResource;
 import com.guanshan.phoenix.dao.entity.Resource;
-import com.guanshan.phoenix.dao.mapper.CourseMapper;
-import com.guanshan.phoenix.dao.mapper.ModuleMapper;
-import com.guanshan.phoenix.dao.mapper.ModuleResourceMapper;
-import com.guanshan.phoenix.dao.mapper.ResourceMapper;
+import com.guanshan.phoenix.dao.mapper.*;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.ModuleService;
@@ -33,6 +30,12 @@ public class ModuleServiceImp implements ModuleService {
     @Autowired
     private ResourceMapper resourceMapper;
 
+    @Autowired
+    private ExperimentMapper experimentMapper;
+
+    @Autowired
+    private HomeworkMapper homeworkMapper;
+
     @Override
     public void createModule(Module module) throws ApplicationErrorException {
         Course course = courseMapper.selectByPrimaryKey(module.getCourseId());
@@ -45,8 +48,20 @@ public class ModuleServiceImp implements ModuleService {
     }
 
     @Override
-    public void deleteModule(int moduleId) {
-        //todo: delete all homework, student_homework and cloudware
+    public void deleteModule(int moduleId) throws ApplicationErrorException {
+
+        if(moduleMapper.selectByPrimaryKey(moduleId) == null){
+            throw new ApplicationErrorException(ErrorCode.ModuleNotExists);
+        }
+
+        if(experimentMapper.isModuleUsedByExperiment(moduleId)){
+            throw new ApplicationErrorException(ErrorCode.ModuleUsedByExperiment);
+        }
+
+        if(homeworkMapper.isModuleUsedByHomework(moduleId)){
+            throw new ApplicationErrorException(ErrorCode.ModuleUsedByHomework);
+        }
+
         moduleMapper.deleteByPrimaryKey(moduleId);
     }
 

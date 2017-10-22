@@ -7,7 +7,7 @@ import com.guanshan.phoenix.webdomain.ResModuleImages;
 public interface ModuleService {
     void createModule(Module module) throws ApplicationErrorException;
 
-    void deleteModule(int moduleId);
+    void deleteModule(int moduleId) throws ApplicationErrorException;
 
     ResModuleImages getModuleImageUrls(int moduleId);
 }

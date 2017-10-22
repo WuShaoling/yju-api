@@ -76,6 +76,12 @@ public enum ErrorCode {
     @ErrorMessage("该作业正在被学生作业表使用")
     HomeworkUsedByStudentHomework(24),
 
+    @ErrorMessage("该课时正在被实验表使用")
+    ModuleUsedByExperiment(25),
+
+    @ErrorMessage("该课时正在被作业表使用")
+    ModuleUsedByHomework(26),
+
     @ErrorMessage("服务器出错，请联系管理员。")
     GeneralError(Integer.MAX_VALUE);
 

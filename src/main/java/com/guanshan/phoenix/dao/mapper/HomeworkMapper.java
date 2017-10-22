@@ -104,4 +104,10 @@ public interface HomeworkMapper {
     })
     boolean isClassUsedByHomework(int classId);
 
+    @Select({
+            "select exists (select 1 from homework",
+            "where module_id=#{moduleId, jdbcType=INTEGER})"
+    })
+    boolean isModuleUsedByHomework(int moduleId);
+
 }

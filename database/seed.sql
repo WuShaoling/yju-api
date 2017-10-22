@@ -92,6 +92,7 @@ insert into class (id, term_id, course_id, date, duration, student_num, name) va
 insert into class (id, term_id, course_id, date, duration, student_num, name) values (6, 2, 4, '2014-2-3', '1h20min', 20, '班6');-- 6
 insert into class (id, term_id, course_id, date, duration, student_num, name) values (7, 1, 5, '2014-2-3', '1h20min', 20, '班7');-- 7
 insert into class (id, term_id, course_id, date, duration, student_num, name) values (8, 2, 6, '2014-2-3', '1h20min', 20, '班8');-- 8
+insert into class (id, term_id, course_id, date, duration, student_num, name) values (9, 1, 7, '2014-2-3', '1h20min', 20, '班8');-- 9
 
 insert into experiment (id, module_id, name, description, cloudware_type, publish_date, deadline_date) values
   									(1, 1, "邱大数据-1-实验", "实验一", 1, '2014-03-02', '2014-03-04');  -- 1
@@ -132,6 +133,8 @@ insert into homework (id, module_id, class_id, name, description, cloudware_type
                     	(6, 8, 5, "课时王AI-2-班-5", "abc", 1, "2014-04-03", "2014-04-07");    -- 6
 insert into homework (id, module_id, class_id, name, description, cloudware_type, publish_date, deadline_date) values
                     	(7, 13, 8, "课时杜软件工程-1-班-8", "abc", 1, "2014-04-03", "2014-04-07");-- 7
+insert into homework (id, module_id, class_id, name, description, cloudware_type, publish_date, deadline_date) values
+                      (8, 14, 9, "课时杜测试-1-班-9", "abc", 1, "2014-04-03", "2014-04-07");-- 8
 
 insert into resource(id, name, url, width, height) values (8, "邱大数据-1-班-2", "1.jpg", "", "");  -- 8
 insert into resource(id, name, url, width, height) values (9, "邱大数据-2-班-1", "2.jpg", "", "");  -- 9
