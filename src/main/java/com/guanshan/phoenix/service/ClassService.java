@@ -13,7 +13,7 @@ public interface ClassService {
 
     int addClassStudent(ReqAddClassStudent reqAddClassStudent);
 
-    ResClassStudents getAllClassStudentInfo(int classId);
+    ResClassStudents getAllClassStudentInfo(int classId) throws ApplicationErrorException;
 
     int deleteClass(int classId) throws ApplicationErrorException;
 

@@ -108,7 +108,10 @@ public class ClassServiceImp implements ClassService {
     }
 
     @Override
-    public ResClassStudents getAllClassStudentInfo(int classId) {
+    public ResClassStudents getAllClassStudentInfo(int classId) throws ApplicationErrorException {
+        if(clazzMapper.selectByPrimaryKey(classId) == null){
+            throw new ApplicationErrorException(ErrorCode.ClassNotExists);
+        }
         ResClassStudents resClassStudents = new ResClassStudents();
 
         List<ResClassStudents.ResClassStudent> resClassStudentList = new ArrayList<>();
