@@ -1,5 +1,27 @@
 USE phoenix;
 
+SET FOREIGN_KEY_CHECKS=0;
+truncate table user;
+truncate table student;
+truncate table teacher;
+truncate table manager;
+truncate table course;
+truncate table resource;
+truncate table course_resource;
+truncate table term;
+truncate table module;
+truncate table class;
+truncate table experiment;
+truncate table homework;
+truncate table resource;
+truncate table homework_resource;
+truncate table cloudware;
+truncate table student_experiment;
+truncate table student_class;
+truncate table student_homework;
+truncate table student_homework_resource;
+SET FOREIGN_KEY_CHECKS=1;
+
 INSERT INTO user (id, role, username) VALUES (1, '1', '张君义');  -- 1
 INSERT INTO user (id, role, username) VALUES (2, '1', '何雨');    -- 2
 INSERT INTO user (id, role, username) VALUES (3, '1', '施文');    -- 3
@@ -161,7 +183,7 @@ insert into student_class (id, student_id, class_id) values (9, 1, 5); -- 9
 insert into student_class (id, student_id, class_id) values (10, 2, 5); -- 10
 insert into student_class (id, student_id, class_id) values (11, 3, 5); -- 11
 insert into student_class (id, student_id, class_id) values (12, 4, 5); -- 12
-insert into student_class (id, student_id, class_id) values (13, 1, 8); -- 12
+insert into student_class (id, student_id, class_id) values (13, 1, 8); -- 13
 
 insert into cloudware (id, web_socket) values (11, "192.168.1.11"); -- 11
 insert into cloudware (id, web_socket) values (12, "192.168.1.12"); -- 12
