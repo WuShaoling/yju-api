@@ -67,6 +67,15 @@ public enum ErrorCode {
     @ErrorMessage("该课时不存在")
     ModuleNotExists(21),
 
+    @ErrorMessage("该作业中课时与班级属于不同的课程，无法添加")
+    HomeworkModuleClassBelongsToDifferentCourse(22),
+
+    @ErrorMessage("云件类型非法")
+    InvalidCloudwareType(23),
+
+    @ErrorMessage("该作业正在被学生作业表使用")
+    HomeworkUsedByStudentHomework(24),
+
     @ErrorMessage("服务器出错，请联系管理员。")
     GeneralError(Integer.MAX_VALUE);
 

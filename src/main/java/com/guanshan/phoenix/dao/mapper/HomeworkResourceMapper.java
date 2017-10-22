@@ -52,4 +52,17 @@ public interface HomeworkResourceMapper {
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(HomeworkResource record);
+
+    @Select({
+            "select",
+            "id, homework_id, resource_id",
+            "from homework_resource",
+            "where homework_id = #{homeworkId,jdbcType=INTEGER}"
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="homework_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="resource_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
+    })
+    HomeworkResource selectByHomeworkId(Integer homeworkId);
 }

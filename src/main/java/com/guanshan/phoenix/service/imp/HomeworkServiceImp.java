@@ -43,6 +43,12 @@ public class HomeworkServiceImp implements HomeworkService {
     @Autowired
     private ClazzMapper clazzMapper;
 
+    @Autowired
+    private ResourceMapper resourceMapper;
+
+    @Autowired
+    private HomeworkResourceMapper homeworkResourceMapper;
+
     @Override
     public ResHomeworkDetail getHomeworkDetail(int homeworkID) throws ApplicationErrorException {
         if(homeworkMapper.selectByPrimaryKey(homeworkID) == null){
@@ -115,26 +121,45 @@ public class HomeworkServiceImp implements HomeworkService {
 
     @Override
     public int deleteHomework(int homeworkID) throws ApplicationErrorException {
-        //todo: delete related student_homework and cloudware table
+        Homework homework = homeworkMapper.selectByPrimaryKey(homeworkID);
+        if(homework == null){
+            throw new ApplicationErrorException(ErrorCode.HomeworkNotExists);
+        }
+
+        if(studentHomeworkMapper.isHomeworkUsedByStudentHomework(homeworkID)){
+            throw new ApplicationErrorException(ErrorCode.HomeworkUsedByStudentHomework);
+        }
+
+        HomeworkResource homeworkResource = homeworkResourceMapper.selectByHomeworkId(homeworkID);
+        if(homeworkResource != null){
+            homeworkResourceMapper.deleteByPrimaryKey(homeworkResource.getId());
+            resourceMapper.deleteByPrimaryKey(homeworkResource.getResourceId());
+        }
         homeworkMapper.deleteByPrimaryKey(homeworkID);
         return 0;
     }
 
     @Override
     public int updateHomework(ReqUpdateHomework reqUpdateHomework) throws ApplicationErrorException {
-        Homework homework = new Homework();
-        homework.setId(reqUpdateHomework.getHomeworkId());
+        Homework homework = homeworkMapper.selectByPrimaryKey(reqUpdateHomework.getHomeworkId());
+
+        if(homework == null){
+            throw new ApplicationErrorException(ErrorCode.HomeworkNotExists);
+        }
+
         homework.setName(reqUpdateHomework.getHomeworkName());
         homework.setDescription(reqUpdateHomework.getHomeworkDes());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            homework.setPublishDate(sdf.parse(reqUpdateHomework.getHomeworkCreateDate()));
-            homework.setDeadlineDate(sdf.parse(reqUpdateHomework.getHomeworkDueDate()));
+            homework.setPublishDate(Utility.parseShortDate(reqUpdateHomework.getHomeworkCreateDate()));
+            homework.setDeadlineDate(Utility.parseShortDate((reqUpdateHomework.getHomeworkDueDate())));
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
         homework.setCloudwareType(reqUpdateHomework.getCloudwareType());
+
+        validate(homework);
 
         homeworkMapper.updateByPrimaryKeySelective(homework);
         return 0;
@@ -147,14 +172,17 @@ public class HomeworkServiceImp implements HomeworkService {
         homework.setModuleId(reqCreateHomework.getModuleId());
         homework.setName(reqCreateHomework.getHomeworkName());
         homework.setDescription(reqCreateHomework.getHomeworkDes());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
         try {
-            homework.setPublishDate(sdf.parse(reqCreateHomework.getHomeworkCreateDate()));
-            homework.setDeadlineDate(sdf.parse(reqCreateHomework.getHomeworkDueDate()));
+            homework.setPublishDate(Utility.parseShortDate(reqCreateHomework.getHomeworkCreateDate()));
+            homework.setDeadlineDate(Utility.parseShortDate((reqCreateHomework.getHomeworkDueDate())));
         } catch (ParseException e) {
+            //swallow the parse exception
             e.printStackTrace();
         }
         homework.setCloudwareType(reqCreateHomework.getCloudwareType());
+
+        validate(homework);
 
         homeworkMapper.insertSelective(homework);
         return 0;
@@ -230,5 +258,26 @@ public class HomeworkServiceImp implements HomeworkService {
         }
 
         return submissionDetails;
+    }
+
+    private void validate(Homework homework) throws ApplicationErrorException {
+        CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt(homework.getCloudwareType());
+
+        if(cloudwareType == null){
+            throw new ApplicationErrorException(ErrorCode.InvalidCloudwareType);
+        }
+
+        Clazz clazz = clazzMapper.selectByPrimaryKey(homework.getClassId());
+        if(clazz == null){
+            throw new ApplicationErrorException(ErrorCode.ClassNotExists);
+        }
+        Module module = moduleMapper.selectByPrimaryKey(homework.getModuleId());
+        if(module == null){
+            throw new ApplicationErrorException(ErrorCode.ModuleNotExists);
+        }
+
+        if(module.getCourseId() != clazz.getCourseId()){
+            throw new ApplicationErrorException(ErrorCode.HomeworkModuleClassBelongsToDifferentCourse);
+        }
     }
 }

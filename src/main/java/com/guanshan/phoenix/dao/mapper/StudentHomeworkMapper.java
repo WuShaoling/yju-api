@@ -93,4 +93,10 @@ public interface StudentHomeworkMapper {
             @Arg(column="url", javaType=String.class, jdbcType=JdbcType.VARCHAR)
     })
     StudentHomework selectByStudentIdAndHomeworkId(@Param("studentId") int studentId, @Param("homeworkId") int homeworkId);
+
+    @Select({
+            "select exists (select 1 from student_homework",
+            "where homework_id=#{homeworkId, jdbcType=INTEGER})"
+    })
+    boolean isHomeworkUsedByStudentHomework(int homeworkId);
 }
