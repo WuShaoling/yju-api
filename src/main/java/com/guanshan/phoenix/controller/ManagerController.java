@@ -116,6 +116,7 @@ public class ManagerController {
 
     @ApiOperation(value = "删除作业", notes = "")
     @PostMapping(value = "class/homework/deletion")
+    @Transactional(rollbackFor = Throwable.class)
     public ResponseMessage deleteHomework(@RequestParam("homeworkId") int homeworkId) throws ApplicationErrorException {
         homeworkService.deleteHomework(homeworkId);
         return new ResponseMessage.Success();

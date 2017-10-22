@@ -49,6 +49,9 @@ public class HomeworkServiceImp implements HomeworkService {
     @Autowired
     private HomeworkResourceMapper homeworkResourceMapper;
 
+    @Autowired
+    private TeacherMapper teacherMapper;
+
     @Override
     public ResHomeworkDetail getHomeworkDetail(int homeworkID) throws ApplicationErrorException {
         if(homeworkMapper.selectByPrimaryKey(homeworkID) == null){
@@ -190,9 +193,14 @@ public class HomeworkServiceImp implements HomeworkService {
 
     @Override
     public ResClassHomework getClassHomework(int classId) throws ApplicationErrorException {
+        if(clazzMapper.selectByPrimaryKey(classId) == null){
+            throw new ApplicationErrorException(ErrorCode.ClassNotExists);
+        }
+
         ResClassHomework resClassHomework = new ResClassHomework();
 
         Clazz clazz = clazzMapper.selectByPrimaryKey(classId);
+        Teacher teacher = teacherMapper.selectByClassId(classId);
         resClassHomework.setClassId(classId);
         resClassHomework.setClassName(clazz.getName());
 
@@ -204,21 +212,24 @@ public class HomeworkServiceImp implements HomeworkService {
             resClassHomeworkModule.setModuleName(module.getName());
 
             List<ResClassHomework.ResClassHomeworkModuleHomework> homeworks =  new ArrayList<>();
-            List<Homework> homeworkList = homeworkMapper.selectByModuleId(module.getId());
+            List<Homework> homeworkList = homeworkMapper.selectByModuleIdAndClassId(module.getId(), classId);
             for (Homework homework : homeworkList) {
                 ResClassHomework.ResClassHomeworkModuleHomework resClassHomeworkModuleHomework = new ResClassHomework().new ResClassHomeworkModuleHomework();
                 resClassHomeworkModuleHomework.setHomeworkId(homework.getId());
                 resClassHomeworkModuleHomework.setHomeworkName(homework.getName());
                 resClassHomeworkModuleHomework.setHomeworkDes(homework.getDescription());
-                resClassHomeworkModuleHomework.setHomeworkCreateDate(homework.getPublishDate().toString());
-                resClassHomeworkModuleHomework.setHomeworkDueDate(homework.getDeadlineDate().toString());
+                resClassHomeworkModuleHomework.setHomeworkCreateDate(Utility.formatDate(homework.getPublishDate()));
+                resClassHomeworkModuleHomework.setTeacherName(teacher.getName());
+                resClassHomeworkModuleHomework.setHomeworkDueDate(Utility.formatDate(homework.getDeadlineDate()));
                 CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt(homework.getCloudwareType());
                 resClassHomeworkModuleHomework.setCloudwareType(cloudwareType == null ? "" : cloudwareType.toString());
 
                 homeworks.add(resClassHomeworkModuleHomework);
             }
-            resClassHomeworkModule.setHomeworks(homeworks);
-            modules.add(resClassHomeworkModule);
+            if(homeworks.size() > 0) {
+                resClassHomeworkModule.setHomeworks(homeworks);
+                modules.add(resClassHomeworkModule);
+            }
         }
         resClassHomework.setModules(modules);
 

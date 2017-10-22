@@ -130,4 +130,23 @@ public interface TeacherMapper {
             @Arg(column="phone", javaType=String.class, jdbcType=JdbcType.VARCHAR)
     })
     List<Teacher> getAllTeachers();
+
+    @Select({
+            "select",
+            "t.id, t.user_id, t.tno, t.name, t.gender, t.title, t.email, t.phone",
+            "from teacher t inner join course co on co.teacher_id=t.user_id",
+                            "inner join class cl on cl.course_id = co.id",
+            "where cl.id = #{classId,jdbcType=INTEGER}"
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="user_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="tno", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="gender", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="title", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="email", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="phone", javaType=String.class, jdbcType=JdbcType.VARCHAR)
+    })
+    Teacher selectByClassId(int classId);
 }
