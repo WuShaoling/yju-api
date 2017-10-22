@@ -21,6 +21,7 @@ public interface UserMapper {
     int insert(User record);
 
     @InsertProvider(type=UserSqlProvider.class, method="insertSelective")
+    @Options(useGeneratedKeys = true, keyColumn = "id")
     int insertSelective(User record);
 
     @Select({

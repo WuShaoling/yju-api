@@ -12,6 +12,9 @@ import java.io.IOException;
 @Service
 public class FileServiceImp implements FileService {
 
+    @Value("${file.baseUrl}")
+    private String baseUrl;
+
     @Value("${file.imageDir}")
     private String imageDir;
 
@@ -45,6 +48,6 @@ public class FileServiceImp implements FileService {
             return "null";
         }
 
-        return uploadDir + filename;
+        return baseUrl + uploadDir + filename;
     }
 }

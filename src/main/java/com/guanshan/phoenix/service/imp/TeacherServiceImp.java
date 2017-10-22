@@ -10,11 +10,14 @@ import com.guanshan.phoenix.enums.RoleEnum;
 import com.guanshan.phoenix.enums.TitleEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
+import com.guanshan.phoenix.excel.ExcelUtil;
+import com.guanshan.phoenix.excel.domain.ExcelTeacher;
 import com.guanshan.phoenix.service.*;
 import com.guanshan.phoenix.webdomain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -151,6 +154,31 @@ public class TeacherServiceImp implements TeacherService {
 
         teacherMapper.deleteByUserId(teacherId);
         userService.deleteUserById(teacher.getUserId());
+    }
+
+    @Override
+    public int batchTeacherCreation(MultipartFile file) throws ApplicationErrorException {
+        ExcelTeacher excelTeacher = ExcelUtil.teacherExcelAnalysis(file);
+
+        for (ExcelTeacher.ExcelTeacherElement excelTeacherElement : excelTeacher.getExcelTeacherElementList()) {
+            User user = new User();
+            user.setUsername(excelTeacherElement.getTeacherNum());
+            user.setRole(RoleEnum.TEACHER.getCode());
+            userMapper.insertSelective(user);
+
+            Teacher teacher = new Teacher();
+            teacher.setUserId(user.getId());
+            teacher.setTno(excelTeacherElement.getTeacherNum());
+            teacher.setName(excelTeacherElement.getTeacherName());
+            teacher.setTitle(excelTeacherElement.getTeacherTitle());
+            teacher.setGender(excelTeacherElement.getGender());
+            teacher.setEmail(excelTeacherElement.getTeacherContact());
+            teacherMapper.insertSelective(teacher);
+        }
+
+
+
+        return 0;
     }
 
     private void validateTeacher(ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException {

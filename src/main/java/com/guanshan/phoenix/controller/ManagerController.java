@@ -1,7 +1,6 @@
 package com.guanshan.phoenix.controller;
 
 import com.guanshan.phoenix.dao.entity.Course;
-import com.guanshan.phoenix.dao.entity.Experiment;
 import com.guanshan.phoenix.dao.entity.Module;
 import com.guanshan.phoenix.dao.entity.Term;
 import com.guanshan.phoenix.enums.ResourceTypeEnum;
@@ -291,6 +290,21 @@ public class ManagerController {
     public ResponseMessage<String> uploadImage(@RequestParam("file") MultipartFile file) throws ApplicationErrorException {
         return new ResponseMessage.Success<>(fileService.uploadFile(file, ResourceTypeEnum.IMAGE));
     }
+
+    @ApiOperation(value = "批量导入学生数据", notes = "")
+    @PostMapping(value = "/class/student/batchCreation")
+    public ResponseMessage batchStudentCreation(@RequestParam("classId") int classId, @RequestParam("file") MultipartFile file) throws ApplicationErrorException {
+        studentService.batchStudentCreation(classId, file);
+        return new ResponseMessage.Success();
+    }
+
+    @ApiOperation(value = "批量导入教师数据", notes = "")
+    @PostMapping(value = "/teacher/batchCreation")
+    public ResponseMessage batchTeacherCreation(@RequestParam("file") MultipartFile file) throws ApplicationErrorException {
+        teacherService.batchTeacherCreation(file);
+        return new ResponseMessage.Success();
+    }
+
 }
 
 
