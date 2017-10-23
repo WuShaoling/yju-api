@@ -110,7 +110,7 @@ public class TeacherServiceImp implements TeacherService {
     public void createTeacher(ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException {
         validateTeacher(reqUpdateTeacher);
 
-        User newUser = managerService.createUser(reqUpdateTeacher.getTeacherName(), RoleEnum.TEACHER);
+        User newUser = managerService.createUser(reqUpdateTeacher.getTeacherNo(), RoleEnum.TEACHER);
         Teacher teacher = new Teacher();
         teacher.setUserId(newUser.getId());
         teacher.setTno(reqUpdateTeacher.getTeacherNo());
