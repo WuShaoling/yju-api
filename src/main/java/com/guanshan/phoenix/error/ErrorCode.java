@@ -91,6 +91,12 @@ public enum ErrorCode {
     @ErrorMessage("学号为'%s'的学生名字叫'%s'。是否要覆盖？")
     DuplicateStudentNoFound(29),
 
+    @ErrorMessage("该实验不存在")
+    ExperimentNotFound(30),
+
+    @ErrorMessage("该实验正在被学生实验表使用")
+    ExperimentUsedByStudentExperiment(31),
+
     @ErrorMessage("服务器出错，请联系管理员")
     GeneralError(Integer.MAX_VALUE);
 

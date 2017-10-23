@@ -37,6 +37,10 @@ public class ExperimentSqlProvider {
             sql.VALUES("deadline_date", "#{deadlineDate,jdbcType=DATE}");
         }
         
+        if (record.getExperimentContent() != null) {
+            sql.VALUES("experiment_content", "#{experimentContent,jdbcType=LONGVARCHAR}");
+        }
+        
         return sql.toString();
     }
 
@@ -66,6 +70,10 @@ public class ExperimentSqlProvider {
         
         if (record.getDeadlineDate() != null) {
             sql.SET("deadline_date = #{deadlineDate,jdbcType=DATE}");
+        }
+        
+        if (record.getExperimentContent() != null) {
+            sql.SET("experiment_content = #{experimentContent,jdbcType=LONGVARCHAR}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

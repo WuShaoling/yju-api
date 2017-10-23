@@ -25,11 +25,11 @@ public interface ExperimentMapper {
         "insert into experiment (id, module_id, ",
         "name, description, ",
         "cloudware_type, publish_date, ",
-        "deadline_date)",
+        "deadline_date, experiment_content)",
         "values (#{id,jdbcType=INTEGER}, #{moduleId,jdbcType=INTEGER}, ",
         "#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, ",
         "#{cloudwareType,jdbcType=INTEGER}, #{publishDate,jdbcType=DATE}, ",
-        "#{deadlineDate,jdbcType=DATE})"
+        "#{deadlineDate,jdbcType=DATE}, #{experimentContent,jdbcType=LONGVARCHAR})"
     })
     int insert(Experiment record);
 
@@ -38,7 +38,8 @@ public interface ExperimentMapper {
 
     @Select({
         "select",
-        "id, module_id, name, description, cloudware_type, publish_date, deadline_date",
+        "id, module_id, name, description, cloudware_type, publish_date, deadline_date, ",
+        "experiment_content",
         "from experiment",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -49,12 +50,26 @@ public interface ExperimentMapper {
         @Arg(column="description", javaType=String.class, jdbcType=JdbcType.VARCHAR),
         @Arg(column="cloudware_type", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
         @Arg(column="publish_date", javaType=Date.class, jdbcType=JdbcType.DATE),
-        @Arg(column="deadline_date", javaType=Date.class, jdbcType=JdbcType.DATE)
+        @Arg(column="deadline_date", javaType=Date.class, jdbcType=JdbcType.DATE),
+        @Arg(column="experiment_content", javaType=String.class, jdbcType=JdbcType.LONGVARCHAR)
     })
     Experiment selectByPrimaryKey(Integer id);
 
     @UpdateProvider(type=ExperimentSqlProvider.class, method="updateByPrimaryKeySelective")
     int updateByPrimaryKeySelective(Experiment record);
+
+    @Update({
+        "update experiment",
+        "set module_id = #{moduleId,jdbcType=INTEGER},",
+          "name = #{name,jdbcType=VARCHAR},",
+          "description = #{description,jdbcType=VARCHAR},",
+          "cloudware_type = #{cloudwareType,jdbcType=INTEGER},",
+          "publish_date = #{publishDate,jdbcType=DATE},",
+          "deadline_date = #{deadlineDate,jdbcType=DATE},",
+          "experiment_content = #{experimentContent,jdbcType=LONGVARCHAR}",
+        "where id = #{id,jdbcType=INTEGER}"
+    })
+    int updateByPrimaryKeyWithBLOBs(Experiment record);
 
     @Update({
         "update experiment",
@@ -107,4 +122,10 @@ public interface ExperimentMapper {
             "where module_id=#{moduleId, jdbcType=INTEGER})"
     })
     boolean isModuleUsedByExperiment(int moduleId);
+
+    @Select({
+            "select exists (select 1 from student_experiment",
+            "where experiment_id=#{experimentId, jdbcType=INTEGER})"
+    })
+    boolean isExperimentUsedByStudentExperiment(int experimentId);
 }

@@ -17,7 +17,9 @@ public class Experiment {
 
     private Date deadlineDate;
 
-    public Experiment(Integer id, Integer moduleId, String name, String description, Integer cloudwareType, Date publishDate, Date deadlineDate) {
+    private String experimentContent;
+
+    public Experiment(Integer id, Integer moduleId, String name, String description, Integer cloudwareType, Date publishDate, Date deadlineDate, String experimentContent) {
         this.id = id;
         this.moduleId = moduleId;
         this.name = name;
@@ -25,6 +27,7 @@ public class Experiment {
         this.cloudwareType = cloudwareType;
         this.publishDate = publishDate;
         this.deadlineDate = deadlineDate;
+        this.experimentContent = experimentContent;
     }
 
     public Experiment() {
@@ -85,5 +88,13 @@ public class Experiment {
 
     public void setDeadlineDate(Date deadlineDate) {
         this.deadlineDate = deadlineDate;
+    }
+
+    public String getExperimentContent() {
+        return experimentContent;
+    }
+
+    public void setExperimentContent(String experimentContent) {
+        this.experimentContent = experimentContent == null ? null : experimentContent.trim();
     }
 }
