@@ -232,6 +232,6 @@ public class TeacherServiceImp implements TeacherService {
             throw new ApplicationErrorException(ErrorCode.InvalidTitle);
         }
 
-        Utility.validateEmail(reqUpdateTeacher.getTeacherContact());
+        //Utility.validateEmail(reqUpdateTeacher.getTeacherContact());
     }
 }
