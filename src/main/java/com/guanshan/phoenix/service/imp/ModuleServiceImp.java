@@ -9,6 +9,7 @@ import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.ModuleService;
 import com.guanshan.phoenix.webdomain.request.ReqDeleteModule;
+import com.guanshan.phoenix.webdomain.response.ResModuleId;
 import com.guanshan.phoenix.webdomain.response.ResModuleImages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class ModuleServiceImp implements ModuleService {
     private HomeworkMapper homeworkMapper;
 
     @Override
-    public void createModule(Module module) throws ApplicationErrorException {
+    public ResModuleId createModule(Module module) throws ApplicationErrorException {
         Course course = courseMapper.selectByPrimaryKey(module.getCourseId());
 
         if(course == null){
@@ -46,6 +47,7 @@ public class ModuleServiceImp implements ModuleService {
         }
 
         moduleMapper.insert(module);
+        return new ResModuleId(module.getId());
     }
 
     @Override

@@ -239,9 +239,8 @@ public class ManagerController {
 
     @ApiOperation(value = "新增课时", notes = "")
     @PostMapping(value = "course/module/creation")
-    public ResponseMessage createModule(@RequestBody Module module) throws ApplicationErrorException {
-        moduleService.createModule(module);
-        return new ResponseMessage.Success();
+    public ResponseMessage<ResModuleId> createModule(@RequestBody Module module) throws ApplicationErrorException {
+        return new ResponseMessage.Success<>(moduleService.createModule(module));
     }
 
     @ApiOperation(value = "删除课时", notes = "")
