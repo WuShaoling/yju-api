@@ -1,7 +1,7 @@
 package com.guanshan.phoenix.webdomain.request;
 
 public class ReqAddClassStudent {
-    private int id;
+    private int id; // student user id
     private int classId;
     private String studentNo;
     private String studentName;

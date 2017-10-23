@@ -12,6 +12,7 @@ import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.excel.ExcelUtil;
 import com.guanshan.phoenix.excel.domain.ExcelStudent;
 import com.guanshan.phoenix.service.*;
+import com.guanshan.phoenix.webdomain.request.ReqAddClassStudent;
 import com.guanshan.phoenix.webdomain.response.ResBatchAddStudent;
 import com.guanshan.phoenix.webdomain.request.ReqUpdateStudent;
 import com.guanshan.phoenix.webdomain.response.ResClassDetail;
@@ -97,31 +98,22 @@ public class StudentServiceImp implements StudentService {
         ExcelStudent excelStudent = ExcelUtil.studentExcelAnalysis(file);
         for (ExcelStudent.ExcelStudentElement excelStudentElement : excelStudent.getExcelStudentElementList()) {
             try {
-                User user = new User();
-                user.setUsername(excelStudentElement.getStudentNum());
-                user.setPassword(EncryptionUtil.encryptPassword(defaultPassword));
-                user.setRole(RoleEnum.STUDENT.getCode());
-                userMapper.insertSelective(user);
+                ReqAddClassStudent newClassStudent = new ReqAddClassStudent();
+                newClassStudent.setClassId(classId);
+                newClassStudent.setStudentNo(excelStudentElement.getStudentNum());
+                newClassStudent.setStudentName(excelStudentElement.getStudentName());
+                newClassStudent.setGender(excelStudentElement.getGender());
+                newClassStudent.setOverride(true);
 
-                Student student = new Student();
-                student.setUserId(user.getId());
-                student.setSno(excelStudentElement.getStudentNum());
-                student.setName(excelStudentElement.getStudentName());
-                student.setGender(excelStudentElement.getGender());
-                studentMapper.insertSelective(student);
-
-                StudentClass studentClass = new StudentClass();
-                studentClass.setStudentId(student.getId());
-                studentClass.setClassId(classId);
-                studentClassMapper.insertSelective(studentClass);
+                classService.addClassStudent(newClassStudent);
 
                 success += 1;
-            } catch (Exception e) {
+            } catch (ApplicationErrorException ex) {
                 ResBatchAddStudent.FailureReason failureReason = new ResBatchAddStudent().new FailureReason();
                 failureReason.setClassId(classId);
                 failureReason.setStudentNum(excelStudentElement.getStudentNum());
                 // todo
-                failureReason.setReason(ErrorCode.StudentAlreadyExists.getErrorStringFormat());
+                failureReason.setReason(ex.getMessage());
                 failureReasonList.add(failureReason);
 
                 failure += 1;
