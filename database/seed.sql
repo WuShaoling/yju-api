@@ -22,14 +22,14 @@ truncate table student_homework;
 truncate table student_homework_resource;
 SET FOREIGN_KEY_CHECKS=1;
 
-INSERT INTO user (id, role, username) VALUES (1, '1', '张君义');  -- 1
-INSERT INTO user (id, role, username) VALUES (2, '1', '何雨');    -- 2
-INSERT INTO user (id, role, username) VALUES (3, '1', '施文');    -- 3
-INSERT INTO user (id, role, username) VALUES (4, '1', '张礼庆');  -- 4
-INSERT INTO user (id, role, username) VALUES (5, '2', '邱娟');    -- 5
-INSERT INTO user (id, role, username) VALUES (6, '2', '王伟');    -- 6
-INSERT INTO user (id, role, username) VALUES (7, '2', '杜庆峰');  -- 7
-INSERT INTO user (id, role, username) VALUES (8, '3', '上帝');    -- 8
+INSERT INTO user (id, role, username) VALUES (1, '1', '10001');  -- 1
+INSERT INTO user (id, role, username) VALUES (2, '1', '10002');    -- 2
+INSERT INTO user (id, role, username) VALUES (3, '1', '10003');    -- 3
+INSERT INTO user (id, role, username) VALUES (4, '1', '10004');  -- 4
+INSERT INTO user (id, role, username) VALUES (5, '2', '20001');    -- 5
+INSERT INTO user (id, role, username) VALUES (6, '2', '20002');    -- 6
+INSERT INTO user (id, role, username) VALUES (7, '2', '20003');  -- 7
+INSERT INTO user (id, role, username) VALUES (8, '3', '40001');    -- 8
 
 INSERT INTO student (id, user_id, sno, name, gender, birthday) VALUES (1, 1, '10001', '张君义', '1', '2017-07-01');
 INSERT INTO student (id, user_id, sno, name, gender, birthday) VALUES (2, 2, '10002', '何雨', '1', '2017-07-01');
