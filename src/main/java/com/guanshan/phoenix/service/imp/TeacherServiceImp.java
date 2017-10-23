@@ -1,5 +1,6 @@
 package com.guanshan.phoenix.service.imp;
 
+import com.guanshan.phoenix.Util.EncryptionUtil;
 import com.guanshan.phoenix.Util.Utility;
 import com.guanshan.phoenix.dao.entity.Clazz;
 import com.guanshan.phoenix.dao.entity.StudentHomework;
@@ -15,6 +16,7 @@ import com.guanshan.phoenix.excel.domain.ExcelTeacher;
 import com.guanshan.phoenix.service.*;
 import com.guanshan.phoenix.webdomain.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +26,10 @@ import java.util.List;
 
 @Service
 public class TeacherServiceImp implements TeacherService {
+
+    @Value("${default.password}")
+    private String defaultPassword;
+
     @Autowired
     private TeacherMapper teacherMapper;
 
@@ -169,6 +175,7 @@ public class TeacherServiceImp implements TeacherService {
             try {
                 User user = new User();
                 user.setUsername(excelTeacherElement.getTeacherNum());
+                user.setPassword(EncryptionUtil.encryptPassword(defaultPassword));
                 user.setRole(RoleEnum.TEACHER.getCode());
                 userMapper.insertSelective(user);
 
@@ -185,7 +192,7 @@ public class TeacherServiceImp implements TeacherService {
             } catch (Exception e) {
                 RepBatchAddTeacher.FailureReason failureReason = new RepBatchAddTeacher().new FailureReason();
                 failureReason.setTeacherNum(excelTeacherElement.getTeacherNum());
-                // todo 
+                // todo
                 failureReason.setReason(ErrorCode.StudentAlreadyExists.getErrorStringFormat());
                 failureReasonList.add(failureReason);
 

@@ -1,5 +1,6 @@
 package com.guanshan.phoenix.service.imp;
 
+import com.guanshan.phoenix.Util.EncryptionUtil;
 import com.guanshan.phoenix.dao.entity.*;
 import com.guanshan.phoenix.dao.mapper.ClazzMapper;
 import com.guanshan.phoenix.dao.mapper.StudentClassMapper;
@@ -16,6 +17,7 @@ import com.guanshan.phoenix.webdomain.ReqUpdateStudent;
 import com.guanshan.phoenix.webdomain.ResClassDetail;
 import com.guanshan.phoenix.webdomain.ResStudentClassList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +26,10 @@ import java.util.List;
 
 @Service
 public class StudentServiceImp implements StudentService {
+
+    @Value("${default.password}")
+    private String defaultPassword;
+
     @Autowired
     private StudentClassMapper studentClassMapper;
 
@@ -91,6 +97,7 @@ public class StudentServiceImp implements StudentService {
             try {
                 User user = new User();
                 user.setUsername(excelStudentElement.getStudentNum());
+                user.setPassword(EncryptionUtil.encryptPassword(defaultPassword));
                 user.setRole(RoleEnum.STUDENT.getCode());
                 userMapper.insertSelective(user);
 

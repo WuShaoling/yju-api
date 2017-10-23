@@ -1,17 +1,22 @@
 package com.guanshan.phoenix.service.imp;
 
+import com.guanshan.phoenix.Util.EncryptionUtil;
 import com.guanshan.phoenix.dao.entity.User;
 import com.guanshan.phoenix.dao.mapper.UserMapper;
 import com.guanshan.phoenix.enums.RoleEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.service.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ManagerServiceImp implements ManagerService {
+
+    @Value("${default.password}")
+    private String defaultPassword;
 
     @Autowired
     private UserMapper userMapper;
@@ -21,9 +26,7 @@ public class ManagerServiceImp implements ManagerService {
         User user = new User();
         user.setId(userId);
 
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        final String rawPassword = "12345678";
-        user.setPassword(encoder.encode(rawPassword));
+        user.setPassword(EncryptionUtil.encryptPassword(defaultPassword));
         userMapper.updateByPrimaryKeySelective(user);
 
         return 0;
