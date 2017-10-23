@@ -6,6 +6,7 @@ import com.guanshan.phoenix.dao.mapper.UserMapper;
 import com.guanshan.phoenix.enums.RoleEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.service.ManagerService;
+import com.guanshan.phoenix.webdomain.request.ReqResetPassword;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,9 +23,9 @@ public class ManagerServiceImp implements ManagerService {
     private UserMapper userMapper;
 
     @Override
-    public int resetPassword(int userId) throws ApplicationErrorException {
+    public int resetPassword(ReqResetPassword reqResetPassword) throws ApplicationErrorException {
         User user = new User();
-        user.setId(userId);
+        user.setId(reqResetPassword.getUserId());
 
         user.setPassword(EncryptionUtil.encryptPassword(defaultPassword));
         userMapper.updateByPrimaryKeySelective(user);
