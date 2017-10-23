@@ -7,7 +7,10 @@ import com.guanshan.phoenix.enums.ResourceTypeEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.*;
-import com.guanshan.phoenix.webdomain.*;
+import com.guanshan.phoenix.webdomain.request.*;
+import com.guanshan.phoenix.webdomain.response.ResClassDetail;
+import com.guanshan.phoenix.webdomain.response.ResClassInfos;
+import com.guanshan.phoenix.webdomain.response.ResClassStudents;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -126,7 +129,7 @@ public class ClassServiceImp implements ClassService {
 
     @Override
     public ResClassStudents getAllClassStudentInfo(int classId) throws ApplicationErrorException {
-        if(clazzMapper.selectByPrimaryKey(classId) == null){
+        if (clazzMapper.selectByPrimaryKey(classId) == null) {
             throw new ApplicationErrorException(ErrorCode.ClassNotExists);
         }
         ResClassStudents resClassStudents = new ResClassStudents();
@@ -149,15 +152,17 @@ public class ClassServiceImp implements ClassService {
     }
 
     @Override
-    public int deleteClass(int classId) throws ApplicationErrorException {
-        if(clazzMapper.selectByPrimaryKey(classId) == null){
+    public int deleteClass(ReqDeleteClass reqDeleteClass) throws ApplicationErrorException {
+        int classId = reqDeleteClass.getClassId();
+
+        if (clazzMapper.selectByPrimaryKey(classId) == null) {
             throw new ApplicationErrorException(ErrorCode.ClassNotExists);
         }
 
-        if(homeworkMapper.isClassUsedByHomework(classId)){
+        if (homeworkMapper.isClassUsedByHomework(classId)) {
             throw new ApplicationErrorException(ErrorCode.ClassIsUsedByHomework);
         }
-        if(studentClassMapper.isClassUsedByStudentClass(classId)){
+        if (studentClassMapper.isClassUsedByStudentClass(classId)) {
             throw new ApplicationErrorException(ErrorCode.ClassIsUsedByStudentClass);
         }
 

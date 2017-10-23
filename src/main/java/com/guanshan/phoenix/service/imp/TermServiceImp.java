@@ -7,7 +7,8 @@ import com.guanshan.phoenix.enums.SemesterEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.TermService;
-import com.guanshan.phoenix.webdomain.ResSemesterList;
+import com.guanshan.phoenix.webdomain.request.ReqDeleteSemester;
+import com.guanshan.phoenix.webdomain.response.ResSemesterList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,7 +52,9 @@ public class TermServiceImp implements TermService {
     }
 
     @Override
-    public void delete(int termId) throws ApplicationErrorException {
+    public void delete(ReqDeleteSemester reqDeleteSemester) throws ApplicationErrorException {
+        int termId = reqDeleteSemester.getSemesterId();
+
         if(termMapper.selectByPrimaryKey(termId) == null){
             throw new ApplicationErrorException(ErrorCode.TermNotExists);
         }

@@ -1,5 +1,6 @@
 package com.guanshan.phoenix.service.imp;
 
+import com.guanshan.phoenix.Util.EncryptionUtil;
 import com.guanshan.phoenix.Util.Utility;
 import com.guanshan.phoenix.dao.entity.Clazz;
 import com.guanshan.phoenix.dao.entity.StudentHomework;
@@ -13,10 +14,16 @@ import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.excel.ExcelUtil;
 import com.guanshan.phoenix.excel.domain.ExcelTeacher;
 import com.guanshan.phoenix.service.*;
-import com.guanshan.phoenix.webdomain.*;
+import com.guanshan.phoenix.webdomain.request.ReqDeleteTeacher;
+import com.guanshan.phoenix.webdomain.request.ReqHomeworkGrade;
+import com.guanshan.phoenix.webdomain.request.ReqUpdateTeacher;
+import com.guanshan.phoenix.webdomain.response.ResBatchAddTeacher;
+import com.guanshan.phoenix.webdomain.response.ResClassDetail;
+import com.guanshan.phoenix.webdomain.response.ResTeacherClassList;
+import com.guanshan.phoenix.webdomain.response.ResTeacherList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -24,6 +31,10 @@ import java.util.List;
 
 @Service
 public class TeacherServiceImp implements TeacherService {
+
+    @Value("${default.password}")
+    private String defaultPassword;
+
     @Autowired
     private TeacherMapper teacherMapper;
 
@@ -155,12 +166,14 @@ public class TeacherServiceImp implements TeacherService {
     }
 
     @Override
-    public void deleteTeacherByTeacherUserId(int teacherId) throws ApplicationErrorException {
+    public void deleteTeacherByTeacherUserId(ReqDeleteTeacher reqDeleteTeacher) throws ApplicationErrorException {
+        int teacherId = reqDeleteTeacher.getTeacherId();
+
         Teacher teacher = teacherMapper.selectByUserId(teacherId);
-        if(teacher == null)
+        if (teacher == null)
             throw new ApplicationErrorException(ErrorCode.TeacherNotExists);
 
-        if(courseMapper.isTeacherUsedByCourse(teacherId)){
+        if (courseMapper.isTeacherUsedByCourse(teacherId)) {
             throw new ApplicationErrorException(ErrorCode.TeacherIsUsedByCourse);
         }
 
@@ -169,28 +182,47 @@ public class TeacherServiceImp implements TeacherService {
     }
 
     @Override
-    public int batchTeacherCreation(MultipartFile file) throws ApplicationErrorException {
+    public ResBatchAddTeacher batchTeacherCreation(MultipartFile file) throws ApplicationErrorException {
+        ResBatchAddTeacher resBatchAddTeacher = new ResBatchAddTeacher();
+        List<ResBatchAddTeacher.FailureReason> failureReasonList = new ArrayList<>();
+
+        int success = 0;
+        int failure = 0;
+
         ExcelTeacher excelTeacher = ExcelUtil.teacherExcelAnalysis(file);
-
         for (ExcelTeacher.ExcelTeacherElement excelTeacherElement : excelTeacher.getExcelTeacherElementList()) {
-            User user = new User();
-            user.setUsername(excelTeacherElement.getTeacherNum());
-            user.setRole(RoleEnum.TEACHER.getCode());
-            userMapper.insertSelective(user);
+            try {
+                User user = new User();
+                user.setUsername(excelTeacherElement.getTeacherNum());
+                user.setPassword(EncryptionUtil.encryptPassword(defaultPassword));
+                user.setRole(RoleEnum.TEACHER.getCode());
+                userMapper.insertSelective(user);
 
-            Teacher teacher = new Teacher();
-            teacher.setUserId(user.getId());
-            teacher.setTno(excelTeacherElement.getTeacherNum());
-            teacher.setName(excelTeacherElement.getTeacherName());
-            teacher.setTitle(excelTeacherElement.getTeacherTitle());
-            teacher.setGender(excelTeacherElement.getGender());
-            teacher.setEmail(excelTeacherElement.getTeacherContact());
-            teacherMapper.insertSelective(teacher);
+                Teacher teacher = new Teacher();
+                teacher.setUserId(user.getId());
+                teacher.setTno(excelTeacherElement.getTeacherNum());
+                teacher.setName(excelTeacherElement.getTeacherName());
+                teacher.setTitle(excelTeacherElement.getTeacherTitle());
+                teacher.setGender(excelTeacherElement.getGender());
+                teacher.setEmail(excelTeacherElement.getTeacherContact());
+                teacherMapper.insertSelective(teacher);
+
+                success += 1;
+            } catch (Exception e) {
+                ResBatchAddTeacher.FailureReason failureReason = new ResBatchAddTeacher().new FailureReason();
+                failureReason.setTeacherNum(excelTeacherElement.getTeacherNum());
+                // todo
+                failureReason.setReason(ErrorCode.StudentAlreadyExists.getErrorStringFormat());
+                failureReasonList.add(failureReason);
+
+                failure += 1;
+            }
         }
+        resBatchAddTeacher.setSuccess(success);
+        resBatchAddTeacher.setFailure(failure);
+        resBatchAddTeacher.setFailureReasonList(failureReasonList);
 
-
-
-        return 0;
+        return resBatchAddTeacher;
     }
 
     private void validateTeacher(ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException {

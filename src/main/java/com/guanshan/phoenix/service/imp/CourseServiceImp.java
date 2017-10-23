@@ -8,10 +8,11 @@ import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.ClassService;
 import com.guanshan.phoenix.service.CourseService;
 import com.guanshan.phoenix.service.TeacherService;
-import com.guanshan.phoenix.webdomain.*;
+import com.guanshan.phoenix.webdomain.request.ReqAddCourse;
+import com.guanshan.phoenix.webdomain.request.ReqDeleteCourse;
+import com.guanshan.phoenix.webdomain.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -192,23 +193,25 @@ public class CourseServiceImp implements CourseService {
     }
 
     @Override
-    public void deleteCourse(int courseId) throws ApplicationErrorException {
+    public void deleteCourse(ReqDeleteCourse reqDeleteCourse) throws ApplicationErrorException {
+        int courseId = reqDeleteCourse.getId();
+
         Course course = courseMapper.selectByPrimaryKey(courseId);
-        if(course == null){
+        if (course == null) {
             throw new ApplicationErrorException(ErrorCode.CourseNotExists);
         }
 
-        if(moduleMapper.isCourseUsedByModule(courseId)){
+        if (moduleMapper.isCourseUsedByModule(courseId)) {
             throw new ApplicationErrorException(ErrorCode.CourseIsUsedByModule);
         }
 
-        if(clazzMapper.isCourseUsedByClass(courseId)){
+        if (clazzMapper.isCourseUsedByClass(courseId)) {
             throw new ApplicationErrorException(ErrorCode.CourseIsUsedByClass);
         }
 
         CourseResource courseResource =
                 courseResourceMapper.selectByCourseIdAndType(courseId, ResourceTypeEnum.IMAGE.getCode());
-        if(courseResource != null){
+        if (courseResource != null) {
             courseResourceMapper.deleteByPrimaryKey(courseResource.getId());
         }
         courseMapper.deleteByPrimaryKey(courseId);
