@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("teacher")
 public class TeacherController {
+
     @Autowired
     private TeacherService teacherService;
 
