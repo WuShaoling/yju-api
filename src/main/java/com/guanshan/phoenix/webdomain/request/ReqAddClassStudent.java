@@ -6,6 +6,7 @@ public class ReqAddClassStudent {
     private String studentNo;
     private String studentName;
     private int gender;
+    private boolean override;
 
     public int getId() {
         return id;
@@ -45,5 +46,13 @@ public class ReqAddClassStudent {
 
     public void setGender(int gender) {
         this.gender = gender;
+    }
+
+    public boolean isOverride() {
+        return override;
+    }
+
+    public void setOverride(boolean override) {
+        this.override = override;
     }
 }

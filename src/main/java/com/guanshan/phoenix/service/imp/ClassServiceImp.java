@@ -110,6 +110,10 @@ public class ClassServiceImp implements ClassService {
             if(clazzMapper.isStudentInClass(student.getUserId(), reqAddClassStudent.getClassId())){
                 throw new ApplicationErrorException(ErrorCode.StudentAlreadyInClass);
             }
+            if(!reqAddClassStudent.isOverride() &&
+                    !student.getName().equals(reqAddClassStudent.getStudentName())){
+                throw new ApplicationErrorException(ErrorCode.DuplicateStudentNoFound, student.getSno(), student.getName());
+            }
             student.setGender(reqAddClassStudent.getGender());
             student.setName(reqAddClassStudent.getStudentName());
             studentService.updateStudent(student);

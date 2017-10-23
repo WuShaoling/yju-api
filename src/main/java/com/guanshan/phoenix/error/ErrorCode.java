@@ -88,6 +88,9 @@ public enum ErrorCode {
     @ErrorMessage("该学生'%S'已存在")
     StudentAlreadyExists(28),
 
+    @ErrorMessage("学号为'%s'的学生名字叫'%s'。是否要覆盖？")
+    DuplicateStudentNoFound(29),
+
     @ErrorMessage("服务器出错，请联系管理员")
     GeneralError(Integer.MAX_VALUE);
 
