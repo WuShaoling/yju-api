@@ -48,6 +48,13 @@ public class FileServiceImp implements FileService {
             return "null";
         }
 
-        return baseUrl + uploadDir + filename;
+
+        switch (type) {
+            case IMAGE:
+                return baseUrl + "/image/" + filename;
+            case MARKDOWN:
+                return baseUrl + "/markdown/" + filename;
+        }
+        return null;
     }
 }
