@@ -108,10 +108,14 @@ public class TeacherServiceImp implements TeacherService {
 
     @Override
     public void createTeacher(ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException {
+        Teacher teacher = teacherMapper.selectByTeacherNo(reqUpdateTeacher.getTeacherNo());
+        if(teacher != null){
+            throw new ApplicationErrorException(ErrorCode.TeacherAlreadyExists, teacher.getTno());
+        }
         validateTeacher(reqUpdateTeacher);
 
         User newUser = managerService.createUser(reqUpdateTeacher.getTeacherNo(), RoleEnum.TEACHER);
-        Teacher teacher = new Teacher();
+        teacher = new Teacher();
         teacher.setUserId(newUser.getId());
         teacher.setTno(reqUpdateTeacher.getTeacherNo());
         teacher.setName(reqUpdateTeacher.getTeacherName());
@@ -136,10 +140,6 @@ public class TeacherServiceImp implements TeacherService {
         teacher.setName(reqUpdateTeacher.getTeacherName());
         teacher.setGender(reqUpdateTeacher.getGender());
         teacherMapper.updateByUserId(teacher);
-
-        User user = userMapper.selectByPrimaryKey(teacher.getUserId());
-        user.setUsername(teacher.getName());
-        userMapper.updateByPrimaryKey(user);
     }
 
     @Override
@@ -182,11 +182,6 @@ public class TeacherServiceImp implements TeacherService {
     }
 
     private void validateTeacher(ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException {
-        Teacher teacher = teacherMapper.selectByTeacherNo(reqUpdateTeacher.getTeacherNo());
-
-        if(teacher != null){
-            throw new ApplicationErrorException(ErrorCode.TeacherAlreadyExists, teacher.getTno());
-        }
 
         TitleEnum title = TitleEnum.fromInt(reqUpdateTeacher.getTeacherTitleId());
         if(title == null){
