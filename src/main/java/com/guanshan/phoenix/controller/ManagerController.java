@@ -226,7 +226,7 @@ public class ManagerController {
     @ApiOperation(value = "获取所有班级信息", notes = "")
     @GetMapping(value = "class/all")
     public ResponseMessage<ResClassInfos> getAllClassInfo() throws ApplicationErrorException {
-        return new ResponseMessage.Success<ResClassInfos>(classService.getAllClassInfo());
+        return new ResponseMessage.Success<>(classService.getAllClassInfo());
     }
 
     @ApiOperation(value = "获取课程实验信息", notes = "")

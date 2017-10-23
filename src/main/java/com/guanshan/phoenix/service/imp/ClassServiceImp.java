@@ -216,6 +216,7 @@ public class ClassServiceImp implements ClassService {
             ResClassInfos.ResClassInfo resClassInfo = new ResClassInfos.ResClassInfo();
 
             resClassInfo.setClassId(clazz.getId());
+            resClassInfo.setClassName(clazz.getName());
             resClassInfo.setCourseId(clazz.getCourseId());
 
             Course course = courseMapper.selectByPrimaryKey(clazz.getCourseId());
