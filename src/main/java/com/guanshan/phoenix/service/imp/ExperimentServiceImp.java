@@ -4,14 +4,10 @@ import com.guanshan.phoenix.dao.entity.Experiment;
 import com.guanshan.phoenix.dao.mapper.ExperimentMapper;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.service.ExperimentService;
-import com.guanshan.phoenix.webdomain.ReqExperiment;
+import com.guanshan.phoenix.webdomain.request.ReqDeleteExperiment;
+import com.guanshan.phoenix.webdomain.request.ReqExperiment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServlet;
-import java.io.File;
-import java.io.IOException;
 
 @Service
 public class ExperimentServiceImp implements ExperimentService {
@@ -21,8 +17,8 @@ public class ExperimentServiceImp implements ExperimentService {
 
 
     @Override
-    public int deleteExperiment(int id) throws ApplicationErrorException {
-        experimentMapper.deleteByPrimaryKey(id);
+    public int deleteExperiment(ReqDeleteExperiment reqDeleteExperiment) throws ApplicationErrorException {
+        experimentMapper.deleteByPrimaryKey(reqDeleteExperiment.getId());
 
         return 0;
     }

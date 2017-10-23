@@ -8,15 +8,19 @@ import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.HomeworkService;
 import com.guanshan.phoenix.service.StudentHomeworkService;
-import com.guanshan.phoenix.webdomain.*;
-import org.apache.commons.lang3.time.DateUtils;
+import com.guanshan.phoenix.webdomain.request.ReqCreateHomework;
+import com.guanshan.phoenix.webdomain.request.ReqDeleteHomework;
+import com.guanshan.phoenix.webdomain.request.ReqUpdateHomework;
+import com.guanshan.phoenix.webdomain.response.ResClassHomework;
+import com.guanshan.phoenix.webdomain.response.ResHomeworkDetail;
+import com.guanshan.phoenix.webdomain.response.ResHomeworkSubmissionList;
+import com.guanshan.phoenix.webdomain.response.ResStudentHomeworkDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -123,18 +127,20 @@ public class HomeworkServiceImp implements HomeworkService {
     }
 
     @Override
-    public int deleteHomework(int homeworkID) throws ApplicationErrorException {
+    public int deleteHomework(ReqDeleteHomework reqDeleteHomework) throws ApplicationErrorException {
+        int homeworkID = reqDeleteHomework.getHomeworkId();
+
         Homework homework = homeworkMapper.selectByPrimaryKey(homeworkID);
-        if(homework == null){
+        if (homework == null) {
             throw new ApplicationErrorException(ErrorCode.HomeworkNotExists);
         }
 
-        if(studentHomeworkMapper.isHomeworkUsedByStudentHomework(homeworkID)){
+        if (studentHomeworkMapper.isHomeworkUsedByStudentHomework(homeworkID)) {
             throw new ApplicationErrorException(ErrorCode.HomeworkUsedByStudentHomework);
         }
 
         HomeworkResource homeworkResource = homeworkResourceMapper.selectByHomeworkId(homeworkID);
-        if(homeworkResource != null){
+        if (homeworkResource != null) {
             homeworkResourceMapper.deleteByPrimaryKey(homeworkResource.getId());
             resourceMapper.deleteByPrimaryKey(homeworkResource.getResourceId());
         }

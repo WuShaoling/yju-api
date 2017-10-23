@@ -12,10 +12,10 @@ import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.excel.ExcelUtil;
 import com.guanshan.phoenix.excel.domain.ExcelStudent;
 import com.guanshan.phoenix.service.*;
-import com.guanshan.phoenix.webdomain.RepBatchAddStudent;
-import com.guanshan.phoenix.webdomain.ReqUpdateStudent;
-import com.guanshan.phoenix.webdomain.ResClassDetail;
-import com.guanshan.phoenix.webdomain.ResStudentClassList;
+import com.guanshan.phoenix.webdomain.response.ResBatchAddStudent;
+import com.guanshan.phoenix.webdomain.request.ReqUpdateStudent;
+import com.guanshan.phoenix.webdomain.response.ResClassDetail;
+import com.guanshan.phoenix.webdomain.response.ResStudentClassList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -81,9 +81,9 @@ public class StudentServiceImp implements StudentService {
     }
 
     @Override
-    public RepBatchAddStudent batchStudentCreation(int classId, MultipartFile file) throws ApplicationErrorException {
-        RepBatchAddStudent repBatchAddStudent = new RepBatchAddStudent();
-        List<RepBatchAddStudent.FailureReason> failureReasonList = new ArrayList<>();
+    public ResBatchAddStudent batchStudentCreation(int classId, MultipartFile file) throws ApplicationErrorException {
+        ResBatchAddStudent resBatchAddStudent = new ResBatchAddStudent();
+        List<ResBatchAddStudent.FailureReason> failureReasonList = new ArrayList<>();
 
         int success = 0;
         int failure = 0;
@@ -115,7 +115,7 @@ public class StudentServiceImp implements StudentService {
 
                 success += 1;
             } catch (Exception e) {
-                RepBatchAddStudent.FailureReason failureReason = new RepBatchAddStudent().new FailureReason();
+                ResBatchAddStudent.FailureReason failureReason = new ResBatchAddStudent().new FailureReason();
                 failureReason.setClassId(classId);
                 failureReason.setStudentNum(excelStudentElement.getStudentNum());
                 // todo
@@ -125,11 +125,11 @@ public class StudentServiceImp implements StudentService {
                 failure += 1;
             }
         }
-        repBatchAddStudent.setSuccess(success);
-        repBatchAddStudent.setFailure(failure);
-        repBatchAddStudent.setFailureReasonList(failureReasonList);
+        resBatchAddStudent.setSuccess(success);
+        resBatchAddStudent.setFailure(failure);
+        resBatchAddStudent.setFailureReasonList(failureReasonList);
 
-        return repBatchAddStudent;
+        return resBatchAddStudent;
     }
 
 

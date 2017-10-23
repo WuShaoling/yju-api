@@ -6,10 +6,9 @@ import com.guanshan.phoenix.enums.ResourceTypeEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.StudentHomeworkService;
-import com.guanshan.phoenix.webdomain.ReqHomeworkSubmission;
+import com.guanshan.phoenix.webdomain.request.ReqHomeworkSubmission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 

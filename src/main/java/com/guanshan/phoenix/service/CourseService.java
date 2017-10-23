@@ -2,7 +2,12 @@ package com.guanshan.phoenix.service;
 
 import com.guanshan.phoenix.dao.entity.Course;
 import com.guanshan.phoenix.error.ApplicationErrorException;
-import com.guanshan.phoenix.webdomain.*;
+import com.guanshan.phoenix.webdomain.request.ReqAddCourse;
+import com.guanshan.phoenix.webdomain.request.ReqDeleteCourse;
+import com.guanshan.phoenix.webdomain.response.ResCourseExperiments;
+import com.guanshan.phoenix.webdomain.response.ResCourseHomeworks;
+import com.guanshan.phoenix.webdomain.response.ResCourseList;
+import com.guanshan.phoenix.webdomain.response.ResCourseModuleExperiments;
 
 public interface CourseService {
     Course getCourseById(int courseID) throws ApplicationErrorException;
@@ -19,5 +24,5 @@ public interface CourseService {
 
     void updateCourse(Course course) throws ApplicationErrorException;
 
-    void deleteCourse(int courseId) throws ApplicationErrorException;
+    void deleteCourse(ReqDeleteCourse reqDeleteCourse) throws ApplicationErrorException;
 }

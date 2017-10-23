@@ -7,11 +7,8 @@ import com.guanshan.phoenix.enums.ResourceTypeEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ResponseMessage;
 import com.guanshan.phoenix.service.*;
-import com.guanshan.phoenix.webdomain.*;
-import com.guanshan.phoenix.webdomain.ReqUpdateTeacher;
-import com.guanshan.phoenix.webdomain.ResCourseList;
-import com.guanshan.phoenix.webdomain.ResSemesterList;
-import com.guanshan.phoenix.webdomain.ResTeacherList;
+import com.guanshan.phoenix.webdomain.request.*;
+import com.guanshan.phoenix.webdomain.response.*;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -81,8 +78,8 @@ public class ManagerController {
     @ApiOperation(value = "删除老师", notes = "")
     @PostMapping(value = "teacher/deletion")
     @Transactional(rollbackFor = Throwable.class)
-    public ResponseMessage deleteTeacher(@RequestParam("teacherId") int teacherId) throws ApplicationErrorException {
-        teacherService.deleteTeacherByTeacherUserId(teacherId);
+    public ResponseMessage deleteTeacher(@RequestBody ReqDeleteTeacher reqDeleteTeacher) throws ApplicationErrorException {
+        teacherService.deleteTeacherByTeacherUserId(reqDeleteTeacher);
         return new ResponseMessage.Success();
     }
 
@@ -108,16 +105,16 @@ public class ManagerController {
 
     @ApiOperation(value = "删除学期", notes = "")
     @PostMapping(value = "semester/deletion")
-    public ResponseMessage deleteSemester(@RequestParam int semesterId) throws ApplicationErrorException {
-        termService.delete(semesterId);
+    public ResponseMessage deleteSemester(@RequestBody ReqDeleteSemester reqDeleteSemester) throws ApplicationErrorException {
+        termService.delete(reqDeleteSemester);
         return new ResponseMessage.Success();
     }
 
     @ApiOperation(value = "删除作业", notes = "")
     @PostMapping(value = "class/homework/deletion")
     @Transactional(rollbackFor = Throwable.class)
-    public ResponseMessage deleteHomework(@RequestParam("homeworkId") int homeworkId) throws ApplicationErrorException {
-        homeworkService.deleteHomework(homeworkId);
+    public ResponseMessage deleteHomework(@RequestBody ReqDeleteHomework reqDeleteHomework) throws ApplicationErrorException {
+        homeworkService.deleteHomework(reqDeleteHomework);
         return new ResponseMessage.Success();
     }
 
@@ -166,8 +163,8 @@ public class ManagerController {
     @ApiOperation(value = "删除课程信息", notes = "")
     @PostMapping(value = "course/deletion")
     @Transactional(rollbackFor = Throwable.class)
-    public ResponseMessage deleteCourse(@RequestParam("id") int id) throws ApplicationErrorException {
-        courseService.deleteCourse(id);
+    public ResponseMessage deleteCourse(@RequestBody ReqDeleteCourse reqDeleteCourse) throws ApplicationErrorException {
+        courseService.deleteCourse(reqDeleteCourse);
         return new ResponseMessage.Success();
     }
 
@@ -207,8 +204,8 @@ public class ManagerController {
 
     @ApiOperation(value = "删除选课", notes = "")
     @PostMapping(value = "class/deletion")
-    public ResponseMessage deleteClass(@RequestParam("classId") int classId) throws ApplicationErrorException {
-        classService.deleteClass(classId);
+    public ResponseMessage deleteClass(@RequestBody ReqDeleteClass reqDeleteClass) throws ApplicationErrorException {
+        classService.deleteClass(reqDeleteClass);
         return new ResponseMessage.Success();
     }
 
@@ -247,15 +244,15 @@ public class ManagerController {
 
     @ApiOperation(value = "删除课时", notes = "")
     @PostMapping(value = "course/module/deletion")
-    public ResponseMessage deleteModule(@RequestParam("moduleId") int moduleId) throws ApplicationErrorException {
-        moduleService.deleteModule(moduleId);
+    public ResponseMessage deleteModule(@RequestBody ReqDeleteModule reqDeleteModule) throws ApplicationErrorException {
+        moduleService.deleteModule(reqDeleteModule);
         return new ResponseMessage.Success();
     }
 
     @ApiOperation(value = "删除实验", notes = "")
     @PostMapping(value = "/course/experiment/deletion")
-    public ResponseMessage deleteExperiment(@RequestParam("id") int id) throws ApplicationErrorException {
-        experimentService.deleteExperiment(id);
+    public ResponseMessage deleteExperiment(@RequestBody ReqDeleteExperiment reqDeleteExperiment) throws ApplicationErrorException {
+        experimentService.deleteExperiment(reqDeleteExperiment);
         return new ResponseMessage.Success();
     }
 
@@ -293,14 +290,14 @@ public class ManagerController {
 
     @ApiOperation(value = "批量导入学生数据", notes = "")
     @PostMapping(value = "/class/student/batchCreation")
-    public ResponseMessage<RepBatchAddStudent> batchStudentCreation(@RequestParam("classId") int classId, @RequestParam("file") MultipartFile file) throws ApplicationErrorException {
-        return new ResponseMessage.Success<RepBatchAddStudent>(studentService.batchStudentCreation(classId, file));
+    public ResponseMessage<ResBatchAddStudent> batchStudentCreation(@RequestParam("classId") int classId, @RequestParam("file") MultipartFile file) throws ApplicationErrorException {
+        return new ResponseMessage.Success<ResBatchAddStudent>(studentService.batchStudentCreation(classId, file));
     }
 
     @ApiOperation(value = "批量导入教师数据", notes = "")
     @PostMapping(value = "/teacher/batchCreation")
-    public ResponseMessage<RepBatchAddTeacher> batchTeacherCreation(@RequestParam("file") MultipartFile file) throws ApplicationErrorException {
-        return new ResponseMessage.Success<RepBatchAddTeacher>(teacherService.batchTeacherCreation(file));
+    public ResponseMessage<ResBatchAddTeacher> batchTeacherCreation(@RequestParam("file") MultipartFile file) throws ApplicationErrorException {
+        return new ResponseMessage.Success<ResBatchAddTeacher>(teacherService.batchTeacherCreation(file));
     }
 
 }

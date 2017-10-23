@@ -6,8 +6,8 @@ import com.guanshan.phoenix.dao.entity.Module;
 import com.guanshan.phoenix.dao.mapper.*;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.service.CloudwareService;
-import com.guanshan.phoenix.webdomain.ReqStudentExperiment;
-import com.guanshan.phoenix.webdomain.ResExperiment;
+import com.guanshan.phoenix.webdomain.request.ReqStudentExperiment;
+import com.guanshan.phoenix.webdomain.response.ResExperiment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -8,7 +8,8 @@ import com.guanshan.phoenix.dao.mapper.*;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.ModuleService;
-import com.guanshan.phoenix.webdomain.ResModuleImages;
+import com.guanshan.phoenix.webdomain.request.ReqDeleteModule;
+import com.guanshan.phoenix.webdomain.response.ResModuleImages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,7 +49,8 @@ public class ModuleServiceImp implements ModuleService {
     }
 
     @Override
-    public void deleteModule(int moduleId) throws ApplicationErrorException {
+    public void deleteModule(ReqDeleteModule reqDeleteModule) throws ApplicationErrorException {
+        int moduleId = reqDeleteModule.getModuleId();
 
         if(moduleMapper.selectByPrimaryKey(moduleId) == null){
             throw new ApplicationErrorException(ErrorCode.ModuleNotExists);

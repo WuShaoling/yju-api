@@ -14,11 +14,16 @@ import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.excel.ExcelUtil;
 import com.guanshan.phoenix.excel.domain.ExcelTeacher;
 import com.guanshan.phoenix.service.*;
-import com.guanshan.phoenix.webdomain.*;
+import com.guanshan.phoenix.webdomain.request.ReqDeleteTeacher;
+import com.guanshan.phoenix.webdomain.request.ReqHomeworkGrade;
+import com.guanshan.phoenix.webdomain.request.ReqUpdateTeacher;
+import com.guanshan.phoenix.webdomain.response.ResBatchAddTeacher;
+import com.guanshan.phoenix.webdomain.response.ResClassDetail;
+import com.guanshan.phoenix.webdomain.response.ResTeacherClassList;
+import com.guanshan.phoenix.webdomain.response.ResTeacherList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -149,12 +154,14 @@ public class TeacherServiceImp implements TeacherService {
     }
 
     @Override
-    public void deleteTeacherByTeacherUserId(int teacherId) throws ApplicationErrorException {
+    public void deleteTeacherByTeacherUserId(ReqDeleteTeacher reqDeleteTeacher) throws ApplicationErrorException {
+        int teacherId = reqDeleteTeacher.getTeacherId();
+
         Teacher teacher = teacherMapper.selectByUserId(teacherId);
-        if(teacher == null)
+        if (teacher == null)
             throw new ApplicationErrorException(ErrorCode.TeacherNotExists);
 
-        if(courseMapper.isTeacherUsedByCourse(teacherId)){
+        if (courseMapper.isTeacherUsedByCourse(teacherId)) {
             throw new ApplicationErrorException(ErrorCode.TeacherIsUsedByCourse);
         }
 
@@ -163,9 +170,9 @@ public class TeacherServiceImp implements TeacherService {
     }
 
     @Override
-    public RepBatchAddTeacher batchTeacherCreation(MultipartFile file) throws ApplicationErrorException {
-        RepBatchAddTeacher repBatchAddTeacher = new RepBatchAddTeacher();
-        List<RepBatchAddTeacher.FailureReason> failureReasonList = new ArrayList<>();
+    public ResBatchAddTeacher batchTeacherCreation(MultipartFile file) throws ApplicationErrorException {
+        ResBatchAddTeacher resBatchAddTeacher = new ResBatchAddTeacher();
+        List<ResBatchAddTeacher.FailureReason> failureReasonList = new ArrayList<>();
 
         int success = 0;
         int failure = 0;
@@ -190,7 +197,7 @@ public class TeacherServiceImp implements TeacherService {
 
                 success += 1;
             } catch (Exception e) {
-                RepBatchAddTeacher.FailureReason failureReason = new RepBatchAddTeacher().new FailureReason();
+                ResBatchAddTeacher.FailureReason failureReason = new ResBatchAddTeacher().new FailureReason();
                 failureReason.setTeacherNum(excelTeacherElement.getTeacherNum());
                 // todo
                 failureReason.setReason(ErrorCode.StudentAlreadyExists.getErrorStringFormat());
@@ -199,11 +206,11 @@ public class TeacherServiceImp implements TeacherService {
                 failure += 1;
             }
         }
-        repBatchAddTeacher.setSuccess(success);
-        repBatchAddTeacher.setFailure(failure);
-        repBatchAddTeacher.setFailureReasonList(failureReasonList);
+        resBatchAddTeacher.setSuccess(success);
+        resBatchAddTeacher.setFailure(failure);
+        resBatchAddTeacher.setFailureReasonList(failureReasonList);
 
-        return repBatchAddTeacher;
+        return resBatchAddTeacher;
     }
 
     private void validateTeacher(ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException {
