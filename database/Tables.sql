@@ -255,6 +255,7 @@ CREATE TABLE `experiment` (
   `cloudware_type` int(11) DEFAULT NULL,
   `publish_date` date DEFAULT NULL,
   `deadline_date` date DEFAULT NULL,
+  `experiment_content` longtext,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `module_experiment_fk_idx` (`module_id`),
