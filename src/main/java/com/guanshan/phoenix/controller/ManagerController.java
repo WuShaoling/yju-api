@@ -293,16 +293,14 @@ public class ManagerController {
 
     @ApiOperation(value = "批量导入学生数据", notes = "")
     @PostMapping(value = "/class/student/batchCreation")
-    public ResponseMessage batchStudentCreation(@RequestParam("classId") int classId, @RequestParam("file") MultipartFile file) throws ApplicationErrorException {
-        studentService.batchStudentCreation(classId, file);
-        return new ResponseMessage.Success();
+    public ResponseMessage<RepBatchAddStudent> batchStudentCreation(@RequestParam("classId") int classId, @RequestParam("file") MultipartFile file) throws ApplicationErrorException {
+        return new ResponseMessage.Success<RepBatchAddStudent>(studentService.batchStudentCreation(classId, file));
     }
 
     @ApiOperation(value = "批量导入教师数据", notes = "")
     @PostMapping(value = "/teacher/batchCreation")
-    public ResponseMessage batchTeacherCreation(@RequestParam("file") MultipartFile file) throws ApplicationErrorException {
-        teacherService.batchTeacherCreation(file);
-        return new ResponseMessage.Success();
+    public ResponseMessage<RepBatchAddTeacher> batchTeacherCreation(@RequestParam("file") MultipartFile file) throws ApplicationErrorException {
+        return new ResponseMessage.Success<RepBatchAddTeacher>(teacherService.batchTeacherCreation(file));
     }
 
 }

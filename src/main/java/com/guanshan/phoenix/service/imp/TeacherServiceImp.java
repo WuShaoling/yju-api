@@ -157,28 +157,46 @@ public class TeacherServiceImp implements TeacherService {
     }
 
     @Override
-    public int batchTeacherCreation(MultipartFile file) throws ApplicationErrorException {
+    public RepBatchAddTeacher batchTeacherCreation(MultipartFile file) throws ApplicationErrorException {
+        RepBatchAddTeacher repBatchAddTeacher = new RepBatchAddTeacher();
+        List<RepBatchAddTeacher.FailureReason> failureReasonList = new ArrayList<>();
+
+        int success = 0;
+        int failure = 0;
+
         ExcelTeacher excelTeacher = ExcelUtil.teacherExcelAnalysis(file);
-
         for (ExcelTeacher.ExcelTeacherElement excelTeacherElement : excelTeacher.getExcelTeacherElementList()) {
-            User user = new User();
-            user.setUsername(excelTeacherElement.getTeacherNum());
-            user.setRole(RoleEnum.TEACHER.getCode());
-            userMapper.insertSelective(user);
+            try {
+                User user = new User();
+                user.setUsername(excelTeacherElement.getTeacherNum());
+                user.setRole(RoleEnum.TEACHER.getCode());
+                userMapper.insertSelective(user);
 
-            Teacher teacher = new Teacher();
-            teacher.setUserId(user.getId());
-            teacher.setTno(excelTeacherElement.getTeacherNum());
-            teacher.setName(excelTeacherElement.getTeacherName());
-            teacher.setTitle(excelTeacherElement.getTeacherTitle());
-            teacher.setGender(excelTeacherElement.getGender());
-            teacher.setEmail(excelTeacherElement.getTeacherContact());
-            teacherMapper.insertSelective(teacher);
+                Teacher teacher = new Teacher();
+                teacher.setUserId(user.getId());
+                teacher.setTno(excelTeacherElement.getTeacherNum());
+                teacher.setName(excelTeacherElement.getTeacherName());
+                teacher.setTitle(excelTeacherElement.getTeacherTitle());
+                teacher.setGender(excelTeacherElement.getGender());
+                teacher.setEmail(excelTeacherElement.getTeacherContact());
+                teacherMapper.insertSelective(teacher);
+
+                success += 1;
+            } catch (Exception e) {
+                RepBatchAddTeacher.FailureReason failureReason = new RepBatchAddTeacher().new FailureReason();
+                failureReason.setTeacherNum(excelTeacherElement.getTeacherNum());
+                // todo 
+                failureReason.setReason(ErrorCode.StudentAlreadyExists.getErrorStringFormat());
+                failureReasonList.add(failureReason);
+
+                failure += 1;
+            }
         }
+        repBatchAddTeacher.setSuccess(success);
+        repBatchAddTeacher.setFailure(failure);
+        repBatchAddTeacher.setFailureReasonList(failureReasonList);
 
-
-
-        return 0;
+        return repBatchAddTeacher;
     }
 
     private void validateTeacher(ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException {

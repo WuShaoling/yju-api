@@ -2,6 +2,7 @@ package com.guanshan.phoenix.service;
 
 import com.guanshan.phoenix.dao.entity.StudentClass;
 import com.guanshan.phoenix.error.ApplicationErrorException;
+import com.guanshan.phoenix.webdomain.RepBatchAddStudent;
 import com.guanshan.phoenix.webdomain.ReqUpdateStudent;
 import com.guanshan.phoenix.webdomain.ResStudentClassList;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,5 +16,5 @@ public interface StudentService {
 
     int updateStudentInfo(ReqUpdateStudent reqUpdateStudent) throws ApplicationErrorException;
 
-    int batchStudentCreation(int classId, MultipartFile file) throws ApplicationErrorException;
+    RepBatchAddStudent batchStudentCreation(int classId, MultipartFile file) throws ApplicationErrorException;
 }

@@ -82,6 +82,9 @@ public enum ErrorCode {
     @ErrorMessage("该课时正在被作业表使用")
     ModuleUsedByHomework(26),
 
+    @ErrorMessage("学生已经存在")
+    StudentAlreadyExists(26),
+
     @ErrorMessage("服务器出错，请联系管理员。")
     GeneralError(Integer.MAX_VALUE);
 

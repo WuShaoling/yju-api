@@ -11,6 +11,7 @@ import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.excel.ExcelUtil;
 import com.guanshan.phoenix.excel.domain.ExcelStudent;
 import com.guanshan.phoenix.service.*;
+import com.guanshan.phoenix.webdomain.RepBatchAddStudent;
 import com.guanshan.phoenix.webdomain.ReqUpdateStudent;
 import com.guanshan.phoenix.webdomain.ResClassDetail;
 import com.guanshan.phoenix.webdomain.ResStudentClassList;
@@ -74,7 +75,12 @@ public class StudentServiceImp implements StudentService {
     }
 
     @Override
-    public int batchStudentCreation(int classId, MultipartFile file) throws ApplicationErrorException {
+    public RepBatchAddStudent batchStudentCreation(int classId, MultipartFile file) throws ApplicationErrorException {
+        RepBatchAddStudent repBatchAddStudent = new RepBatchAddStudent();
+        List<RepBatchAddStudent.FailureReason> failureReasonList = new ArrayList<>();
+
+        int success = 0;
+        int failure = 0;
 
         if (clazzMapper.selectByPrimaryKey(classId) == null) {
             throw new ApplicationErrorException(ErrorCode.ClassNotExists);
@@ -82,25 +88,41 @@ public class StudentServiceImp implements StudentService {
 
         ExcelStudent excelStudent = ExcelUtil.studentExcelAnalysis(file);
         for (ExcelStudent.ExcelStudentElement excelStudentElement : excelStudent.getExcelStudentElementList()) {
-            User user = new User();
-            user.setUsername(excelStudentElement.getStudentNum());
-            user.setRole(RoleEnum.STUDENT.getCode());
-            userMapper.insertSelective(user);
+            try {
+                User user = new User();
+                user.setUsername(excelStudentElement.getStudentNum());
+                user.setRole(RoleEnum.STUDENT.getCode());
+                userMapper.insertSelective(user);
 
-            Student student = new Student();
-            student.setUserId(user.getId());
-            student.setSno(excelStudentElement.getStudentNum());
-            student.setName(excelStudentElement.getStudentName());
-            student.setGender(excelStudentElement.getGender());
-            studentMapper.insertSelective(student);
+                Student student = new Student();
+                student.setUserId(user.getId());
+                student.setSno(excelStudentElement.getStudentNum());
+                student.setName(excelStudentElement.getStudentName());
+                student.setGender(excelStudentElement.getGender());
+                studentMapper.insertSelective(student);
 
-            StudentClass studentClass = new StudentClass();
-            studentClass.setStudentId(student.getId());
-            studentClass.setClassId(classId);
-            studentClassMapper.insertSelective(studentClass);
+                StudentClass studentClass = new StudentClass();
+                studentClass.setStudentId(student.getId());
+                studentClass.setClassId(classId);
+                studentClassMapper.insertSelective(studentClass);
+
+                success += 1;
+            } catch (Exception e) {
+                RepBatchAddStudent.FailureReason failureReason = new RepBatchAddStudent().new FailureReason();
+                failureReason.setClassId(classId);
+                failureReason.setStudentNum(excelStudentElement.getStudentNum());
+                // todo
+                failureReason.setReason(ErrorCode.StudentAlreadyExists.getErrorStringFormat());
+                failureReasonList.add(failureReason);
+
+                failure += 1;
+            }
         }
+        repBatchAddStudent.setSuccess(success);
+        repBatchAddStudent.setFailure(failure);
+        repBatchAddStudent.setFailureReasonList(failureReasonList);
 
-        return 0;
+        return repBatchAddStudent;
     }
 
 
