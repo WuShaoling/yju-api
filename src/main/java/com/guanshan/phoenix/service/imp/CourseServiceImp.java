@@ -11,6 +11,7 @@ import com.guanshan.phoenix.service.TeacherService;
 import com.guanshan.phoenix.webdomain.request.ReqAddCourse;
 import com.guanshan.phoenix.webdomain.request.ReqDeleteCourse;
 import com.guanshan.phoenix.webdomain.response.*;
+import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -63,16 +64,23 @@ public class CourseServiceImp implements CourseService {
     }
 
     @Override
-    public ResCourseModuleExperiments getCourseModuleExperiments(int classID) throws ApplicationErrorException {
+    public ResCourseModuleExperiments getClassModuleExperiments(int classId) throws ApplicationErrorException{
+        Clazz clazz = classService.getClassById(classId);
+        Course course = this.getCourseById(clazz.getCourseId());
+        return getCourseModuleExperiments(course.getId());
+    }
+
+    @Override
+    public ResCourseModuleExperiments getCourseModuleExperiments(int courseId) throws ApplicationErrorException {
         ResCourseModuleExperiments courseDetail = new ResCourseModuleExperiments();
 
-        Clazz clazz = classService.getClassById(classID);
-        Course course = this.getCourseById(clazz.getCourseId());
+        Course course = this.getCourseById(courseId);
         courseDetail.setCourseName(course.getName());
+        courseDetail.setCourseId(course.getId());
 
         List<ResCourseModuleExperiments.ModuleInfo> moduleList = new ArrayList<>();
         courseDetail.setModuleList(moduleList);
-        for(Module module : moduleMapper.selectByCourseID(clazz.getCourseId())){
+        for(Module module : moduleMapper.selectByCourseID(courseId)){
             ResCourseModuleExperiments.ModuleInfo moduleInfo = new ResCourseModuleExperiments.ModuleInfo();
             moduleList.add(moduleInfo);
 
@@ -85,24 +93,6 @@ public class CourseServiceImp implements CourseService {
                 ResExperimentInfo resExperimentInfo = new ResExperimentInfo(experiment);
                 experimentInfoList.add(resExperimentInfo);
             }
-        }
-
-        return courseDetail;
-    }
-
-    @Override
-    public ResCourseExperiments getCourseExperiments(int courseId) throws ApplicationErrorException{
-        ResCourseExperiments courseDetail = new ResCourseExperiments();
-
-        Course course = this.getCourseById(courseId);
-        courseDetail.setCourseId(course.getId());
-        courseDetail.setCourseName(course.getName());
-
-        List<ResExperimentInfo> experimentInfoList = new ArrayList<>();
-        courseDetail.setExperiments(experimentInfoList);
-        for(Experiment experiment : experimentMapper.selectByCourseId(courseId)){
-            ResExperimentInfo resExperimentInfo = new ResExperimentInfo(experiment);
-            experimentInfoList.add(resExperimentInfo);
         }
 
         return courseDetail;

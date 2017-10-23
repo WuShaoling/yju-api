@@ -233,8 +233,8 @@ public class ManagerController {
 
     @ApiOperation(value = "获取课程实验信息", notes = "")
     @GetMapping(value = "course/{courseId}/experiments")
-    public ResponseMessage<ResCourseExperiments> getCourseExperiments(@PathVariable int courseId) throws ApplicationErrorException {
-        return new ResponseMessage.Success<>(courseService.getCourseExperiments(courseId));
+    public ResponseMessage<ResCourseModuleExperiments> getCourseExperiments(@PathVariable int courseId) throws ApplicationErrorException {
+        return new ResponseMessage.Success<>(courseService.getCourseModuleExperiments(courseId));
     }
 
     @ApiOperation(value = "新增课时", notes = "")

@@ -3,9 +3,19 @@ package com.guanshan.phoenix.webdomain.response;
 import java.util.List;
 
 public class ResCourseModuleExperiments {
+    private  int courseId;
+
     private String courseName;
 
     private List<ModuleInfo> moduleList;
+
+    public int getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
+    }
 
     public String getCourseName() {
         return courseName;
