@@ -108,14 +108,14 @@ public class TeacherServiceImp implements TeacherService {
 
     @Override
     public void createTeacher(ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException {
-        Teacher teacher = teacherMapper.selectByTeacherNo(reqUpdateTeacher.getTeacherNo());
-        if(teacher != null){
-            throw new ApplicationErrorException(ErrorCode.TeacherAlreadyExists, teacher.getTno());
+        User user = userMapper.selectByUserName(reqUpdateTeacher.getTeacherNo());
+        if(user != null){
+            throw new ApplicationErrorException(ErrorCode.TeacherAlreadyExists, user.getUsername());
         }
         validateTeacher(reqUpdateTeacher);
 
         User newUser = managerService.createUser(reqUpdateTeacher.getTeacherNo(), RoleEnum.TEACHER);
-        teacher = new Teacher();
+        Teacher teacher = new Teacher();
         teacher.setUserId(newUser.getId());
         teacher.setTno(reqUpdateTeacher.getTeacherNo());
         teacher.setName(reqUpdateTeacher.getTeacherName());
@@ -129,9 +129,17 @@ public class TeacherServiceImp implements TeacherService {
     @Override
     public void updateTeacher(ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException {
         Teacher teacher = teacherMapper.selectByUserId(reqUpdateTeacher.getId());
+
         if(teacher == null){
             throw new ApplicationErrorException(ErrorCode.TeacherNotExists);
         }
+        if( !teacher.getTno().equals(reqUpdateTeacher.getTeacherNo())){
+            //If teacher No is changed
+            if(userMapper.selectByUserName(reqUpdateTeacher.getTeacherNo()) != null){
+                throw new ApplicationErrorException(ErrorCode.TeacherAlreadyExists, reqUpdateTeacher.getTeacherNo());
+            }
+        }
+
         validateTeacher(reqUpdateTeacher);
 
         teacher.setTitle(reqUpdateTeacher.getTeacherTitleId());
@@ -140,6 +148,10 @@ public class TeacherServiceImp implements TeacherService {
         teacher.setName(reqUpdateTeacher.getTeacherName());
         teacher.setGender(reqUpdateTeacher.getGender());
         teacherMapper.updateByUserId(teacher);
+
+        User user = userMapper.selectByPrimaryKey(teacher.getUserId());
+        user.setUsername(reqUpdateTeacher.getTeacherNo());
+        userMapper.updateByPrimaryKey(user);
     }
 
     @Override
