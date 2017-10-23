@@ -4,7 +4,6 @@ import com.guanshan.phoenix.Util.Utility;
 import com.guanshan.phoenix.dao.entity.*;
 import com.guanshan.phoenix.dao.mapper.*;
 import com.guanshan.phoenix.enums.ResourceTypeEnum;
-import com.guanshan.phoenix.enums.SemesterEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.ClassService;
@@ -120,7 +119,7 @@ public class ClassServiceImp implements ClassService {
             ResClassStudents.ResClassStudent resClassStudent = new ResClassStudents().new ResClassStudent();
             Student student = studentMapper.selectByUserId(studentClass.getStudentId());
             resClassStudent.setId(student.getUserId());
-            resClassStudent.setSno(student.getSno());
+            resClassStudent.setStudentNo(student.getSno());
             resClassStudent.setStudentName(student.getName());
             resClassStudent.setGender(student.getGender());
 

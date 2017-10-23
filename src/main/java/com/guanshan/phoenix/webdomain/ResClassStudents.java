@@ -8,7 +8,7 @@ public class ResClassStudents {
 
     public class ResClassStudent {
         private int id;
-        private String sno;
+        private String studentNo;
         private String studentName;
         private int gender;
 
@@ -20,12 +20,12 @@ public class ResClassStudents {
             this.id = id;
         }
 
-        public String getSno() {
-            return sno;
+        public String getStudentNo() {
+            return studentNo;
         }
 
-        public void setSno(String sno) {
-            this.sno = sno;
+        public void setStudentNo(String sno) {
+            this.studentNo = sno;
         }
 
         public String getStudentName() {
