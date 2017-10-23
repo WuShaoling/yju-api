@@ -19,8 +19,6 @@ import com.guanshan.phoenix.webdomain.response.ResStudentClassList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -76,11 +74,11 @@ public class StudentServiceImp implements StudentService {
 
     @Override
     public int updateStudentInfo(ReqUpdateStudent reqUpdateStudent) throws ApplicationErrorException {
-        Student student = new Student();
-        student.setUserId(reqUpdateStudent.getStudentId());
-        student.setName(reqUpdateStudent.getStudentName());
-        student.setGender(reqUpdateStudent.getGender());
-        studentMapper.updateByUserId(student);
+        Student studentToUpdate = new Student(
+                0, reqUpdateStudent.getId(), reqUpdateStudent.getStudentNo(), reqUpdateStudent.getStudentName(),
+                reqUpdateStudent.getGender(), "");
+
+        this.updateStudent(studentToUpdate);
 
         return 0;
     }

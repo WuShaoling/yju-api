@@ -2,16 +2,25 @@ package com.guanshan.phoenix.webdomain.request;
 
 public class ReqUpdateStudent {
 
-    private int studentId;
+    private int id;
+    private String studentNo;
     private String studentName;
     private int gender;
 
-    public int getStudentId() {
-        return studentId;
+    public int getId() {
+        return id;
     }
 
-    public void setStudentId(int studentId) {
-        this.studentId = studentId;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getStudentNo() {
+        return studentNo;
+    }
+
+    public void setStudentNo(String studentNo) {
+        this.studentNo = studentNo;
     }
 
     public String getStudentName() {
