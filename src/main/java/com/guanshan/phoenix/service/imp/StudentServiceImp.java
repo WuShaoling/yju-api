@@ -16,6 +16,8 @@ import com.guanshan.phoenix.webdomain.ResClassDetail;
 import com.guanshan.phoenix.webdomain.ResStudentClassList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -37,6 +39,9 @@ public class StudentServiceImp implements StudentService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private ManagerService managerService;
 
 
     @Override
@@ -101,6 +106,36 @@ public class StudentServiceImp implements StudentService {
         }
 
         return 0;
+    }
+
+    @Override
+    public void createStudent(Student student) throws ApplicationErrorException {
+        if(userMapper.selectByUserName(student.getSno()) != null){
+            throw new ApplicationErrorException(ErrorCode.StudentAlreadyExists, student.getSno());
+        }
+
+        User user = managerService.createUser(student.getSno(), RoleEnum.TEACHER);
+        student.setUserId(user.getId());
+        studentMapper.insert(student);
+    }
+
+    @Override
+    public void updateStudent(Student studentToUpdate) throws ApplicationErrorException {
+        Student originalStudent = studentMapper.selectByUserId(studentToUpdate.getUserId());
+        if(originalStudent == null){
+            throw new ApplicationErrorException(ErrorCode.StudentNotExists);
+        }
+        if( !originalStudent.getSno().equals(studentToUpdate.getSno())){
+            //If student No is changed
+            if(userMapper.selectByUserName(studentToUpdate.getSno()) != null){
+                throw new ApplicationErrorException(ErrorCode.StudentAlreadyExists, studentToUpdate.getSno());
+            }
+        }
+
+        studentMapper.updateByUserId(studentToUpdate);
+        User user = userMapper.selectByPrimaryKey(studentToUpdate.getUserId());
+        user.setUsername(studentToUpdate.getSno());
+        userMapper.updateByPrimaryKey(user);
     }
 
 

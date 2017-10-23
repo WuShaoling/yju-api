@@ -1,5 +1,6 @@
 package com.guanshan.phoenix.service;
 
+import com.guanshan.phoenix.dao.entity.Student;
 import com.guanshan.phoenix.dao.entity.StudentClass;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.webdomain.ReqUpdateStudent;
@@ -16,4 +17,8 @@ public interface StudentService {
     int updateStudentInfo(ReqUpdateStudent reqUpdateStudent) throws ApplicationErrorException;
 
     int batchStudentCreation(int classId, MultipartFile file) throws ApplicationErrorException;
+
+    void createStudent(Student student) throws ApplicationErrorException;
+
+    void updateStudent(Student student) throws ApplicationErrorException;
 }

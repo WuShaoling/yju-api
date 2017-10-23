@@ -11,7 +11,7 @@ public interface ClassService {
 
     int deleteClassStudent(ReqDeleteClassStudent reqDeleteClassStudent) throws ApplicationErrorException;
 
-    int addClassStudent(ReqAddClassStudent reqAddClassStudent);
+    int addClassStudent(ReqAddClassStudent reqAddClassStudent) throws ApplicationErrorException;
 
     ResClassStudents getAllClassStudentInfo(int classId) throws ApplicationErrorException;
 

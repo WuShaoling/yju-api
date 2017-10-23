@@ -99,4 +99,20 @@ public interface StudentMapper {
             @Arg(column="birthday", javaType=String.class, jdbcType=JdbcType.VARCHAR)
     })
     Student selectByUserId(Integer userId);
+
+    @Select({
+            "select",
+            "id, user_id, sno, name, gender, birthday",
+            "from student",
+            "where sno = #{sno,jdbcType=VARCHAR}"
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="user_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="sno", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="gender", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="birthday", javaType=String.class, jdbcType=JdbcType.VARCHAR)
+    })
+    Student selectByStudentNo(String sno);
 }

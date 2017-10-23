@@ -6,10 +6,7 @@ import com.guanshan.phoenix.dao.mapper.*;
 import com.guanshan.phoenix.enums.ResourceTypeEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
-import com.guanshan.phoenix.service.ClassService;
-import com.guanshan.phoenix.service.CourseService;
-import com.guanshan.phoenix.service.TeacherService;
-import com.guanshan.phoenix.service.TermService;
+import com.guanshan.phoenix.service.*;
 import com.guanshan.phoenix.webdomain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +34,9 @@ public class ClassServiceImp implements ClassService {
 
     @Autowired
     private StudentMapper studentMapper;
+
+    @Autowired
+    private StudentService studentService;
 
     @Autowired
     private TermMapper termMapper;
@@ -97,10 +97,28 @@ public class ClassServiceImp implements ClassService {
     }
 
     @Override
-    public int addClassStudent(ReqAddClassStudent reqAddClassStudent) {
+    public int addClassStudent(ReqAddClassStudent reqAddClassStudent) throws ApplicationErrorException {
+        if(clazzMapper.selectByPrimaryKey(reqAddClassStudent.getClassId()) == null){
+            throw new ApplicationErrorException(ErrorCode.ClassNotExists);
+        }
+
+        Student student = studentMapper.selectByStudentNo(reqAddClassStudent.getStudentNo());
+        if(student != null){
+            if(clazzMapper.isStudentInClass(student.getUserId(), reqAddClassStudent.getClassId())){
+                throw new ApplicationErrorException(ErrorCode.StudentAlreadyInClass);
+            }
+            student.setGender(reqAddClassStudent.getGender());
+            student.setName(reqAddClassStudent.getStudentName());
+            studentService.updateStudent(student);
+        } else {
+            student = new Student(
+                    reqAddClassStudent.getStudentNo(), reqAddClassStudent.getStudentName(), reqAddClassStudent.getGender(), "");
+            studentService.createStudent(student);
+        }
+
         StudentClass studentClass = new StudentClass();
         studentClass.setClassId(reqAddClassStudent.getClassId());
-        studentClass.setStudentId(reqAddClassStudent.getStudentId());
+        studentClass.setStudentId(student.getUserId());
         studentClassMapper.insert(studentClass);
 
         return 0;

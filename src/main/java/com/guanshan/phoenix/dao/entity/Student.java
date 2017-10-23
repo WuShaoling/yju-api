@@ -22,9 +22,11 @@ public class Student {
         this.birthday = birthday;
     }
 
-    public Student() {
-        super();
+    public Student(String sno, String name, Integer gender, String birthday) {
+        this(0, 0, sno, name, gender, birthday);
     }
+
+    public Student(){}
 
     public Integer getId() {
         return id;

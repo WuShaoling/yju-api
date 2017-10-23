@@ -1,10 +1,19 @@
 package com.guanshan.phoenix.webdomain;
 
 public class ReqAddClassStudent {
+    private int id;
     private int classId;
-    private int studentId;
+    private String studentNo;
     private String studentName;
     private int gender;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getClassId() {
         return classId;
@@ -14,12 +23,12 @@ public class ReqAddClassStudent {
         this.classId = classId;
     }
 
-    public int getStudentId() {
-        return studentId;
+    public String getStudentNo() {
+        return studentNo;
     }
 
-    public void setStudentId(int studentId) {
-        this.studentId = studentId;
+    public void setStudentNo(String studentNo) {
+        this.studentNo = studentNo;
     }
 
     public String getStudentName() {
