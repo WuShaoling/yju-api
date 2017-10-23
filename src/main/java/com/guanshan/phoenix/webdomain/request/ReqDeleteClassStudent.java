@@ -3,7 +3,7 @@ package com.guanshan.phoenix.webdomain.request;
 public class ReqDeleteClassStudent {
 
     private int classId;
-    private int studnetId;
+    private int studentId;
 
     public int getClassId() {
         return classId;
@@ -13,11 +13,11 @@ public class ReqDeleteClassStudent {
         this.classId = classId;
     }
 
-    public int getStudnetId() {
-        return studnetId;
+    public int getStudentId() {
+        return studentId;
     }
 
-    public void setStudnetId(int studnetId) {
-        this.studnetId = studnetId;
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
     }
 }

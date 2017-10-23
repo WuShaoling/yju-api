@@ -48,7 +48,6 @@ public class StudentServiceImp implements StudentService {
     @Autowired
     private ManagerService managerService;
 
-
     @Override
     public List<StudentClass> getAllStudentClassByUserId(int studentID) {
         return studentClassMapper.selectByStudentUserId(studentID);

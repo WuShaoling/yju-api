@@ -184,6 +184,7 @@ public class ManagerController {
 
     @ApiOperation(value = "更新学生信息", notes = "")
     @PostMapping(value = "/class/student/updation")
+    @Transactional(rollbackFor = Throwable.class)
     public ResponseMessage updateStudentInfo(@RequestBody ReqUpdateStudent reqUpdateStudent) throws ApplicationErrorException {
         studentService.updateStudentInfo(reqUpdateStudent);
         return new ResponseMessage.Success();
@@ -191,6 +192,7 @@ public class ManagerController {
 
     @ApiOperation(value = "添加班级学生", notes = "")
     @PostMapping(value = "/class/student/creation")
+    @Transactional(rollbackFor = Throwable.class)
     public ResponseMessage addClassStudent(@RequestBody ReqAddClassStudent reqAddClassStudent) throws ApplicationErrorException {
         classService.addClassStudent(reqAddClassStudent);
         return new ResponseMessage.Success();

@@ -95,7 +95,10 @@ public class ClassServiceImp implements ClassService {
 
     @Override
     public int deleteClassStudent(ReqDeleteClassStudent reqDeleteClassStudent) throws ApplicationErrorException {
-        studentClassMapper.deleteByClassIdAndStudentId(reqDeleteClassStudent.getClassId(), reqDeleteClassStudent.getStudnetId());
+        if(clazzMapper.isStudentInClass(reqDeleteClassStudent.getStudentId(), reqDeleteClassStudent.getClassId())){
+            throw new ApplicationErrorException(ErrorCode.StudentNotInClass);
+        }
+        studentClassMapper.deleteByClassIdAndStudentId(reqDeleteClassStudent.getClassId(), reqDeleteClassStudent.getStudentId());
         return 0;
     }
 

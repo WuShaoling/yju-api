@@ -61,7 +61,7 @@ public enum ErrorCode {
     @ErrorMessage("该课程正在被班级表使用")
     CourseIsUsedByClass(19),
 
-    @ErrorMessage("你不在这个班级里，无法提交作业")
+    @ErrorMessage("该学生不在这个班级里")
     StudentNotInClass(20),
 
     @ErrorMessage("该课时不存在")
