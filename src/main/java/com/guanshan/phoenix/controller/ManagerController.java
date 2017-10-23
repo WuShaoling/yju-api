@@ -177,14 +177,14 @@ public class ManagerController {
 
     @ApiOperation(value = "重置密码", notes = "")
     @PostMapping(value = "/password/resetion")
-    public ResponseMessage resetPassword(@RequestParam("userId") int userId) throws ApplicationErrorException {
-        managerService.resetPassword(userId);
+    public ResponseMessage resetPassword(@RequestBody ReqResetPassword reqResetPassword) throws ApplicationErrorException {
+        managerService.resetPassword(reqResetPassword);
         return new ResponseMessage.Success();
     }
 
     @ApiOperation(value = "更新学生信息", notes = "")
     @PostMapping(value = "/class/student/updation")
-    public ResponseMessage updateStudentInfo(ReqUpdateStudent reqUpdateStudent) throws ApplicationErrorException {
+    public ResponseMessage updateStudentInfo(@RequestBody ReqUpdateStudent reqUpdateStudent) throws ApplicationErrorException {
         studentService.updateStudentInfo(reqUpdateStudent);
         return new ResponseMessage.Success();
     }

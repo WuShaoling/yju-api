@@ -139,7 +139,7 @@ public class StudentServiceImp implements StudentService {
 
     @Override
     public void createStudent(Student student) throws ApplicationErrorException {
-        if(userMapper.selectByUserName(student.getSno()) != null){
+        if(userMapper.selectByUserName(student.getSno()) != null) {
             throw new ApplicationErrorException(ErrorCode.StudentAlreadyExists, student.getSno());
         }
 
