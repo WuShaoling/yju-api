@@ -206,9 +206,11 @@ public class HomeworkServiceImp implements HomeworkService {
         ResClassHomework resClassHomework = new ResClassHomework();
 
         Clazz clazz = clazzMapper.selectByPrimaryKey(classId);
+        Course course = courseMapper.selectByPrimaryKey(clazz.getCourseId());
         Teacher teacher = teacherMapper.selectByClassId(classId);
         resClassHomework.setClassId(classId);
         resClassHomework.setClassName(clazz.getName());
+        resClassHomework.setCourseName(course.getName());
 
         List<ResClassHomework.ResClassHomeworkModule> modules = new ArrayList<>();
         List<Module> moduleList = moduleMapper.selectByCourseID(clazz.getCourseId());

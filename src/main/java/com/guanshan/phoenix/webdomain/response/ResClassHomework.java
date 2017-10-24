@@ -8,6 +8,7 @@ import java.util.List;
 public class ResClassHomework {
     private int classId;
     private String className;
+    private String courseName;
     private List<ResClassHomeworkModule> modules;
 
 
@@ -122,6 +123,14 @@ public class ResClassHomework {
 
     public void setClassName(String className) {
         this.className = className;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
     public List<ResClassHomeworkModule> getModules() {
