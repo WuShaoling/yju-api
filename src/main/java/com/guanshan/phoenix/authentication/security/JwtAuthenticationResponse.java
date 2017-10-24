@@ -6,12 +6,22 @@ package com.guanshan.phoenix.authentication.security;
 
 public class JwtAuthenticationResponse {
 
+    private int userId;
     private String username;
     private String token;
 
-    public JwtAuthenticationResponse(String username, String token) {
+    public JwtAuthenticationResponse(int userId, String username, String token) {
+        this.userId = userId;
         this.username = username;
         this.token = token;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {
