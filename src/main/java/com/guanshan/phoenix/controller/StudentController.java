@@ -1,5 +1,6 @@
 package com.guanshan.phoenix.controller;
 
+import com.guanshan.phoenix.dao.entity.Cloudware;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ResponseMessage;
 import com.guanshan.phoenix.service.CourseService;
@@ -63,5 +64,11 @@ public class StudentController {
     public ResponseMessage submitHomeWork(@RequestBody ReqHomeworkSubmission homeworkSubmission) throws ApplicationErrorException {
         studentHomeworkService.submitStudentHomework(homeworkSubmission);
         return new ResponseMessage.Success();
+    }
+
+    @ApiOperation(value = "获取学生作业容器", notes = "")
+    @GetMapping(value = "homework/{homeworkId}/{studentId}/cloudware")
+    public ResponseMessage<Cloudware> getStudentHomeworkCloudware(@PathVariable int homeworkId, @PathVariable int studentId) throws ApplicationErrorException {
+        return new ResponseMessage.Success(studentHomeworkService.getStudentHomeworkCloudware(homeworkId, studentId));
     }
 }

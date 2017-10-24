@@ -47,6 +47,16 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
     }
 
     @Override
+    public Cloudware getStudentHomeworkCloudware(int homeworkId, int studentId) throws ApplicationErrorException {
+        StudentHomework studentHomework = studentHomeworkMapper.selectByStudentIdAndHomeworkId(studentId, homeworkId);
+        if(studentHomework == null){
+            throw new ApplicationErrorException(ErrorCode.StudentHomeworkNotExists);
+        }
+
+        return cloudwareMapper.selectByPrimaryKey(studentHomework.getCloudwareId());
+    }
+
+    @Override
     public void submitStudentHomework(ReqHomeworkSubmission homeworkSubmission) throws ApplicationErrorException {
         this.validStudentHomeWork(homeworkSubmission.getStudentId(), homeworkSubmission.getHomeworkId());
         StudentHomework studentHomework = studentHomeworkMapper.selectByStudentIdAndHomeworkId(

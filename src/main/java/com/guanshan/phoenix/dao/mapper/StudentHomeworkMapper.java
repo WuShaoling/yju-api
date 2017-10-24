@@ -74,7 +74,7 @@ public interface StudentHomeworkMapper {
             "select",
             "sh.id, sh.student_id, sh.homework_id, sh.cloudware_id, sh.comment, sh.score, sh.submission_date, ",
             "sh.lastEdit_date, cw.web_socket, r.url",
-            "from student_homework sh inner join cloudware cw on cw.id=sh.cloudware_id",
+            "from student_homework sh left join cloudware cw on cw.id=sh.cloudware_id",
             "left join student_homework_resource shr on shr.student_homework_id = sh.id",
             "and shr.type = 2",
             "inner join resource r on r.id = shr.resource_id",
