@@ -51,6 +51,7 @@ public class ExperimentServiceImp implements ExperimentService {
         experiment.setPublishDate(reqExperiment.getExperimentCreateDate());
         experiment.setDeadlineDate(reqExperiment.getExperimentDueDate());
         experiment.setExperimentContent(reqExperiment.getExperimentContent());
+        experiment.setDescription(reqExperiment.getExperimentDes());
 
         validateExperiment(experiment);
 
@@ -71,6 +72,7 @@ public class ExperimentServiceImp implements ExperimentService {
         experiment.setName(reqExperiment.getExperimentName());
         experiment.setCloudwareType(reqExperiment.getCloudwareType());
         experiment.setExperimentContent(reqExperiment.getExperimentContent());
+        experiment.setDescription(reqExperiment.getExperimentDes());
 
         validateExperiment(experiment);
 

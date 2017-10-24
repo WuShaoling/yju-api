@@ -12,6 +12,7 @@ public class ReqExperiment {
     private Date experimentCreateDate;
     private Date experimentDueDate;
     private String experimentUrl;
+    private String experimentDes;
 
     public int getId() {
         return id;
@@ -75,5 +76,13 @@ public class ReqExperiment {
 
     public void setExperimentUrl(String experimentUrl) {
         this.experimentUrl = experimentUrl;
+    }
+
+    public String getExperimentDes() {
+        return experimentDes;
+    }
+
+    public void setExperimentDes(String experimentDes) {
+        this.experimentDes = experimentDes;
     }
 }
