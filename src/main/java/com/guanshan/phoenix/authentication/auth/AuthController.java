@@ -3,6 +3,7 @@ package com.guanshan.phoenix.authentication.auth;
 import com.guanshan.phoenix.authentication.security.JwtAuthenticationRequest;
 import com.guanshan.phoenix.authentication.security.JwtAuthenticationResponse;
 import com.guanshan.phoenix.dao.entity.User;
+import com.guanshan.phoenix.error.ResponseMessage;
 import com.guanshan.phoenix.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +33,10 @@ public class AuthController {
 
     @ApiOperation(value = "登录", notes = "登录接口")
     @PostMapping(value = "login")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {
+    public ResponseMessage<ResponseEntity<?>> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {
         final String token = authService.login(authenticationRequest.getUsername(), authenticationRequest.getPassword());
         User user = userService.getUserInfo(authenticationRequest.getUsername());
-        return ResponseEntity.ok(new JwtAuthenticationResponse(user.getId(), authenticationRequest.getUsername(), token));
+        return new ResponseMessage.Success<>(ResponseEntity.ok(new JwtAuthenticationResponse(user.getId(), authenticationRequest.getUsername(), token)));
     }
 
 //    @RequestMapping(value = "refresh", method = RequestMethod.GET)
