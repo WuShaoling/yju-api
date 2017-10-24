@@ -28,7 +28,7 @@ public class Clazz {
     }
 
     public Clazz() {
-        super();
+        this.studentNum = 0;
     }
 
     public Integer getId() {
@@ -72,7 +72,7 @@ public class Clazz {
     }
 
     public Integer getStudentNum() {
-        return studentNum;
+        return studentNum == null ? 0 : studentNum;
     }
 
     public void setStudentNum(Integer studentNum) {
