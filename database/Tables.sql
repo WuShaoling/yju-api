@@ -116,7 +116,7 @@ DROP TABLE IF EXISTS `resource`;
 CREATE TABLE `resource` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
-  `url` varchar(45) DEFAULT NULL,
+  `url` varchar(256) DEFAULT NULL,
   `width` varchar(45) DEFAULT NULL,
   `height` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
