@@ -36,7 +36,7 @@ public class FileServiceImp implements FileService {
 
         File dir = new File(uploadDir);
         if (!dir.exists()) {
-            dir.mkdir();
+            dir.mkdirs();
         }
 
         String filename = file.getOriginalFilename();
