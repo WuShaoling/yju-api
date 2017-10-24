@@ -47,7 +47,7 @@ public enum SemesterEnum {
     }
 
     public static SemesterEnum fromInt(int i){
-        if(i > SemesterEnum.values().length){
+        if(i > SemesterEnum.values().length || i <= 0){
             return null;
         }
 

@@ -51,7 +51,7 @@ public enum TitleEnum {
     }
 
     public static TitleEnum fromInt(int i) {
-        if(i > TitleEnum.values().length){
+        if(i > TitleEnum.values().length || i <= 0){
             return null;
         }
         return TitleEnum.values()[i-1];
