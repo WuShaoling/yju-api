@@ -272,7 +272,7 @@ public class ManagerController {
     }
 
     @ApiOperation(value = "获取课时图片资源", notes = "")
-    @PostMapping(value = "/admin/course/{moduleId}/lib")
+    @PostMapping(value = "/course/{moduleId}/lib")
     public ResponseMessage<ResModuleImages> getModuleImageUrls(@PathVariable("moduleId") int moduleId) throws ApplicationErrorException {
         return new ResponseMessage.Success<>(moduleService.getModuleImageUrls(moduleId));
     }
