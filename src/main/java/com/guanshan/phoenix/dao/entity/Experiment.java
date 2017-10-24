@@ -30,12 +30,8 @@ public class Experiment {
         this.experimentContent = experimentContent;
     }
 
-    public Experiment(Integer id, Integer moduleId, String name, String description, Integer cloudwareType, Date publishDate, Date deadlineDate) {
-        this(id, moduleId, name, description, cloudwareType, publishDate, deadlineDate, "");
-    }
-
     public Experiment() {
-
+        super();
     }
 
     public Integer getId() {

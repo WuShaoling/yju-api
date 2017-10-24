@@ -28,8 +28,8 @@ public interface ExperimentMapper {
         "deadline_date, experiment_content)",
         "values (#{id,jdbcType=INTEGER}, #{moduleId,jdbcType=INTEGER}, ",
         "#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, ",
-        "#{cloudwareType,jdbcType=INTEGER}, #{publishDate,jdbcType=DATE}, ",
-        "#{deadlineDate,jdbcType=DATE}, #{experimentContent,jdbcType=LONGVARCHAR})"
+        "#{cloudwareType,jdbcType=INTEGER}, #{publishDate,jdbcType=TIMESTAMP}, ",
+        "#{deadlineDate,jdbcType=TIMESTAMP}, #{experimentContent,jdbcType=LONGVARCHAR})"
     })
     int insert(Experiment record);
 
@@ -49,8 +49,8 @@ public interface ExperimentMapper {
         @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
         @Arg(column="description", javaType=String.class, jdbcType=JdbcType.VARCHAR),
         @Arg(column="cloudware_type", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
-        @Arg(column="publish_date", javaType=Date.class, jdbcType=JdbcType.DATE),
-        @Arg(column="deadline_date", javaType=Date.class, jdbcType=JdbcType.DATE),
+        @Arg(column="publish_date", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
+        @Arg(column="deadline_date", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
         @Arg(column="experiment_content", javaType=String.class, jdbcType=JdbcType.LONGVARCHAR)
     })
     Experiment selectByPrimaryKey(Integer id);
@@ -64,8 +64,8 @@ public interface ExperimentMapper {
           "name = #{name,jdbcType=VARCHAR},",
           "description = #{description,jdbcType=VARCHAR},",
           "cloudware_type = #{cloudwareType,jdbcType=INTEGER},",
-          "publish_date = #{publishDate,jdbcType=DATE},",
-          "deadline_date = #{deadlineDate,jdbcType=DATE},",
+          "publish_date = #{publishDate,jdbcType=TIMESTAMP},",
+          "deadline_date = #{deadlineDate,jdbcType=TIMESTAMP},",
           "experiment_content = #{experimentContent,jdbcType=LONGVARCHAR}",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -77,8 +77,8 @@ public interface ExperimentMapper {
           "name = #{name,jdbcType=VARCHAR},",
           "description = #{description,jdbcType=VARCHAR},",
           "cloudware_type = #{cloudwareType,jdbcType=INTEGER},",
-          "publish_date = #{publishDate,jdbcType=DATE},",
-          "deadline_date = #{deadlineDate,jdbcType=DATE}",
+          "publish_date = #{publishDate,jdbcType=TIMESTAMP},",
+          "deadline_date = #{deadlineDate,jdbcType=TIMESTAMP}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Experiment record);
@@ -95,8 +95,8 @@ public interface ExperimentMapper {
             @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="description", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="cloudware_type", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
-            @Arg(column="publish_date", javaType=Date.class, jdbcType=JdbcType.DATE),
-            @Arg(column="deadline_date", javaType=Date.class, jdbcType=JdbcType.DATE)
+            @Arg(column="publish_date", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
+            @Arg(column="deadline_date", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP)
     })
     List<Experiment> selectByModuleId(Integer moduleId);
 
@@ -112,8 +112,8 @@ public interface ExperimentMapper {
             @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="description", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="cloudware_type", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
-            @Arg(column="publish_date", javaType=Date.class, jdbcType=JdbcType.DATE),
-            @Arg(column="deadline_date", javaType=Date.class, jdbcType=JdbcType.DATE)
+            @Arg(column="publish_date", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
+            @Arg(column="deadline_date", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP)
     })
     List<Experiment> selectByCourseId(Integer courseId);
 

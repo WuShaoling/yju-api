@@ -30,11 +30,11 @@ public class HomeworkSqlProvider {
         }
         
         if (record.getPublishDate() != null) {
-            sql.VALUES("publish_date", "#{publishDate,jdbcType=DATE}");
+            sql.VALUES("publish_date", "#{publishDate,jdbcType=TIMESTAMP}");
         }
         
         if (record.getDeadlineDate() != null) {
-            sql.VALUES("deadline_date", "#{deadlineDate,jdbcType=DATE}");
+            sql.VALUES("deadline_date", "#{deadlineDate,jdbcType=TIMESTAMP}");
         }
         
         if (record.getClassId() != null) {
@@ -65,11 +65,11 @@ public class HomeworkSqlProvider {
         }
         
         if (record.getPublishDate() != null) {
-            sql.SET("publish_date = #{publishDate,jdbcType=DATE}");
+            sql.SET("publish_date = #{publishDate,jdbcType=TIMESTAMP}");
         }
         
         if (record.getDeadlineDate() != null) {
-            sql.SET("deadline_date = #{deadlineDate,jdbcType=DATE}");
+            sql.SET("deadline_date = #{deadlineDate,jdbcType=TIMESTAMP}");
         }
         
         if (record.getClassId() != null) {
