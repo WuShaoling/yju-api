@@ -97,6 +97,12 @@ public enum ErrorCode {
     @ErrorMessage("该实验正在被学生实验表使用")
     ExperimentUsedByStudentExperiment(31),
 
+    @ErrorMessage("该用户已存在")
+    UserAlreadyExists(32),
+
+    @ErrorMessage("该实体已存在")
+    EntityAlreadyExists(33),
+
     @ErrorMessage("服务器出错，请联系管理员")
     GeneralError(Integer.MAX_VALUE);
 

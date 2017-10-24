@@ -13,9 +13,10 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `role` int(11) DEFAULT NULL,
-  `username` varchar(45) DEFAULT NULL,
+  `username` varchar(45) NOT NULL,
   `password` varchar(256) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username_UNIQUE` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -29,12 +30,13 @@ DROP TABLE IF EXISTS `student`;
 CREATE TABLE `student` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
-  `sno` varchar(45) DEFAULT NULL,
+  `sno` varchar(45) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
   `gender` int(11) DEFAULT NULL,
   `birthday` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
+  UNIQUE KEY `sno_UNIQUE` (`sno`),
   KEY `user_student_fk_idx` (`user_id`),
   CONSTRAINT `user_student_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
@@ -50,7 +52,7 @@ DROP TABLE IF EXISTS `teacher`;
 CREATE TABLE `teacher` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
-  `tno` varchar(45) DEFAULT NULL,
+  `tno` varchar(45) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
   `gender` int(11) DEFAULT NULL,
   `title` int(11) DEFAULT NULL,
@@ -58,6 +60,7 @@ CREATE TABLE `teacher` (
   `phone` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
+  UNIQUE KEY `tno_UNIQUE` (`tno`),
   KEY `user_teacher_fk_idx` (`user_id`),
   CONSTRAINT `user_teacher_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -74,13 +77,14 @@ DROP TABLE IF EXISTS `manager`;
 CREATE TABLE `manager` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
-  `mno` varchar(45) DEFAULT NULL,
+  `mno` varchar(45) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
   `gender` int(11) DEFAULT NULL,
   `email` varchar(45) DEFAULT NULL,
   `phone` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
+  UNIQUE KEY `mno_UNIQUE` (`mno`),
   KEY `user_manager_fk_idx` (`user_id`),
   CONSTRAINT `user_manager_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
