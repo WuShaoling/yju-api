@@ -234,10 +234,10 @@ public class HomeworkServiceImp implements HomeworkService {
 
                 homeworks.add(resClassHomeworkModuleHomework);
             }
-            if(homeworks.size() > 0) {
-                resClassHomeworkModule.setHomeworks(homeworks);
-                modules.add(resClassHomeworkModule);
-            }
+
+            resClassHomeworkModule.setHomeworks(homeworks);
+            modules.add(resClassHomeworkModule);
+
         }
         resClassHomework.setModules(modules);
 
