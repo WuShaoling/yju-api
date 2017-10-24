@@ -48,6 +48,8 @@ public class ExperimentServiceImp implements ExperimentService {
         experiment.setName(reqExperiment.getExperimentName());
         experiment.setModuleId(reqExperiment.getModuleId());
         experiment.setCloudwareType(reqExperiment.getCloudwareType());
+        experiment.setPublishDate(reqExperiment.getExperimentCreateDate());
+        experiment.setDeadlineDate(reqExperiment.getExperimentDueDate());
         experiment.setExperimentContent(reqExperiment.getExperimentContent());
 
         validateExperiment(experiment);

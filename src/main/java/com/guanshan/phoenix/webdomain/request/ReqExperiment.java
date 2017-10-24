@@ -1,5 +1,7 @@
 package com.guanshan.phoenix.webdomain.request;
 
+import java.util.Date;
+
 public class ReqExperiment {
 
     private int id;
@@ -7,6 +9,9 @@ public class ReqExperiment {
     private String experimentName;
     private int cloudwareType;
     private String experimentContent;
+    private Date experimentCreateDate;
+    private Date experimentDueDate;
+    private String experimentUrl;
 
     public int getId() {
         return id;
@@ -46,5 +51,29 @@ public class ReqExperiment {
 
     public void setExperimentContent(String experimentContent) {
         this.experimentContent = experimentContent;
+    }
+
+    public Date getExperimentCreateDate() {
+        return experimentCreateDate;
+    }
+
+    public void setExperimentCreateDate(Date experimentCreateDate) {
+        this.experimentCreateDate = experimentCreateDate;
+    }
+
+    public Date getExperimentDueDate() {
+        return experimentDueDate;
+    }
+
+    public void setExperimentDueDate(Date experimentDueDate) {
+        this.experimentDueDate = experimentDueDate;
+    }
+
+    public String getExperimentUrl() {
+        return experimentUrl;
+    }
+
+    public void setExperimentUrl(String experimentUrl) {
+        this.experimentUrl = experimentUrl;
     }
 }
