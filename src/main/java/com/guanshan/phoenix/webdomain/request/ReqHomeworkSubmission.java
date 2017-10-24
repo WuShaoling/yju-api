@@ -7,6 +7,8 @@ public class ReqHomeworkSubmission {
     private String cloudware_url;
     private String cloudware_serviceId;
     private String cloudware_instanceId;
+    private String cloudware_serviceName;
+    private String cloudware_pulsarId;
 
     public int getHomeworkId() {
         return homeworkId;
@@ -54,5 +56,21 @@ public class ReqHomeworkSubmission {
 
     public void setCloudware_instanceId(String cloudware_instanceId) {
         this.cloudware_instanceId = cloudware_instanceId;
+    }
+
+    public String getCloudware_serviceName() {
+        return cloudware_serviceName;
+    }
+
+    public void setCloudware_serviceName(String cloudware_serviceName) {
+        this.cloudware_serviceName = cloudware_serviceName;
+    }
+
+    public String getCloudware_pulsarId() {
+        return cloudware_pulsarId;
+    }
+
+    public void setCloudware_pulsarId(String cloudware_pulsarId) {
+        this.cloudware_pulsarId = cloudware_pulsarId;
     }
 }

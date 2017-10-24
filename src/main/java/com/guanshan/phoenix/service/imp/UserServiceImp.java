@@ -13,7 +13,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public User getUserInfo(String username) {
-        return null;
+        return userMapper.selectByUserName(username);
     }
 
     @Override

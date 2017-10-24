@@ -80,7 +80,9 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
         Cloudware cloudware = new Cloudware(
                 homeworkSubmission.getCloudware_url(),
                 homeworkSubmission.getCloudware_serviceId(),
-                homeworkSubmission.getCloudware_instanceId());
+                homeworkSubmission.getCloudware_instanceId(),
+                homeworkSubmission.getCloudware_serviceName(),
+                homeworkSubmission.getCloudware_pulsarId());
 
         cloudwareMapper.insert(cloudware);
 
@@ -113,7 +115,9 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
                 studentHomework.getCloudwareId(),
                 homeworkSubmission.getCloudware_url(),
                 homeworkSubmission.getCloudware_serviceId(),
-                homeworkSubmission.getCloudware_instanceId());
+                homeworkSubmission.getCloudware_instanceId(),
+                homeworkSubmission.getCloudware_serviceName(),
+                homeworkSubmission.getCloudware_pulsarId());
         cloudwareMapper.updateByPrimaryKey(cloudware);
 
         studentHomework.setLastEditDate(new Date());

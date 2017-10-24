@@ -179,6 +179,8 @@ CREATE TABLE `cloudware` (
   `web_socket` varchar(256) DEFAULT NULL,
   `service_id` varchar(45) DEFAULT NULL,
   `instance_id` varchar(45) DEFAULT NULL,
+  `service_name` varchar(128) DEFAULT NULL,
+  `pulsar_id` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
