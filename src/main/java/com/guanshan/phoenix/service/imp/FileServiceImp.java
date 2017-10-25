@@ -67,7 +67,7 @@ public class FileServiceImp implements FileService {
         String uploadFilePath = file.getOriginalFilename();
         String uploadFileSuffix = uploadFilePath.substring(uploadFilePath.indexOf('.') + 1, uploadFilePath.length());
 
-        if (! uploadFileSuffix.equals(".md")) {
+        if (! uploadFileSuffix.equals("md")) {
             throw new ApplicationErrorException(ErrorCode.FileIsNotMarkdown);
         }
 
