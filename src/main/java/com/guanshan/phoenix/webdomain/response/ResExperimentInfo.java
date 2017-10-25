@@ -5,75 +5,116 @@ import com.guanshan.phoenix.dao.entity.Experiment;
 import com.guanshan.phoenix.enums.CloudwareTypeEnum;
 
 public class ResExperimentInfo {
-        private int id;
+    private int id;
 
-        private String experimentName;
+    private String courseName;
 
-        private String experimentDes;
+    private String moduleName;
 
-        private String cloudwareType;
+    private String experimentName;
 
-        private String dueDate;
+    private String experimentDes;
 
-        private String publishDate;
+    private String cloudwareType;
 
-        public ResExperimentInfo(){};
+    private String dueDate;
 
-        public ResExperimentInfo(Experiment experiment){
-            this.setId(experiment.getId());
-            this.setExperimentName(experiment.getName());
-            this.setExperimentDes(experiment.getDescription());
-            CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt(experiment.getCloudwareType());
-            this.setCloudwareType(cloudwareType == null ? "" : cloudwareType.toString());
-            this.setDueDate(Utility.formatDate(experiment.getDeadlineDate()));
-            this.setPublishDate(Utility.formatDate(experiment.getPublishDate()));
-        }
+    private String publishDate;
 
-        public int getId() {
-            return id;
-        }
+    private String experimentUrl;
 
-        public void setId(int id) {
-            this.id = id;
-        }
+    private String experimentContent;
 
-        public String getExperimentName() {
-            return experimentName;
-        }
+    public ResExperimentInfo() { }
 
-        public void setExperimentName(String experimentName) {
-            this.experimentName = experimentName;
-        }
+    public ResExperimentInfo(Experiment experiment) {
+        this.setId(experiment.getId());
+        this.setExperimentName(experiment.getName());
+        this.setExperimentDes(experiment.getDescription());
+        CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt(experiment.getCloudwareType());
+        this.setCloudwareType(cloudwareType == null ? "" : cloudwareType.toString());
+        this.setDueDate(Utility.formatDate(experiment.getDeadlineDate()));
+        this.setPublishDate(Utility.formatDate(experiment.getPublishDate()));
+        this.setExperimentContent(experiment.getExperimentContent());
+    }
 
-        public String getExperimentDes() {
-            return experimentDes;
-        }
+    public int getId() {
+        return id;
+    }
 
-        public void setExperimentDes(String experimentDes) {
-            this.experimentDes = experimentDes;
-        }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-        public String getCloudwareType() {
-            return cloudwareType;
-        }
+    public String getExperimentName() {
+        return experimentName;
+    }
 
-        public void setCloudwareType(String cloudwareType) {
-            this.cloudwareType = cloudwareType;
-        }
+    public void setExperimentName(String experimentName) {
+        this.experimentName = experimentName;
+    }
 
-        public String getDueDate() {
-            return dueDate;
-        }
+    public String getExperimentDes() {
+        return experimentDes;
+    }
 
-        public void setDueDate(String dueDate) {
-            this.dueDate = dueDate;
-        }
+    public void setExperimentDes(String experimentDes) {
+        this.experimentDes = experimentDes;
+    }
 
-        public String getPublishDate() {
-            return publishDate;
-        }
+    public String getCloudwareType() {
+        return cloudwareType;
+    }
 
-        public void setPublishDate(String publishDate) {
-            this.publishDate = publishDate;
-        }
+    public void setCloudwareType(String cloudwareType) {
+        this.cloudwareType = cloudwareType;
+    }
+
+    public String getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public String getPublishDate() {
+        return publishDate;
+    }
+
+    public void setPublishDate(String publishDate) {
+        this.publishDate = publishDate;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    public String getModuleName() {
+        return moduleName;
+    }
+
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
+    }
+
+    public String getExperimentUrl() {
+        return experimentUrl;
+    }
+
+    public void setExperimentUrl(String experimentUrl) {
+        this.experimentUrl = experimentUrl;
+    }
+
+    public String getExperimentContent() {
+        return experimentContent;
+    }
+
+    public void setExperimentContent(String experimentContent) {
+        this.experimentContent = experimentContent;
+    }
 }

@@ -4,7 +4,7 @@ import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ResponseMessage;
 import com.guanshan.phoenix.service.CloudwareService;
 import com.guanshan.phoenix.webdomain.request.ReqStudentExperiment;
-import com.guanshan.phoenix.webdomain.response.ResExperiment;
+import com.guanshan.phoenix.webdomain.response.ResExperimentInfo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +30,7 @@ public class CloudwareController {
 
     @ApiOperation(value = "获取试验内容")
     @GetMapping("/cloudware/{id}/info")
-    public ResponseMessage<ResExperiment> getExperiment(@PathVariable("id") int id) throws ApplicationErrorException{
+    public ResponseMessage<ResExperimentInfo> getExperiment(@PathVariable("id") int id) throws ApplicationErrorException{
         return new ResponseMessage.Success<>(cloudwareService.getExperiment(id));
     }
 }

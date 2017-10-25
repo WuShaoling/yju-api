@@ -7,7 +7,7 @@ import com.guanshan.phoenix.dao.mapper.*;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.service.CloudwareService;
 import com.guanshan.phoenix.webdomain.request.ReqStudentExperiment;
-import com.guanshan.phoenix.webdomain.response.ResExperiment;
+import com.guanshan.phoenix.webdomain.response.ResExperimentInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,19 +42,17 @@ public class CloudwareServiceImp implements CloudwareService {
     }
 
     @Override
-    public ResExperiment getExperiment(int id) throws ApplicationErrorException{
-        ResExperiment resExperiment = new ResExperiment();
+    public ResExperimentInfo getExperiment(int id) throws ApplicationErrorException{
+
 
         Experiment experiment = experimentMapper.selectByPrimaryKey(id);
         Module module = moduleMapper.selectByPrimaryKey(experiment.getModuleId());
         Course course = courseMapper.selectByPrimaryKey(module.getCourseId());
 
+        ResExperimentInfo resExperiment = new ResExperimentInfo(experiment);
+
         resExperiment.setCourseName(course.getName());
         resExperiment.setModuleName(module.getName());
-        resExperiment.setExperimentName(experiment.getName());
-        // todo location??
-        resExperiment.setExperimentContent("");
-        resExperiment.setCloudwareType(experiment.getCloudwareType());
 
         return resExperiment;
     }
