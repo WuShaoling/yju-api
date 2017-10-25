@@ -1,6 +1,8 @@
 package com.guanshan.phoenix.error;
 
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +32,17 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
         }
 
         return new ResponseMessage.Fail(new ApplicationErrorException(ErrorCode.EntityAlreadyExists));
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    @ResponseBody
+    ResponseMessage handleAuthenticationException(HttpServletRequest request, Throwable ex){
+
+        if(ex instanceof BadCredentialsException){
+            return new ResponseMessage.Fail(new ApplicationErrorException(ErrorCode.BadCredential));
+        }
+
+        return null;
     }
 
     @ExceptionHandler(Throwable.class)

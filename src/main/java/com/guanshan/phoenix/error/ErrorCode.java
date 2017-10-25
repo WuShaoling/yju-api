@@ -112,6 +112,9 @@ public enum ErrorCode {
     @ErrorMessage("该学生作业已存在")
     StudentHomeworkExists(36),
 
+    @ErrorMessage("用户名或密码不正确")
+    BadCredential(37),
+
     @ErrorMessage("服务器出错，请联系管理员")
     GeneralError(Integer.MAX_VALUE);
 
