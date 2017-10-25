@@ -112,6 +112,15 @@ public enum ErrorCode {
     @ErrorMessage("该学生作业已存在")
     StudentHomeworkExists(36),
 
+    @ErrorMessage("该文件类型错误")
+    FileTypeError(37),
+
+    @ErrorMessage("该文件不为图片")
+    FileIsNotImage(38),
+
+    @ErrorMessage("该文件不为Markdown")
+    FileIsNotMarkdown(39),
+
     @ErrorMessage("服务器出错，请联系管理员")
     GeneralError(Integer.MAX_VALUE);
 
