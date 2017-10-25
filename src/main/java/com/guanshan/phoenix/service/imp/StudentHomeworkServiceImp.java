@@ -7,6 +7,7 @@ import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.StudentHomeworkService;
 import com.guanshan.phoenix.webdomain.request.ReqHomeworkSubmission;
+import com.guanshan.phoenix.webdomain.request.ReqStudentHomeworkCloudware;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -83,6 +84,28 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
         if(!clazzMapper.isStudentInClass(studentId, homework.getClassId())){
             throw new ApplicationErrorException(ErrorCode.StudentNotInClass);
         }
+    }
+
+    @Override
+    public void createStudentHomeworkCloudware(ReqStudentHomeworkCloudware reqStudentHomeworkCloudware) throws ApplicationErrorException {
+        StudentHomework studentHomework =
+                studentHomeworkMapper.selectByStudentIdAndHomeworkId(reqStudentHomeworkCloudware.getStudentId(),
+                                                                     reqStudentHomeworkCloudware.getHomeworkId());
+        if(studentHomework == null){
+            throw new ApplicationErrorException(ErrorCode.StudentHomeworkNotExists);
+        }
+        if(studentHomework.getCloudwareId() != null){
+            throw new ApplicationErrorException(ErrorCode.StudentHomeworkCloudwareExists);
+        }
+
+        Cloudware cloudware = new Cloudware(reqStudentHomeworkCloudware.getWebSocket(),
+                                            reqStudentHomeworkCloudware.getServiceId(),
+                                            reqStudentHomeworkCloudware.getInstanceId(),
+                                            reqStudentHomeworkCloudware.getServiceName(),
+                                            reqStudentHomeworkCloudware.getPulsarId());
+        cloudwareMapper.insert(cloudware);
+        studentHomework.setCloudwareId(cloudware.getId());
+        studentHomeworkMapper.updateByPrimaryKey(studentHomework);
     }
 
     protected void insertStudentHomeWork(ReqHomeworkSubmission homeworkSubmission) {
