@@ -88,14 +88,12 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
 
     @Override
     public void createStudentHomeworkCloudware(ReqStudentHomeworkCloudware reqStudentHomeworkCloudware) throws ApplicationErrorException {
+        validStudentHomeWork(reqStudentHomeworkCloudware.getStudentId(), reqStudentHomeworkCloudware.getHomeworkId());
         StudentHomework studentHomework =
                 studentHomeworkMapper.selectByStudentIdAndHomeworkId(reqStudentHomeworkCloudware.getStudentId(),
                                                                      reqStudentHomeworkCloudware.getHomeworkId());
-        if(studentHomework == null){
-            throw new ApplicationErrorException(ErrorCode.StudentHomeworkNotExists);
-        }
-        if(studentHomework.getCloudwareId() != null){
-            throw new ApplicationErrorException(ErrorCode.StudentHomeworkCloudwareExists);
+        if(studentHomework != null){
+            throw new ApplicationErrorException(ErrorCode.StudentHomeworkExists);
         }
 
         Cloudware cloudware = new Cloudware(reqStudentHomeworkCloudware.getWebSocket(),
@@ -104,25 +102,27 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
                                             reqStudentHomeworkCloudware.getServiceName(),
                                             reqStudentHomeworkCloudware.getPulsarId());
         cloudwareMapper.insert(cloudware);
-        studentHomework.setCloudwareId(cloudware.getId());
-        studentHomeworkMapper.updateByPrimaryKey(studentHomework);
+        studentHomework = new StudentHomework(
+                reqStudentHomeworkCloudware.getStudentId(),
+                reqStudentHomeworkCloudware.getHomeworkId(),
+                cloudware.getId(),
+                "",
+                0,
+                null,
+                null,
+                null,
+                null
+        );
+
+        studentHomeworkMapper.insert(studentHomework);
     }
 
     protected void insertStudentHomeWork(ReqHomeworkSubmission homeworkSubmission) {
 
-        Cloudware cloudware = new Cloudware(
-                homeworkSubmission.getCloudware_url(),
-                homeworkSubmission.getCloudware_serviceId(),
-                homeworkSubmission.getCloudware_instanceId(),
-                homeworkSubmission.getCloudware_serviceName(),
-                homeworkSubmission.getCloudware_pulsarId());
-
-        cloudwareMapper.insert(cloudware);
-
         StudentHomework studentHomework = new StudentHomework(
                 homeworkSubmission.getStudentId(),
                 homeworkSubmission.getHomeworkId(),
-                cloudware.getId(),
+                null,
                 "",
                 0,
                 new Date(),
@@ -144,14 +144,6 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
     }
 
     protected void updateStudentHomeWork(StudentHomework studentHomework, ReqHomeworkSubmission homeworkSubmission){
-        Cloudware cloudware = new Cloudware(
-                studentHomework.getCloudwareId(),
-                homeworkSubmission.getCloudware_url(),
-                homeworkSubmission.getCloudware_serviceId(),
-                homeworkSubmission.getCloudware_instanceId(),
-                homeworkSubmission.getCloudware_serviceName(),
-                homeworkSubmission.getCloudware_pulsarId());
-        cloudwareMapper.updateByPrimaryKey(cloudware);
 
         studentHomework.setLastEditDate(new Date());
         studentHomeworkMapper.updateByPrimaryKey(studentHomework);

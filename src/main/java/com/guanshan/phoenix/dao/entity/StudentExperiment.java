@@ -16,6 +16,10 @@ public class StudentExperiment {
         this.cloudwareId = cloudwareId;
     }
 
+    public StudentExperiment(Integer studentId, Integer experimentId, Integer cloudwareId) {
+        this(0, studentId, experimentId, cloudwareId);
+    }
+
     public StudentExperiment() {
         super();
     }

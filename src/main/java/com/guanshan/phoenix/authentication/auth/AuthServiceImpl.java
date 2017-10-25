@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 
 /**
@@ -58,7 +58,7 @@ public class AuthServiceImpl implements AuthService {
         final String rawPassword = authUserInfoToAdd.getPassword();
         authUserInfoToAdd.setPassword(encoder.encode(rawPassword));
         authUserInfoToAdd.setLastPasswordResetDate(new Date());
-        authUserInfoToAdd.setRoles(Arrays.asList(initRole));
+        authUserInfoToAdd.setRoles(Collections.singletonList(initRole));
         return authUserInfoService.addUserInfo(authUserInfoToAdd);
     }
 
@@ -69,8 +69,7 @@ public class AuthServiceImpl implements AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        final String token = jwtTokenUtil.generateToken(userDetails);
-        return token;
+        return jwtTokenUtil.generateToken(userDetails);
     }
 
     @Override

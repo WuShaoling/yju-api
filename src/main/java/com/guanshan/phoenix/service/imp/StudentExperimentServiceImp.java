@@ -24,6 +24,12 @@ public class StudentExperimentServiceImp implements StudentExperimentService {
     @Autowired
     private CloudwareMapper cloudwareMapper;
 
+    @Autowired
+    private StudentMapper studentMapper;
+
+    @Autowired
+    private ExperimentMapper experimentMapper;
+
     @Override
     public Cloudware getStudentExperimentCloudware(int experimentId, int studentId) throws ApplicationErrorException {
         StudentExperiment studentExperiment = studentExperimentMapper.selectByStudentIdAndExperimentId(studentId, experimentId);
@@ -36,14 +42,16 @@ public class StudentExperimentServiceImp implements StudentExperimentService {
 
     @Override
     public void createStudentExperimentCloudware(ReqStudentExperimentCloudware reqStudentExperimentCloudware) throws ApplicationErrorException {
+        validateStudentExperiment(
+                reqStudentExperimentCloudware.getStudentId(),
+                reqStudentExperimentCloudware.getExperimentId()
+        );
         StudentExperiment studentExperiment =
                 studentExperimentMapper.selectByStudentIdAndExperimentId(reqStudentExperimentCloudware.getStudentId(),
                         reqStudentExperimentCloudware.getExperimentId());
-        if(studentExperiment == null){
-            throw new ApplicationErrorException(ErrorCode.StudentExperimentNotFound);
-        }
-        if(studentExperiment.getCloudwareId() != null){
-            throw new ApplicationErrorException(ErrorCode.StudentExperimentCloudwareExists);
+
+        if(studentExperiment != null){
+            throw new ApplicationErrorException(ErrorCode.StudentExperimentExists);
         }
 
         Cloudware cloudware = new Cloudware(reqStudentExperimentCloudware.getWebSocket(),
@@ -53,6 +61,22 @@ public class StudentExperimentServiceImp implements StudentExperimentService {
                 reqStudentExperimentCloudware.getPulsarId());
         cloudwareMapper.insert(cloudware);
         studentExperiment.setCloudwareId(cloudware.getId());
-        studentExperimentMapper.updateByPrimaryKey(studentExperiment);
+
+        studentExperiment = new StudentExperiment(
+                reqStudentExperimentCloudware.getStudentId(),
+                reqStudentExperimentCloudware.getExperimentId(),
+                cloudware.getId()
+        );
+        studentExperimentMapper.insert(studentExperiment);
+    }
+
+    private void validateStudentExperiment(int studentId, int experimentId) throws ApplicationErrorException {
+        if(studentMapper.selectByUserId(studentId) == null){
+            throw new ApplicationErrorException(ErrorCode.StudentNotExists);
+        }
+
+        if(experimentMapper.selectByPrimaryKey(experimentId) == null){
+            throw new ApplicationErrorException(ErrorCode.ExperimentNotFound);
+        }
     }
 }
