@@ -94,14 +94,14 @@ public class HomeworkServiceImp implements HomeworkService {
         Course course = courseMapper.selectByPrimaryKey(module.getCourseId());
         List<Homework> homeworks = homeworkMapper.selectByModuleId(moduleId);
         ResHomeworkSubmissionList submissionList = new ResHomeworkSubmissionList();
-        List<ResHomeworkSubmissionList.ResHomeworkSubmissionDetail> submissionDetails =
+        List<ResHomeworkSubmissionList.ResHomeworkList> homeworkList =
                 new ArrayList<>();
-        submissionList.setHomeworkSubmissionList(submissionDetails);
+        submissionList.setHomeworkList(homeworkList);
         submissionList.setModuleName(module.getName());
         submissionList.setCourseName(course.getName());
 
         for(Homework homework : homeworks){
-            submissionDetails.addAll(this.getHomeworkSubmissionDetail(homework));
+            homeworkList.add(this.getHomeworkSubmissionDetail(homework));
         }
 
         return submissionList;
@@ -244,13 +244,21 @@ public class HomeworkServiceImp implements HomeworkService {
         return resClassHomework;
     }
 
-    private List<ResHomeworkSubmissionList.ResHomeworkSubmissionDetail> getHomeworkSubmissionDetail(
+    private ResHomeworkSubmissionList.ResHomeworkList getHomeworkSubmissionDetail(
             Homework homework
     ){
+        ResHomeworkSubmissionList.ResHomeworkList resHomeworkList = new ResHomeworkSubmissionList.ResHomeworkList();
+        resHomeworkList.setHomeworkId(homework.getId());
+        resHomeworkList.setHomeworkName(homework.getName());
+        CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt(homework.getCloudwareType());
+        resHomeworkList.setCloudwareType(cloudwareType == null ? "" : cloudwareType.toString());
+
         List<ResHomeworkSubmissionList.ResHomeworkSubmissionDetail> submissionDetails =
                 new ArrayList<>();
+        resHomeworkList.setHomeworkSubmissionList(submissionDetails);
 
         List<Student> studentsInClass = studentMapper.selectByClassId(homework.getClassId());
+        int completed = 0;
 
         for (Student student : studentsInClass){
             ResHomeworkSubmissionList.ResHomeworkSubmissionDetail submissionDetail =
@@ -259,6 +267,7 @@ public class HomeworkServiceImp implements HomeworkService {
 
             submissionDetail.setHomeworkId(homework.getId());
             submissionDetail.setStudentId(student.getUserId());
+            submissionDetail.setStudentNo(student.getSno());
             submissionDetail.setStudentName(student.getName());
             submissionDetail.setDueDate(Utility.formatDate(homework.getDeadlineDate()));
 
@@ -273,10 +282,13 @@ public class HomeworkServiceImp implements HomeworkService {
                 submissionDetail.setCompleted(true);
                 submissionDetail.setSubmissionDate(Utility.formatDate(studentHomework.getSubmissionDate()));
                 submissionDetail.setLastEditDate(Utility.formatDate(studentHomework.getLastEditDate()));
+                completed++;
             }
         }
 
-        return submissionDetails;
+        resHomeworkList.setCompletedCount(completed);
+        resHomeworkList.setNonCompletedCount(studentsInClass.size() - completed);
+        return resHomeworkList;
     }
 
     private void validate(Homework homework) throws ApplicationErrorException {

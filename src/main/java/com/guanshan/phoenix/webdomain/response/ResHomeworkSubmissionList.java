@@ -6,7 +6,7 @@ public class ResHomeworkSubmissionList {
     private String moduleName;
     private String courseName;
 
-    private List<ResHomeworkSubmissionDetail> homeworkSubmissionList;
+    private List<ResHomeworkList> homeworkList;
 
     public String getModuleName() {
         return moduleName;
@@ -24,18 +24,77 @@ public class ResHomeworkSubmissionList {
         this.courseName = courseName;
     }
 
-    public List<ResHomeworkSubmissionDetail> getHomeworkSubmissionList() {
-        return homeworkSubmissionList;
+    public List<ResHomeworkList> getHomeworkList() {
+        return homeworkList;
     }
 
-    public void setHomeworkSubmissionList(List<ResHomeworkSubmissionDetail> homeworkSubmissionList) {
-        this.homeworkSubmissionList = homeworkSubmissionList;
+    public void setHomeworkList(List<ResHomeworkList> homeworkList) {
+        this.homeworkList = homeworkList;
+    }
+
+    public static class ResHomeworkList {
+        private int homeworkId;
+        private String homeworkName;
+        private String cloudwareType;
+        private int completedCount;
+        private int nonCompletedCount;
+
+        private List<ResHomeworkSubmissionDetail> homeworkSubmissionList;
+
+        public int getHomeworkId() {
+            return homeworkId;
+        }
+
+        public void setHomeworkId(int homeworkId) {
+            this.homeworkId = homeworkId;
+        }
+
+        public String getHomeworkName() {
+            return homeworkName;
+        }
+
+        public void setHomeworkName(String homeworkName) {
+            this.homeworkName = homeworkName;
+        }
+
+        public String getCloudwareType() {
+            return cloudwareType;
+        }
+
+        public void setCloudwareType(String cloudwareType) {
+            this.cloudwareType = cloudwareType;
+        }
+
+        public int getCompletedCount() {
+            return completedCount;
+        }
+
+        public void setCompletedCount(int completedCount) {
+            this.completedCount = completedCount;
+        }
+
+        public int getNonCompletedCount() {
+            return nonCompletedCount;
+        }
+
+        public void setNonCompletedCount(int nonCompletedCount) {
+            this.nonCompletedCount = nonCompletedCount;
+        }
+
+        public List<ResHomeworkSubmissionDetail> getHomeworkSubmissionList() {
+            return homeworkSubmissionList;
+        }
+
+        public void setHomeworkSubmissionList(List<ResHomeworkSubmissionDetail> homeworkSubmissionList) {
+            this.homeworkSubmissionList = homeworkSubmissionList;
+        }
     }
 
     public static class ResHomeworkSubmissionDetail{
         private int studentHomeworkId;
         private int homeworkId;
         private int studentId;
+        private String studentNo;
         private String studentName;
         private boolean completed;
         private String dueDate;
@@ -64,6 +123,14 @@ public class ResHomeworkSubmissionList {
 
         public void setStudentId(int studentId) {
             this.studentId = studentId;
+        }
+
+        public String getStudentNo() {
+            return studentNo;
+        }
+
+        public void setStudentNo(String studentNo) {
+            this.studentNo = studentNo;
         }
 
         public String getStudentName() {

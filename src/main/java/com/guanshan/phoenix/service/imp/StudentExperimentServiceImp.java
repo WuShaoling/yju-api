@@ -70,9 +70,6 @@ public class StudentExperimentServiceImp implements StudentExperimentService {
     }
 
     private void validateStudentExperiment(int studentId, int experimentId) throws ApplicationErrorException {
-        if(studentMapper.selectByUserId(studentId) == null){
-            throw new ApplicationErrorException(ErrorCode.StudentNotExists);
-        }
 
         if(experimentMapper.selectByPrimaryKey(experimentId) == null){
             throw new ApplicationErrorException(ErrorCode.ExperimentNotFound);
