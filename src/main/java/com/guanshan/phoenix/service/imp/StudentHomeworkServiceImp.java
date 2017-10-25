@@ -152,8 +152,20 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
                 studentHomeworkResourceMapper.selectByPrimaryKeyAndType(
                         studentHomework.getId(), ResourceTypeEnum.HOMEWORK.getCode());
 
-        Resource resource = resourceMapper.selectByPrimaryKey(studentHomeworkResource.getResourceId());
-        resource.setUrl(homeworkSubmission.getHomework_url());
-        resourceMapper.updateByPrimaryKey(resource);
+        if(studentHomeworkResource != null) {
+            Resource resource = resourceMapper.selectByPrimaryKey(studentHomeworkResource.getResourceId());
+            resource.setUrl(homeworkSubmission.getHomework_url());
+            resourceMapper.updateByPrimaryKey(resource);
+        } else {
+            Resource resource = new Resource(
+                    "", homeworkSubmission.getHomework_url(), "", "");
+            resourceMapper.insert(resource);
+
+            studentHomeworkResource = new StudentHomeworkResource(
+                    studentHomework.getId(),
+                    resource.getId(),
+                    ResourceTypeEnum.HOMEWORK.getCode());
+            studentHomeworkResourceMapper.insert(studentHomeworkResource);
+        }
     }
 }
