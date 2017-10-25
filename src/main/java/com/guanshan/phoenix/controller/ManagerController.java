@@ -277,17 +277,17 @@ public class ManagerController {
         return new ResponseMessage.Success<>(moduleService.getModuleImageUrls(moduleId));
     }
 
-    @ApiOperation(value = "上传markdown文档", notes = "")
-    @PostMapping(value = "/course/experiment/markdown")
-    public ResponseMessage<String> uploadMarkdown(@RequestParam("file") MultipartFile file) throws ApplicationErrorException {
-        return new ResponseMessage.Success<>(fileService.uploadFile(file, ResourceTypeEnum.MARKDOWN));
-    }
-
-    @ApiOperation(value = "上传图片资源", notes = "")
-    @PostMapping(value = "/course/experiment/piclib")
-    public ResponseMessage<String> uploadImage(@RequestParam("file") MultipartFile file) throws ApplicationErrorException {
-        return new ResponseMessage.Success<>(fileService.uploadFile(file, ResourceTypeEnum.IMAGE));
-    }
+//    @ApiOperation(value = "上传markdown文档", notes = "")
+//    @PostMapping(value = "/course/experiment/markdown")
+//    public ResponseMessage<String> uploadMarkdown(@RequestParam("file") MultipartFile file) throws ApplicationErrorException {
+//        return new ResponseMessage.Success<>(fileService.uploadFile(file, ResourceTypeEnum.MARKDOWN));
+//    }
+//
+//    @ApiOperation(value = "上传图片资源", notes = "")
+//    @PostMapping(value = "/course/experiment/piclib")
+//    public ResponseMessage<String> uploadImage(@RequestParam("file") MultipartFile file) throws ApplicationErrorException {
+//        return new ResponseMessage.Success<>(fileService.uploadFile(file, ResourceTypeEnum.IMAGE));
+//    }
 
     @ApiOperation(value = "批量导入学生数据", notes = "")
     @PostMapping(value = "/class/student/batchCreation")

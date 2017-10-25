@@ -1,6 +1,11 @@
 ## 部署
 
-同步phoenix-api-0.0.1-SNAPSHOT.war文件至 root@www.x-lab.ac:/data/dockercompose/phoenix/api/webapps/_data
+- 发送war包
+scp <your file path>/phoenix-api-0.0.1-SNAPSHOT.war root@www.x-lab.ac:/data/dockercompose/phoenix/api/webapps/_data
+
+- 重启container
+cd /data/dockercompose/phoenix/api
+docker-compose restart
 
 ## 访问
 
