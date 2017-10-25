@@ -115,6 +115,15 @@ public enum ErrorCode {
     @ErrorMessage("用户名或密码不正确")
     BadCredential(37),
 
+    @ErrorMessage("该文件类型错误")
+    FileTypeError(38),
+
+    @ErrorMessage("该文件不为图片")
+    FileIsNotImage(39),
+
+    @ErrorMessage("该文件不为Markdown")
+    FileIsNotMarkdown(40),
+
     @ErrorMessage("服务器出错，请联系管理员")
     GeneralError(Integer.MAX_VALUE);
 
