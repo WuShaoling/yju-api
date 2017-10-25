@@ -7,7 +7,7 @@ import com.guanshan.phoenix.webdomain.request.ReqDeleteCourse;
 import com.guanshan.phoenix.webdomain.response.ResCourseHomeworks;
 import com.guanshan.phoenix.webdomain.response.ResCourseList;
 import com.guanshan.phoenix.webdomain.response.ResCourseModuleExperiments;
-import com.guanshan.phoenix.webdomain.response.ResHotCourseDetail;
+import com.guanshan.phoenix.webdomain.response.ResHotCourseList;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public interface CourseService {
 
     ResCourseList getAllCourses() throws ApplicationErrorException;
 
-    List<ResHotCourseDetail> getHotCourses();
+    ResHotCourseList getHotCourses();
 
     void createCourse(ReqAddCourse reqAddCourse) throws ApplicationErrorException;
 

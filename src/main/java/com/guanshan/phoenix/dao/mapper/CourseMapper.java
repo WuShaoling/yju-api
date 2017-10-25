@@ -1,7 +1,7 @@
 package com.guanshan.phoenix.dao.mapper;
 
 import com.guanshan.phoenix.dao.entity.Course;
-import com.guanshan.phoenix.webdomain.response.ResHotCourseDetail;
+import com.guanshan.phoenix.webdomain.response.ResHotCourseList;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Service;
@@ -94,5 +94,5 @@ public interface CourseMapper {
             @Arg(column="teacher_name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="email", javaType=String.class, jdbcType=JdbcType.VARCHAR),
     })
-    List<ResHotCourseDetail> getHotCourses();
+    List<ResHotCourseList.ResHotCourseDetail> getHotCourses();
 }
