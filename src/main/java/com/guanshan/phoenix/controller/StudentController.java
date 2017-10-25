@@ -7,10 +7,7 @@ import com.guanshan.phoenix.service.*;
 import com.guanshan.phoenix.webdomain.request.ReqHomeworkSubmission;
 import com.guanshan.phoenix.webdomain.request.ReqStudentExperimentCloudware;
 import com.guanshan.phoenix.webdomain.request.ReqStudentHomeworkCloudware;
-import com.guanshan.phoenix.webdomain.response.ResCourseHomeworks;
-import com.guanshan.phoenix.webdomain.response.ResCourseModuleExperiments;
-import com.guanshan.phoenix.webdomain.response.ResHomeworkDetail;
-import com.guanshan.phoenix.webdomain.response.ResStudentClassList;
+import com.guanshan.phoenix.webdomain.response.*;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +32,9 @@ public class StudentController {
 
     @Autowired
     private StudentExperimentService studentExperimentService;
+
+    @Autowired
+    private ExperimentService experimentService;
 
     @ApiOperation(value = "选课列表", notes = "列出所有该学生的班级列表")
     @GetMapping(value = "course/all/{studentId}")
@@ -94,5 +94,11 @@ public class StudentController {
     public ResponseMessage createStudentExperimentCloudware(@RequestBody ReqStudentExperimentCloudware reqStudentExperimentCloudware) throws ApplicationErrorException {
         studentExperimentService.createStudentExperimentCloudware(reqStudentExperimentCloudware);
         return new ResponseMessage.Success();
+    }
+
+    @ApiOperation(value = "获取实验信息", notes = "")
+    @GetMapping(value = "experiment/{experimentId}")
+    public ResponseMessage<ResExperimentInfo> getExperiment(@PathVariable int experimentId) throws ApplicationErrorException {
+        return new ResponseMessage.Success(experimentService.getExperiment(experimentId));
     }
 }

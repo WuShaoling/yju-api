@@ -1,6 +1,9 @@
 package com.guanshan.phoenix.service.imp;
 
+import com.guanshan.phoenix.dao.entity.Course;
 import com.guanshan.phoenix.dao.entity.Experiment;
+import com.guanshan.phoenix.dao.entity.Module;
+import com.guanshan.phoenix.dao.mapper.CourseMapper;
 import com.guanshan.phoenix.dao.mapper.ExperimentMapper;
 import com.guanshan.phoenix.dao.mapper.ModuleMapper;
 import com.guanshan.phoenix.enums.CloudwareTypeEnum;
@@ -9,6 +12,7 @@ import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.ExperimentService;
 import com.guanshan.phoenix.webdomain.request.ReqDeleteExperiment;
 import com.guanshan.phoenix.webdomain.request.ReqExperiment;
+import com.guanshan.phoenix.webdomain.response.ResExperimentInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +24,9 @@ public class ExperimentServiceImp implements ExperimentService {
 
     @Autowired
     private ModuleMapper moduleMapper;
+
+    @Autowired
+    private CourseMapper courseMapper;
 
 
     @Override
@@ -79,6 +86,22 @@ public class ExperimentServiceImp implements ExperimentService {
         experimentMapper.updateByPrimaryKeySelective(experiment);
 
         return 0;
+    }
+
+    @Override
+    public ResExperimentInfo getExperiment(int experimentId) throws ApplicationErrorException {
+        Experiment experiment = experimentMapper.selectByPrimaryKey(experimentId);
+        if(experiment == null){
+            throw new ApplicationErrorException(ErrorCode.ExperimentNotFound);
+        }
+
+        Module module = moduleMapper.selectByPrimaryKey(experiment.getModuleId());
+        Course course = courseMapper.selectByPrimaryKey(module.getCourseId());
+        ResExperimentInfo experimentInfo = new ResExperimentInfo(experiment);
+        experimentInfo.setModuleName(module.getName());
+        experimentInfo.setCourseName(course.getName());
+
+        return experimentInfo;
     }
 
     private void validateExperiment(Experiment experiment) throws ApplicationErrorException {
