@@ -35,6 +35,9 @@ public class ResHomeworkSubmissionList {
     public static class ResHomeworkList {
         private int homeworkId;
         private String homeworkName;
+        private int completedCount;
+        private int nonCompletedCount;
+
         private List<ResHomeworkSubmissionDetail> homeworkSubmissionList;
 
         public int getHomeworkId() {
@@ -51,6 +54,22 @@ public class ResHomeworkSubmissionList {
 
         public void setHomeworkName(String homeworkName) {
             this.homeworkName = homeworkName;
+        }
+
+        public int getCompletedCount() {
+            return completedCount;
+        }
+
+        public void setCompletedCount(int completedCount) {
+            this.completedCount = completedCount;
+        }
+
+        public int getNonCompletedCount() {
+            return nonCompletedCount;
+        }
+
+        public void setNonCompletedCount(int nonCompletedCount) {
+            this.nonCompletedCount = nonCompletedCount;
         }
 
         public List<ResHomeworkSubmissionDetail> getHomeworkSubmissionList() {

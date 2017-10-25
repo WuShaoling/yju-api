@@ -101,14 +101,7 @@ public class HomeworkServiceImp implements HomeworkService {
         submissionList.setCourseName(course.getName());
 
         for(Homework homework : homeworks){
-            ResHomeworkSubmissionList.ResHomeworkList resHomeworkList = new ResHomeworkSubmissionList.ResHomeworkList();
-            resHomeworkList.setHomeworkId(homework.getId());
-            resHomeworkList.setHomeworkName(homework.getName());
-            List<ResHomeworkSubmissionList.ResHomeworkSubmissionDetail> resHomeworkSubmissionList = new ArrayList<>();
-            resHomeworkList.setHomeworkSubmissionList(resHomeworkSubmissionList);
-            resHomeworkSubmissionList.addAll(this.getHomeworkSubmissionDetail(homework));
-
-            homeworkList.add(resHomeworkList);
+            homeworkList.add(this.getHomeworkSubmissionDetail(homework));
         }
 
         return submissionList;
@@ -251,13 +244,19 @@ public class HomeworkServiceImp implements HomeworkService {
         return resClassHomework;
     }
 
-    private List<ResHomeworkSubmissionList.ResHomeworkSubmissionDetail> getHomeworkSubmissionDetail(
+    private ResHomeworkSubmissionList.ResHomeworkList getHomeworkSubmissionDetail(
             Homework homework
     ){
+        ResHomeworkSubmissionList.ResHomeworkList resHomeworkList = new ResHomeworkSubmissionList.ResHomeworkList();
+        resHomeworkList.setHomeworkId(homework.getId());
+        resHomeworkList.setHomeworkName(homework.getName());
+
         List<ResHomeworkSubmissionList.ResHomeworkSubmissionDetail> submissionDetails =
                 new ArrayList<>();
+        resHomeworkList.setHomeworkSubmissionList(submissionDetails);
 
         List<Student> studentsInClass = studentMapper.selectByClassId(homework.getClassId());
+        int completed = 0;
 
         for (Student student : studentsInClass){
             ResHomeworkSubmissionList.ResHomeworkSubmissionDetail submissionDetail =
@@ -281,10 +280,13 @@ public class HomeworkServiceImp implements HomeworkService {
                 submissionDetail.setCompleted(true);
                 submissionDetail.setSubmissionDate(Utility.formatDate(studentHomework.getSubmissionDate()));
                 submissionDetail.setLastEditDate(Utility.formatDate(studentHomework.getLastEditDate()));
+                completed++;
             }
         }
 
-        return submissionDetails;
+        resHomeworkList.setCompletedCount(completed);
+        resHomeworkList.setNonCompletedCount(studentsInClass.size() - completed);
+        return resHomeworkList;
     }
 
     private void validate(Homework homework) throws ApplicationErrorException {
