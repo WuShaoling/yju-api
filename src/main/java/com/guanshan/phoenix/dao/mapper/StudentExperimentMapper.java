@@ -51,4 +51,16 @@ public interface StudentExperimentMapper {
 
     @Select("SELECT cloudware_id FROM student_experiment WHERE student_id=#{studentId} AND experiment_id=#{experimentId}")
     int selectCloudwareIdByStudentIdAndExperimentId(@Param("studentId") Integer studentId, @Param("experimentId") Integer experimentId);
+
+    @Select({"SELECT *",
+            "FROM student_experiment",
+            "WHERE student_id=#{studentId} AND experiment_id=#{experimentId}"
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="student_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="experiment_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="cloudware_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
+    })
+    StudentExperiment selectByStudentIdAndExperimentId(@Param("studentId") Integer studentId, @Param("experimentId") Integer experimentId);
 }

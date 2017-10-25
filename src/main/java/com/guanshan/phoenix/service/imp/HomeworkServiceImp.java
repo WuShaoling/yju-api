@@ -87,15 +87,19 @@ public class HomeworkServiceImp implements HomeworkService {
 
     @Override
     public ResHomeworkSubmissionList getAllHomeworkSubmissionByModuleId(int moduleId) throws ApplicationErrorException {
-        if(moduleMapper.selectByPrimaryKey(moduleId) == null){
+        Module module = moduleMapper.selectByPrimaryKey(moduleId);
+        if(module == null){
             throw new ApplicationErrorException(ErrorCode.ModuleNotExists);
         }
 
+        Course course = courseMapper.selectByPrimaryKey(module.getCourseId());
         List<Homework> homeworks = homeworkMapper.selectByModuleId(moduleId);
         ResHomeworkSubmissionList submissionList = new ResHomeworkSubmissionList();
         List<ResHomeworkSubmissionList.ResHomeworkSubmissionDetail> submissionDetails =
                 new ArrayList<>();
         submissionList.setHomeworkSubmissionList(submissionDetails);
+        submissionList.setModuleName(module.getName());
+        submissionList.setCourseName(course.getName());
 
         for(Homework homework : homeworks){
             submissionDetails.addAll(this.getHomeworkSubmissionDetail(homework));

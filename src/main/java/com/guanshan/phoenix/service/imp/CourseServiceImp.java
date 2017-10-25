@@ -11,7 +11,6 @@ import com.guanshan.phoenix.service.TeacherService;
 import com.guanshan.phoenix.webdomain.request.ReqAddCourse;
 import com.guanshan.phoenix.webdomain.request.ReqDeleteCourse;
 import com.guanshan.phoenix.webdomain.response.*;
-import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -206,6 +205,13 @@ public class CourseServiceImp implements CourseService {
         }
         courseMapper.deleteByPrimaryKey(courseId);
         resourceMapper.deleteByPrimaryKey(courseResource.getResourceId());
+    }
+
+    @Override
+    public ResHotCourseList getHotCourses(){
+        ResHotCourseList resHotCourseList = new ResHotCourseList();
+        resHotCourseList.setCourseList(courseMapper.getHotCourses());
+        return resHotCourseList;
     }
 
     private void validateCourse(Course course) throws ApplicationErrorException {
