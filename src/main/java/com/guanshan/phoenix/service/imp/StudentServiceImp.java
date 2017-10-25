@@ -1,6 +1,7 @@
 package com.guanshan.phoenix.service.imp;
 
-import com.guanshan.phoenix.Util.EncryptionUtil;
+import com.guanshan.phoenix.cloudwareDomain.ReqCreateVolume;
+import com.guanshan.phoenix.cloudwareDomain.ResCreateVolume;
 import com.guanshan.phoenix.dao.entity.*;
 import com.guanshan.phoenix.dao.mapper.ClazzMapper;
 import com.guanshan.phoenix.dao.mapper.StudentClassMapper;
@@ -20,6 +21,7 @@ import com.guanshan.phoenix.webdomain.response.ResStudentClassList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -30,6 +32,12 @@ public class StudentServiceImp implements StudentService {
 
     @Value("${default.password}")
     private String defaultPassword;
+
+    @Value("${cloudware.url}")
+    private String cloudwareUrl;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Autowired
     private StudentClassMapper studentClassMapper;
@@ -135,6 +143,11 @@ public class StudentServiceImp implements StudentService {
         User user = managerService.createUser(student.getSno(), RoleEnum.TEACHER);
         student.setUserId(user.getId());
         studentMapper.insert(student);
+
+        ReqCreateVolume reqCreateVolume = new ReqCreateVolume();
+        reqCreateVolume.setUserId(user.getId());
+        restTemplate.postForObject(cloudwareUrl+"/volumes", reqCreateVolume, ResCreateVolume.class);
+
     }
 
     @Override

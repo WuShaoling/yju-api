@@ -124,6 +124,12 @@ public enum ErrorCode {
     @ErrorMessage("该文件不为Markdown")
     FileIsNotMarkdown(40),
 
+    @ErrorMessage("该文件不为Word或PDF")
+    FileIsNotReport(41),
+
+    @ErrorMessage("文件不存在")
+    FileIsNotExist(42),
+
     @ErrorMessage("服务器出错，请联系管理员")
     GeneralError(Integer.MAX_VALUE);
 
