@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -162,12 +161,11 @@ public class HomeworkServiceImp implements HomeworkService {
 
         homework.setName(reqUpdateHomework.getHomeworkName());
         homework.setDescription(reqUpdateHomework.getHomeworkDes());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            homework.setPublishDate(Utility.parseShortDate(reqUpdateHomework.getHomeworkCreateDate()));
-            homework.setDeadlineDate(Utility.parseShortDate((reqUpdateHomework.getHomeworkDueDate())));
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if (reqUpdateHomework.getHomeworkCreateDate() != null) {
+            homework.setPublishDate(reqUpdateHomework.getHomeworkCreateDate());
+        }
+        if (reqUpdateHomework.getHomeworkDueDate() != null) {
+            homework.setDeadlineDate(reqUpdateHomework.getHomeworkDueDate());
         }
 
         homework.setCloudwareType(reqUpdateHomework.getCloudwareType());
@@ -185,13 +183,11 @@ public class HomeworkServiceImp implements HomeworkService {
         homework.setModuleId(reqCreateHomework.getModuleId());
         homework.setName(reqCreateHomework.getHomeworkName());
         homework.setDescription(reqCreateHomework.getHomeworkDes());
-
-        try {
-            homework.setPublishDate(Utility.parseShortDate(reqCreateHomework.getHomeworkCreateDate()));
-            homework.setDeadlineDate(Utility.parseShortDate((reqCreateHomework.getHomeworkDueDate())));
-        } catch (ParseException e) {
-            //swallow the parse exception
-            e.printStackTrace();
+        if (reqCreateHomework.getHomeworkCreateDate() != null) {
+            homework.setPublishDate(reqCreateHomework.getHomeworkCreateDate());
+        }
+        if (reqCreateHomework.getHomeworkDueDate() != null) {
+            homework.setDeadlineDate(reqCreateHomework.getHomeworkDueDate());
         }
         homework.setCloudwareType(reqCreateHomework.getCloudwareType());
 

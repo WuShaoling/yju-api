@@ -1,5 +1,8 @@
 package com.guanshan.phoenix.dao.entity;
 
+import com.guanshan.phoenix.Util.Utility;
+
+import java.text.ParseException;
 import java.util.Date;
 
 public class Homework {
@@ -82,12 +85,26 @@ public class Homework {
         this.publishDate = publishDate;
     }
 
+    public void setPublishDate(String publishDate) {
+        try {
+            this.publishDate = Utility.parseShortDate(publishDate);
+
+        } catch (ParseException e){}
+    }
+
     public Date getDeadlineDate() {
         return deadlineDate;
     }
 
     public void setDeadlineDate(Date deadlineDate) {
         this.deadlineDate = deadlineDate;
+    }
+
+    public void setDeadlineDate(String deadlineDate) {
+        try {
+            this.deadlineDate = Utility.parseShortDate(deadlineDate);
+
+        } catch (ParseException e){}
     }
 
     public Integer getClassId() {
