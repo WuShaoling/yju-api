@@ -6,7 +6,7 @@ public class ResHomeworkSubmissionList {
     private String moduleName;
     private String courseName;
 
-    private List<ResHomeworkSubmissionDetail> homeworkSubmissionList;
+    private List<ResHomeworkList> homeworkList;
 
     public String getModuleName() {
         return moduleName;
@@ -24,12 +24,42 @@ public class ResHomeworkSubmissionList {
         this.courseName = courseName;
     }
 
-    public List<ResHomeworkSubmissionDetail> getHomeworkSubmissionList() {
-        return homeworkSubmissionList;
+    public List<ResHomeworkList> getHomeworkList() {
+        return homeworkList;
     }
 
-    public void setHomeworkSubmissionList(List<ResHomeworkSubmissionDetail> homeworkSubmissionList) {
-        this.homeworkSubmissionList = homeworkSubmissionList;
+    public void setHomeworkList(List<ResHomeworkList> homeworkList) {
+        this.homeworkList = homeworkList;
+    }
+
+    public static class ResHomeworkList {
+        private int homeworkId;
+        private String homeworkName;
+        private List<ResHomeworkSubmissionDetail> homeworkSubmissionList;
+
+        public int getHomeworkId() {
+            return homeworkId;
+        }
+
+        public void setHomeworkId(int homeworkId) {
+            this.homeworkId = homeworkId;
+        }
+
+        public String getHomeworkName() {
+            return homeworkName;
+        }
+
+        public void setHomeworkName(String homeworkName) {
+            this.homeworkName = homeworkName;
+        }
+
+        public List<ResHomeworkSubmissionDetail> getHomeworkSubmissionList() {
+            return homeworkSubmissionList;
+        }
+
+        public void setHomeworkSubmissionList(List<ResHomeworkSubmissionDetail> homeworkSubmissionList) {
+            this.homeworkSubmissionList = homeworkSubmissionList;
+        }
     }
 
     public static class ResHomeworkSubmissionDetail{

@@ -94,14 +94,21 @@ public class HomeworkServiceImp implements HomeworkService {
         Course course = courseMapper.selectByPrimaryKey(module.getCourseId());
         List<Homework> homeworks = homeworkMapper.selectByModuleId(moduleId);
         ResHomeworkSubmissionList submissionList = new ResHomeworkSubmissionList();
-        List<ResHomeworkSubmissionList.ResHomeworkSubmissionDetail> submissionDetails =
+        List<ResHomeworkSubmissionList.ResHomeworkList> homeworkList =
                 new ArrayList<>();
-        submissionList.setHomeworkSubmissionList(submissionDetails);
+        submissionList.setHomeworkList(homeworkList);
         submissionList.setModuleName(module.getName());
         submissionList.setCourseName(course.getName());
 
         for(Homework homework : homeworks){
-            submissionDetails.addAll(this.getHomeworkSubmissionDetail(homework));
+            ResHomeworkSubmissionList.ResHomeworkList resHomeworkList = new ResHomeworkSubmissionList.ResHomeworkList();
+            resHomeworkList.setHomeworkId(homework.getId());
+            resHomeworkList.setHomeworkName(homework.getName());
+            List<ResHomeworkSubmissionList.ResHomeworkSubmissionDetail> resHomeworkSubmissionList = new ArrayList<>();
+            resHomeworkList.setHomeworkSubmissionList(resHomeworkSubmissionList);
+            resHomeworkSubmissionList.addAll(this.getHomeworkSubmissionDetail(homework));
+
+            homeworkList.add(resHomeworkList);
         }
 
         return submissionList;
