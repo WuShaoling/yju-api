@@ -103,17 +103,14 @@ public enum ErrorCode {
     @ErrorMessage("该实体已存在")
     EntityAlreadyExists(33),
 
-    @ErrorMessage("该学生作业已创建云件")
-    StudentHomeworkCloudwareExists(34),
-
-    @ErrorMessage("该学生实验已创建云件")
-    StudentExperimentCloudwareExists(35),
+    @ErrorMessage("该学生实验已存在")
+    StudentExperimentExists(34),
 
     @ErrorMessage("该学生实验不存在")
-    StudentExperimentNotFound(36),
+    StudentExperimentNotFound(35),
 
     @ErrorMessage("该学生作业已存在")
-    StudentHomeworkExists(33),
+    StudentHomeworkExists(36),
 
     @ErrorMessage("服务器出错，请联系管理员")
     GeneralError(Integer.MAX_VALUE);

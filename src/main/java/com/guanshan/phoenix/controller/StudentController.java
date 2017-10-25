@@ -89,7 +89,7 @@ public class StudentController {
     }
 
     @ApiOperation(value = "创建学生实验以及云件", notes = "")
-    @PostMapping(value = "experiment/cloudware/creation")
+    @PostMapping(value = "experiment/creation")
     @Transactional(rollbackFor = Throwable.class)
     public ResponseMessage createStudentExperimentCloudware(@RequestBody ReqStudentExperimentCloudware reqStudentExperimentCloudware) throws ApplicationErrorException {
         studentExperimentService.createStudentExperimentCloudware(reqStudentExperimentCloudware);
