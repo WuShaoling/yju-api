@@ -38,22 +38,22 @@ public class FileSystemContorller {
 
     @ApiOperation(value = "下载Image")
     @GetMapping(value = "/image/{fileName:.+}")
-    public ResponseMessage downloadImage(@PathVariable("fileName") String fileName, HttpServletResponse response) throws ApplicationErrorException {
+    public void downloadImage(@PathVariable("fileName") String fileName, HttpServletResponse response) throws ApplicationErrorException {
         fileService.downloadImage(fileName, response);
-        return new ResponseMessage.Success<>();
+        return ;
     }
 
     @ApiOperation(value = "下载Markdown")
     @GetMapping(value = "/markdown/{fileName:.+}")
-    public ResponseMessage downloadMarkdown(@PathVariable("fileName") String fileName, HttpServletResponse response) throws ApplicationErrorException {
+    public void downloadMarkdown(@PathVariable("fileName") String fileName, HttpServletResponse response) throws ApplicationErrorException {
         fileService.downloadMarkdown(fileName, response);
-        return new ResponseMessage.Success<>();
+        return ;
     }
 
     @ApiOperation(value = "下载Report")
     @GetMapping(value = "/report/{fileName:.+}")
-    public ResponseMessage downloadReport(@PathVariable("fileName") String fileName, HttpServletResponse response) throws ApplicationErrorException {
+    public void downloadReport(@PathVariable("fileName") String fileName, HttpServletResponse response) throws ApplicationErrorException {
         fileService.downloadReport(fileName, response);
-        return new ResponseMessage.Success<>();
+        return ;
     }
 }
