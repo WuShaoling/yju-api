@@ -60,7 +60,6 @@ public class StudentExperimentServiceImp implements StudentExperimentService {
                 reqStudentExperimentCloudware.getServiceName(),
                 reqStudentExperimentCloudware.getPulsarId());
         cloudwareMapper.insert(cloudware);
-        studentExperiment.setCloudwareId(cloudware.getId());
 
         studentExperiment = new StudentExperiment(
                 reqStudentExperimentCloudware.getStudentId(),
