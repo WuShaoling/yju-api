@@ -250,6 +250,8 @@ public class HomeworkServiceImp implements HomeworkService {
         ResHomeworkSubmissionList.ResHomeworkList resHomeworkList = new ResHomeworkSubmissionList.ResHomeworkList();
         resHomeworkList.setHomeworkId(homework.getId());
         resHomeworkList.setHomeworkName(homework.getName());
+        CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt(homework.getCloudwareType());
+        resHomeworkList.setCloudwareType(cloudwareType == null ? "" : cloudwareType.toString());
 
         List<ResHomeworkSubmissionList.ResHomeworkSubmissionDetail> submissionDetails =
                 new ArrayList<>();

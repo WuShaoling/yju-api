@@ -35,6 +35,7 @@ public class ResHomeworkSubmissionList {
     public static class ResHomeworkList {
         private int homeworkId;
         private String homeworkName;
+        private String cloudwareType;
         private int completedCount;
         private int nonCompletedCount;
 
@@ -54,6 +55,14 @@ public class ResHomeworkSubmissionList {
 
         public void setHomeworkName(String homeworkName) {
             this.homeworkName = homeworkName;
+        }
+
+        public String getCloudwareType() {
+            return cloudwareType;
+        }
+
+        public void setCloudwareType(String cloudwareType) {
+            this.cloudwareType = cloudwareType;
         }
 
         public int getCompletedCount() {
