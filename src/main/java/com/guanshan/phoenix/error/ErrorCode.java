@@ -130,6 +130,9 @@ public enum ErrorCode {
     @ErrorMessage("文件不存在")
     FileIsNotExist(42),
 
+    @ErrorMessage("该用户不存在")
+    UserNotExist(32),
+
     @ErrorMessage("服务器出错，请联系管理员")
     GeneralError(Integer.MAX_VALUE);
 

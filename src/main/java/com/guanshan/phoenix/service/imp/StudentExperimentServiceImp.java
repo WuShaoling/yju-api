@@ -25,7 +25,7 @@ public class StudentExperimentServiceImp implements StudentExperimentService {
     private CloudwareMapper cloudwareMapper;
 
     @Autowired
-    private StudentMapper studentMapper;
+    private UserMapper userMapper;
 
     @Autowired
     private ExperimentMapper experimentMapper;
@@ -70,6 +70,9 @@ public class StudentExperimentServiceImp implements StudentExperimentService {
     }
 
     private void validateStudentExperiment(int studentId, int experimentId) throws ApplicationErrorException {
+        if(userMapper.selectByPrimaryKey(studentId) == null){
+            throw new ApplicationErrorException(ErrorCode.UserNotExist);
+        }
 
         if(experimentMapper.selectByPrimaryKey(experimentId) == null){
             throw new ApplicationErrorException(ErrorCode.ExperimentNotFound);
