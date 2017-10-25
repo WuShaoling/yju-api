@@ -77,7 +77,7 @@ public interface StudentHomeworkMapper {
             "from student_homework sh left join cloudware cw on cw.id=sh.cloudware_id",
             "left join student_homework_resource shr on shr.student_homework_id = sh.id",
             "and shr.type = 2",
-            "inner join resource r on r.id = shr.resource_id",
+            "left join resource r on r.id = shr.resource_id",
             "where sh.student_id = #{studentId,jdbcType=INTEGER} and sh.homework_id = #{homeworkId,jdbcType=INTEGER}"
     })
     @ConstructorArgs({
