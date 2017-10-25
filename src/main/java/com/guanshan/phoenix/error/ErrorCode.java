@@ -112,6 +112,9 @@ public enum ErrorCode {
     @ErrorMessage("该学生实验不存在")
     StudentExperimentNotFound(36),
 
+    @ErrorMessage("该学生作业已存在")
+    StudentHomeworkExists(33),
+
     @ErrorMessage("服务器出错，请联系管理员")
     GeneralError(Integer.MAX_VALUE);
 
