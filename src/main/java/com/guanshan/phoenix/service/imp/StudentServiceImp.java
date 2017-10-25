@@ -1,6 +1,7 @@
 package com.guanshan.phoenix.service.imp;
 
 import com.guanshan.phoenix.cloudwareDomain.ReqCreateVolume;
+import com.guanshan.phoenix.cloudwareDomain.ResCreateVolume;
 import com.guanshan.phoenix.dao.entity.*;
 import com.guanshan.phoenix.dao.mapper.ClazzMapper;
 import com.guanshan.phoenix.dao.mapper.StudentClassMapper;
@@ -145,7 +146,7 @@ public class StudentServiceImp implements StudentService {
 
         ReqCreateVolume reqCreateVolume = new ReqCreateVolume();
         reqCreateVolume.setUserId(user.getId());
-        restTemplate.postForObject(cloudwareUrl+"/volumes", reqCreateVolume, ReqCreateVolume.class);
+        restTemplate.postForObject(cloudwareUrl+"/volumes", reqCreateVolume, ResCreateVolume.class);
 
     }
 

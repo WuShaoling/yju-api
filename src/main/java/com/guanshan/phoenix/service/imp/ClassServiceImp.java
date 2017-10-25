@@ -1,7 +1,6 @@
 package com.guanshan.phoenix.service.imp;
 
 import com.guanshan.phoenix.Util.Utility;
-import com.guanshan.phoenix.cloudwareDomain.ReqCreateVolume;
 import com.guanshan.phoenix.dao.entity.*;
 import com.guanshan.phoenix.dao.mapper.*;
 import com.guanshan.phoenix.enums.ResourceTypeEnum;

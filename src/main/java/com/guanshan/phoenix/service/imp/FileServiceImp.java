@@ -28,6 +28,9 @@ public class FileServiceImp implements FileService {
     @Value("${file.markdownDir}")
     private String markdownDir;
 
+    @Value("${file.reportDir}")
+    private String reportDir;
+
 
     @Override
     public ResUploadImage uploadImage(MultipartFile file) throws ApplicationErrorException {
@@ -67,11 +70,11 @@ public class FileServiceImp implements FileService {
         String uploadFilePath = file.getOriginalFilename();
         String uploadFileSuffix = uploadFilePath.substring(uploadFilePath.indexOf('.') + 1, uploadFilePath.length());
 
-        if (! uploadFileSuffix.equals("md")) {
+        if (!uploadFileSuffix.equals("md")) {
             throw new ApplicationErrorException(ErrorCode.FileIsNotMarkdown);
         }
 
-        String  targetDir = baseDir + markdownDir;
+        String targetDir = baseDir + markdownDir;
 
         File dir = new File(targetDir);
         if (!dir.exists()) {
@@ -84,19 +87,61 @@ public class FileServiceImp implements FileService {
     }
 
     @Override
+    public String uploadReport(MultipartFile file) throws ApplicationErrorException {
+        String uploadFilePath = file.getOriginalFilename();
+        String uploadFileSuffix = uploadFilePath.substring(uploadFilePath.indexOf('.') + 1, uploadFilePath.length());
+
+        if (!uploadFileSuffix.equals("pdf") &&
+                !uploadFileSuffix.equals("doc") &&
+                !uploadFileSuffix.equals("docx")) {
+            throw new ApplicationErrorException(ErrorCode.FileIsNotMarkdown);
+        }
+
+        String targetDir = baseDir + reportDir;
+
+        File dir = new File(targetDir);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        saveFile(file, targetDir);
+
+
+        return baseUrl + "/report/" + file.getOriginalFilename();
+    }
+
+    @Override
     public void downloadImage(String fileName, HttpServletResponse response) throws ApplicationErrorException {
 
-        getFile(fileName, response, baseDir + imageDir);
+        try {
+            getFile(fileName, response, baseDir + imageDir);
+        } catch (Exception e) {
+            throw new ApplicationErrorException(ErrorCode.FileIsNotExist);
+        }
+
     }
 
     @Override
     public void downloadMarkdown(String fileName, HttpServletResponse response) throws ApplicationErrorException {
 
-        getFile(fileName, response, baseDir + markdownDir);
+        try {
+            getFile(fileName, response, baseDir + markdownDir);
+        } catch (Exception e) {
+            throw new ApplicationErrorException(ErrorCode.FileIsNotExist);
+        }
+    }
+
+    @Override
+    public void downloadReport(String fileName, HttpServletResponse response) throws ApplicationErrorException {
+
+        try {
+            getFile(fileName, response, baseDir + reportDir);
+        } catch (Exception e) {
+            throw new ApplicationErrorException(ErrorCode.FileIsNotExist);
+        }
     }
 
 
-    private void saveFile(MultipartFile file, String dir) throws ApplicationErrorException{
+    private void saveFile(MultipartFile file, String dir) throws ApplicationErrorException {
 
         String uploadFilePath = file.getOriginalFilename();
         String uploadFileName = uploadFilePath.substring(uploadFilePath.lastIndexOf('\\') + 1, uploadFilePath.indexOf('.'));

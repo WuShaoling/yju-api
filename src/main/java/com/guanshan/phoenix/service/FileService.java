@@ -13,7 +13,11 @@ public interface FileService {
 
     String uploadMarkdown(MultipartFile file) throws ApplicationErrorException;
 
+    String uploadReport(MultipartFile file) throws ApplicationErrorException;
+
     void downloadImage(String fileName, HttpServletResponse response) throws ApplicationErrorException;
 
     void downloadMarkdown(String fileName, HttpServletResponse response) throws ApplicationErrorException;
+
+    void downloadReport(String fileName, HttpServletResponse response) throws ApplicationErrorException;
 }

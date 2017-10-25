@@ -30,6 +30,12 @@ public class FileSystemContorller {
         return new ResponseMessage.Success<>(fileService.uploadMarkdown(file));
     }
 
+    @ApiOperation(value = "上传Report")
+    @PostMapping(value = "/admin/course/experiment/report")
+    public ResponseMessage<String> uploadReport(@RequestParam("file") MultipartFile file) throws ApplicationErrorException {
+        return new ResponseMessage.Success<>(fileService.uploadReport(file));
+    }
+
     @ApiOperation(value = "下载Image")
     @GetMapping(value = "/image/{fileName:.+}")
     public ResponseMessage downloadImage(@PathVariable("fileName") String fileName, HttpServletResponse response) throws ApplicationErrorException {
@@ -41,6 +47,13 @@ public class FileSystemContorller {
     @GetMapping(value = "/markdown/{fileName:.+}")
     public ResponseMessage downloadMarkdown(@PathVariable("fileName") String fileName, HttpServletResponse response) throws ApplicationErrorException {
         fileService.downloadMarkdown(fileName, response);
+        return new ResponseMessage.Success<>();
+    }
+
+    @ApiOperation(value = "下载Report")
+    @GetMapping(value = "/report/{fileName:.+}")
+    public ResponseMessage downloadReport(@PathVariable("fileName") String fileName, HttpServletResponse response) throws ApplicationErrorException {
+        fileService.downloadReport(fileName, response);
         return new ResponseMessage.Success<>();
     }
 }
