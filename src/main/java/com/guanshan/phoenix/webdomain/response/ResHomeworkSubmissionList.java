@@ -66,6 +66,7 @@ public class ResHomeworkSubmissionList {
         private int studentHomeworkId;
         private int homeworkId;
         private int studentId;
+        private String studentNo;
         private String studentName;
         private boolean completed;
         private String dueDate;
@@ -94,6 +95,14 @@ public class ResHomeworkSubmissionList {
 
         public void setStudentId(int studentId) {
             this.studentId = studentId;
+        }
+
+        public String getStudentNo() {
+            return studentNo;
+        }
+
+        public void setStudentNo(String studentNo) {
+            this.studentNo = studentNo;
         }
 
         public String getStudentName() {

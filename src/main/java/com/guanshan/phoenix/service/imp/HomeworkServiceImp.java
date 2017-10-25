@@ -266,6 +266,7 @@ public class HomeworkServiceImp implements HomeworkService {
 
             submissionDetail.setHomeworkId(homework.getId());
             submissionDetail.setStudentId(student.getUserId());
+            submissionDetail.setStudentNo(student.getSno());
             submissionDetail.setStudentName(student.getName());
             submissionDetail.setDueDate(Utility.formatDate(homework.getDeadlineDate()));
 
