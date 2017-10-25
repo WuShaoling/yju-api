@@ -208,6 +208,11 @@ public class CourseServiceImp implements CourseService {
         resourceMapper.deleteByPrimaryKey(courseResource.getResourceId());
     }
 
+    @Override
+    public List<ResHotCourseDetail> getHotCourses(){
+        return courseMapper.getHotCourses();
+    }
+
     private void validateCourse(Course course) throws ApplicationErrorException {
         Teacher teacher = teacherMapper.selectByUserId(course.getTeacherId());
         if(teacher == null){
