@@ -16,6 +16,8 @@ public interface HomeworkService {
 
     ResStudentHomeworkDetail getStudentHomeworkDetailById(int studentHomeworkId) throws ApplicationErrorException;
 
+    ResStudentHomeworkDetail getStudentHomeworkDetailByHomeworkIdAndStudentId(int homeworkId, int studentId) throws ApplicationErrorException;
+
     int deleteHomework(ReqDeleteHomework reqDeleteHomework) throws ApplicationErrorException;
 
     int updateHomework(ReqUpdateHomework reqUpdateHomework) throws ApplicationErrorException;

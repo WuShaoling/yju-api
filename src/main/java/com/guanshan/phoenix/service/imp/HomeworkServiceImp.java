@@ -112,6 +112,17 @@ public class HomeworkServiceImp implements HomeworkService {
     }
 
     @Override
+    public ResStudentHomeworkDetail getStudentHomeworkDetailByHomeworkIdAndStudentId(int homeworkId, int studentId) throws ApplicationErrorException {
+        StudentHomework studentHomework = studentHomeworkMapper.selectByStudentIdAndHomeworkId(studentId, homeworkId);
+
+        if(studentHomework == null){
+            throw new ApplicationErrorException(ErrorCode.StudentHomeworkNotExists);
+        }
+
+        return getStudentHomeworkDetailById(studentHomework.getId());
+    }
+
+    @Override
     public ResStudentHomeworkDetail getStudentHomeworkDetailById(int studentHomeworkId) throws ApplicationErrorException {
         StudentHomework studentHomework = studentHomeworkService.getStudentHomeworkById(studentHomeworkId);
 
@@ -129,6 +140,8 @@ public class HomeworkServiceImp implements HomeworkService {
         homeworkDetail.setStudentName(student.getName());
         homeworkDetail.setCloudwareUrl(studentHomework.getCloudwareUrl());
         homeworkDetail.setHomeworkUrl(studentHomework.getHomeworkUrl());
+        homeworkDetail.setScore(studentHomework.getScore());
+        homeworkDetail.setComment(studentHomework.getComment());
 
         return homeworkDetail;
     }

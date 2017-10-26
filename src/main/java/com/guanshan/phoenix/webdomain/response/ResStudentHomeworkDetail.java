@@ -8,6 +8,8 @@ public class ResStudentHomeworkDetail {
     private String studentName;
     private String cloudwareUrl;
     private String homeworkUrl;
+    private int score;
+    private String comment;
 
     public String getCourseName() {
         return courseName;
@@ -63,5 +65,21 @@ public class ResStudentHomeworkDetail {
 
     public void setHomeworkUrl(String homeworkUrl) {
         this.homeworkUrl = homeworkUrl;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }
