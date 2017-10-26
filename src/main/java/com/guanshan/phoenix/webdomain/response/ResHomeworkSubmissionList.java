@@ -5,6 +5,7 @@ import java.util.List;
 public class ResHomeworkSubmissionList {
     private String moduleName;
     private String courseName;
+    private String className;
 
     private List<ResHomeworkList> homeworkList;
 
@@ -22,6 +23,14 @@ public class ResHomeworkSubmissionList {
 
     public void setCourseName(String courseName) {
         this.courseName = courseName;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
     }
 
     public List<ResHomeworkList> getHomeworkList() {

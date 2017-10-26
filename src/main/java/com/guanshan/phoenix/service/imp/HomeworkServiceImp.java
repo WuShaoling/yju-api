@@ -85,20 +85,25 @@ public class HomeworkServiceImp implements HomeworkService {
     }
 
     @Override
-    public ResHomeworkSubmissionList getAllHomeworkSubmissionByModuleId(int moduleId) throws ApplicationErrorException {
+    public ResHomeworkSubmissionList getAllHomeworkSubmissionByModuleId(int moduleId, int classId) throws ApplicationErrorException {
         Module module = moduleMapper.selectByPrimaryKey(moduleId);
+        Clazz clazz = clazzMapper.selectByPrimaryKey(classId);
         if(module == null){
             throw new ApplicationErrorException(ErrorCode.ModuleNotExists);
         }
+        if(clazz == null){
+            throw new ApplicationErrorException(ErrorCode.ClassNotExists);
+        }
 
         Course course = courseMapper.selectByPrimaryKey(module.getCourseId());
-        List<Homework> homeworks = homeworkMapper.selectByModuleId(moduleId);
+        List<Homework> homeworks = homeworkMapper.selectByModuleIdAndClassId(moduleId, classId);
         ResHomeworkSubmissionList submissionList = new ResHomeworkSubmissionList();
         List<ResHomeworkSubmissionList.ResHomeworkList> homeworkList =
                 new ArrayList<>();
         submissionList.setHomeworkList(homeworkList);
         submissionList.setModuleName(module.getName());
         submissionList.setCourseName(course.getName());
+        submissionList.setClassName(clazz.getName());
 
         for(Homework homework : homeworks){
             homeworkList.add(this.getHomeworkSubmissionDetail(homework));

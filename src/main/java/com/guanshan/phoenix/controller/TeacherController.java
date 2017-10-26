@@ -40,10 +40,11 @@ public class TeacherController {
         return new ResponseMessage.Success<>(courseService.getClassModuleExperiments(classId));
     }
 
-    @ApiOperation(value = "所有学生作业详情", notes = "列出该课时所有学生作业的完成情况")
-    @GetMapping(value = "course/{moduleId}/homework")
-    public ResponseMessage<ResHomeworkSubmissionList> getAllHomeworkSubmissionByModuleId(@PathVariable int moduleId) throws ApplicationErrorException {
-        return new ResponseMessage.Success<>(homeworkService.getAllHomeworkSubmissionByModuleId(moduleId));
+    @ApiOperation(value = "所有学生作业详情", notes = "列出该课时该班级下所有学生作业的完成情况")
+    @GetMapping(value = "course/{moduleId}/{classId}/homework")
+    public ResponseMessage<ResHomeworkSubmissionList> getAllHomeworkSubmissionByModuleId(
+            @PathVariable int moduleId, @PathVariable int classId) throws ApplicationErrorException {
+        return new ResponseMessage.Success<>(homeworkService.getAllHomeworkSubmissionByModuleId(moduleId, classId));
     }
 
     @ApiOperation(value = "单个学生作业详情", notes = "")

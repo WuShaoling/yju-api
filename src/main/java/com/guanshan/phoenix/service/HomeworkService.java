@@ -12,7 +12,7 @@ import com.guanshan.phoenix.webdomain.response.ResStudentHomeworkDetail;
 public interface HomeworkService {
     ResHomeworkDetail getHomeworkDetail(int homeworkID) throws ApplicationErrorException;
 
-    ResHomeworkSubmissionList getAllHomeworkSubmissionByModuleId(int moduleId) throws ApplicationErrorException;
+    ResHomeworkSubmissionList getAllHomeworkSubmissionByModuleId(int moduleId, int classId) throws ApplicationErrorException;
 
     ResStudentHomeworkDetail getStudentHomeworkDetailById(int studentHomeworkId) throws ApplicationErrorException;
 
