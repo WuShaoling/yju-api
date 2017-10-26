@@ -109,6 +109,7 @@ public class ResHomeworkSubmissionList {
         private String dueDate;
         private String submissionDate;
         private String lastEditDate;
+        private int score;
 
         public int getStudentHomeworkId() {
             return studentHomeworkId;
@@ -180,6 +181,14 @@ public class ResHomeworkSubmissionList {
 
         public void setLastEditDate(String lastEditDate) {
             this.lastEditDate = lastEditDate;
+        }
+
+        public int getScore() {
+            return score;
+        }
+
+        public void setScore(int score) {
+            this.score = score;
         }
     }
 }

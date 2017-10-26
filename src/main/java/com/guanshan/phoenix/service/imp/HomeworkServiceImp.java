@@ -18,7 +18,6 @@ import com.guanshan.phoenix.webdomain.response.ResStudentHomeworkDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -287,6 +286,7 @@ public class HomeworkServiceImp implements HomeworkService {
                 submissionDetail.setCompleted(true);
                 submissionDetail.setSubmissionDate(Utility.formatDate(studentHomework.getSubmissionDate()));
                 submissionDetail.setLastEditDate(Utility.formatDate(studentHomework.getLastEditDate()));
+                submissionDetail.setScore(studentHomework.getScore());
                 completed++;
             }
         }
