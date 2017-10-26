@@ -84,8 +84,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated();
 
-        // 禁止缓存
-        httpSecurity.headers().cacheControl();
+
+        httpSecurity.headers()
+                // 禁止缓存
+                .cacheControl()
+
+                // Disable X-frame-options
+                .and()
+                .frameOptions().disable();
 
         // 添加JWT filter
         httpSecurity
