@@ -82,8 +82,8 @@ public class ModuleServiceImp implements ModuleService {
             Resource resource = resourceMapper.selectByPrimaryKey(moduleResource.getResourceId());
             ResModuleImages.ResModuleImage moduleImage = new ResModuleImages.ResModuleImage(
                     resource.getId(),
-                    resource.getUrl(),
                     resource.getName(),
+                    resource.getUrl(),
                     resource.getWidth(),
                     resource.getHeight()
             );
