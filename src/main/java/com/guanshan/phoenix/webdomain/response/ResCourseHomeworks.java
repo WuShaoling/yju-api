@@ -73,6 +73,8 @@ public class ResCourseHomeworks {
 
         private String publishDate;
 
+        private boolean completed;
+
         public HomeworkInfo(){}
 
         public HomeworkInfo(Homework homework){
@@ -131,6 +133,14 @@ public class ResCourseHomeworks {
 
         public void setPublishDate(String publishDate) {
             this.publishDate = publishDate;
+        }
+
+        public boolean isCompleted() {
+            return completed;
+        }
+
+        public void setCompleted(boolean completed) {
+            this.completed = completed;
         }
     }
 }

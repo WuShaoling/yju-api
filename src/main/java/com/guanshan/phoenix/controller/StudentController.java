@@ -49,9 +49,9 @@ public class StudentController {
     }
 
     @ApiOperation(value = "班级详情", notes = "列出该班级所属课程的的课时以及属于这些课时的所有作业")
-    @GetMapping(value = "course/{classId}/homework")
-    public ResponseMessage<ResCourseHomeworks> getCourseHomeworks(@PathVariable int classId) throws ApplicationErrorException {
-        return new ResponseMessage.Success<>(courseService.getCourseHomeworks(classId));
+    @GetMapping(value = "course/{classId}/{studentId}/homework/")
+    public ResponseMessage<ResCourseHomeworks> getCourseHomeworks(@PathVariable int classId, @PathVariable int studentId) throws ApplicationErrorException {
+        return new ResponseMessage.Success<>(courseService.getCourseHomeworks(classId, studentId));
     }
 
     @ApiOperation(value = "作业详情", notes = "")

@@ -50,6 +50,12 @@ public class CourseServiceImp implements CourseService {
     @Autowired
     private TeacherMapper teacherMapper;
 
+    @Autowired
+    private StudentMapper studentMapper;
+
+    @Autowired
+    private StudentHomeworkMapper studentHomeworkMapper;
+
     public Course getCourseById(int courseID) throws ApplicationErrorException {
 
         Course course = courseMapper.selectByPrimaryKey(courseID);
@@ -98,9 +104,9 @@ public class CourseServiceImp implements CourseService {
     }
 
     @Override
-    public ResCourseHomeworks getCourseHomeworks(int classID) throws ApplicationErrorException {
-        if(clazzMapper.selectByPrimaryKey(classID) == null){
-            throw new ApplicationErrorException(ErrorCode.ClassNotExists);
+    public ResCourseHomeworks getCourseHomeworks(int classID, int studentId) throws ApplicationErrorException {
+        if(studentMapper.selectByPrimaryKey(studentId) == null){
+            throw new ApplicationErrorException(ErrorCode.StudentNotExists);
         }
 
         ResCourseHomeworks courseDetail = new ResCourseHomeworks();
@@ -122,6 +128,12 @@ public class CourseServiceImp implements CourseService {
             for(Homework homework : homeworkMapper.selectByModuleIdAndClassId(module.getId(), classID)){
                 ResCourseHomeworks.HomeworkInfo homeworkInfo = new ResCourseHomeworks.HomeworkInfo(homework);
                 homeworks.add(homeworkInfo);
+
+                StudentHomework studentHomework =
+                        studentHomeworkMapper.selectByStudentIdAndHomeworkId(studentId, homework.getId());
+                homeworkInfo.setCompleted(
+                        studentHomework != null && studentHomework.getSubmissionDate() != null
+                );
             }
 
             if(homeworks.size() > 0){

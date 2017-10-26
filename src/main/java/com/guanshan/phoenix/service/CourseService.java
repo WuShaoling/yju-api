@@ -18,7 +18,7 @@ public interface CourseService {
 
     ResCourseModuleExperiments getClassModuleExperiments(int classId) throws ApplicationErrorException;
 
-    ResCourseHomeworks getCourseHomeworks(int classID) throws ApplicationErrorException;
+    ResCourseHomeworks getCourseHomeworks(int classID, int studentId) throws ApplicationErrorException;
 
     ResCourseList getAllCourses() throws ApplicationErrorException;
 
