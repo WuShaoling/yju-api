@@ -136,6 +136,9 @@ public enum ErrorCode {
     @ErrorMessage("该课时资源不存在")
     ModuleResourceNotFound(44),
 
+    @ErrorMessage("token已过期，请重新登录")
+    TokenExpired(45),
+
     @ErrorMessage("服务器出错，请联系管理员")
     GeneralError(Integer.MAX_VALUE);
 
