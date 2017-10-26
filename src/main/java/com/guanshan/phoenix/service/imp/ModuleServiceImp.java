@@ -83,6 +83,7 @@ public class ModuleServiceImp implements ModuleService {
             ResModuleImages.ResModuleImage moduleImage = new ResModuleImages.ResModuleImage(
                     resource.getId(),
                     resource.getUrl(),
+                    resource.getName(),
                     resource.getWidth(),
                     resource.getHeight()
             );
@@ -100,7 +101,7 @@ public class ModuleServiceImp implements ModuleService {
         }
 
         Resource resource = new Resource(
-                "",
+                reqAddModuleResource.getName(),
                 reqAddModuleResource.getImageUrl(),
                 reqAddModuleResource.getWidth(),
                 reqAddModuleResource.getHeight()

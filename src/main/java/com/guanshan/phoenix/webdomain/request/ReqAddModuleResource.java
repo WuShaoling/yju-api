@@ -2,6 +2,7 @@ package com.guanshan.phoenix.webdomain.request;
 
 public class ReqAddModuleResource {
     private int moduleId;
+    private String name;
     private String imageUrl;
     private int width;
     private int height;
@@ -12,6 +13,14 @@ public class ReqAddModuleResource {
 
     public void setModuleId(int moduleId) {
         this.moduleId = moduleId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getImageUrl() {

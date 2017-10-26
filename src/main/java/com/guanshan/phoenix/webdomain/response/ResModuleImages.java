@@ -16,12 +16,14 @@ public class ResModuleImages {
 
     public static class ResModuleImage {
         private int resourceId;
+        private String name;
         private String imageUrl;
         private int width;
         private int height;
 
-        public ResModuleImage(int resourceId, String imageUrl, int width, int height) {
+        public ResModuleImage(int resourceId, String name, String imageUrl, int width, int height) {
             this.resourceId = resourceId;
+            this.name = name;
             this.imageUrl = imageUrl;
             this.width = width;
             this.height = height;
@@ -36,6 +38,14 @@ public class ResModuleImages {
 
         public void setResourceId(int resourceId) {
             this.resourceId = resourceId;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
         }
 
         public String getImageUrl() {
