@@ -139,6 +139,9 @@ public enum ErrorCode {
     @ErrorMessage("token已过期，请重新登录")
     TokenExpired(45),
 
+    @ErrorMessage("请登录")
+    NeedAuthentication(46),
+
     @ErrorMessage("服务器出错，请联系管理员")
     GeneralError(Integer.MAX_VALUE);
 

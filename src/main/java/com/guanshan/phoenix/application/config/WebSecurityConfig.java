@@ -1,5 +1,6 @@
 package com.guanshan.phoenix.application.config;
 
+import com.guanshan.phoenix.authentication.security.CustomHTTP403Filter;
 import com.guanshan.phoenix.authentication.security.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -37,10 +38,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new JwtAuthenticationTokenFilter();
     }
 
-//    @Bean
-//    public CustomHTTP403Filter customHTTP403Filter() {
-//        return new CustomHTTP403Filter();
-//    }
+    @Bean
+    public CustomHTTP403Filter customHTTP403Filter() {
+        return new CustomHTTP403Filter();
+    }
 
     @Autowired
     public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
@@ -62,7 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .antMatchers("/**").permitAll()       // FOR TEST
+                //.antMatchers("/**").permitAll()       // FOR TEST
 
                 // 允许对于网站静态资源的无授权访问
                 .antMatchers(
@@ -97,6 +98,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
-        //httpSecurity.exceptionHandling().authenticationEntryPoint(customHTTP403Filter());
+        httpSecurity.exceptionHandling().authenticationEntryPoint(customHTTP403Filter());
     }
 }

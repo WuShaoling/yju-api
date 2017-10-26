@@ -71,8 +71,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
             response.setStatus(HttpStatus.OK.value());
             response.setCharacterEncoding("utf-8");
-            response.getWriter().write("{\"errorCode\": 45,\n" +
-                    "\"message\": \"Token已过期\"}");
+            response.getWriter().write(String.format("{\"errorCode\": %d,\n" +
+                    "\"message\": \"%s\"}", ErrorCode.TokenExpired.getCode(), ErrorCode.TokenExpired.getErrorStringFormat()));
         }
     }
 }
