@@ -92,6 +92,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
-        httpSecurity.exceptionHandling().authenticationEntryPoint(customHTTP403Filter());
+        //httpSecurity.exceptionHandling().authenticationEntryPoint(customHTTP403Filter());
     }
 }
