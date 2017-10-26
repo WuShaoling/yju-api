@@ -145,6 +145,9 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
 
     protected void updateStudentHomeWork(StudentHomework studentHomework, ReqHomeworkSubmission homeworkSubmission){
 
+        if(studentHomework.getSubmissionDate() == null){
+            studentHomework.setSubmissionDate(new Date());
+        }
         studentHomework.setLastEditDate(new Date());
         studentHomeworkMapper.updateByPrimaryKey(studentHomework);
 
