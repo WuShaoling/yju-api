@@ -15,7 +15,7 @@ public interface ResourceMapper {
         "insert into resource (id, name, ",
         "url, width, height)",
         "values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, ",
-        "#{url,jdbcType=VARCHAR}, #{width,jdbcType=VARCHAR}, #{height,jdbcType=VARCHAR})"
+        "#{url,jdbcType=VARCHAR}, #{width,jdbcType=INTEGER}, #{height,jdbcType=INTEGER})"
     })
     @Options(useGeneratedKeys = true, keyColumn = "id")
     int insert(Resource record);
@@ -33,8 +33,8 @@ public interface ResourceMapper {
         @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
         @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
         @Arg(column="url", javaType=String.class, jdbcType=JdbcType.VARCHAR),
-        @Arg(column="width", javaType=String.class, jdbcType=JdbcType.VARCHAR),
-        @Arg(column="height", javaType=String.class, jdbcType=JdbcType.VARCHAR)
+        @Arg(column="width", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+        @Arg(column="height", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
     })
     Resource selectByPrimaryKey(Integer id);
 
@@ -45,8 +45,8 @@ public interface ResourceMapper {
         "update resource",
         "set name = #{name,jdbcType=VARCHAR},",
           "url = #{url,jdbcType=VARCHAR},",
-          "width = #{width,jdbcType=VARCHAR},",
-          "height = #{height,jdbcType=VARCHAR}",
+          "width = #{width,jdbcType=INTEGER},",
+          "height = #{height,jdbcType=INTEGER}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Resource record);

@@ -131,7 +131,10 @@ public enum ErrorCode {
     FileIsNotExist(42),
 
     @ErrorMessage("该用户不存在")
-    UserNotExist(32),
+    UserNotExist(43),
+
+    @ErrorMessage("该课时资源不存在")
+    ModuleResourceNotFound(44),
 
     @ErrorMessage("服务器出错，请联系管理员")
     GeneralError(Integer.MAX_VALUE);

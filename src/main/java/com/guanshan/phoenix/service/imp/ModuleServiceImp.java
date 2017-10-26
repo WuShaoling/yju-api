@@ -5,10 +5,13 @@ import com.guanshan.phoenix.dao.entity.Module;
 import com.guanshan.phoenix.dao.entity.ModuleResource;
 import com.guanshan.phoenix.dao.entity.Resource;
 import com.guanshan.phoenix.dao.mapper.*;
+import com.guanshan.phoenix.enums.ResourceTypeEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.ModuleService;
+import com.guanshan.phoenix.webdomain.request.ReqAddModuleResource;
 import com.guanshan.phoenix.webdomain.request.ReqDeleteModule;
+import com.guanshan.phoenix.webdomain.request.ReqDeleteModuleResource;
 import com.guanshan.phoenix.webdomain.response.ResModuleId;
 import com.guanshan.phoenix.webdomain.response.ResModuleImages;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,15 +75,57 @@ public class ModuleServiceImp implements ModuleService {
     @Override
     public ResModuleImages getModuleImageUrls(int moduleId) {
         ResModuleImages resModuleImages = new ResModuleImages();
-        List<String> urlList = new ArrayList<>();
+        List<ResModuleImages.ResModuleImage> urlList = new ArrayList<>();
 
         List<ModuleResource> moduleResourceList = moduleResourceMapper.selectByModuleId(moduleId);
         for (ModuleResource moduleResource : moduleResourceList) {
             Resource resource = resourceMapper.selectByPrimaryKey(moduleResource.getResourceId());
-            urlList.add(resource.getUrl());
+            ResModuleImages.ResModuleImage moduleImage = new ResModuleImages.ResModuleImage(
+                    resource.getId(),
+                    resource.getUrl(),
+                    resource.getWidth(),
+                    resource.getHeight()
+            );
+            urlList.add(moduleImage);
         }
         resModuleImages.setImageList(urlList);
 
         return resModuleImages;
+    }
+
+    @Override
+    public void addModuleResource(ReqAddModuleResource reqAddModuleResource) throws ApplicationErrorException {
+        if(moduleMapper.selectByPrimaryKey(reqAddModuleResource.getModuleId()) == null){
+            throw new ApplicationErrorException(ErrorCode.ModuleNotExists);
+        }
+
+        Resource resource = new Resource(
+                "",
+                reqAddModuleResource.getImageUrl(),
+                reqAddModuleResource.getWidth(),
+                reqAddModuleResource.getHeight()
+        );
+
+        resourceMapper.insert(resource);
+        ModuleResource moduleResource = new ModuleResource(
+                reqAddModuleResource.getModuleId(),
+                resource.getId(),
+                ResourceTypeEnum.IMAGE.getCode()
+        );
+        moduleResourceMapper.insert(moduleResource);
+    }
+
+    @Override
+    public void deleteModuleResource(ReqDeleteModuleResource reqDeleteModuleResource) throws ApplicationErrorException {
+        ModuleResource moduleResource = moduleResourceMapper.selectByModuleIdAndResourceId(
+                reqDeleteModuleResource.getModuleId(),
+                reqDeleteModuleResource.getResourceId()
+        );
+        if(moduleResource == null){
+            throw new ApplicationErrorException(ErrorCode.ModuleResourceNotFound);
+        }
+
+        moduleResourceMapper.deleteByPrimaryKey(moduleResource.getId());
+        resourceMapper.deleteByPrimaryKey(moduleResource.getResourceId());
     }
 }

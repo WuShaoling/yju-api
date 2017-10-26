@@ -162,7 +162,7 @@ public class CourseServiceImp implements CourseService {
 
         courseMapper.insert(course);
         Resource resource = new Resource(
-                reqAddCourse.getImageName(), reqAddCourse.getImageUrl(), "", "");
+                reqAddCourse.getImageName(), reqAddCourse.getImageUrl(), 0, 0);
         resourceMapper.insert(resource);
         CourseResource courseResource = new CourseResource(
             course.getId(), resource.getId(), ResourceTypeEnum.IMAGE.getCode()

@@ -22,11 +22,11 @@ public class ResourceSqlProvider {
         }
         
         if (record.getWidth() != null) {
-            sql.VALUES("width", "#{width,jdbcType=VARCHAR}");
+            sql.VALUES("width", "#{width,jdbcType=INTEGER}");
         }
         
         if (record.getHeight() != null) {
-            sql.VALUES("height", "#{height,jdbcType=VARCHAR}");
+            sql.VALUES("height", "#{height,jdbcType=INTEGER}");
         }
         
         return sql.toString();
@@ -45,11 +45,11 @@ public class ResourceSqlProvider {
         }
         
         if (record.getWidth() != null) {
-            sql.SET("width = #{width,jdbcType=VARCHAR}");
+            sql.SET("width = #{width,jdbcType=INTEGER}");
         }
         
         if (record.getHeight() != null) {
-            sql.SET("height = #{height,jdbcType=VARCHAR}");
+            sql.SET("height = #{height,jdbcType=INTEGER}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

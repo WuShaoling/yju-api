@@ -133,7 +133,7 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
         studentHomeworkMapper.insert(studentHomework);
 
         Resource resource = new Resource(
-                "", homeworkSubmission.getHomework_url(), "", "");
+                "", homeworkSubmission.getHomework_url(), 0, 0);
         resourceMapper.insert(resource);
 
         StudentHomeworkResource studentHomeworkResource = new StudentHomeworkResource(
@@ -158,7 +158,7 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
             resourceMapper.updateByPrimaryKey(resource);
         } else {
             Resource resource = new Resource(
-                    "", homeworkSubmission.getHomework_url(), "", "");
+                    "", homeworkSubmission.getHomework_url(), 0, 0);
             resourceMapper.insert(resource);
 
             studentHomeworkResource = new StudentHomeworkResource(

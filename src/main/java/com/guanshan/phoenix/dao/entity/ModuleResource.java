@@ -16,6 +16,10 @@ public class ModuleResource {
         this.type = type;
     }
 
+    public ModuleResource(Integer moduleId, Integer resourceId, Integer type) {
+        this(0, moduleId, resourceId, type);
+    }
+
     public ModuleResource() {
         super();
     }

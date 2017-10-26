@@ -1,14 +1,7 @@
 package com.guanshan.phoenix.dao.mapper;
 
 import com.guanshan.phoenix.dao.entity.ModuleResource;
-import org.apache.ibatis.annotations.Arg;
-import org.apache.ibatis.annotations.ConstructorArgs;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 import java.util.List;
@@ -59,14 +52,29 @@ public interface ModuleResourceMapper {
 
     @Select({
             "select",
-            "id, module_id, resource_id",
+            "id, module_id, resource_id, type",
             "from module_resource",
             "where module_id = #{moduleId,jdbcType=INTEGER}"
     })
     @ConstructorArgs({
             @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
             @Arg(column="module_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
-            @Arg(column="resource_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
+            @Arg(column="resource_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="type", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
     })
     List<ModuleResource> selectByModuleId(Integer moduleId);
+
+    @Select({
+            "select",
+            "id, module_id, resource_id, type",
+            "from module_resource",
+            "where module_id = #{moduleId,jdbcType=INTEGER} and resource_id = #{resourceId,jdbcType=INTEGER}"
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="module_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="resource_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="type", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
+    })
+    ModuleResource selectByModuleIdAndResourceId(@Param("moduleId") int moduleId, @Param("resourceId") int resourceId);
 }

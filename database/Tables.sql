@@ -117,8 +117,8 @@ CREATE TABLE `resource` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
   `url` varchar(256) DEFAULT NULL,
-  `width` varchar(45) DEFAULT NULL,
-  `height` varchar(45) DEFAULT NULL,
+  `width` int(11) DEFAULT NULL,
+  `height` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -22,14 +22,14 @@ truncate table student_homework;
 truncate table student_homework_resource;
 SET FOREIGN_KEY_CHECKS=1;
 
-INSERT INTO user (id, role, username) VALUES (1, '1', '10001');  -- 1
-INSERT INTO user (id, role, username) VALUES (2, '1', '10002');    -- 2
-INSERT INTO user (id, role, username) VALUES (3, '1', '10003');    -- 3
-INSERT INTO user (id, role, username) VALUES (4, '1', '10004');  -- 4
-INSERT INTO user (id, role, username) VALUES (5, '2', '20001');    -- 5
-INSERT INTO user (id, role, username) VALUES (6, '2', '20002');    -- 6
-INSERT INTO user (id, role, username) VALUES (7, '2', '20003');  -- 7
-INSERT INTO user (id, role, username) VALUES (8, '3', '40001');    -- 8
+INSERT INTO user (id, role, username, password) VALUES (1, '1', '10001', '$2a$10$5sUW/.g7FmRh492930n4YOi/i9uFfH96Tus.4TaxfbiP43SrQq4su');  -- 1
+INSERT INTO user (id, role, username, password) VALUES (2, '1', '10002', '$2a$10$5sUW/.g7FmRh492930n4YOi/i9uFfH96Tus.4TaxfbiP43SrQq4su');    -- 2
+INSERT INTO user (id, role, username, password) VALUES (3, '1', '10003', '$2a$10$5sUW/.g7FmRh492930n4YOi/i9uFfH96Tus.4TaxfbiP43SrQq4su');    -- 3
+INSERT INTO user (id, role, username, password) VALUES (4, '1', '10004', '$2a$10$5sUW/.g7FmRh492930n4YOi/i9uFfH96Tus.4TaxfbiP43SrQq4su');  -- 4
+INSERT INTO user (id, role, username, password) VALUES (5, '2', '20001', '$2a$10$5sUW/.g7FmRh492930n4YOi/i9uFfH96Tus.4TaxfbiP43SrQq4su');    -- 5
+INSERT INTO user (id, role, username, password) VALUES (6, '2', '20002', '$2a$10$5sUW/.g7FmRh492930n4YOi/i9uFfH96Tus.4TaxfbiP43SrQq4su');    -- 6
+INSERT INTO user (id, role, username, password) VALUES (7, '2', '20003', '$2a$10$5sUW/.g7FmRh492930n4YOi/i9uFfH96Tus.4TaxfbiP43SrQq4su');  -- 7
+INSERT INTO user (id, role, username, password) VALUES (8, '3', '40001', '$2a$10$5sUW/.g7FmRh492930n4YOi/i9uFfH96Tus.4TaxfbiP43SrQq4su');    -- 8
 
 INSERT INTO student (id, user_id, sno, name, gender, birthday) VALUES (1, 1, '10001', '张君义', '1', '2017-07-01');
 INSERT INTO student (id, user_id, sno, name, gender, birthday) VALUES (2, 2, '10002', '何雨', '1', '2017-07-01');
@@ -50,13 +50,13 @@ insert into course (id, teacher_id, name, description) values (5, 6, "机器学�
 insert into course (id, teacher_id, name, description) values (6, 7, "软件工程_杜", "杜老师软件");   -- 6
 insert into course (id, teacher_id, name, description) values (7, 7, "测试_杜", "杜老师测试");       -- 7
 
-insert into resource(id, name, url, width, height) values (1, "邱大数据", "1.jpg", "", "");  -- 1
-insert into resource(id, name, url, width, height) values (2, "邱AI", "2.jpg", "", "");     -- 2
-insert into resource(id, name, url, width, height) values (3, "王大数据", "3.jpg", "", "");  -- 3
-insert into resource(id, name, url, width, height) values (4, "王AI", "4.jpg", "", "");     -- 4
-insert into resource(id, name, url, width, height) values (5, "王机器学习", "5.jpg", "", "");-- 5
-insert into resource(id, name, url, width, height) values (6, "杜软件工程", "6.jpg", "", "");-- 6
-insert into resource(id, name, url, width, height) values (7, "杜测试", "7.jpg", "", "");   -- 7
+insert into resource(id, name, url) values (1, "邱大数据", "1.jpg");  -- 1
+insert into resource(id, name, url) values (2, "邱AI", "2.jpg");     -- 2
+insert into resource(id, name, url) values (3, "王大数据", "3.jpg");  -- 3
+insert into resource(id, name, url) values (4, "王AI", "4.jpg");     -- 4
+insert into resource(id, name, url) values (5, "王机器学习", "5.jpg");-- 5
+insert into resource(id, name, url) values (6, "杜软件工程", "6.jpg");-- 6
+insert into resource(id, name, url) values (7, "杜测试", "7.jpg");   -- 7
 
 insert into course_resource(id, course_id, resource_id, type) values (1, 1, 1, 1);  -- 1
 insert into course_resource(id, course_id, resource_id, type) values (2, 2, 2, 1);  -- 2
@@ -136,13 +136,13 @@ insert into homework (id, module_id, class_id, name, description, cloudware_type
 insert into homework (id, module_id, class_id, name, description, cloudware_type, publish_date, deadline_date) values
                       (8, 14, 9, "课时杜测试-1-班-9", "abc", 1, "2014-04-03", "2014-04-07");-- 8
 
-insert into resource(id, name, url, width, height) values (8, "邱大数据-1-班-2", "1.jpg", "", "");  -- 8
-insert into resource(id, name, url, width, height) values (9, "邱大数据-2-班-1", "2.jpg", "", "");  -- 9
-insert into resource(id, name, url, width, height) values (10, "邱大数据-1-班-3", "3.jpg", "", "");  -- 10
-insert into resource(id, name, url, width, height) values (11, "邱AI-1-班-3", "4.jpg", "", "");     -- 11
-insert into resource(id, name, url, width, height) values (12, "邱AI-3-班-3", "5.jpg", "", "");     -- 12
-insert into resource(id, name, url, width, height) values (13, "王AI-2-班-5", "6.jpg", "", "");     -- 13
-insert into resource(id, name, url, width, height) values (14, "杜软件工程-1-班-8", "7.jpg", "", "");-- 14
+insert into resource(id, name, url) values (8, "邱大数据-1-班-2", "1.jpg");  -- 8
+insert into resource(id, name, url) values (9, "邱大数据-2-班-1", "2.jpg");  -- 9
+insert into resource(id, name, url) values (10, "邱大数据-1-班-3", "3.jpg");  -- 10
+insert into resource(id, name, url) values (11, "邱AI-1-班-3", "4.jpg");     -- 11
+insert into resource(id, name, url) values (12, "邱AI-3-班-3", "5.jpg");     -- 12
+insert into resource(id, name, url) values (13, "王AI-2-班-5", "6.jpg");     -- 13
+insert into resource(id, name, url) values (14, "杜软件工程-1-班-8", "7.jpg");-- 14
 
 insert into homework_resource (id, homework_id, resource_id, type) values (1, 1, 8,  1);   -- 1
 insert into homework_resource (id, homework_id, resource_id, type) values (2, 2, 9,  1);   -- 2
@@ -211,13 +211,13 @@ insert into student_homework (id, student_id, homework_id, cloudware_id, comment
 insert into student_homework (id, student_id, homework_id, cloudware_id, comment, score, submission_date, lastEdit_date) values
   										(7, 4, 6, 17, "good", 100, "2014-07-01", "2014-07-01"); -- 7
 
-insert into resource(id, name, url, width, height) values (15, "作业1", "1.pdf", "", "");  -- 15
-insert into resource(id, name, url, width, height) values (16, "作业2", "2.pdf", "", "");  -- 16
-insert into resource(id, name, url, width, height) values (17, "作业3", "3.pdf", "", "");  -- 17
-insert into resource(id, name, url, width, height) values (18, "作业4", "4.pdf", "", "");  -- 18
-insert into resource(id, name, url, width, height) values (19, "作业5", "5.pdf", "", "");  -- 19
-insert into resource(id, name, url, width, height) values (20, "作业6", "6.pdf", "", "");  -- 20
-insert into resource(id, name, url, width, height) values (21, "作业7", "7.pdf", "", "");  -- 21
+insert into resource(id, name, url) values (15, "作业1", "1.pdf");  -- 15
+insert into resource(id, name, url) values (16, "作业2", "2.pdf");  -- 16
+insert into resource(id, name, url) values (17, "作业3", "3.pdf");  -- 17
+insert into resource(id, name, url) values (18, "作业4", "4.pdf");  -- 18
+insert into resource(id, name, url) values (19, "作业5", "5.pdf");  -- 19
+insert into resource(id, name, url) values (20, "作业6", "6.pdf");  -- 20
+insert into resource(id, name, url) values (21, "作业7", "7.pdf");  -- 21
 
 insert into student_homework_resource (id, student_homework_id, resource_id, type) values (1, 1, 15, 2);
 insert into student_homework_resource (id, student_homework_id, resource_id, type) values (2, 2, 16, 2);

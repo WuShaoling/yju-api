@@ -7,11 +7,11 @@ public class Resource {
 
     private String url;
 
-    private String width;
+    private Integer width;
 
-    private String height;
+    private Integer height;
 
-    public Resource(Integer id, String name, String url, String width, String height) {
+    public Resource(Integer id, String name, String url, Integer width, Integer height) {
         this.id = id;
         this.name = name;
         this.url = url;
@@ -19,7 +19,7 @@ public class Resource {
         this.height = height;
     }
 
-    public Resource(String name, String url, String width, String height) {
+    public Resource(String name, String url, int width, int height) {
         this(0, name, url, width, height);
     }
 
@@ -51,19 +51,19 @@ public class Resource {
         this.url = url == null ? null : url.trim();
     }
 
-    public String getWidth() {
+    public Integer getWidth() {
         return width;
     }
 
-    public void setWidth(String width) {
-        this.width = width == null ? null : width.trim();
+    public void setWidth(Integer width) {
+        this.width = width;
     }
 
-    public String getHeight() {
+    public Integer getHeight() {
         return height;
     }
 
-    public void setHeight(String height) {
-        this.height = height == null ? null : height.trim();
+    public void setHeight(Integer height) {
+        this.height = height;
     }
 }

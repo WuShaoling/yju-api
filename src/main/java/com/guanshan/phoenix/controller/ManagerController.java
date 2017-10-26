@@ -277,6 +277,22 @@ public class ManagerController {
         return new ResponseMessage.Success<>(moduleService.getModuleImageUrls(moduleId));
     }
 
+    @ApiOperation(value = "增加课时图片资源", notes = "")
+    @PostMapping(value = "/module/lib/add")
+    @Transactional(rollbackFor = Throwable.class)
+    public ResponseMessage addModuleResource(@RequestBody ReqAddModuleResource reqAddModuleResource) throws ApplicationErrorException {
+        moduleService.addModuleResource(reqAddModuleResource);
+        return new ResponseMessage.Success();
+    }
+
+    @ApiOperation(value = "删除课时图片资源", notes = "")
+    @PostMapping(value = "/module/lib/delete")
+    @Transactional(rollbackFor = Throwable.class)
+    public ResponseMessage deleteModuleResource(@RequestBody ReqDeleteModuleResource reqDeleteModuleResource) throws ApplicationErrorException {
+        moduleService.deleteModuleResource(reqDeleteModuleResource);
+        return new ResponseMessage.Success();
+    }
+
 //    @ApiOperation(value = "上传markdown文档", notes = "")
 //    @PostMapping(value = "/course/experiment/markdown")
 //    public ResponseMessage<String> uploadMarkdown(@RequestParam("file") MultipartFile file) throws ApplicationErrorException {
