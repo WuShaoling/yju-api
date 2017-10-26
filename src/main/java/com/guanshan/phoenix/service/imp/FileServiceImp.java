@@ -192,9 +192,15 @@ public class FileServiceImp implements FileService {
             throw new ApplicationErrorException(ErrorCode.FileIsNotExist);
         }
 
-        response.setHeader("content-type", "application/octet-stream");
-        response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+        try {
+            // fix chinese filename problem
+            String filename = new String(fileName.getBytes("gbk"), "iso-8859-1");
+            response.setHeader("content-type", "application/octet-stream");
+            response.setContentType("application/octet-stream");
+            response.setHeader("Content-Disposition", "attachment;filename=\"" + filename + "\"");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
         byte[] buff = new byte[1024];
         BufferedInputStream bis = null;
