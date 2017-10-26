@@ -140,7 +140,7 @@ public class StudentServiceImp implements StudentService {
             throw new ApplicationErrorException(ErrorCode.StudentAlreadyExists, student.getSno());
         }
 
-        User user = managerService.createUser(student.getSno(), RoleEnum.TEACHER);
+        User user = managerService.createUser(student.getSno(), RoleEnum.STUDENT);
         student.setUserId(user.getId());
         studentMapper.insert(student);
 
