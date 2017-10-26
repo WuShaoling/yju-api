@@ -182,7 +182,16 @@ public class FileServiceImp implements FileService {
         }
     }
 
-    private void getFile(String fileName, HttpServletResponse response, String dir) {
+    private void getFile(String fileName, HttpServletResponse response, String dir) throws ApplicationErrorException {
+
+        final String filePath = dir + "/" + fileName;
+
+        File file = new File(filePath);
+
+        if (!file.exists()) {
+            throw new ApplicationErrorException(ErrorCode.FileIsNotExist);
+        }
+
         response.setHeader("content-type", "application/octet-stream");
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
@@ -192,9 +201,7 @@ public class FileServiceImp implements FileService {
         OutputStream os = null;
         try {
             os = response.getOutputStream();
-            bis = new BufferedInputStream(new FileInputStream(new File(dir + "/"
-                    + fileName
-            )));
+            bis = new BufferedInputStream(new FileInputStream(file));
             int i = bis.read(buff);
             while (i != -1) {
                 os.write(buff, 0, buff.length);
