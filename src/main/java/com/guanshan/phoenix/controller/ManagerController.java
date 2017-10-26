@@ -286,7 +286,7 @@ public class ManagerController {
     }
 
     @ApiOperation(value = "删除课时图片资源", notes = "")
-    @PostMapping(value = "/module/lib/delete")
+    @PostMapping(value = "/module/lib/deletion")
     @Transactional(rollbackFor = Throwable.class)
     public ResponseMessage deleteModuleResource(@RequestBody ReqDeleteModuleResource reqDeleteModuleResource) throws ApplicationErrorException {
         moduleService.deleteModuleResource(reqDeleteModuleResource);
