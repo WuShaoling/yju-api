@@ -13,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -75,6 +76,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         } catch (SignatureException e){
             Utility.writeError(request, response, HttpStatus.OK, ErrorCode.NeedAuthentication);
         } catch (MalformedJwtException e){
+            Utility.writeError(request, response, HttpStatus.OK, ErrorCode.NeedAuthentication);
+        } catch (UsernameNotFoundException e){
             Utility.writeError(request, response, HttpStatus.OK, ErrorCode.NeedAuthentication);
         }
     }

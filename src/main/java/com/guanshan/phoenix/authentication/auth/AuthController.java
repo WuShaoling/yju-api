@@ -6,6 +6,7 @@ import com.guanshan.phoenix.dao.entity.User;
 import com.guanshan.phoenix.error.ResponseMessage;
 import com.guanshan.phoenix.service.UserService;
 import io.swagger.annotations.ApiOperation;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,8 @@ import javax.security.sasl.AuthenticationException;
 @RequestMapping("auth")
 public class AuthController {
 
+    static Logger log = Logger.getLogger(AuthController.class.getName());
+
     @Value("${token.tokenHeader}")
     private String tokenHeader;
 
@@ -34,8 +37,12 @@ public class AuthController {
     @ApiOperation(value = "登录", notes = "登录接口")
     @PostMapping(value = "login")
     public ResponseMessage<ResponseEntity<?>> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {
+        log.info(String.format("User '%s' tries to login.", authenticationRequest.getUsername()));
+
         final String token = authService.login(authenticationRequest.getUsername(), authenticationRequest.getPassword());
         User user = userService.getUserInfo(authenticationRequest.getUsername());
+
+        log.info(String.format("User '%s' logs on successfully.", authenticationRequest.getUsername()));
         return new ResponseMessage.Success<>(ResponseEntity.ok(new JwtAuthenticationResponse(user.getId(), authenticationRequest.getUsername(), token)));
     }
 

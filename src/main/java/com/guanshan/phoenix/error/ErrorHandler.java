@@ -1,5 +1,6 @@
 package com.guanshan.phoenix.error;
 
+import org.apache.log4j.Logger;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
@@ -13,10 +14,14 @@ import javax.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 public class ErrorHandler extends ResponseEntityExceptionHandler {
+    static Logger log = Logger.getLogger(ErrorHandler.class.getName());
+
     @ExceptionHandler(ApplicationErrorException.class)
     @ResponseBody
     ResponseMessage handleApplicationErrorException(HttpServletRequest request, Throwable ex) {
-        //todo: log original exception
+        ApplicationErrorException appError = (ApplicationErrorException) ex;
+        log.warn(String.format("Encountered ApplicationErrorException. Error code %d; Error message: %s.",
+                appError.getErrorCode(), appError.getMessage()));
         return new ResponseMessage.Fail((ApplicationErrorException)ex);
     }
 
@@ -24,6 +29,8 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     @ResponseBody
     ResponseMessage handleDulicateKeyException(HttpServletRequest request, Throwable ex) {
         //todo: log original exception
+        log.error(String.format("Encountered DulicateKey Exception. Message: %s", ex.getMessage()));
+        log.error("Stack Trace: " + ex.getStackTrace());
         DuplicateKeyException duplicateException = (DuplicateKeyException)ex;
         String errorMessage = duplicateException.getMessage();
 
@@ -37,7 +44,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(AuthenticationException.class)
     @ResponseBody
     ResponseMessage handleAuthenticationException(HttpServletRequest request, Throwable ex){
-
+        log.warn(String.format("Failed to authenticate user. Message: %s", ex.getMessage()));
         if(ex instanceof BadCredentialsException){
             return new ResponseMessage.Fail(new ApplicationErrorException(ErrorCode.BadCredential));
         }
@@ -49,6 +56,8 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     @ResponseBody
     ResponseMessage handleThrowableException(HttpServletRequest request, Throwable ex) {
         //todo: log original exception
+        log.error(String.format("Encountered server error. Message: %s", ex.getMessage()));
+        log.error("Stack Trace: " + ex.getStackTrace());
         return new ResponseMessage.Fail(new ApplicationErrorException(ErrorCode.GeneralError));
     }
 }
