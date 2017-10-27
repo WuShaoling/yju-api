@@ -2,13 +2,26 @@ package com.guanshan.phoenix.application.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
 public class RestTemplateConfig {
 
     @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
+    public SimpleClientHttpRequestFactory httpClientFactory() {
+        SimpleClientHttpRequestFactory httpRequestFactory = new SimpleClientHttpRequestFactory();
+        httpRequestFactory.setReadTimeout(50000);
+        httpRequestFactory.setConnectTimeout(50000);
+
+        return httpRequestFactory;
+    }
+
+    @Bean
+    public RestTemplate restTemplate(SimpleClientHttpRequestFactory httpClientFactory) {
+        RestTemplate restTemplate = new RestTemplate(httpClientFactory);
+        return restTemplate;
     }
 }

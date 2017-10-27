@@ -33,8 +33,8 @@ public class StudentServiceImp implements StudentService {
     @Value("${default.password}")
     private String defaultPassword;
 
-    @Value("${cloudware.url}")
-    private String cloudwareUrl;
+    @Value("${cloudware.createVolumeUrl}")
+    private String createVolumeUrl;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -146,8 +146,15 @@ public class StudentServiceImp implements StudentService {
 
         ReqCreateVolume reqCreateVolume = new ReqCreateVolume();
         reqCreateVolume.setUserId(user.getId());
-        restTemplate.postForObject(cloudwareUrl+"/volumes", reqCreateVolume, ResCreateVolume.class);
+        reqCreateVolume.setSecret("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIiLCJpYXQiOjE1MDU4MTM0NTd9.Ftw1yHeUrqdNvymFZcIpuEoS0RHBFZqu4MfUZON9Zm0");
 
+
+
+        ResCreateVolume resCreateVolume = restTemplate.postForObject(createVolumeUrl, reqCreateVolume, ResCreateVolume.class);
+//        ResCreateVolume resCreateVolume = restTemplate.postForObject("http://192.168.1.117:8080/volumes", reqCreateVolume, ResCreateVolume.class);
+
+        System.out.println(resCreateVolume.getErrorCode());
+        System.out.println("kalsdjflaksjdfljs");
     }
 
     @Override
