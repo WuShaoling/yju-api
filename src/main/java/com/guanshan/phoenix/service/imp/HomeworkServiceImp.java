@@ -11,15 +11,11 @@ import com.guanshan.phoenix.service.StudentHomeworkService;
 import com.guanshan.phoenix.webdomain.request.ReqCreateHomework;
 import com.guanshan.phoenix.webdomain.request.ReqDeleteHomework;
 import com.guanshan.phoenix.webdomain.request.ReqUpdateHomework;
-import com.guanshan.phoenix.webdomain.response.ResClassHomework;
-import com.guanshan.phoenix.webdomain.response.ResHomeworkDetail;
-import com.guanshan.phoenix.webdomain.response.ResHomeworkSubmissionList;
-import com.guanshan.phoenix.webdomain.response.ResStudentHomeworkDetail;
+import com.guanshan.phoenix.webdomain.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class HomeworkServiceImp implements HomeworkService {
@@ -53,6 +49,9 @@ public class HomeworkServiceImp implements HomeworkService {
 
     @Autowired
     private TeacherMapper teacherMapper;
+
+    @Autowired
+    private CloudwareMapper cloudwareMapper;
 
     @Override
     public ResHomeworkDetail getHomeworkDetail(int homeworkID) throws ApplicationErrorException {
@@ -259,6 +258,105 @@ public class HomeworkServiceImp implements HomeworkService {
         resClassHomework.setModules(modules);
 
         return resClassHomework;
+    }
+
+    @Override
+    public ResStudentHomeworkList getStudentHomeworkListById(int studentId) throws ApplicationErrorException {
+        ResStudentHomeworkList resStudentHomeworkList = new ResStudentHomeworkList();
+        List<ResStudentHomeworkList.ResStudentHomework> resStudentHomeworks = new ArrayList<>();
+
+        List<StudentHomework> studentHomeworkList = studentHomeworkMapper.selectByStudentId(studentId);
+        for (StudentHomework studentHomework : studentHomeworkList) {
+            try {
+                ResStudentHomeworkList.ResStudentHomework resStudentHomework = new ResStudentHomeworkList().new ResStudentHomework();
+                resStudentHomework.setComment(studentHomework.getComment());
+                resStudentHomework.setLastEditDate(studentHomework.getLastEditDate());
+                resStudentHomework.setScore(studentHomework.getScore());
+                resStudentHomework.setSubmissionDate(studentHomework.getSubmissionDate());
+
+                try {
+                    ResStudentHomeworkList.ResCloudware resCloudware = new ResStudentHomeworkList().new ResCloudware();
+                    Cloudware cloudware = cloudwareMapper.selectByPrimaryKey(studentHomework.getCloudwareId());
+                    resCloudware.setInstanceId(cloudware.getInstanceId());
+                    resCloudware.setPulsarId(cloudware.getPulsarId());
+                    resCloudware.setServiceId(cloudware.getServiceId());
+                    resCloudware.setServiceName(cloudware.getServiceName());
+                    resCloudware.setWebSocket(cloudware.getWebSocket());
+                    resStudentHomework.setResCloudware(resCloudware);
+                } catch (Exception e) {
+                    throw new ApplicationErrorException(ErrorCode.CloudwareIsNotExist);
+                }
+
+                try {
+                    ResStudentHomeworkList.ResHomework resHomework = new ResStudentHomeworkList().new ResHomework();
+                    Homework homework = homeworkMapper.selectByPrimaryKey(studentHomework.getHomeworkId());
+                    resHomework.setDeadlineDate(homework.getDeadlineDate().toString());
+                    resHomework.setDescription(homework.getDescription());
+                    resHomework.setName(homework.getName());
+                    resHomework.setPublishDate(homework.getPublishDate().toString());
+                    resStudentHomework.setResHomework(resHomework);
+                } catch (Exception e) {
+                    throw new ApplicationErrorException(ErrorCode.HomeworkNotExists);
+                }
+
+                resStudentHomeworks.add(resStudentHomework);
+            } catch (Exception e) {
+                throw new ApplicationErrorException(ErrorCode.StudentHomeworkNotExists);
+            }
+
+        }
+        Collections.sort(resStudentHomeworks, new StudentHomeworkComparator());
+
+        resStudentHomeworkList.setHomeworklist(resStudentHomeworks);
+        return resStudentHomeworkList;
+    }
+
+    @Override
+    public ResTeacherHomeworkList getHomeworkListByTeacherId(int teacherId) throws ApplicationErrorException {
+        ResTeacherHomeworkList resTeacherHomeworkList = new ResTeacherHomeworkList();
+        List<ResTeacherHomeworkList.ResHomework> resHomeworkList = new ArrayList<>();
+
+        try {
+            Course course = courseMapper.selectByTeacherId(teacherId);
+            List<Module> moduleList = moduleMapper.selectByCourseID(course.getId());
+            for (Module module : moduleList) {
+                List<Homework> homeworkList = homeworkMapper.selectByModuleId(module.getId());
+                for (Homework homework : homeworkList) {
+                    ResTeacherHomeworkList.ResHomework resHomework = new ResTeacherHomeworkList().new ResHomework();
+                    resHomework.setCloudwareType(CloudwareTypeEnum.getZhFromCode(homework.getCloudwareType()));
+                    resHomework.setDeadlineDate(homework.getDeadlineDate());
+                    resHomework.setDescription(homework.getDescription());
+                    resHomework.setName(homework.getName());
+                    resHomework.setPublishDate(homework.getPublishDate());
+                    resHomeworkList.add(resHomework);
+                }
+            }
+        } catch (Exception e) {
+            throw new ApplicationErrorException(ErrorCode.TeacherNotExists);
+        }
+
+
+        Collections.sort(resHomeworkList, new HomeworkComparator());
+        resTeacherHomeworkList.setHomeworklist(resHomeworkList);
+        return null;
+    }
+
+    // 自定义比较器 todo sort?
+    private class StudentHomeworkComparator implements Comparator {
+        public int compare(Object object1, Object object2) {
+            ResTeacherHomeworkList.ResHomework p1 = (ResTeacherHomeworkList.ResHomework) object1;
+            ResTeacherHomeworkList.ResHomework p2 = (ResTeacherHomeworkList.ResHomework) object2;
+            return p1.getPublishDate().compareTo(p2.getPublishDate());
+        }
+    }
+
+    // 自定义比较器 todo sort?
+    private class HomeworkComparator implements Comparator {
+        public int compare(Object object1, Object object2) {
+            ResStudentHomeworkList.ResStudentHomework p1 = (ResStudentHomeworkList.ResStudentHomework) object1;
+            ResStudentHomeworkList.ResStudentHomework p2 = (ResStudentHomeworkList.ResStudentHomework) object2;
+            return p1.getSubmissionDate().compareTo(p2.getSubmissionDate());
+        }
     }
 
     private ResHomeworkSubmissionList.ResHomeworkList getHomeworkSubmissionDetail(

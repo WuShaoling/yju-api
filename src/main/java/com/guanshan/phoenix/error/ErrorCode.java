@@ -142,6 +142,9 @@ public enum ErrorCode {
     @ErrorMessage("请登录")
     NeedAuthentication(46),
 
+    @ErrorMessage("云件不存在")
+    CloudwareNotExist(47),
+
     @ErrorMessage("服务器出错，请联系管理员")
     GeneralError(Integer.MAX_VALUE);
 

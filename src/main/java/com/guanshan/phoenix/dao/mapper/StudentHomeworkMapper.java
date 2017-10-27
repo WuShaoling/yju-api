@@ -2,6 +2,7 @@ package com.guanshan.phoenix.dao.mapper;
 
 import com.guanshan.phoenix.dao.entity.StudentHomework;
 import java.util.Date;
+import java.util.List;
 
 import com.guanshan.phoenix.enums.ResourceTypeEnum;
 import org.apache.ibatis.annotations.*;
@@ -99,4 +100,28 @@ public interface StudentHomeworkMapper {
             "where homework_id=#{homeworkId, jdbcType=INTEGER})"
     })
     boolean isHomeworkUsedByStudentHomework(int homeworkId);
+
+    @Select({
+            "select",
+            "sh.id, sh.student_id, sh.homework_id, sh.cloudware_id, sh.comment, sh.score, sh.submission_date, ",
+            "sh.lastEdit_date, cw.web_socket, r.url",
+            "from student_homework sh left join cloudware cw on cw.id=sh.cloudware_id",
+            "left join student_homework_resource shr on shr.student_homework_id = sh.id",
+            "and shr.type = 2",
+            "left join resource r on r.id = shr.resource_id",
+            "where sh.student_id = #{studentId,jdbcType=INTEGER}"
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="student_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="homework_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="cloudware_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="comment", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="score", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="submission_date", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
+            @Arg(column="lastEdit_date", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
+            @Arg(column="web_socket", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="url", javaType=String.class, jdbcType=JdbcType.VARCHAR)
+    })
+    List<StudentHomework> selectByStudentId(@Param("studentId") int studentId);
 }

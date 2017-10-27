@@ -107,4 +107,16 @@ public class StudentController {
     public ResponseMessage<ResStudentHomeworkDetail> getStudentHomeworkDetailById(@PathVariable int homeworkId, @PathVariable int studentId) throws ApplicationErrorException {
         return new ResponseMessage.Success<>(homeworkService.getStudentHomeworkDetailByHomeworkIdAndStudentId(homeworkId, studentId));
     }
+
+    @ApiOperation(value = "获取单个学生作业列表", notes = "")
+    @GetMapping(value = "course/homework/all/{studentId}")
+    public ResponseMessage<ResStudentHomeworkList> getStudentHomeworkListById(@PathVariable int studentId) throws ApplicationErrorException {
+        return new ResponseMessage.Success<>(homeworkService.getStudentHomeworkListById(studentId));
+    }
+
+    @ApiOperation(value = "获取老师所在班级的作业列表", notes = "")
+    @GetMapping(value = "course/homework/all/{teacherId}")
+    public ResponseMessage<ResTeacherHomeworkList> getHomeworkListByTeacherId(@PathVariable int teacherId) throws ApplicationErrorException {
+        return new ResponseMessage.Success<>(homeworkService.getHomeworkListByTeacherId(teacherId));
+    }
 }

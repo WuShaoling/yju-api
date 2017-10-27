@@ -95,4 +95,18 @@ public interface CourseMapper {
             @Arg(column="email", javaType=String.class, jdbcType=JdbcType.VARCHAR),
     })
     List<ResHotCourseList.ResHotCourseDetail> getHotCourses();
+
+    @Select({
+            "select",
+            "id, teacher_id, name, description",
+            "from course",
+            "where teacher_id = #{teacherId,jdbcType=INTEGER}"
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="teacher_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="description", javaType=String.class, jdbcType=JdbcType.VARCHAR)
+    })
+    Course selectByTeacherId(@Param("teacherId") Integer teacherId);
 }
