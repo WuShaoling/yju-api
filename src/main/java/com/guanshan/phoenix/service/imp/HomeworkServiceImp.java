@@ -284,7 +284,7 @@ public class HomeworkServiceImp implements HomeworkService {
                     resCloudware.setWebSocket(cloudware.getWebSocket());
                     resStudentHomework.setResCloudware(resCloudware);
                 } catch (Exception e) {
-                    throw new ApplicationErrorException(ErrorCode.CloudwareIsNotExist);
+                    throw new ApplicationErrorException(ErrorCode.CloudwareNotExist);
                 }
 
                 try {
