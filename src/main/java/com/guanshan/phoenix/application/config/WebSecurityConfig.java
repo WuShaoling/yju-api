@@ -79,7 +79,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/file/**",
                         "/styles/**",
                         "/image/**",
-                        "/markdown/**"
+                        "/markdown/**",
+                        "/swagger-resources/**",
+                        "/webjars/springfox-swagger-ui/**",
+                        "/v2/api-docs"
                 ).permitAll()
 
                 // 对于获取token的rest api要允许匿名访问

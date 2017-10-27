@@ -131,7 +131,7 @@ public class HomeworkServiceImp implements HomeworkService {
         Homework homework = homeworkMapper.selectByPrimaryKey(studentHomework.getHomeworkId());
         Module module = moduleMapper.selectByPrimaryKey(homework.getModuleId());
         Course course = courseMapper.selectByPrimaryKey(module.getCourseId());
-        Student student = studentMapper.selectByPrimaryKey(studentHomework.getStudentId());
+        Student student = studentMapper.selectByUserId(studentHomework.getStudentId());
 
         homeworkDetail.setCourseName(course.getName());
         homeworkDetail.setModuleName(module.getName());
