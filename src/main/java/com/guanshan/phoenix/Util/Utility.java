@@ -2,11 +2,14 @@ package com.guanshan.phoenix.Util;
 
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -53,5 +56,12 @@ public final class Utility {
         response.setCharacterEncoding("utf-8");
         response.getWriter().write(String.format("{\"errorCode\": %d,\n" +
                 "\"message\": \"%s\"}", errorCode.getCode(), errorCode.getErrorStringFormat()));
+    }
+
+    public static void logError(Logger logger, Throwable ex){
+        logger.error("Stack Trace: ");
+        LoggingOutputStream logStream = new LoggingOutputStream(logger, Level.ERROR);
+        ex.printStackTrace(new PrintStream(logStream));
+        logStream.close();
     }
 }
