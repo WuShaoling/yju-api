@@ -105,7 +105,7 @@ public class CourseServiceImp implements CourseService {
 
     @Override
     public ResCourseHomeworks getCourseHomeworks(int classID, int studentId) throws ApplicationErrorException {
-        if(studentMapper.selectByPrimaryKey(studentId) == null){
+        if(studentMapper.selectByUserId(studentId) == null){
             throw new ApplicationErrorException(ErrorCode.StudentNotExists);
         }
 
