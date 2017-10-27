@@ -78,7 +78,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/bower_components/**",
                         "/file/**",
                         "/styles/**",
-                        "/image/**"
+                        "/image/**",
+                        "/markdown/**"
                 ).permitAll()
 
                 // 对于获取token的rest api要允许匿名访问
