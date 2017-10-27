@@ -1,5 +1,6 @@
 package com.guanshan.phoenix.authentication.security;
 
+import com.guanshan.phoenix.Util.Utility;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -69,16 +70,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
             filterChain.doFilter(request, response);
         } catch (ExpiredJwtException e){
-
-            response.setStatus(HttpStatus.OK.value());
-            response.setCharacterEncoding("utf-8");
-            response.getWriter().write(String.format("{\"errorCode\": %d,\n" +
-                    "\"message\": \"%s\"}", ErrorCode.TokenExpired.getCode(), ErrorCode.TokenExpired.getErrorStringFormat()));
+            Utility.writeError(request, response, HttpStatus.OK, ErrorCode.TokenExpired);
         } catch (SignatureException e){
-            response.setStatus(HttpStatus.OK.value());
-            response.setCharacterEncoding("utf-8");
-            response.getWriter().write(String.format("{\"errorCode\": %d,\n" +
-                    "\"message\": \"%s\"}", ErrorCode.NeedAuthentication.getCode(), ErrorCode.NeedAuthentication.getErrorStringFormat()));
+            Utility.writeError(request, response, HttpStatus.OK, ErrorCode.NeedAuthentication);
         }
     }
 }
