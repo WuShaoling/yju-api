@@ -3,6 +3,7 @@ package com.guanshan.phoenix.authentication.security;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.SignatureException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -67,12 +68,17 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             }
 
             filterChain.doFilter(request, response);
-        }catch (ExpiredJwtException e){
+        } catch (ExpiredJwtException e){
 
             response.setStatus(HttpStatus.OK.value());
             response.setCharacterEncoding("utf-8");
             response.getWriter().write(String.format("{\"errorCode\": %d,\n" +
                     "\"message\": \"%s\"}", ErrorCode.TokenExpired.getCode(), ErrorCode.TokenExpired.getErrorStringFormat()));
+        } catch (SignatureException e){
+            response.setStatus(HttpStatus.OK.value());
+            response.setCharacterEncoding("utf-8");
+            response.getWriter().write(String.format("{\"errorCode\": %d,\n" +
+                    "\"message\": \"%s\"}", ErrorCode.NeedAuthentication.getCode(), ErrorCode.NeedAuthentication.getErrorStringFormat()));
         }
     }
 }
