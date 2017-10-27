@@ -2,7 +2,11 @@ package com.guanshan.phoenix.Util;
 
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
+import org.springframework.http.HttpStatus;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,5 +43,15 @@ public final class Utility {
     public static Date parseShortDate(String date) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat(shortDateFormat);
         return sdf.parse(date);
+    }
+
+    public static void writeError(HttpServletRequest request, HttpServletResponse response,
+                                  HttpStatus status, ErrorCode errorCode) throws IOException {
+        response.setStatus(status.value());
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+        response.setCharacterEncoding("utf-8");
+        response.getWriter().write(String.format("{\"errorCode\": %d,\n" +
+                "\"message\": \"%s\"}", errorCode.getCode(), errorCode.getErrorStringFormat()));
     }
 }
