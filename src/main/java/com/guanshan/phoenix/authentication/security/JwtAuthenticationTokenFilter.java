@@ -6,6 +6,7 @@ import com.guanshan.phoenix.error.ErrorCode;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,8 @@ import java.io.IOException;
 
 @Service
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
+
+    static Logger log = Logger.getLogger(JwtAuthenticationTokenFilter.class.getName());
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -72,12 +75,16 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
             filterChain.doFilter(request, response);
         } catch (ExpiredJwtException e){
+            logger.warn(String.format("User's token is expired. Message: %s", e.getMessage()));
             Utility.writeError(request, response, HttpStatus.OK, ErrorCode.TokenExpired);
         } catch (SignatureException e){
+            logger.warn(String.format("User's token is corrupted. Message: %s", e.getMessage()));
             Utility.writeError(request, response, HttpStatus.OK, ErrorCode.NeedAuthentication);
         } catch (MalformedJwtException e){
+            logger.warn(String.format("User's token is corrupted. Message: %s", e.getMessage()));
             Utility.writeError(request, response, HttpStatus.OK, ErrorCode.NeedAuthentication);
         } catch (UsernameNotFoundException e){
+            logger.warn(String.format("Username in the User's token is not found. Message: %s", e.getMessage()));
             Utility.writeError(request, response, HttpStatus.OK, ErrorCode.NeedAuthentication);
         }
     }
