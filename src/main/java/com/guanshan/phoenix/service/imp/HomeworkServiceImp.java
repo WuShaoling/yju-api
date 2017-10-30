@@ -293,10 +293,13 @@ public class HomeworkServiceImp implements HomeworkService {
             resHomework.setId(homework.getId());
             resHomework.setName(homework.getName());
             resHomework.setDescription(homework.getDescription());
-            resHomework.setCloudwareType(CloudwareTypeEnum.getZhFromCode(homework.getCloudwareType()));
+            CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt(homework.getCloudwareType());
+            resHomework.setCloudwareType(cloudwareType == null ? "" : cloudwareType.toString());
             resHomework.setPublishDate(Utility.formatDate(homework.getPublishDate()));
-            resHomework.setPublishMonth(homework.getPublishDate().getMonth());
-            resHomework.setPublishDay(homework.getPublishDate().getDay());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(homework.getPublishDate());
+            resHomework.setPublishMonth(calendar.get(Calendar.MONTH) + 1);
+            resHomework.setPublishDay(calendar.get(Calendar.DATE));
             resHomework.setDeadlineDate(Utility.formatDate(homework.getDeadlineDate()));
             resHomework.setClassId(homework.getClassId());
             resHomework.setClassName(clazzMapper.selectByPrimaryKey(homework.getClassId()).getName());
@@ -354,10 +357,13 @@ public class HomeworkServiceImp implements HomeworkService {
                 resHomework.setClassName(clazz.getName());
                 resHomework.setName(homework.getName());
                 resHomework.setDescription(homework.getDescription());
-                resHomework.setCloudwareType(CloudwareTypeEnum.getZhFromCode(homework.getCloudwareType()));
+                CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt(homework.getCloudwareType());
+                resHomework.setCloudwareType(cloudwareType == null ? "" : cloudwareType.toString());
                 resHomework.setPublishDate(Utility.formatDate(homework.getPublishDate()));
-                resHomework.setPublishMonth(homework.getPublishDate().getMonth());
-                resHomework.setPublishDay(homework.getPublishDate().getDay());
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(homework.getPublishDate());
+                resHomework.setPublishMonth(calendar.get(Calendar.MONTH) + 1);
+                resHomework.setPublishDay(calendar.get(Calendar.DATE));
                 resHomework.setDeadlineDate(Utility.formatDate(homework.getDeadlineDate()));
 
                 resHomeworkList.add(resHomework);
