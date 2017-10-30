@@ -308,7 +308,7 @@ public class HomeworkServiceImp implements HomeworkService {
         }
 
         Collections.sort(resHomeworkList, new StudentHomeworkComparator());
-        resStudentHomeworkList.setResHomewrokList(resHomeworkList);
+        resStudentHomeworkList.setResHomeworkList(resHomeworkList);
 
         return resStudentHomeworkList;
     }
