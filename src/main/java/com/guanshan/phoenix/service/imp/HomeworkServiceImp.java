@@ -270,7 +270,7 @@ public class HomeworkServiceImp implements HomeworkService {
 
         List<StudentClass> studentClassList = studentClassMapper.selectByStudentUserId(studentId);
         if (studentClassList == null) {
-            throw new ApplicationErrorException(ErrorCode.StudentIsNotInClass);
+            throw new ApplicationErrorException(ErrorCode.StudentNotInClass);
         }
 
         List<Integer> classIds = new ArrayList<>();
@@ -325,7 +325,7 @@ public class HomeworkServiceImp implements HomeworkService {
     @Override
     public ResTeacherHomeworkList getHomeworkListByTeacherId(int teacherId) throws ApplicationErrorException {
         ResTeacherHomeworkList resTeacherHomeworkList = new ResTeacherHomeworkList();
-        List<ResTeacherHomeworkList.ResClass> resClassList = new ArrayList<>();
+        List<ResTeacherHomeworkList.ResHomework> resHomeworkList = new ArrayList<>();
 
 
         List<Course> courseList = courseMapper.selectByTeacherId(teacherId);
@@ -338,32 +338,24 @@ public class HomeworkServiceImp implements HomeworkService {
             List<Clazz> clazzList = clazzMapper.selectByCourseId(course.getId());
             clazzLists.addAll(clazzList);
         }
-            for (Clazz clazz : clazzLists) {
-                ResTeacherHomeworkList.ResClass resClass = new ResTeacherHomeworkList().new ResClass();
-                resClass.setName(clazz.getName());
 
-                List<ResTeacherHomeworkList.ResHomework> resHomeworkList = new ArrayList<>();
-                List<Homework> homeworkList = homeworkMapper.selectByClassId(clazz.getId());
-                if (homeworkList == null) {
-                    throw new ApplicationErrorException(ErrorCode.TeacherHasNotHomework);
-                }
-                for (Homework homework : homeworkList) {
-                    ResTeacherHomeworkList.ResHomework resHomework = new ResTeacherHomeworkList().new ResHomework();
-                    resHomework.setCloudwareType(CloudwareTypeEnum.getZhFromCode(homework.getCloudwareType()));
-                    resHomework.setDeadlineDate(homework.getDeadlineDate().toString());
-                    resHomework.setDescription(homework.getDescription());
-                    resHomework.setPublishDate(homework.getPublishDate().toString());
-                    resHomework.setName(homework.getName());
+        for (Clazz clazz : clazzLists) {
+            for (Homework homework : homeworkMapper.selectByClassId(clazz.getId())) {
+                ResTeacherHomeworkList.ResHomework resHomework = new ResTeacherHomeworkList().new ResHomework();
+                resHomework.setClassId(clazz.getId());
+                resHomework.setClassName(clazz.getName());
+                resHomework.setName(homework.getName());
+                resHomework.setDescription(homework.getDescription());
+                resHomework.setCloudwareType(CloudwareTypeEnum.getZhFromCode(homework.getCloudwareType()));
+                resHomework.setPublishDate(homework.getPublishDate().toString());
+                resHomework.setDeadlineDate(homework.getDeadlineDate().toString());
 
-                    resHomeworkList.add(resHomework);
-                }
-                Collections.sort(resHomeworkList, new HomeworkComparator());
-                resClass.setHomeworkList(resHomeworkList);
-
-                resClassList.add(resClass);
+                resHomeworkList.add(resHomework);
             }
+        }
 
-        resTeacherHomeworkList.setClassList(resClassList);
+        Collections.sort(resHomeworkList, new HomeworkComparator());
+        resTeacherHomeworkList.setResHomeworkList(resHomeworkList);
         return resTeacherHomeworkList;
     }
 

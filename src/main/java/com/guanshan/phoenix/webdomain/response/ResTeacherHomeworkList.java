@@ -7,36 +7,7 @@ import java.util.List;
  * Created by Administrator on 2017/10/27.
  */
 public class ResTeacherHomeworkList {
-    private List<ResClass> classList;
-
-    public List<ResClass> getClassList() {
-        return classList;
-    }
-
-    public void setClassList(List<ResClass> classList) {
-        this.classList = classList;
-    }
-
-    public class ResClass {
-        private String name;
-        private List<ResHomework> homeworkList;
-
-        public List<ResHomework> getHomeworkList() {
-            return homeworkList;
-        }
-
-        public void setHomeworkList(List<ResHomework> homeworkList) {
-            this.homeworkList = homeworkList;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-    }
+    private List<ResHomework> resHomeworkList;
 
     public class ResHomework {
         private String name;
@@ -44,6 +15,24 @@ public class ResTeacherHomeworkList {
         private String cloudwareType;
         private String publishDate;
         private String deadlineDate;
+        private int classId;
+        private String className;
+
+        public int getClassId() {
+            return classId;
+        }
+
+        public void setClassId(int classId) {
+            this.classId = classId;
+        }
+
+        public String getClassName() {
+            return className;
+        }
+
+        public void setClassName(String className) {
+            this.className = className;
+        }
 
         public String getName() {
             return name;
@@ -84,5 +73,13 @@ public class ResTeacherHomeworkList {
         public void setDeadlineDate(String deadlineDate) {
             this.deadlineDate = deadlineDate;
         }
+    }
+
+    public List<ResHomework> getResHomeworkList() {
+        return resHomeworkList;
+    }
+
+    public void setResHomeworkList(List<ResHomework> resHomeworkList) {
+        this.resHomeworkList = resHomeworkList;
     }
 }
