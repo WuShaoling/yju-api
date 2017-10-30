@@ -342,7 +342,7 @@ public class HomeworkServiceImp implements HomeworkService {
     }
 
     // 自定义比较器 todo sort?
-    private class StudentHomeworkComparator implements Comparator {
+    private class HomeworkComparator implements Comparator {
         public int compare(Object object1, Object object2) {
             ResTeacherHomeworkList.ResHomework p1 = (ResTeacherHomeworkList.ResHomework) object1;
             ResTeacherHomeworkList.ResHomework p2 = (ResTeacherHomeworkList.ResHomework) object2;
@@ -351,7 +351,7 @@ public class HomeworkServiceImp implements HomeworkService {
     }
 
     // 自定义比较器 todo sort?
-    private class HomeworkComparator implements Comparator {
+    private class StudentHomeworkComparator implements Comparator {
         public int compare(Object object1, Object object2) {
             ResStudentHomeworkList.ResStudentHomework p1 = (ResStudentHomeworkList.ResStudentHomework) object1;
             ResStudentHomeworkList.ResStudentHomework p2 = (ResStudentHomeworkList.ResStudentHomework) object2;
