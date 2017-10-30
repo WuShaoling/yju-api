@@ -317,31 +317,46 @@ public class HomeworkServiceImp implements HomeworkService {
     @Override
     public ResTeacherHomeworkList getHomeworkListByTeacherId(int teacherId) throws ApplicationErrorException {
         ResTeacherHomeworkList resTeacherHomeworkList = new ResTeacherHomeworkList();
-        List<ResTeacherHomeworkList.ResHomework> resHomeworkList = new ArrayList<>();
+        List<ResTeacherHomeworkList.ResClass> resClassList = new ArrayList<>();
 
-        try {
-            Course course = courseMapper.selectByTeacherId(teacherId);
-            List<Module> moduleList = moduleMapper.selectByCourseID(course.getId());
-            for (Module module : moduleList) {
-                List<Homework> homeworkList = homeworkMapper.selectByModuleId(module.getId());
+
+        List<Course> courseList = courseMapper.selectByTeacherId(teacherId);
+        if (courseList == null) {
+            throw new ApplicationErrorException(ErrorCode.TeacherIsNotInClass);
+        }
+
+        List<Clazz> clazzLists = new ArrayList<>();
+        for (Course course : courseList) {
+            List<Clazz> clazzList = clazzMapper.selectByCourseId(course.getId());
+            clazzLists.addAll(clazzList);
+        }
+            for (Clazz clazz : clazzLists) {
+                ResTeacherHomeworkList.ResClass resClass = new ResTeacherHomeworkList().new ResClass();
+                resClass.setName(clazz.getName());
+
+                List<ResTeacherHomeworkList.ResHomework> resHomeworkList = new ArrayList<>();
+                List<Homework> homeworkList = homeworkMapper.selectByClassId(clazz.getId());
+                if (homeworkList == null) {
+                    throw new ApplicationErrorException(ErrorCode.TeacherHasNotHomework);
+                }
                 for (Homework homework : homeworkList) {
                     ResTeacherHomeworkList.ResHomework resHomework = new ResTeacherHomeworkList().new ResHomework();
                     resHomework.setCloudwareType(CloudwareTypeEnum.getZhFromCode(homework.getCloudwareType()));
-                    resHomework.setDeadlineDate(Utility.formatDate(homework.getDeadlineDate()));
+                    resHomework.setDeadlineDate(homework.getDeadlineDate().toString());
                     resHomework.setDescription(homework.getDescription());
+                    resHomework.setPublishDate(homework.getPublishDate().toString());
                     resHomework.setName(homework.getName());
-                    resHomework.setPublishDate(Utility.formatDate(homework.getPublishDate()));
+
                     resHomeworkList.add(resHomework);
                 }
+                Collections.sort(resHomeworkList, new HomeworkComparator());
+                resClass.setHomeworkList(resHomeworkList);
+
+                resClassList.add(resClass);
             }
-        } catch (Exception e) {
-            throw new ApplicationErrorException(ErrorCode.TeacherNotExists);
-        }
 
-
-        Collections.sort(resHomeworkList, new HomeworkComparator());
-        resTeacherHomeworkList.setHomeworklist(resHomeworkList);
-        return null;
+        resTeacherHomeworkList.setClassList(resClassList);
+        return resTeacherHomeworkList;
     }
 
     // 自定义比较器 todo sort?

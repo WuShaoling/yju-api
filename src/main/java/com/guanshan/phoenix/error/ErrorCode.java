@@ -145,6 +145,12 @@ public enum ErrorCode {
     @ErrorMessage("云件不存在")
     CloudwareNotExist(47),
 
+    @ErrorMessage("该老师未开班级")
+    TeacherIsNotInClass(48),
+
+    @ErrorMessage("该老师没有布置作业")
+    TeacherHasNotHomework(49),
+
     @ErrorMessage("服务器出错，请联系管理员")
     GeneralError(Integer.MAX_VALUE);
 

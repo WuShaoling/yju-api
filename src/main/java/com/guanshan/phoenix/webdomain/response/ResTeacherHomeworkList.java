@@ -7,14 +7,35 @@ import java.util.List;
  * Created by Administrator on 2017/10/27.
  */
 public class ResTeacherHomeworkList {
-    private List<ResHomework> homeworklist;
+    private List<ResClass> classList;
 
-    public List<ResHomework> getHomeworklist() {
-        return homeworklist;
+    public List<ResClass> getClassList() {
+        return classList;
     }
 
-    public void setHomeworklist(List<ResHomework> homeworklist) {
-        this.homeworklist = homeworklist;
+    public void setClassList(List<ResClass> classList) {
+        this.classList = classList;
+    }
+
+    public class ResClass {
+        private String name;
+        private List<ResHomework> homeworkList;
+
+        public List<ResHomework> getHomeworkList() {
+            return homeworkList;
+        }
+
+        public void setHomeworkList(List<ResHomework> homeworkList) {
+            this.homeworkList = homeworkList;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
     }
 
     public class ResHomework {

@@ -110,6 +110,20 @@ public interface HomeworkMapper {
     })
     boolean isModuleUsedByHomework(int moduleId);
 
-
-
+    @Select({
+            "select *",
+            "from homework",
+            "where class_id = #{classId,jdbcType=INTEGER}"
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="module_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="description", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="cloudware_type", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="publish_date", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
+            @Arg(column="deadline_date", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
+            @Arg(column="class_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
+    })
+    List<Homework> selectByClassId(int classId);
 }
