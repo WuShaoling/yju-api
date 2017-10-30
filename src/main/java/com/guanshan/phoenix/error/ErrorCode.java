@@ -151,6 +151,9 @@ public enum ErrorCode {
     @ErrorMessage("该老师没有布置作业")
     TeacherHasNotHomework(49),
 
+    @ErrorMessage("该学生不在班级里")
+    StudentIsNotInClass(50),
+
     @ErrorMessage("服务器出错，请联系管理员")
     GeneralError(Integer.MAX_VALUE);
 
