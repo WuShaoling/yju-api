@@ -23,8 +23,8 @@ public class ResStudentHomeworkList {
         private ResCloudware resCloudware;
         private String comment;
         private int score;
-        private Date submissionDate;
-        private Date lastEditDate;
+        private String submissionDate;
+        private String lastEditDate;
 
         public ResHomework getResHomework() {
             return resHomework;
@@ -58,19 +58,19 @@ public class ResStudentHomeworkList {
             this.score = score;
         }
 
-        public Date getSubmissionDate() {
+        public String getSubmissionDate() {
             return submissionDate;
         }
 
-        public void setSubmissionDate(Date submissionDate) {
+        public void setSubmissionDate(String submissionDate) {
             this.submissionDate = submissionDate;
         }
 
-        public Date getLastEditDate() {
+        public String getLastEditDate() {
             return lastEditDate;
         }
 
-        public void setLastEditDate(Date lastEditDate) {
+        public void setLastEditDate(String lastEditDate) {
             this.lastEditDate = lastEditDate;
         }
     }

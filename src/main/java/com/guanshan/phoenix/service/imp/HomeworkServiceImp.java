@@ -270,9 +270,9 @@ public class HomeworkServiceImp implements HomeworkService {
             try {
                 ResStudentHomeworkList.ResStudentHomework resStudentHomework = new ResStudentHomeworkList().new ResStudentHomework();
                 resStudentHomework.setComment(studentHomework.getComment());
-                resStudentHomework.setLastEditDate(studentHomework.getLastEditDate());
+                resStudentHomework.setLastEditDate(Utility.formatDate(studentHomework.getLastEditDate()));
                 resStudentHomework.setScore(studentHomework.getScore());
-                resStudentHomework.setSubmissionDate(studentHomework.getSubmissionDate());
+                resStudentHomework.setSubmissionDate(Utility.formatDate(studentHomework.getSubmissionDate()));
 
                 try {
                     ResStudentHomeworkList.ResCloudware resCloudware = new ResStudentHomeworkList().new ResCloudware();
@@ -290,10 +290,10 @@ public class HomeworkServiceImp implements HomeworkService {
                 try {
                     ResStudentHomeworkList.ResHomework resHomework = new ResStudentHomeworkList().new ResHomework();
                     Homework homework = homeworkMapper.selectByPrimaryKey(studentHomework.getHomeworkId());
-                    resHomework.setDeadlineDate(homework.getDeadlineDate().toString());
+                    resHomework.setDeadlineDate(Utility.formatDate(homework.getDeadlineDate()));
                     resHomework.setDescription(homework.getDescription());
                     resHomework.setName(homework.getName());
-                    resHomework.setPublishDate(homework.getPublishDate().toString());
+                    resHomework.setPublishDate(Utility.formatDate(homework.getPublishDate()));
                     resStudentHomework.setResHomework(resHomework);
                 } catch (Exception e) {
                     throw new ApplicationErrorException(ErrorCode.HomeworkNotExists);
@@ -324,10 +324,10 @@ public class HomeworkServiceImp implements HomeworkService {
                 for (Homework homework : homeworkList) {
                     ResTeacherHomeworkList.ResHomework resHomework = new ResTeacherHomeworkList().new ResHomework();
                     resHomework.setCloudwareType(CloudwareTypeEnum.getZhFromCode(homework.getCloudwareType()));
-                    resHomework.setDeadlineDate(homework.getDeadlineDate());
+                    resHomework.setDeadlineDate(Utility.formatDate(homework.getDeadlineDate()));
                     resHomework.setDescription(homework.getDescription());
                     resHomework.setName(homework.getName());
-                    resHomework.setPublishDate(homework.getPublishDate());
+                    resHomework.setPublishDate(Utility.formatDate(homework.getPublishDate()));
                     resHomeworkList.add(resHomework);
                 }
             }

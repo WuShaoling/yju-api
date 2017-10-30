@@ -21,8 +21,8 @@ public class ResTeacherHomeworkList {
         private String name;
         private String description;
         private String cloudwareType;
-        private Date publishDate;
-        private Date deadlineDate;
+        private String publishDate;
+        private String deadlineDate;
 
         public String getName() {
             return name;
@@ -48,19 +48,19 @@ public class ResTeacherHomeworkList {
             this.cloudwareType = cloudwareType;
         }
 
-        public Date getPublishDate() {
+        public String getPublishDate() {
             return publishDate;
         }
 
-        public void setPublishDate(Date publishDate) {
+        public void setPublishDate(String publishDate) {
             this.publishDate = publishDate;
         }
 
-        public Date getDeadlineDate() {
+        public String getDeadlineDate() {
             return deadlineDate;
         }
 
-        public void setDeadlineDate(Date deadlineDate) {
+        public void setDeadlineDate(String deadlineDate) {
             this.deadlineDate = deadlineDate;
         }
     }
