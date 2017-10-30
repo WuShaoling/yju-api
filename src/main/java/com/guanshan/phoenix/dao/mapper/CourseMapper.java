@@ -108,5 +108,5 @@ public interface CourseMapper {
             @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="description", javaType=String.class, jdbcType=JdbcType.VARCHAR)
     })
-    Course selectByTeacherId(@Param("teacherId") Integer teacherId);
+    List<Course> selectByTeacherId(@Param("teacherId") Integer teacherId);
 }
