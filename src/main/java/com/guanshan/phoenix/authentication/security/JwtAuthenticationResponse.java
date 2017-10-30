@@ -7,11 +7,13 @@ package com.guanshan.phoenix.authentication.security;
 public class JwtAuthenticationResponse {
 
     private int userId;
+    private int role;
     private String username;
     private String token;
 
-    public JwtAuthenticationResponse(int userId, String username, String token) {
+    public JwtAuthenticationResponse(int userId, int role, String username, String token) {
         this.userId = userId;
+        this.role = role;
         this.username = username;
         this.token = token;
     }
@@ -22,6 +24,14 @@ public class JwtAuthenticationResponse {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
     }
 
     public String getUsername() {

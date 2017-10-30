@@ -7,7 +7,7 @@ import java.util.List;
  */
 public class ResStudentHomeworkList {
 
-    private List<ResHomework> resHomewrokList;
+    private List<ResHomework> resHomeworkList;
 
     public class ResHomework {
         private int id;
@@ -111,11 +111,11 @@ public class ResStudentHomeworkList {
         }
     }
 
-    public List<ResHomework> getResHomewrokList() {
-        return resHomewrokList;
+    public List<ResHomework> getResHomeworkList() {
+        return resHomeworkList;
     }
 
-    public void setResHomewrokList(List<ResHomework> resHomewrokList) {
-        this.resHomewrokList = resHomewrokList;
+    public void setResHomeworkList(List<ResHomework> resHomeworkList) {
+        this.resHomeworkList = resHomeworkList;
     }
 }

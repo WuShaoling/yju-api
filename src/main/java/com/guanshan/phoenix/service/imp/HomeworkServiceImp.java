@@ -324,8 +324,8 @@ public class HomeworkServiceImp implements HomeworkService {
                 return o2.getPublishDate().compareTo(o1.getPublishDate());
             }
         });
-
-        resStudentHomeworkList.setResHomewrokList(resHomeworkList);
+        
+        resStudentHomeworkList.setResHomeworkList(resHomeworkList);
         return resStudentHomeworkList;
     }
 

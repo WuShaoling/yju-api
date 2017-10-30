@@ -43,7 +43,9 @@ public class AuthController {
         User user = userService.getUserInfo(authenticationRequest.getUsername());
 
         log.info(String.format("User '%s' logs on successfully.", authenticationRequest.getUsername()));
-        return new ResponseMessage.Success<>(ResponseEntity.ok(new JwtAuthenticationResponse(user.getId(), authenticationRequest.getUsername(), token)));
+        return new ResponseMessage.Success<>(ResponseEntity.ok(
+                new JwtAuthenticationResponse(user.getId(), user.getRole(),
+                                              authenticationRequest.getUsername(), token)));
     }
 
 //    @RequestMapping(value = "refresh", method = RequestMethod.GET)
