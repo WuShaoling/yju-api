@@ -3,6 +3,7 @@ package com.guanshan.phoenix.application.config;
 import com.guanshan.phoenix.authentication.security.CustomHTTP403Filter;
 import com.guanshan.phoenix.authentication.security.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -26,6 +27,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Value("${localhost.debug}")
+    private Boolean localhostDebug;
 
     // 指定加密方式
     @Bean
@@ -54,6 +58,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
+
+        if (localhostDebug) {
+            httpSecurity.authorizeRequests().antMatchers("/**").permitAll();
+        }
+
         httpSecurity
                 // 由于使用的是JWT，我们这里不需要csrf
                 .csrf().disable()
