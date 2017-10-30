@@ -13,12 +13,16 @@ import com.guanshan.phoenix.webdomain.request.ReqDeleteHomework;
 import com.guanshan.phoenix.webdomain.request.ReqUpdateHomework;
 import com.guanshan.phoenix.webdomain.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
 public class HomeworkServiceImp implements HomeworkService {
+
+    @Value("${notice.limit}")
+    private int noticeLimit;
 
     @Autowired
     private HomeworkMapper homeworkMapper;
@@ -283,19 +287,24 @@ public class HomeworkServiceImp implements HomeworkService {
             homeworkList.addAll(homeworkMapper.selectByClassId(classId));
         }
 
+        int i = 0;
         for (Homework homework : homeworkList) {
             ResStudentHomeworkList.ResHomework resHomework = new ResStudentHomeworkList().new ResHomework();
             resHomework.setId(homework.getId());
             resHomework.setName(homework.getName());
             resHomework.setDescription(homework.getDescription());
             resHomework.setCloudwareType(CloudwareTypeEnum.getZhFromCode(homework.getCloudwareType()));
-            resHomework.setPublishDate(homework.getPublishDate().toString());
-            resHomework.setDeadlineDate(homework.getDeadlineDate().toString());
+            resHomework.setPublishDate(Utility.formatDate(homework.getPublishDate()));
+            resHomework.setDeadlineDate(Utility.formatDate(homework.getDeadlineDate()));
             resHomework.setClassId(homework.getClassId());
             resHomework.setClassName(clazzMapper.selectByPrimaryKey(homework.getClassId()).getName());
             resHomework.setComplete(false);
 
             resHomeworkList.add(resHomework);
+            i++;
+            if (i >= noticeLimit) {
+                break;
+            }
         }
 
         List<StudentHomework> studentHomeworkList = studentHomeworkMapper.selectByStudentId(studentId);
@@ -339,6 +348,7 @@ public class HomeworkServiceImp implements HomeworkService {
             clazzLists.addAll(clazzList);
         }
 
+        int i = 0;
         for (Clazz clazz : clazzLists) {
             for (Homework homework : homeworkMapper.selectByClassId(clazz.getId())) {
                 ResTeacherHomeworkList.ResHomework resHomework = new ResTeacherHomeworkList().new ResHomework();
@@ -347,10 +357,17 @@ public class HomeworkServiceImp implements HomeworkService {
                 resHomework.setName(homework.getName());
                 resHomework.setDescription(homework.getDescription());
                 resHomework.setCloudwareType(CloudwareTypeEnum.getZhFromCode(homework.getCloudwareType()));
-                resHomework.setPublishDate(homework.getPublishDate().toString());
-                resHomework.setDeadlineDate(homework.getDeadlineDate().toString());
+                resHomework.setPublishDate(Utility.formatDate(homework.getPublishDate()));
+                resHomework.setDeadlineDate(Utility.formatDate(homework.getDeadlineDate()));
 
                 resHomeworkList.add(resHomework);
+                i++;
+                if (i >= noticeLimit) {
+                    break;
+                }
+            }
+            if (i >= noticeLimit) {
+                break;
             }
         }
 
