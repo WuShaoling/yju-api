@@ -293,7 +293,10 @@ public class HomeworkServiceImp implements HomeworkService {
                     resHomework.setDeadlineDate(Utility.formatDate(homework.getDeadlineDate()));
                     resHomework.setDescription(homework.getDescription());
                     resHomework.setName(homework.getName());
-                    resHomework.setPublishDate(Utility.formatDate(homework.getPublishDate()));
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(homework.getPublishDate());
+                    resHomework.setPublishDateMonth(cal.get(Calendar.MONTH)+1);
+                    resHomework.setPublishDateDay(cal.get(Calendar.DATE));
                     resStudentHomework.setResHomework(resHomework);
                 } catch (Exception e) {
                     throw new ApplicationErrorException(ErrorCode.HomeworkNotExists);

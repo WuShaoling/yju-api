@@ -78,7 +78,8 @@ public class ResStudentHomeworkList {
     public class ResHomework {
         private String name;
         private String description;
-        private String publishDate;
+        private int publishDateMonth;
+        private int publishDateDay;
         private String deadlineDate;
 
         public String getName() {
@@ -97,12 +98,20 @@ public class ResStudentHomeworkList {
             this.description = description;
         }
 
-        public String getPublishDate() {
-            return publishDate;
+        public int getPublishDateMonth() {
+            return publishDateMonth;
         }
 
-        public void setPublishDate(String publishDate) {
-            this.publishDate = publishDate;
+        public void setPublishDateMonth(int publishDateMonth) {
+            this.publishDateMonth = publishDateMonth;
+        }
+
+        public int getPublishDateDay() {
+            return publishDateDay;
+        }
+
+        public void setPublishDateDay(int publishDateDay) {
+            this.publishDateDay = publishDateDay;
         }
 
         public String getDeadlineDate() {
