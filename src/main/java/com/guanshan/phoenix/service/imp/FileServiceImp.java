@@ -89,12 +89,11 @@ public class FileServiceImp implements FileService {
     @Override
     public String uploadReport(MultipartFile file) throws ApplicationErrorException {
         String uploadFilePath = file.getOriginalFilename();
-        String uploadFileSuffix = uploadFilePath.substring(uploadFilePath.indexOf('.') + 1, uploadFilePath.length());
 
-        if (!uploadFileSuffix.equals("pdf") &&
-                !uploadFileSuffix.equals("doc") &&
-                !uploadFileSuffix.equals("docx")) {
-            throw new ApplicationErrorException(ErrorCode.FileIsNotMarkdown);
+        if (!uploadFilePath.endsWith(".pdf") &&
+                !uploadFilePath.endsWith(".doc") &&
+                !uploadFilePath.endsWith(".docx")) {
+            throw new ApplicationErrorException(ErrorCode.InvalidReportType);
         }
 
         String targetDir = baseDir + reportDir;
