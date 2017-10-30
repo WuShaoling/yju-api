@@ -72,7 +72,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                //.antMatchers("/**").permitAll()       // FOR TEST
+                .antMatchers("/**").permitAll()       // FOR TEST
 
                 // 允许对于网站静态资源的无授权访问
                 .antMatchers(
