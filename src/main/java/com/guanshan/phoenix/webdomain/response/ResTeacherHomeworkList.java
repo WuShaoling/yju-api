@@ -15,8 +15,26 @@ public class ResTeacherHomeworkList {
         private String cloudwareType;
         private String publishDate;
         private String deadlineDate;
+        private int publishMonth;
+        private int publishDay;
         private int classId;
         private String className;
+
+        public int getPublishMonth() {
+            return publishMonth;
+        }
+
+        public void setPublishMonth(int publishMonth) {
+            this.publishMonth = publishMonth;
+        }
+
+        public int getPublishDay() {
+            return publishDay;
+        }
+
+        public void setPublishDay(int publishDay) {
+            this.publishDay = publishDay;
+        }
 
         public int getClassId() {
             return classId;

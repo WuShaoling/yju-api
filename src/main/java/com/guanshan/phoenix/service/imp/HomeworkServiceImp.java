@@ -295,6 +295,8 @@ public class HomeworkServiceImp implements HomeworkService {
             resHomework.setDescription(homework.getDescription());
             resHomework.setCloudwareType(CloudwareTypeEnum.getZhFromCode(homework.getCloudwareType()));
             resHomework.setPublishDate(Utility.formatDate(homework.getPublishDate()));
+            resHomework.setPublishMonth(homework.getPublishDate().getMonth());
+            resHomework.setPublishDay(homework.getPublishDate().getDay());
             resHomework.setDeadlineDate(Utility.formatDate(homework.getDeadlineDate()));
             resHomework.setClassId(homework.getClassId());
             resHomework.setClassName(clazzMapper.selectByPrimaryKey(homework.getClassId()).getName());
@@ -316,19 +318,15 @@ public class HomeworkServiceImp implements HomeworkService {
             }
         }
 
-        Collections.sort(resHomeworkList, new StudentHomeworkComparator());
+        Collections.sort(resHomeworkList, new Comparator<ResStudentHomeworkList.ResHomework>() {
+            @Override
+            public int compare(ResStudentHomeworkList.ResHomework o1, ResStudentHomeworkList.ResHomework o2) {
+                return o2.getPublishDate().compareTo(o1.getPublishDate());
+            }
+        });
+
         resStudentHomeworkList.setResHomewrokList(resHomeworkList);
-
         return resStudentHomeworkList;
-    }
-
-    // 自定义比较器
-    private class StudentHomeworkComparator implements Comparator {
-        public int compare(Object object1, Object object2) {
-            ResStudentHomeworkList.ResHomework p1 = (ResStudentHomeworkList.ResHomework) object1;
-            ResStudentHomeworkList.ResHomework p2 = (ResStudentHomeworkList.ResHomework) object2;
-            return p1.getPublishDate().compareTo(p2.getPublishDate());
-        }
     }
 
     @Override
@@ -358,6 +356,8 @@ public class HomeworkServiceImp implements HomeworkService {
                 resHomework.setDescription(homework.getDescription());
                 resHomework.setCloudwareType(CloudwareTypeEnum.getZhFromCode(homework.getCloudwareType()));
                 resHomework.setPublishDate(Utility.formatDate(homework.getPublishDate()));
+                resHomework.setPublishMonth(homework.getPublishDate().getMonth());
+                resHomework.setPublishDay(homework.getPublishDate().getDay());
                 resHomework.setDeadlineDate(Utility.formatDate(homework.getDeadlineDate()));
 
                 resHomeworkList.add(resHomework);
@@ -371,21 +371,15 @@ public class HomeworkServiceImp implements HomeworkService {
             }
         }
 
-        Collections.sort(resHomeworkList, new HomeworkComparator());
+        Collections.sort(resHomeworkList, new Comparator<ResTeacherHomeworkList.ResHomework>() {
+            @Override
+            public int compare(ResTeacherHomeworkList.ResHomework o1, ResTeacherHomeworkList.ResHomework o2) {
+                return o2.getPublishDate().compareTo(o1.getPublishDate());
+            }
+        });
         resTeacherHomeworkList.setResHomeworkList(resHomeworkList);
         return resTeacherHomeworkList;
     }
-
-    // 自定义比较器
-    private class HomeworkComparator implements Comparator {
-        public int compare(Object object1, Object object2) {
-            ResTeacherHomeworkList.ResHomework p1 = (ResTeacherHomeworkList.ResHomework) object1;
-            ResTeacherHomeworkList.ResHomework p2 = (ResTeacherHomeworkList.ResHomework) object2;
-            return p1.getPublishDate().compareTo(p2.getPublishDate());
-        }
-    }
-
-
 
     private ResHomeworkSubmissionList.ResHomeworkList getHomeworkSubmissionDetail(
             Homework homework
