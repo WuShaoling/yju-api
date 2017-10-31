@@ -33,11 +33,13 @@ public class FileServiceImp implements FileService {
 
 
     @Override
-    public ResUploadImage uploadImage(MultipartFile file) throws ApplicationErrorException {
+    public ResUploadImage uploadImage(MultipartFile file) throws ApplicationErrorException, IOException {
         String uploadFilePath = file.getOriginalFilename();
-        String uploadFileSuffix = uploadFilePath.substring(uploadFilePath.indexOf('.') + 1, uploadFilePath.length());
 
-        if (!uploadFileSuffix.equals("jpg") && !uploadFileSuffix.equals("jpeg") && !uploadFileSuffix.equals("bmp") && !uploadFileSuffix.equals("png")) {
+        if (!uploadFilePath.endsWith(".jpg") &&
+                !uploadFilePath.equals(".jpeg") &&
+                !uploadFilePath.equals(".bmp") &&
+                !uploadFilePath.equals(".png")) {
             throw new ApplicationErrorException(ErrorCode.FileIsNotImage);
         }
 
@@ -53,24 +55,24 @@ public class FileServiceImp implements FileService {
         resUploadImage.setUrl(baseUrl + "/image/" + file.getOriginalFilename());
 
         File image = new File(targetDir + "/" + file.getOriginalFilename());
+
         try {
             BufferedImage bufferedImage = ImageIO.read(new FileInputStream(image));
             resUploadImage.setName(file.getOriginalFilename());
             resUploadImage.setWidth(bufferedImage.getWidth());
             resUploadImage.setHeight(bufferedImage.getHeight());
-        } catch (IOException e) {
-            e.printStackTrace();
+        }catch (FileNotFoundException e){
+            throw new ApplicationErrorException(ErrorCode.FileIsNotExist);
         }
 
         return resUploadImage;
     }
 
     @Override
-    public String uploadMarkdown(MultipartFile file) throws ApplicationErrorException {
+    public String uploadMarkdown(MultipartFile file) throws ApplicationErrorException, IOException {
         String uploadFilePath = file.getOriginalFilename();
-        String uploadFileSuffix = uploadFilePath.substring(uploadFilePath.indexOf('.') + 1, uploadFilePath.length());
 
-        if (!uploadFileSuffix.equals("md")) {
+        if (!uploadFilePath.endsWith(".md")) {
             throw new ApplicationErrorException(ErrorCode.FileIsNotMarkdown);
         }
 
@@ -87,7 +89,7 @@ public class FileServiceImp implements FileService {
     }
 
     @Override
-    public String uploadReport(MultipartFile file) throws ApplicationErrorException {
+    public String uploadReport(MultipartFile file) throws ApplicationErrorException, IOException {
         String uploadFilePath = file.getOriginalFilename();
 
         if (!uploadFilePath.endsWith(".pdf") &&
@@ -109,14 +111,9 @@ public class FileServiceImp implements FileService {
     }
 
     @Override
-    public void downloadImage(String fileName, HttpServletResponse response) throws ApplicationErrorException {
+    public void downloadImage(String fileName, HttpServletResponse response) throws ApplicationErrorException, IOException {
 
-        try {
-            getFile(fileName, response, baseDir + imageDir);
-        } catch (Exception e) {
-            throw new ApplicationErrorException(ErrorCode.FileIsNotExist);
-        }
-
+        getFile(fileName, response, baseDir + imageDir);
     }
 
     @Override
@@ -140,7 +137,7 @@ public class FileServiceImp implements FileService {
     }
 
 
-    private void saveFile(MultipartFile file, String dir) throws ApplicationErrorException {
+    private void saveFile(MultipartFile file, String dir) throws IOException {
 
         String uploadFilePath = file.getOriginalFilename();
         String uploadFileName = uploadFilePath.substring(uploadFilePath.lastIndexOf('\\') + 1, uploadFilePath.indexOf('.'));
@@ -161,27 +158,17 @@ public class FileServiceImp implements FileService {
                 fos.flush();
                 i = fis.read(temp);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         } finally {
             if (fis != null) {
-                try {
-                    fis.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                fis.close();
             }
             if (fos != null) {
-                try {
-                    fos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                fos.close();
             }
         }
     }
 
-    private void getFile(String fileName, HttpServletResponse response, String dir) throws ApplicationErrorException {
+    private void getFile(String fileName, HttpServletResponse response, String dir) throws ApplicationErrorException, IOException {
 
         final String filePath = dir + "/" + fileName;
 
@@ -191,15 +178,11 @@ public class FileServiceImp implements FileService {
             throw new ApplicationErrorException(ErrorCode.FileIsNotExist);
         }
 
-        try {
-            // fix chinese filename problem
-            String filename = new String(fileName.getBytes("gbk"), "iso-8859-1");
-            response.setHeader("content-type", "application/octet-stream");
-            response.setContentType("application/octet-stream");
-            response.setHeader("Content-Disposition", "attachment;filename=\"" + filename + "\"");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        // fix chinese filename problem
+        String filename = new String(fileName.getBytes("gbk"), "iso-8859-1");
+        response.setHeader("content-type", "application/octet-stream");
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment;filename=\"" + filename + "\"");
 
         byte[] buff = new byte[1024];
         BufferedInputStream bis = null;
@@ -213,15 +196,9 @@ public class FileServiceImp implements FileService {
                 os.flush();
                 i = bis.read(buff);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         } finally {
             if (bis != null) {
-                try {
-                    bis.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                bis.close();
             }
         }
     }
