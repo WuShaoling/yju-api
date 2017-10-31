@@ -1,4 +1,4 @@
-DROP SCHEMA phoenix;
+DROP SCHEMA IF EXISTS `phoenix`;
 
 CREATE SCHEMA phoenix;
 
