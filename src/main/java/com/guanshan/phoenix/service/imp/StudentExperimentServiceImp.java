@@ -34,7 +34,7 @@ public class StudentExperimentServiceImp implements StudentExperimentService {
     public Cloudware getStudentExperimentCloudware(int experimentId, int studentId) throws ApplicationErrorException {
         StudentExperiment studentExperiment = studentExperimentMapper.selectByStudentIdAndExperimentId(studentId, experimentId);
         if(studentExperiment == null){
-            throw new ApplicationErrorException(ErrorCode.StudentHomeworkNotExists);
+            throw new ApplicationErrorException(ErrorCode.StudentExperimentNotFound);
         }
 
         return cloudwareMapper.selectByPrimaryKey(studentExperiment.getCloudwareId());
