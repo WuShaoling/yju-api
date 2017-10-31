@@ -9,6 +9,7 @@ import com.guanshan.phoenix.webdomain.request.ReqHomeworkGrade;
 import com.guanshan.phoenix.webdomain.response.*;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
@@ -52,6 +53,7 @@ public class TeacherController {
 
     @ApiOperation(value = "批改作业", notes = "")
     @PostMapping(value = "course/homework/grade")
+    @Transactional(rollbackFor = Throwable.class)
     public ResponseMessage gradeHomework(@RequestBody ReqHomeworkGrade homeworkGrade) throws ApplicationErrorException {
         teacherService.gradeHomework(homeworkGrade);
         return new ResponseMessage.Success();

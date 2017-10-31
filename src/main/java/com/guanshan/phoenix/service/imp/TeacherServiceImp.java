@@ -62,6 +62,9 @@ public class TeacherServiceImp implements TeacherService {
     @Autowired
     private ManagerService managerService;
 
+    @Autowired
+    private CloudwareMapper cloudwareMapper;
+
     @Override
     public Teacher getTeacherByUserId(int teacherID) throws ApplicationErrorException {
 
@@ -97,10 +100,20 @@ public class TeacherServiceImp implements TeacherService {
         StudentHomework studentHomework = studentHomeworkService.getStudentHomeworkById(
                 homeworkGrade.getStudentHomeworkId());
 
+        if(studentHomework == null){
+            throw new ApplicationErrorException(ErrorCode.StudentHomeworkNotExists);
+        }
+
+        Integer cloudwareId = studentHomework.getCloudwareId();
         studentHomework.setComment(homeworkGrade.getComment());
         studentHomework.setScore(homeworkGrade.getGrade());
-
+        studentHomework.setCloudwareId(null);
         studentHomeworkMapper.updateByPrimaryKey(studentHomework);
+
+        if(cloudwareId != null){
+            cloudwareMapper.deleteByPrimaryKey(cloudwareId);
+        }
+
     }
 
     @Override
