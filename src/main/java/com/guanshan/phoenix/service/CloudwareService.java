@@ -12,4 +12,6 @@ public interface CloudwareService {
     String getStudentExperiment(ReqStudentExperiment reqStudentExperiment) throws ApplicationErrorException;
 
     ResExperimentInfo getExperiment(int id) throws ApplicationErrorException;
+
+    void deleteCloudware(int cloudwareId);
 }

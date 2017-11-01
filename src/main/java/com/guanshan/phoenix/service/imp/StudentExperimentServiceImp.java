@@ -5,6 +5,7 @@ import com.guanshan.phoenix.dao.mapper.*;
 import com.guanshan.phoenix.enums.ResourceTypeEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
+import com.guanshan.phoenix.service.CloudwareService;
 import com.guanshan.phoenix.service.StudentExperimentService;
 import com.guanshan.phoenix.service.StudentHomeworkService;
 import com.guanshan.phoenix.webdomain.request.ReqHomeworkSubmission;
@@ -23,6 +24,9 @@ public class StudentExperimentServiceImp implements StudentExperimentService {
 
     @Autowired
     private CloudwareMapper cloudwareMapper;
+
+    @Autowired
+    private CloudwareService cloudwareService;
 
     @Autowired
     private UserMapper userMapper;
@@ -74,6 +78,7 @@ public class StudentExperimentServiceImp implements StudentExperimentService {
 
     @Override
     public void deleteStudentExperiment(int studentExperimentId) throws ApplicationErrorException {
+
         StudentExperiment studentExperiment = studentExperimentMapper.selectByPrimaryKey(studentExperimentId);
         if(studentExperiment == null){
             throw new ApplicationErrorException(ErrorCode.StudentExperimentNotFound);
@@ -81,7 +86,22 @@ public class StudentExperimentServiceImp implements StudentExperimentService {
 
         studentExperimentMapper.deleteByPrimaryKey(studentExperimentId);
         if(studentExperiment.getCloudwareId() != null){
-            cloudwareMapper.deleteByPrimaryKey(studentExperiment.getCloudwareId());
+            cloudwareService.deleteCloudware(studentExperiment.getCloudwareId());
+        }
+    }
+
+    @Override
+    public void deleteStudentExperiment(int experimentId, int studentId) throws ApplicationErrorException {
+        StudentExperiment studentExperiment =
+                studentExperimentMapper.selectByStudentIdAndExperimentId(studentId, experimentId);
+
+        if(studentExperiment == null){
+            throw new ApplicationErrorException(ErrorCode.StudentExperimentNotFound);
+        }
+
+        studentExperimentMapper.deleteByPrimaryKey(studentExperiment.getId());
+        if(studentExperiment.getCloudwareId() != null){
+            cloudwareService.deleteCloudware(studentExperiment.getCloudwareId());
         }
     }
 

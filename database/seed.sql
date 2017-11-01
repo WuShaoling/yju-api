@@ -153,17 +153,6 @@ insert into homework_resource (id, homework_id, resource_id, type) values (5, 5,
 insert into homework_resource (id, homework_id, resource_id, type) values (6, 6, 13,  1);  -- 6
 insert into homework_resource (id, homework_id, resource_id, type) values (7, 7, 14,  1);  -- 7
 
-insert into student_experiment (id, student_id, experiment_id) values (1, 1, 2);
-insert into student_experiment (id, student_id, experiment_id) values (2, 1, 4);
-insert into student_experiment (id, student_id, experiment_id) values (3, 2, 1);
-insert into student_experiment (id, student_id, experiment_id) values (4, 2, 7);
-insert into student_experiment (id, student_id, experiment_id) values (5, 2, 10);
-insert into student_experiment (id, student_id, experiment_id) values (6, 3, 7);
-insert into student_experiment (id, student_id, experiment_id) values (7, 3, 2);
-insert into student_experiment (id, student_id, experiment_id) values (8, 3, 10);
-insert into student_experiment (id, student_id, experiment_id) values (9, 4, 5);
-insert into student_experiment (id, student_id, experiment_id) values (10, 4, 9);
-
 insert into student_class (id, student_id, class_id) values (1, 1, 1); -- 1
 insert into student_class (id, student_id, class_id) values (2, 2, 1); -- 2
 insert into student_class (id, student_id, class_id) values (3, 3, 1); -- 3

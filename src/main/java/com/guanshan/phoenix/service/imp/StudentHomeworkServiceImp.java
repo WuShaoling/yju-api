@@ -5,6 +5,7 @@ import com.guanshan.phoenix.dao.mapper.*;
 import com.guanshan.phoenix.enums.ResourceTypeEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
+import com.guanshan.phoenix.service.CloudwareService;
 import com.guanshan.phoenix.service.StudentHomeworkService;
 import com.guanshan.phoenix.webdomain.request.ReqHomeworkSubmission;
 import com.guanshan.phoenix.webdomain.request.ReqStudentHomeworkCloudware;
@@ -26,6 +27,9 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
 
     @Autowired
     private CloudwareMapper cloudwareMapper;
+
+    @Autowired
+    private CloudwareService cloudwareService;
 
     @Autowired
     private ResourceMapper resourceMapper;
@@ -138,7 +142,7 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
         studentHomeworkMapper.deleteByPrimaryKey(studentHomeworkId);
 
         if(studentHomework.getCloudwareId() != null){
-            cloudwareMapper.deleteByPrimaryKey(studentHomework.getCloudwareId());
+            cloudwareService.deleteCloudware(studentHomework.getCloudwareId());
         }
     }
 

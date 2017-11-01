@@ -27,7 +27,6 @@ public class CloudwareController {
         return new ResponseMessage.Success<>(cloudwareService.getStudentExperiment(reqStudentExperiment));
     }
 
-
     @ApiOperation(value = "获取试验内容")
     @GetMapping("/cloudware/{id}/info")
     public ResponseMessage<ResExperimentInfo> getExperiment(@PathVariable("id") int id) throws ApplicationErrorException{

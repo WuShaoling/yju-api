@@ -13,4 +13,6 @@ public interface StudentExperimentService {
     void createStudentExperimentCloudware(ReqStudentExperimentCloudware reqStudentExperimentCloudware) throws ApplicationErrorException;
 
     void deleteStudentExperiment(int studentExperimentId) throws ApplicationErrorException;
+
+    void deleteStudentExperiment(int experimentId, int studentId) throws ApplicationErrorException;
 }

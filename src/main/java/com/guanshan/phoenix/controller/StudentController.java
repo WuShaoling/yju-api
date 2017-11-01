@@ -5,6 +5,7 @@ import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ResponseMessage;
 import com.guanshan.phoenix.service.*;
 import com.guanshan.phoenix.webdomain.request.ReqHomeworkSubmission;
+import com.guanshan.phoenix.webdomain.request.ReqStudentExperiment;
 import com.guanshan.phoenix.webdomain.request.ReqStudentExperimentCloudware;
 import com.guanshan.phoenix.webdomain.request.ReqStudentHomeworkCloudware;
 import com.guanshan.phoenix.webdomain.response.*;
@@ -112,5 +113,14 @@ public class StudentController {
     @GetMapping(value = "course/homework/all/{studentId}")
     public ResponseMessage<ResStudentHomeworkList> getStudentHomeworkListById(@PathVariable int studentId) throws ApplicationErrorException {
         return new ResponseMessage.Success<>(homeworkService.getStudentHomeworkListById(studentId));
+    }
+
+    @ApiOperation(value = "删除学生实验信息及云件", notes = "")
+    @PostMapping(value = "experiment/delete")
+    @Transactional(rollbackFor = Throwable.class)
+    public ResponseMessage deleteStudentExperiment(@RequestBody ReqStudentExperiment reqStudentExperiment) throws ApplicationErrorException {
+        studentExperimentService.deleteStudentExperiment(reqStudentExperiment.getExperimentId(),
+                                                         reqStudentExperiment.getStudentId());
+        return new ResponseMessage.Success();
     }
 }

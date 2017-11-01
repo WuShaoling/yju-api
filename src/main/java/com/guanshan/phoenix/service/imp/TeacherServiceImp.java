@@ -35,13 +35,8 @@ import java.util.List;
 @Service
 public class TeacherServiceImp implements TeacherService {
 
-    static Logger log = Logger.getLogger(TeacherServiceImp.class.getName());
-
     @Value("${default.password}")
     private String defaultPassword;
-
-    @Value("${cloudware.deleteCloudwareUrl}")
-    private String deleteCloudwareUrl;
 
     @Autowired
     private TeacherMapper teacherMapper;
@@ -71,10 +66,7 @@ public class TeacherServiceImp implements TeacherService {
     private ManagerService managerService;
 
     @Autowired
-    private CloudwareMapper cloudwareMapper;
-
-    @Autowired
-    private RestTemplate restTemplate;
+    private CloudwareService cloudwareService;
 
     @Override
     public Teacher getTeacherByUserId(int teacherID) throws ApplicationErrorException {
@@ -122,25 +114,7 @@ public class TeacherServiceImp implements TeacherService {
         studentHomeworkMapper.updateByPrimaryKey(studentHomework);
 
         if(cloudwareId != null){
-            log.info(String.format("Start to delete cloudware for cloudware id %d...", cloudwareId));
-
-            Cloudware cloudware = cloudwareMapper.selectByPrimaryKey(cloudwareId);
-            ReqDeleteCloudware reqDeleteCloudware = new ReqDeleteCloudware(cloudware);
-
-            try {
-                ResCloudware resCloudware = restTemplate.postForObject(deleteCloudwareUrl, reqDeleteCloudware, ResCloudware.class);
-                if (resCloudware.getErrorCode() != 0) {
-                    log.error(String.format("Deleting cloudware failed. Error code returned %d.", resCloudware.getErrorCode()));
-                    throw new ApplicationErrorException(ErrorCode.GeneralError);
-                }
-            } catch (RestClientException e) {
-                log.error(String.format("delete cloudware failed. Error message:%s", e.getMessage()));
-                Utility.logError(log, e);
-                throw new ApplicationErrorException(ErrorCode.GeneralError);
-            }
-            log.info("delete cloudware succeeded.");
-
-            cloudwareMapper.deleteByPrimaryKey(cloudwareId);
+            cloudwareService.deleteCloudware(cloudwareId);
         }
     }
 
