@@ -1,5 +1,6 @@
 package com.guanshan.phoenix.service.imp;
 
+import com.guanshan.phoenix.Util.Utility;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.FileService;
@@ -12,6 +13,7 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.Date;
 
 @Service
 public class FileServiceImp implements FileService {
@@ -49,12 +51,12 @@ public class FileServiceImp implements FileService {
         if (!dir.exists()) {
             dir.mkdirs();
         }
-        saveFile(file, targetDir);
+        String newFileName = saveFile(file, targetDir);
 
         ResUploadImage resUploadImage = new ResUploadImage();
-        resUploadImage.setUrl(baseUrl + "/image/" + file.getOriginalFilename());
+        resUploadImage.setUrl(baseUrl + "/image/" + newFileName);
 
-        File image = new File(targetDir + "/" + file.getOriginalFilename());
+        File image = new File(targetDir + "/" + newFileName);
 
         try {
             BufferedImage bufferedImage = ImageIO.read(new FileInputStream(image));
@@ -82,10 +84,10 @@ public class FileServiceImp implements FileService {
         if (!dir.exists()) {
             dir.mkdirs();
         }
-        saveFile(file, targetDir);
+        String newFileName = saveFile(file, targetDir);
 
 
-        return baseUrl + "/markdown/" + file.getOriginalFilename();
+        return baseUrl + "/markdown/" + newFileName;
     }
 
     @Override
@@ -98,16 +100,18 @@ public class FileServiceImp implements FileService {
             throw new ApplicationErrorException(ErrorCode.InvalidReportType);
         }
 
-        String targetDir = baseDir + reportDir;
+        String currentUserName = Utility.getCurrentUserName();
+
+        String targetDir = baseDir + reportDir + File.separator + currentUserName;
 
         File dir = new File(targetDir);
         if (!dir.exists()) {
             dir.mkdirs();
         }
-        saveFile(file, targetDir);
+        String newFileName = saveFile(file, targetDir);
 
 
-        return baseUrl + "/report/" + file.getOriginalFilename();
+        return String.format("%s%s/%s/%s", baseUrl, reportDir, currentUserName, newFileName);
     }
 
     @Override
@@ -127,21 +131,23 @@ public class FileServiceImp implements FileService {
     }
 
     @Override
-    public void downloadReport(String fileName, HttpServletResponse response) throws ApplicationErrorException {
+    public void downloadReport(String path, String fileName, HttpServletResponse response) throws ApplicationErrorException {
 
         try {
-            getFile(fileName, response, baseDir + reportDir);
+            getFile(fileName, response, baseDir + reportDir + File.separator + path);
         } catch (Exception e) {
             throw new ApplicationErrorException(ErrorCode.FileIsNotExist);
         }
     }
 
 
-    private void saveFile(MultipartFile file, String dir) throws IOException {
+    private String saveFile(MultipartFile file, String dir) throws IOException {
 
         String uploadFilePath = file.getOriginalFilename();
-        String uploadFileName = uploadFilePath.substring(uploadFilePath.lastIndexOf('\\') + 1, uploadFilePath.indexOf('.'));
-        String uploadFileSuffix = uploadFilePath.substring(uploadFilePath.indexOf('.') + 1, uploadFilePath.length());
+        String uploadFileName = uploadFilePath.substring(uploadFilePath.lastIndexOf('\\') + 1, uploadFilePath.lastIndexOf('.'));
+        String uploadFileSuffix = uploadFilePath.substring(uploadFilePath.lastIndexOf('.') + 1);
+
+        uploadFileName = String.format("%s_%s", uploadFileName, Utility.formatDate(new Date(), Utility.longDateFormat));
 
         FileOutputStream fos = null;
         FileInputStream fis = null;
@@ -166,6 +172,8 @@ public class FileServiceImp implements FileService {
                 fos.close();
             }
         }
+
+        return uploadFileName + '.' + uploadFileSuffix;
     }
 
     private void getFile(String fileName, HttpServletResponse response, String dir) throws ApplicationErrorException, IOException {

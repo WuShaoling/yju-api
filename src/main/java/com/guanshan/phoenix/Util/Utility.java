@@ -5,6 +5,8 @@ import com.guanshan.phoenix.error.ErrorCode;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,8 +23,9 @@ public final class Utility {
     private Utility(){}
 
     private static Pattern pattern = Pattern.compile("^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$");
-    private static String dateFormat = "yyyy-MM-dd HH:mm:ss";
-    private static String shortDateFormat = "yyyy-MM-dd";
+    public static String dateFormat = "yyyy-MM-dd HH:mm:ss";
+    public static String shortDateFormat = "yyyy-MM-dd";
+    public static String longDateFormat = "yyyyMMddHHmmss.sss";
 
     public static void validateEmail(String email) throws ApplicationErrorException {
         Matcher matcher = pattern.matcher(email);
@@ -32,20 +35,23 @@ public final class Utility {
     }
 
     public static String formatDate(Date date){
+        return formatDate(date, dateFormat);
+    }
+
+    public static String formatDate(Date date, String format){
         if(date == null)
             return "";
-        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.format(date);
     }
 
-    public static Date parseDate(String date) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+    public static Date parseDate(String date, String format) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.parse(date);
     }
 
     public static Date parseShortDate(String date) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat(shortDateFormat);
-        return sdf.parse(date);
+        return parseDate(date, shortDateFormat);
     }
 
     public static void writeError(HttpServletRequest request, HttpServletResponse response,
@@ -63,5 +69,14 @@ public final class Utility {
         LoggingOutputStream logStream = new LoggingOutputStream(logger, Level.ERROR);
         ex.printStackTrace(new PrintStream(logStream));
         logStream.close();
+    }
+
+    public static String getCurrentUserName(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            return ((UserDetails)principal).getUsername();
+        } else {
+            return principal.toString();
+        }
     }
 }

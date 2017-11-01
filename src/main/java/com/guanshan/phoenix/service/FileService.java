@@ -21,5 +21,5 @@ public interface FileService {
 
     void downloadMarkdown(String fileName, HttpServletResponse response) throws ApplicationErrorException;
 
-    void downloadReport(String fileName, HttpServletResponse response) throws ApplicationErrorException;
+    void downloadReport(String path, String fileName, HttpServletResponse response) throws ApplicationErrorException;
 }
