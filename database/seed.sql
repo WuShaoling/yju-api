@@ -153,27 +153,16 @@ insert into homework_resource (id, homework_id, resource_id, type) values (5, 5,
 insert into homework_resource (id, homework_id, resource_id, type) values (6, 6, 13,  1);  -- 6
 insert into homework_resource (id, homework_id, resource_id, type) values (7, 7, 14,  1);  -- 7
 
-insert into cloudware (id, web_socket) values (1, "192.168.1.1"); -- 1
-insert into cloudware (id, web_socket) values (2, "192.168.1.2"); -- 2
-insert into cloudware (id, web_socket) values (3, "192.168.1.3"); -- 3
-insert into cloudware (id, web_socket) values (4, "192.168.1.4"); -- 4
-insert into cloudware (id, web_socket) values (5, "192.168.1.5"); -- 5
-insert into cloudware (id, web_socket) values (6, "192.168.1.6"); -- 6
-insert into cloudware (id, web_socket) values (7, "192.168.1.7"); -- 7
-insert into cloudware (id, web_socket) values (8, "192.168.1.8"); -- 8
-insert into cloudware (id, web_socket) values (9, "192.168.1.9"); -- 9
-insert into cloudware (id, web_socket) values (10, "192.168.1.10"); -- 10
-
-insert into student_experiment (id, student_id, experiment_id, cloudware_id) values (1, 1, 2, 1);
-insert into student_experiment (id, student_id, experiment_id, cloudware_id) values (2, 1, 4, 2);
-insert into student_experiment (id, student_id, experiment_id, cloudware_id) values (3, 2, 1, 3);
-insert into student_experiment (id, student_id, experiment_id, cloudware_id) values (4, 2, 7, 4);
-insert into student_experiment (id, student_id, experiment_id, cloudware_id) values (5, 2, 10, 5);
-insert into student_experiment (id, student_id, experiment_id, cloudware_id) values (6, 3, 7, 6);
-insert into student_experiment (id, student_id, experiment_id, cloudware_id) values (7, 3, 2, 7);
-insert into student_experiment (id, student_id, experiment_id, cloudware_id) values (8, 3, 10, 8);
-insert into student_experiment (id, student_id, experiment_id, cloudware_id) values (9, 4, 5, 9);
-insert into student_experiment (id, student_id, experiment_id, cloudware_id) values (10, 4, 9, 10);
+insert into student_experiment (id, student_id, experiment_id) values (1, 1, 2);
+insert into student_experiment (id, student_id, experiment_id) values (2, 1, 4);
+insert into student_experiment (id, student_id, experiment_id) values (3, 2, 1);
+insert into student_experiment (id, student_id, experiment_id) values (4, 2, 7);
+insert into student_experiment (id, student_id, experiment_id) values (5, 2, 10);
+insert into student_experiment (id, student_id, experiment_id) values (6, 3, 7);
+insert into student_experiment (id, student_id, experiment_id) values (7, 3, 2);
+insert into student_experiment (id, student_id, experiment_id) values (8, 3, 10);
+insert into student_experiment (id, student_id, experiment_id) values (9, 4, 5);
+insert into student_experiment (id, student_id, experiment_id) values (10, 4, 9);
 
 insert into student_class (id, student_id, class_id) values (1, 1, 1); -- 1
 insert into student_class (id, student_id, class_id) values (2, 2, 1); -- 2
@@ -188,42 +177,3 @@ insert into student_class (id, student_id, class_id) values (10, 2, 5); -- 10
 insert into student_class (id, student_id, class_id) values (11, 3, 5); -- 11
 insert into student_class (id, student_id, class_id) values (12, 4, 5); -- 12
 insert into student_class (id, student_id, class_id) values (13, 1, 8); -- 13
-
-insert into cloudware (id, web_socket) values (11, "192.168.1.11"); -- 11
-insert into cloudware (id, web_socket) values (12, "192.168.1.12"); -- 12
-insert into cloudware (id, web_socket) values (13, "192.168.1.13"); -- 13
-insert into cloudware (id, web_socket) values (14, "192.168.1.14"); -- 14
-insert into cloudware (id, web_socket) values (15, "192.168.1.15"); -- 15
-insert into cloudware (id, web_socket) values (16, "192.168.1.16"); -- 16
-insert into cloudware (id, web_socket) values (17, "192.168.1.17"); -- 17
-
-insert into student_homework (id, student_id, homework_id, cloudware_id, comment, score, submission_date, lastEdit_date) values
-  										(1, 1, 2, 11, "good", 100, "2014-07-01", "2014-07-01"); -- 1
-insert into student_homework (id, student_id, homework_id, cloudware_id, comment, score, submission_date, lastEdit_date) values
-  										(2, 2, 2, 12, "good", 100, "2014-07-01", "2014-07-01"); -- 2
-insert into student_homework (id, student_id, homework_id, cloudware_id, comment, score, submission_date, lastEdit_date) values
-  										(3, 3, 1, 13, "good", 100, "2014-07-01", "2014-07-01"); -- 3
-insert into student_homework (id, student_id, homework_id, cloudware_id, comment, score, submission_date, lastEdit_date) values
-  										(4, 1, 1, 14, "good", 100, "2014-07-01", "2014-07-01"); -- 4
-insert into student_homework (id, student_id, homework_id, cloudware_id, comment, score, submission_date, lastEdit_date) values
-  										(5, 2, 6, 15, "good", 100, "2014-07-01", "2014-07-01"); -- 5
-insert into student_homework (id, student_id, homework_id, cloudware_id, comment, score, submission_date, lastEdit_date) values
-  										(6, 3, 6, 16, "good", 100, "2014-07-01", "2014-07-01"); -- 6
-insert into student_homework (id, student_id, homework_id, cloudware_id, comment, score, submission_date, lastEdit_date) values
-  										(7, 4, 6, 17, "good", 100, "2014-07-01", "2014-07-01"); -- 7
-
-insert into resource(id, name, url) values (15, "作业1", "1.pdf");  -- 15
-insert into resource(id, name, url) values (16, "作业2", "2.pdf");  -- 16
-insert into resource(id, name, url) values (17, "作业3", "3.pdf");  -- 17
-insert into resource(id, name, url) values (18, "作业4", "4.pdf");  -- 18
-insert into resource(id, name, url) values (19, "作业5", "5.pdf");  -- 19
-insert into resource(id, name, url) values (20, "作业6", "6.pdf");  -- 20
-insert into resource(id, name, url) values (21, "作业7", "7.pdf");  -- 21
-
-insert into student_homework_resource (id, student_homework_id, resource_id, type) values (1, 1, 15, 2);
-insert into student_homework_resource (id, student_homework_id, resource_id, type) values (2, 2, 16, 2);
-insert into student_homework_resource (id, student_homework_id, resource_id, type) values (3, 3, 17, 2);
-insert into student_homework_resource (id, student_homework_id, resource_id, type) values (4, 4, 18, 2);
-insert into student_homework_resource (id, student_homework_id, resource_id, type) values (5, 5, 19, 2);
-insert into student_homework_resource (id, student_homework_id, resource_id, type) values (6, 6, 20, 2);
-insert into student_homework_resource (id, student_homework_id, resource_id, type) values (7, 7, 21, 2);

@@ -53,6 +53,9 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
         if(studentHomework == null){
             throw new ApplicationErrorException(ErrorCode.StudentHomeworkNotExists);
         }
+        if(studentHomework.getCloudwareId() == null){
+            throw new ApplicationErrorException(ErrorCode.CloudwareNotExist);
+        }
 
         return cloudwareMapper.selectByPrimaryKey(studentHomework.getCloudwareId());
     }

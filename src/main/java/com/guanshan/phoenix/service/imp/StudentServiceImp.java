@@ -1,7 +1,8 @@
 package com.guanshan.phoenix.service.imp;
 
+import com.guanshan.phoenix.Util.Utility;
 import com.guanshan.phoenix.cloudwareDomain.ReqCreateVolume;
-import com.guanshan.phoenix.cloudwareDomain.ResCreateVolume;
+import com.guanshan.phoenix.cloudwareDomain.ResCloudware;
 import com.guanshan.phoenix.dao.entity.*;
 import com.guanshan.phoenix.dao.mapper.ClazzMapper;
 import com.guanshan.phoenix.dao.mapper.StudentClassMapper;
@@ -18,9 +19,11 @@ import com.guanshan.phoenix.webdomain.response.ResBatchAddStudent;
 import com.guanshan.phoenix.webdomain.request.ReqUpdateStudent;
 import com.guanshan.phoenix.webdomain.response.ResClassDetail;
 import com.guanshan.phoenix.webdomain.response.ResStudentClassList;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,6 +32,8 @@ import java.util.List;
 
 @Service
 public class StudentServiceImp implements StudentService {
+
+    static Logger log = Logger.getLogger(StudentServiceImp.class.getName());
 
     @Value("${default.password}")
     private String defaultPassword;
@@ -144,17 +149,24 @@ public class StudentServiceImp implements StudentService {
         student.setUserId(user.getId());
         studentMapper.insert(student);
 
+        log.info(String.format("Start to create volume for student %s...", student.getSno()));
+
         ReqCreateVolume reqCreateVolume = new ReqCreateVolume();
         reqCreateVolume.setUserId(user.getId());
         reqCreateVolume.setSecret("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIiLCJpYXQiOjE1MDU4MTM0NTd9.Ftw1yHeUrqdNvymFZcIpuEoS0RHBFZqu4MfUZON9Zm0");
 
-
-
-        ResCreateVolume resCreateVolume = restTemplate.postForObject(createVolumeUrl, reqCreateVolume, ResCreateVolume.class);
-//        ResCreateVolume resCreateVolume = restTemplate.postForObject("http://192.168.1.117:8080/volumes", reqCreateVolume, ResCreateVolume.class);
-
-        System.out.println(resCreateVolume.getErrorCode());
-        System.out.println("kalsdjflaksjdfljs");
+        try {
+            ResCloudware resCloudware = restTemplate.postForObject(createVolumeUrl, reqCreateVolume, ResCloudware.class);
+            if (resCloudware.getErrorCode() != 0) {
+                log.error(String.format("Creating volume failed. Error code returned %d.", resCloudware.getErrorCode()));
+                throw new ApplicationErrorException(ErrorCode.GeneralError);
+            }
+        }catch (RestClientException e){
+            log.error(String.format("Creating volume failed. Error message:%s", e.getMessage()));
+            Utility.logError(log, e);
+            throw new ApplicationErrorException(ErrorCode.GeneralError);
+        }
+        log.info("Creating volume succeeded.");
     }
 
     @Override

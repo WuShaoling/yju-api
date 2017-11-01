@@ -2,10 +2,9 @@ package com.guanshan.phoenix.service.imp;
 
 import com.guanshan.phoenix.Util.EncryptionUtil;
 import com.guanshan.phoenix.Util.Utility;
-import com.guanshan.phoenix.dao.entity.Clazz;
-import com.guanshan.phoenix.dao.entity.StudentHomework;
-import com.guanshan.phoenix.dao.entity.Teacher;
-import com.guanshan.phoenix.dao.entity.User;
+import com.guanshan.phoenix.cloudwareDomain.ReqCreateVolume;
+import com.guanshan.phoenix.cloudwareDomain.ResCloudware;
+import com.guanshan.phoenix.dao.entity.*;
 import com.guanshan.phoenix.dao.mapper.*;
 import com.guanshan.phoenix.enums.RoleEnum;
 import com.guanshan.phoenix.enums.TitleEnum;
@@ -14,6 +13,7 @@ import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.excel.ExcelUtil;
 import com.guanshan.phoenix.excel.domain.ExcelTeacher;
 import com.guanshan.phoenix.service.*;
+import com.guanshan.phoenix.webdomain.request.ReqDeleteCloudware;
 import com.guanshan.phoenix.webdomain.request.ReqDeleteTeacher;
 import com.guanshan.phoenix.webdomain.request.ReqHomeworkGrade;
 import com.guanshan.phoenix.webdomain.request.ReqUpdateTeacher;
@@ -21,9 +21,12 @@ import com.guanshan.phoenix.webdomain.response.ResBatchAddTeacher;
 import com.guanshan.phoenix.webdomain.response.ResClassDetail;
 import com.guanshan.phoenix.webdomain.response.ResTeacherClassList;
 import com.guanshan.phoenix.webdomain.response.ResTeacherList;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -32,8 +35,13 @@ import java.util.List;
 @Service
 public class TeacherServiceImp implements TeacherService {
 
+    static Logger log = Logger.getLogger(TeacherServiceImp.class.getName());
+
     @Value("${default.password}")
     private String defaultPassword;
+
+    @Value("${cloudware.deleteCloudwareUrl}")
+    private String deleteCloudwareUrl;
 
     @Autowired
     private TeacherMapper teacherMapper;
@@ -64,6 +72,9 @@ public class TeacherServiceImp implements TeacherService {
 
     @Autowired
     private CloudwareMapper cloudwareMapper;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Override
     public Teacher getTeacherByUserId(int teacherID) throws ApplicationErrorException {
@@ -111,9 +122,26 @@ public class TeacherServiceImp implements TeacherService {
         studentHomeworkMapper.updateByPrimaryKey(studentHomework);
 
         if(cloudwareId != null){
+            log.info(String.format("Start to delete cloudware for cloudware id %d...", cloudwareId));
+
+            Cloudware cloudware = cloudwareMapper.selectByPrimaryKey(cloudwareId);
+            ReqDeleteCloudware reqDeleteCloudware = new ReqDeleteCloudware(cloudware);
+
+            try {
+                ResCloudware resCloudware = restTemplate.postForObject(deleteCloudwareUrl, reqDeleteCloudware, ResCloudware.class);
+                if (resCloudware.getErrorCode() != 0) {
+                    log.error(String.format("Deleting cloudware failed. Error code returned %d.", resCloudware.getErrorCode()));
+                    throw new ApplicationErrorException(ErrorCode.GeneralError);
+                }
+            } catch (RestClientException e) {
+                log.error(String.format("delete cloudware failed. Error message:%s", e.getMessage()));
+                Utility.logError(log, e);
+                throw new ApplicationErrorException(ErrorCode.GeneralError);
+            }
+            log.info("delete cloudware succeeded.");
+
             cloudwareMapper.deleteByPrimaryKey(cloudwareId);
         }
-
     }
 
     @Override

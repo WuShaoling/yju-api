@@ -36,6 +36,9 @@ public class StudentExperimentServiceImp implements StudentExperimentService {
         if(studentExperiment == null){
             throw new ApplicationErrorException(ErrorCode.StudentExperimentNotFound);
         }
+        if(studentExperiment.getCloudwareId() == null){
+            throw new ApplicationErrorException(ErrorCode.CloudwareNotExist);
+        }
 
         return cloudwareMapper.selectByPrimaryKey(studentExperiment.getCloudwareId());
     }

@@ -1,6 +1,6 @@
 package com.guanshan.phoenix.cloudwareDomain;
 
-public class ResCreateVolume {
+public class ResCloudware {
     private int errorCode;
 
     public int getErrorCode() {
