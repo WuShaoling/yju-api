@@ -6,10 +6,12 @@ import com.guanshan.phoenix.dao.entity.Module;
 import com.guanshan.phoenix.dao.mapper.CourseMapper;
 import com.guanshan.phoenix.dao.mapper.ExperimentMapper;
 import com.guanshan.phoenix.dao.mapper.ModuleMapper;
+import com.guanshan.phoenix.dao.mapper.StudentExperimentMapper;
 import com.guanshan.phoenix.enums.CloudwareTypeEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.ExperimentService;
+import com.guanshan.phoenix.service.StudentExperimentService;
 import com.guanshan.phoenix.webdomain.request.ReqDeleteExperiment;
 import com.guanshan.phoenix.webdomain.request.ReqExperiment;
 import com.guanshan.phoenix.webdomain.response.ResExperimentInfo;
@@ -28,6 +30,11 @@ public class ExperimentServiceImp implements ExperimentService {
     @Autowired
     private CourseMapper courseMapper;
 
+    @Autowired
+    private StudentExperimentMapper studentExperimentMapper;
+
+    @Autowired
+    private StudentExperimentService studentExperimentService;
 
     @Override
     public int deleteExperiment(ReqDeleteExperiment reqDeleteExperiment) throws ApplicationErrorException {
@@ -35,8 +42,13 @@ public class ExperimentServiceImp implements ExperimentService {
             throw new ApplicationErrorException(ErrorCode.ExperimentNotFound);
         }
 
-        if(experimentMapper.isExperimentUsedByStudentExperiment(reqDeleteExperiment.getId())){
-            throw new ApplicationErrorException(ErrorCode.ExperimentUsedByStudentExperiment);
+//        if(experimentMapper.isExperimentUsedByStudentExperiment(reqDeleteExperiment.getId())){
+//            throw new ApplicationErrorException(ErrorCode.ExperimentUsedByStudentExperiment);
+//        }
+
+        for(int studentExperimentId :
+                studentExperimentMapper.selectStudentExperimentByExperimentId(reqDeleteExperiment.getId())){
+            studentExperimentService.deleteStudentExperiment(studentExperimentId);
         }
 
         experimentMapper.deleteByPrimaryKey(reqDeleteExperiment.getId());

@@ -10,6 +10,7 @@ truncate table resource;
 truncate table course_resource;
 truncate table term;
 truncate table module;
+truncate table module_resource;
 truncate table class;
 truncate table experiment;
 truncate table homework;

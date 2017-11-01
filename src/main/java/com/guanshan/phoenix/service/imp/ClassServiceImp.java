@@ -61,6 +61,9 @@ public class ClassServiceImp implements ClassService {
     @Autowired
     private HomeworkMapper homeworkMapper;
 
+    @Autowired
+    private HomeworkService homeworkService;
+
     @Override
     public Clazz getClassById(int classID) throws ApplicationErrorException {
 
@@ -168,15 +171,19 @@ public class ClassServiceImp implements ClassService {
             throw new ApplicationErrorException(ErrorCode.ClassNotExists);
         }
 
-        if (homeworkMapper.isClassUsedByHomework(classId)) {
-            throw new ApplicationErrorException(ErrorCode.ClassIsUsedByHomework);
-        }
-        if (studentClassMapper.isClassUsedByStudentClass(classId)) {
-            throw new ApplicationErrorException(ErrorCode.ClassIsUsedByStudentClass);
+//        if (homeworkMapper.isClassUsedByHomework(classId)) {
+//            throw new ApplicationErrorException(ErrorCode.ClassIsUsedByHomework);
+//        }
+//        if (studentClassMapper.isClassUsedByStudentClass(classId)) {
+//            throw new ApplicationErrorException(ErrorCode.ClassIsUsedByStudentClass);
+//        }
+
+        for(Homework homework : homeworkMapper.selectByClassId(classId)){
+            homeworkService.deleteHomework(new ReqDeleteHomework(homework.getId()));
         }
 
-        clazzMapper.deleteByPrimaryKey(classId);
         studentClassMapper.deleteByClassId(classId);
+        clazzMapper.deleteByPrimaryKey(classId);
         return 0;
     }
 

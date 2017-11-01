@@ -69,6 +69,19 @@ public class StudentExperimentServiceImp implements StudentExperimentService {
         studentExperimentMapper.insert(studentExperiment);
     }
 
+    @Override
+    public void deleteStudentExperiment(int studentExperimentId) throws ApplicationErrorException {
+        StudentExperiment studentExperiment = studentExperimentMapper.selectByPrimaryKey(studentExperimentId);
+        if(studentExperiment == null){
+            throw new ApplicationErrorException(ErrorCode.StudentExperimentNotFound);
+        }
+
+        studentExperimentMapper.deleteByPrimaryKey(studentExperimentId);
+        if(studentExperiment.getCloudwareId() != null){
+            cloudwareMapper.deleteByPrimaryKey(studentExperiment.getCloudwareId());
+        }
+    }
+
     private void validateStudentExperiment(int studentId, int experimentId) throws ApplicationErrorException {
         if(userMapper.selectByPrimaryKey(studentId) == null){
             throw new ApplicationErrorException(ErrorCode.UserNotExist);

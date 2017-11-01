@@ -7,9 +7,12 @@ import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.ClassService;
 import com.guanshan.phoenix.service.CourseService;
+import com.guanshan.phoenix.service.ModuleService;
 import com.guanshan.phoenix.service.TeacherService;
 import com.guanshan.phoenix.webdomain.request.ReqAddCourse;
+import com.guanshan.phoenix.webdomain.request.ReqDeleteClass;
 import com.guanshan.phoenix.webdomain.request.ReqDeleteCourse;
+import com.guanshan.phoenix.webdomain.request.ReqDeleteModule;
 import com.guanshan.phoenix.webdomain.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +34,9 @@ public class CourseServiceImp implements CourseService {
 
     @Autowired
     private ModuleMapper moduleMapper;
+
+    @Autowired
+    private ModuleService moduleService;
 
     @Autowired
     private ExperimentMapper experimentMapper;
@@ -202,12 +208,20 @@ public class CourseServiceImp implements CourseService {
             throw new ApplicationErrorException(ErrorCode.CourseNotExists);
         }
 
-        if (moduleMapper.isCourseUsedByModule(courseId)) {
-            throw new ApplicationErrorException(ErrorCode.CourseIsUsedByModule);
+//        if (moduleMapper.isCourseUsedByModule(courseId)) {
+//            throw new ApplicationErrorException(ErrorCode.CourseIsUsedByModule);
+//        }
+//
+//        if (clazzMapper.isCourseUsedByClass(courseId)) {
+//            throw new ApplicationErrorException(ErrorCode.CourseIsUsedByClass);
+//        }
+
+        for (Module module : moduleMapper.selectByCourseID(courseId)){
+            moduleService.deleteModule(new ReqDeleteModule(module.getId()));
         }
 
-        if (clazzMapper.isCourseUsedByClass(courseId)) {
-            throw new ApplicationErrorException(ErrorCode.CourseIsUsedByClass);
+        for (Clazz clazz : clazzMapper.selectByCourseId(courseId)){
+            classService.deleteClass(new ReqDeleteClass(clazz.getId()));
         }
 
         CourseResource courseResource =

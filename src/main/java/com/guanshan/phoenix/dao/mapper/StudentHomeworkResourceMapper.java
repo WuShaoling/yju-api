@@ -52,7 +52,7 @@ public interface StudentHomeworkResourceMapper {
             "select",
             "id, student_homework_id, resource_id, type",
             "from student_homework_resource",
-            "where id = #{id,jdbcType=INTEGER} and type = #{type, jdbcType=INTEGER}"
+            "where student_homework_id = #{studentHomeworkId,jdbcType=INTEGER} and type = #{type, jdbcType=INTEGER}"
     })
     @ConstructorArgs({
             @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
@@ -60,5 +60,6 @@ public interface StudentHomeworkResourceMapper {
             @Arg(column="resource_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="type", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
     })
-    StudentHomeworkResource selectByPrimaryKeyAndType(@Param("id") Integer id, @Param("type") Integer type);
+    StudentHomeworkResource selectByStudentHomeworkIdAndType(
+            @Param("studentHomeworkId") Integer studentHomeworkId, @Param("type") Integer type);
 }

@@ -4,6 +4,8 @@ import com.guanshan.phoenix.dao.entity.StudentExperiment;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
+import java.util.List;
+
 public interface StudentExperimentMapper {
     @Delete({
         "delete from student_experiment",
@@ -63,4 +65,10 @@ public interface StudentExperimentMapper {
             @Arg(column="cloudware_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
     })
     StudentExperiment selectByStudentIdAndExperimentId(@Param("studentId") Integer studentId, @Param("experimentId") Integer experimentId);
+
+    @Select({"SELECT id",
+            "FROM student_experiment",
+            "WHERE experiment_id=#{experimentId}"
+    })
+    List<Integer> selectStudentExperimentByExperimentId(Integer experimentId);
 }

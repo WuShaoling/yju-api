@@ -161,8 +161,12 @@ public class HomeworkServiceImp implements HomeworkService {
             throw new ApplicationErrorException(ErrorCode.HomeworkNotExists);
         }
 
-        if (studentHomeworkMapper.isHomeworkUsedByStudentHomework(homeworkID)) {
-            throw new ApplicationErrorException(ErrorCode.HomeworkUsedByStudentHomework);
+//        if (studentHomeworkMapper.isHomeworkUsedByStudentHomework(homeworkID)) {
+//            throw new ApplicationErrorException(ErrorCode.HomeworkUsedByStudentHomework);
+//        }
+
+        for (Integer studentHomeworkId : studentHomeworkMapper.selectStudentHomeworkByHomeworkId(homeworkID)){
+            studentHomeworkService.deleteStudentHomework(studentHomeworkId);
         }
 
         HomeworkResource homeworkResource = homeworkResourceMapper.selectByHomeworkId(homeworkID);

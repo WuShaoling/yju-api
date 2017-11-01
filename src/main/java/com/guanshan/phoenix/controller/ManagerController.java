@@ -206,6 +206,7 @@ public class ManagerController {
 
     @ApiOperation(value = "删除选课", notes = "")
     @PostMapping(value = "class/deletion")
+    @Transactional(rollbackFor = Throwable.class)
     public ResponseMessage deleteClass(@RequestBody ReqDeleteClass reqDeleteClass) throws ApplicationErrorException {
         classService.deleteClass(reqDeleteClass);
         return new ResponseMessage.Success();
@@ -245,6 +246,7 @@ public class ManagerController {
 
     @ApiOperation(value = "删除课时", notes = "")
     @PostMapping(value = "course/module/deletion")
+    @Transactional(rollbackFor = Throwable.class)
     public ResponseMessage deleteModule(@RequestBody ReqDeleteModule reqDeleteModule) throws ApplicationErrorException {
         moduleService.deleteModule(reqDeleteModule);
         return new ResponseMessage.Success();
@@ -252,6 +254,7 @@ public class ManagerController {
 
     @ApiOperation(value = "删除实验", notes = "")
     @PostMapping(value = "/course/experiment/deletion")
+    @Transactional(rollbackFor = Throwable.class)
     public ResponseMessage deleteExperiment(@RequestBody ReqDeleteExperiment reqDeleteExperiment) throws ApplicationErrorException {
         experimentService.deleteExperiment(reqDeleteExperiment);
         return new ResponseMessage.Success();

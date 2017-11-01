@@ -124,4 +124,11 @@ public interface StudentHomeworkMapper {
             @Arg(column="url", javaType=String.class, jdbcType=JdbcType.VARCHAR)
     })
     List<StudentHomework> selectByStudentId(@Param("studentId") int studentId);
+
+    @Select({
+            "select id",
+            "from student_homework",
+            "where homework_id = #{homeworkId, jdbcType=INTEGER}"
+    })
+    List<Integer> selectStudentHomeworkByHomeworkId(int homeworkId);
 }

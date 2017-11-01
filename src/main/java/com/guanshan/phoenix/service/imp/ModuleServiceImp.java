@@ -1,17 +1,14 @@
 package com.guanshan.phoenix.service.imp;
 
-import com.guanshan.phoenix.dao.entity.Course;
-import com.guanshan.phoenix.dao.entity.Module;
-import com.guanshan.phoenix.dao.entity.ModuleResource;
-import com.guanshan.phoenix.dao.entity.Resource;
+import com.guanshan.phoenix.dao.entity.*;
 import com.guanshan.phoenix.dao.mapper.*;
 import com.guanshan.phoenix.enums.ResourceTypeEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
+import com.guanshan.phoenix.service.ExperimentService;
+import com.guanshan.phoenix.service.HomeworkService;
 import com.guanshan.phoenix.service.ModuleService;
-import com.guanshan.phoenix.webdomain.request.ReqAddModuleResource;
-import com.guanshan.phoenix.webdomain.request.ReqDeleteModule;
-import com.guanshan.phoenix.webdomain.request.ReqDeleteModuleResource;
+import com.guanshan.phoenix.webdomain.request.*;
 import com.guanshan.phoenix.webdomain.response.ResModuleId;
 import com.guanshan.phoenix.webdomain.response.ResModuleImages;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +36,13 @@ public class ModuleServiceImp implements ModuleService {
     private ExperimentMapper experimentMapper;
 
     @Autowired
+    private ExperimentService experimentService;
+
+    @Autowired
     private HomeworkMapper homeworkMapper;
+
+    @Autowired
+    private HomeworkService homeworkService;
 
     @Override
     public ResModuleId createModule(Module module) throws ApplicationErrorException {
@@ -61,12 +64,25 @@ public class ModuleServiceImp implements ModuleService {
             throw new ApplicationErrorException(ErrorCode.ModuleNotExists);
         }
 
-        if(experimentMapper.isModuleUsedByExperiment(moduleId)){
-            throw new ApplicationErrorException(ErrorCode.ModuleUsedByExperiment);
+//        if(experimentMapper.isModuleUsedByExperiment(moduleId)){
+//            throw new ApplicationErrorException(ErrorCode.ModuleUsedByExperiment);
+//        }
+//
+//        if(homeworkMapper.isModuleUsedByHomework(moduleId)){
+//            throw new ApplicationErrorException(ErrorCode.ModuleUsedByHomework);
+//        }
+
+        for(Experiment experiment : experimentMapper.selectByModuleId(moduleId)){
+            experimentService.deleteExperiment(new ReqDeleteExperiment(experiment.getId()));
         }
 
-        if(homeworkMapper.isModuleUsedByHomework(moduleId)){
-            throw new ApplicationErrorException(ErrorCode.ModuleUsedByHomework);
+        for(Homework homework : homeworkMapper.selectByModuleId(moduleId)){
+            homeworkService.deleteHomework(new ReqDeleteHomework(homework.getId()));
+        }
+
+        for (ModuleResource moduleResource : moduleResourceMapper.selectByModuleId(moduleId)){
+            moduleResourceMapper.deleteByPrimaryKey(moduleResource.getId());
+            resourceMapper.deleteByPrimaryKey(moduleResource.getResourceId());
         }
 
         moduleMapper.deleteByPrimaryKey(moduleId);

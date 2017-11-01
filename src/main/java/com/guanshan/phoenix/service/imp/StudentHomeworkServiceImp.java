@@ -117,6 +117,28 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
         studentHomeworkMapper.insert(studentHomework);
     }
 
+    @Override
+    public void deleteStudentHomework(int studentHomeworkId) throws ApplicationErrorException {
+        StudentHomework studentHomework = studentHomeworkMapper.selectByPrimaryKey(studentHomeworkId);
+        if(studentHomework == null){
+            throw new ApplicationErrorException(ErrorCode.StudentHomeworkNotExists);
+        }
+
+        StudentHomeworkResource studentHomeworkResource =
+                studentHomeworkResourceMapper.selectByStudentHomeworkIdAndType(studentHomeworkId, ResourceTypeEnum.HOMEWORK.getCode());
+
+        if(studentHomeworkResource != null){
+            studentHomeworkResourceMapper.deleteByPrimaryKey(studentHomeworkResource.getId());
+            resourceMapper.deleteByPrimaryKey(studentHomeworkResource.getResourceId());
+        }
+
+        studentHomeworkMapper.deleteByPrimaryKey(studentHomeworkId);
+
+        if(studentHomework.getCloudwareId() != null){
+            cloudwareMapper.deleteByPrimaryKey(studentHomework.getCloudwareId());
+        }
+    }
+
     protected void insertStudentHomeWork(ReqHomeworkSubmission homeworkSubmission) {
 
         StudentHomework studentHomework = new StudentHomework(
@@ -152,7 +174,7 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
         studentHomeworkMapper.updateByPrimaryKey(studentHomework);
 
         StudentHomeworkResource studentHomeworkResource =
-                studentHomeworkResourceMapper.selectByPrimaryKeyAndType(
+                studentHomeworkResourceMapper.selectByStudentHomeworkIdAndType(
                         studentHomework.getId(), ResourceTypeEnum.HOMEWORK.getCode());
 
         if(studentHomeworkResource != null) {
