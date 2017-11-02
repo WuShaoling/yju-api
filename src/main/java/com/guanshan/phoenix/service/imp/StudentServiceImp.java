@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,7 +89,7 @@ public class StudentServiceImp implements StudentService {
     }
 
     @Override
-    public ResBatchAddStudent batchStudentCreation(int classId, MultipartFile file) throws ApplicationErrorException {
+    public ResBatchAddStudent batchStudentCreation(int classId, MultipartFile file) throws ApplicationErrorException, IOException {
         ResBatchAddStudent resBatchAddStudent = new ResBatchAddStudent();
         List<ResBatchAddStudent.FailureReason> failureReasonList = new ArrayList<>();
 

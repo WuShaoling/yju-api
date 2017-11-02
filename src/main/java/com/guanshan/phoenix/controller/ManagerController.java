@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 
 
 @CrossOrigin
@@ -310,13 +311,13 @@ public class ManagerController {
 
     @ApiOperation(value = "批量导入学生数据", notes = "")
     @PostMapping(value = "/class/student/batchCreation")
-    public ResponseMessage<ResBatchAddStudent> batchStudentCreation(@RequestParam("classId") int classId, @RequestParam("file") MultipartFile file) throws ApplicationErrorException {
+    public ResponseMessage<ResBatchAddStudent> batchStudentCreation(@RequestParam("classId") int classId, @RequestParam("file") MultipartFile file) throws ApplicationErrorException, IOException {
         return new ResponseMessage.Success<ResBatchAddStudent>(studentService.batchStudentCreation(classId, file));
     }
 
     @ApiOperation(value = "批量导入教师数据", notes = "")
     @PostMapping(value = "/teacher/batchCreation")
-    public ResponseMessage<ResBatchAddTeacher> batchTeacherCreation(@RequestParam("file") MultipartFile file) throws ApplicationErrorException {
+    public ResponseMessage<ResBatchAddTeacher> batchTeacherCreation(@RequestParam("file") MultipartFile file) throws ApplicationErrorException, IOException {
         return new ResponseMessage.Success<ResBatchAddTeacher>(teacherService.batchTeacherCreation(file));
     }
 

@@ -1,5 +1,7 @@
 package com.guanshan.phoenix.excel;
 
+import com.guanshan.phoenix.error.ApplicationErrorException;
+import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.excel.domain.ExcelStudent;
 import com.guanshan.phoenix.excel.domain.ExcelTeacher;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -19,7 +21,7 @@ import java.util.List;
 
 public class ExcelUtil {
 
-    public static ExcelStudent studentExcelAnalysis(MultipartFile file) {
+    public static ExcelStudent studentExcelAnalysis(MultipartFile file) throws IOException, ApplicationErrorException {
         ExcelStudent excelStudent = new ExcelStudent();
         try {
             Workbook workbook = WorkbookFactory.create(file.getInputStream());
@@ -29,23 +31,21 @@ public class ExcelUtil {
             for (int rowNum=1; rowNum<=sheet.getLastRowNum(); rowNum++) {
                 ExcelStudent.ExcelStudentElement element = new ExcelStudent().new ExcelStudentElement();
                 Row row = sheet.getRow(rowNum);
-                element.setStudentNum(row.getCell(0).toString());
+                element.setStudentNum(new Integer(new Double(row.getCell(0).toString()).intValue()).toString());
                 element.setStudentName(row.getCell(1).toString());
-                element.setGender(new Double(row.getCell(2).getNumericCellValue()).intValue());
+                element.setGender(new Double(row.getCell(2).toString()).intValue());
                 excelStudentElementList.add(element);
             }
 
             excelStudent.setExcelStudentElementList(excelStudentElementList);
             return excelStudent;
 
-        } catch (IOException | InvalidFormatException e) {
-            e.printStackTrace();
+        } catch ( InvalidFormatException e) {
+            throw new ApplicationErrorException(ErrorCode.InvalidExcelFileFormat);
         }
-
-        return null;
     }
 
-    public static ExcelTeacher teacherExcelAnalysis(MultipartFile file) {
+    public static ExcelTeacher teacherExcelAnalysis(MultipartFile file) throws ApplicationErrorException, IOException {
         ExcelTeacher excelTeacher = new ExcelTeacher();
         try {
             Workbook workbook = WorkbookFactory.create(file.getInputStream());
@@ -55,10 +55,10 @@ public class ExcelUtil {
             for (int rowNum=1; rowNum<=sheet.getLastRowNum(); rowNum++) {
                 ExcelTeacher.ExcelTeacherElement element = new ExcelTeacher().new ExcelTeacherElement();
                 Row row = sheet.getRow(rowNum);
-                element.setTeacherNum(row.getCell(0).toString());
+                element.setTeacherNum(new Integer(new Double(row.getCell(0).toString()).intValue()).toString());
                 element.setTeacherName(row.getCell(1).toString());
-                element.setGender(new Double(row.getCell(2).getNumericCellValue()).intValue());
-                element.setTeacherTitle(new Double(row.getCell(3).getNumericCellValue()).intValue());
+                element.setGender(new Double(row.getCell(2).toString()).intValue());
+                element.setTeacherTitle(new Double(row.getCell(3).toString()).intValue());
                 element.setTeacherContact(row.getCell(4).toString());
                 excelTeacherElementList.add(element);
             }
@@ -66,10 +66,8 @@ public class ExcelUtil {
             excelTeacher.setExcelTeacherElementList(excelTeacherElementList);
             return excelTeacher;
 
-        } catch (IOException | InvalidFormatException e) {
-            e.printStackTrace();
+        } catch ( InvalidFormatException e) {
+            throw new ApplicationErrorException(ErrorCode.InvalidExcelFileFormat);
         }
-
-        return null;
     }
 }

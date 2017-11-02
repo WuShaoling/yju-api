@@ -8,6 +8,7 @@ import com.guanshan.phoenix.webdomain.request.ReqUpdateStudent;
 import com.guanshan.phoenix.webdomain.response.ResStudentClassList;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface StudentService {
@@ -17,7 +18,7 @@ public interface StudentService {
 
     int updateStudentInfo(ReqUpdateStudent reqUpdateStudent) throws ApplicationErrorException;
 
-    ResBatchAddStudent batchStudentCreation(int classId, MultipartFile file) throws ApplicationErrorException;
+    ResBatchAddStudent batchStudentCreation(int classId, MultipartFile file) throws ApplicationErrorException, IOException;
 
     void createStudent(Student student) throws ApplicationErrorException;
 

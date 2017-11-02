@@ -154,6 +154,9 @@ public enum ErrorCode {
     @ErrorMessage("报告文件只支持pdf, doc以及docx格式")
     InvalidReportType(50),
 
+    @ErrorMessage("Excel文件已损坏")
+    InvalidExcelFileFormat(51),
+
     @ErrorMessage("服务器出错，请联系管理员")
     GeneralError(Integer.MAX_VALUE);
 

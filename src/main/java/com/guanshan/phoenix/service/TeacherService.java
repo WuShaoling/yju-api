@@ -10,6 +10,8 @@ import com.guanshan.phoenix.webdomain.response.ResTeacherClassList;
 import com.guanshan.phoenix.webdomain.response.ResTeacherList;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 public interface TeacherService {
     Teacher getTeacherByUserId(int teacherID) throws ApplicationErrorException;
 
@@ -25,5 +27,5 @@ public interface TeacherService {
 
     void deleteTeacherByTeacherUserId(ReqDeleteTeacher reqDeleteTeacher) throws ApplicationErrorException;
 
-    ResBatchAddTeacher batchTeacherCreation(MultipartFile file) throws ApplicationErrorException;
+    ResBatchAddTeacher batchTeacherCreation(MultipartFile file) throws ApplicationErrorException, IOException;
 }

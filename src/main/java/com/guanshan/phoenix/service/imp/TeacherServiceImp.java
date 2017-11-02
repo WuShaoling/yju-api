@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -193,7 +194,7 @@ public class TeacherServiceImp implements TeacherService {
     }
 
     @Override
-    public ResBatchAddTeacher batchTeacherCreation(MultipartFile file) throws ApplicationErrorException {
+    public ResBatchAddTeacher batchTeacherCreation(MultipartFile file) throws ApplicationErrorException, IOException {
         ResBatchAddTeacher resBatchAddTeacher = new ResBatchAddTeacher();
         List<ResBatchAddTeacher.FailureReason> failureReasonList = new ArrayList<>();
 
@@ -203,27 +204,20 @@ public class TeacherServiceImp implements TeacherService {
         ExcelTeacher excelTeacher = ExcelUtil.teacherExcelAnalysis(file);
         for (ExcelTeacher.ExcelTeacherElement excelTeacherElement : excelTeacher.getExcelTeacherElementList()) {
             try {
-                User user = new User();
-                user.setUsername(excelTeacherElement.getTeacherNum());
-                user.setPassword(EncryptionUtil.encryptPassword(defaultPassword));
-                user.setRole(RoleEnum.TEACHER.getCode());
-                userMapper.insertSelective(user);
-
-                Teacher teacher = new Teacher();
-                teacher.setUserId(user.getId());
-                teacher.setTno(excelTeacherElement.getTeacherNum());
-                teacher.setName(excelTeacherElement.getTeacherName());
-                teacher.setTitle(excelTeacherElement.getTeacherTitle());
-                teacher.setGender(excelTeacherElement.getGender());
-                teacher.setEmail(excelTeacherElement.getTeacherContact());
-                teacherMapper.insertSelective(teacher);
+                ReqUpdateTeacher updateTeacher = new ReqUpdateTeacher();
+                updateTeacher.setTeacherNo(excelTeacherElement.getTeacherNum());
+                updateTeacher.setTeacherName(excelTeacherElement.getTeacherName());
+                updateTeacher.setGender(excelTeacherElement.getGender());
+                updateTeacher.setTeacherTitleId(excelTeacherElement.getTeacherTitle());
+                updateTeacher.setTeacherContact(excelTeacherElement.getTeacherContact());
+                this.createTeacher(updateTeacher);
 
                 success += 1;
-            } catch (Exception e) {
+            } catch (ApplicationErrorException e) {
                 ResBatchAddTeacher.FailureReason failureReason = new ResBatchAddTeacher().new FailureReason();
                 failureReason.setTeacherNum(excelTeacherElement.getTeacherNum());
                 // todo
-                failureReason.setReason(ErrorCode.StudentAlreadyExists.getErrorStringFormat());
+                failureReason.setReason(e.getMessage());
                 failureReasonList.add(failureReason);
 
                 failure += 1;
