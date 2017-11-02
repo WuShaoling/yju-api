@@ -40,7 +40,7 @@ public class ExcelUtil {
             excelStudent.setExcelStudentElementList(excelStudentElementList);
             return excelStudent;
 
-        } catch ( InvalidFormatException e) {
+        } catch ( Exception e) {
             throw new ApplicationErrorException(ErrorCode.InvalidExcelFileFormat);
         }
     }
@@ -66,7 +66,7 @@ public class ExcelUtil {
             excelTeacher.setExcelTeacherElementList(excelTeacherElementList);
             return excelTeacher;
 
-        } catch ( InvalidFormatException e) {
+        } catch ( Exception e) {
             throw new ApplicationErrorException(ErrorCode.InvalidExcelFileFormat);
         }
     }
