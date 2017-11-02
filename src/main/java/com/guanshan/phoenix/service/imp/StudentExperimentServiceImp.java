@@ -57,10 +57,6 @@ public class StudentExperimentServiceImp implements StudentExperimentService {
                 studentExperimentMapper.selectByStudentIdAndExperimentId(reqStudentExperimentCloudware.getStudentId(),
                         reqStudentExperimentCloudware.getExperimentId());
 
-        if(studentExperiment != null){
-            throw new ApplicationErrorException(ErrorCode.StudentExperimentExists);
-        }
-
         Cloudware cloudware = new Cloudware(reqStudentExperimentCloudware.getWebSocket(),
                 reqStudentExperimentCloudware.getServiceId(),
                 reqStudentExperimentCloudware.getInstanceId(),
@@ -68,12 +64,18 @@ public class StudentExperimentServiceImp implements StudentExperimentService {
                 reqStudentExperimentCloudware.getPulsarId());
         cloudwareMapper.insert(cloudware);
 
-        studentExperiment = new StudentExperiment(
-                reqStudentExperimentCloudware.getStudentId(),
-                reqStudentExperimentCloudware.getExperimentId(),
-                cloudware.getId()
-        );
-        studentExperimentMapper.insert(studentExperiment);
+        if(studentExperiment != null){
+            studentExperiment.setCloudwareId(cloudware.getId());
+            studentExperimentMapper.updateByPrimaryKey(studentExperiment);
+        } else {
+
+            studentExperiment = new StudentExperiment(
+                    reqStudentExperimentCloudware.getStudentId(),
+                    reqStudentExperimentCloudware.getExperimentId(),
+                    cloudware.getId()
+            );
+            studentExperimentMapper.insert(studentExperiment);
+        }
     }
 
     @Override

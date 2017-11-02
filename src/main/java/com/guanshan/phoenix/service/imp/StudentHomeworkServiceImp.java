@@ -99,29 +99,33 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
         StudentHomework studentHomework =
                 studentHomeworkMapper.selectByStudentIdAndHomeworkId(reqStudentHomeworkCloudware.getStudentId(),
                                                                      reqStudentHomeworkCloudware.getHomeworkId());
-        if(studentHomework != null){
-            throw new ApplicationErrorException(ErrorCode.StudentHomeworkExists);
-        }
 
         Cloudware cloudware = new Cloudware(reqStudentHomeworkCloudware.getWebSocket(),
                                             reqStudentHomeworkCloudware.getServiceId(),
                                             reqStudentHomeworkCloudware.getInstanceId(),
                                             reqStudentHomeworkCloudware.getServiceName(),
                                             reqStudentHomeworkCloudware.getPulsarId());
-        cloudwareMapper.insert(cloudware);
-        studentHomework = new StudentHomework(
-                reqStudentHomeworkCloudware.getStudentId(),
-                reqStudentHomeworkCloudware.getHomeworkId(),
-                cloudware.getId(),
-                "",
-                0,
-                null,
-                null,
-                null,
-                null
-        );
 
-        studentHomeworkMapper.insert(studentHomework);
+        cloudwareMapper.insert(cloudware);
+
+        if(studentHomework == null) {
+            studentHomework = new StudentHomework(
+                    reqStudentHomeworkCloudware.getStudentId(),
+                    reqStudentHomeworkCloudware.getHomeworkId(),
+                    cloudware.getId(),
+                    "",
+                    0,
+                    null,
+                    null,
+                    null,
+                    null
+            );
+
+            studentHomeworkMapper.insert(studentHomework);
+        } else {
+            studentHomework.setCloudwareId(cloudware.getId());
+            studentHomeworkMapper.updateByPrimaryKey(studentHomework);
+        }
     }
 
     @Override
