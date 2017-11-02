@@ -9,5 +9,5 @@ public interface ManagerService {
 
     int resetPassword(ReqResetPassword reqResetPassword) throws ApplicationErrorException;
 
-    User createUser(String username, RoleEnum role);
+    User createUser(String username, RoleEnum role) throws ApplicationErrorException;
 }

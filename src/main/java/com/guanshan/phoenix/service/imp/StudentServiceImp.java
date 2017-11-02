@@ -1,9 +1,8 @@
 package com.guanshan.phoenix.service.imp;
 
-import com.guanshan.phoenix.Util.Utility;
-import com.guanshan.phoenix.cloudwareDomain.ReqCreateVolume;
-import com.guanshan.phoenix.cloudwareDomain.ResCloudware;
-import com.guanshan.phoenix.dao.entity.*;
+import com.guanshan.phoenix.dao.entity.Student;
+import com.guanshan.phoenix.dao.entity.StudentClass;
+import com.guanshan.phoenix.dao.entity.User;
 import com.guanshan.phoenix.dao.mapper.ClazzMapper;
 import com.guanshan.phoenix.dao.mapper.StudentClassMapper;
 import com.guanshan.phoenix.dao.mapper.StudentMapper;
@@ -13,18 +12,18 @@ import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.excel.ExcelUtil;
 import com.guanshan.phoenix.excel.domain.ExcelStudent;
-import com.guanshan.phoenix.service.*;
+import com.guanshan.phoenix.service.ClassService;
+import com.guanshan.phoenix.service.ManagerService;
+import com.guanshan.phoenix.service.StudentService;
 import com.guanshan.phoenix.webdomain.request.ReqAddClassStudent;
-import com.guanshan.phoenix.webdomain.response.ResBatchAddStudent;
 import com.guanshan.phoenix.webdomain.request.ReqUpdateStudent;
+import com.guanshan.phoenix.webdomain.response.ResBatchAddStudent;
 import com.guanshan.phoenix.webdomain.response.ResClassDetail;
 import com.guanshan.phoenix.webdomain.response.ResStudentClassList;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -33,16 +32,8 @@ import java.util.List;
 @Service
 public class StudentServiceImp implements StudentService {
 
-    static Logger log = Logger.getLogger(StudentServiceImp.class.getName());
-
     @Value("${default.password}")
     private String defaultPassword;
-
-    @Value("${cloudware.createVolumeUrl}")
-    private String createVolumeUrl;
-
-    @Autowired
-    private RestTemplate restTemplate;
 
     @Autowired
     private StudentClassMapper studentClassMapper;
@@ -148,25 +139,6 @@ public class StudentServiceImp implements StudentService {
         User user = managerService.createUser(student.getSno(), RoleEnum.STUDENT);
         student.setUserId(user.getId());
         studentMapper.insert(student);
-
-        log.info(String.format("Start to create volume for student %s...", student.getSno()));
-
-        ReqCreateVolume reqCreateVolume = new ReqCreateVolume();
-        reqCreateVolume.setUserId(user.getId());
-        reqCreateVolume.setSecret("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIiLCJpYXQiOjE1MDU4MTM0NTd9.Ftw1yHeUrqdNvymFZcIpuEoS0RHBFZqu4MfUZON9Zm0");
-
-        try {
-            ResCloudware resCloudware = restTemplate.postForObject(createVolumeUrl, reqCreateVolume, ResCloudware.class);
-            if (resCloudware.getErrorCode() != 0) {
-                log.error(String.format("Creating volume failed. Error code returned %d.", resCloudware.getErrorCode()));
-                throw new ApplicationErrorException(ErrorCode.GeneralError);
-            }
-        }catch (RestClientException e){
-            log.error(String.format("Creating volume failed. Error message:%s", e.getMessage()));
-            Utility.logError(log, e);
-            throw new ApplicationErrorException(ErrorCode.GeneralError);
-        }
-        log.info("Creating volume succeeded.");
     }
 
     @Override

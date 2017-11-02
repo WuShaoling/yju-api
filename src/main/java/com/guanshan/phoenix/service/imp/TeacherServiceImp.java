@@ -1,10 +1,10 @@
 package com.guanshan.phoenix.service.imp;
 
 import com.guanshan.phoenix.Util.EncryptionUtil;
-import com.guanshan.phoenix.Util.Utility;
-import com.guanshan.phoenix.cloudwareDomain.ReqCreateVolume;
-import com.guanshan.phoenix.cloudwareDomain.ResCloudware;
-import com.guanshan.phoenix.dao.entity.*;
+import com.guanshan.phoenix.dao.entity.Clazz;
+import com.guanshan.phoenix.dao.entity.StudentHomework;
+import com.guanshan.phoenix.dao.entity.Teacher;
+import com.guanshan.phoenix.dao.entity.User;
 import com.guanshan.phoenix.dao.mapper.*;
 import com.guanshan.phoenix.enums.RoleEnum;
 import com.guanshan.phoenix.enums.TitleEnum;
@@ -13,7 +13,6 @@ import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.excel.ExcelUtil;
 import com.guanshan.phoenix.excel.domain.ExcelTeacher;
 import com.guanshan.phoenix.service.*;
-import com.guanshan.phoenix.webdomain.request.ReqDeleteCloudware;
 import com.guanshan.phoenix.webdomain.request.ReqDeleteTeacher;
 import com.guanshan.phoenix.webdomain.request.ReqHomeworkGrade;
 import com.guanshan.phoenix.webdomain.request.ReqUpdateTeacher;
@@ -21,12 +20,9 @@ import com.guanshan.phoenix.webdomain.response.ResBatchAddTeacher;
 import com.guanshan.phoenix.webdomain.response.ResClassDetail;
 import com.guanshan.phoenix.webdomain.response.ResTeacherClassList;
 import com.guanshan.phoenix.webdomain.response.ResTeacherList;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
