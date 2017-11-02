@@ -83,4 +83,12 @@ public interface StudentClassMapper {
             "where class_id=#{classId, jdbcType=INTEGER})"
     })
     boolean isClassUsedByStudentClass(int classId);
+
+    @Select({
+            "select count(*)",
+            "from student_class",
+            "where class_id in (select id from class",
+                               "where course_id=#{courseId, jdbcType=INTEGER})"
+    })
+    int getStudentNumByCourseId(int courseId);
 }

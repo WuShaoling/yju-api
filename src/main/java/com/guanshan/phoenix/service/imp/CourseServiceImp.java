@@ -62,6 +62,9 @@ public class CourseServiceImp implements CourseService {
     @Autowired
     private StudentHomeworkMapper studentHomeworkMapper;
 
+    @Autowired
+    private StudentClassMapper studentClassMapper;
+
     public Course getCourseById(int courseID) throws ApplicationErrorException {
 
         Course course = courseMapper.selectByPrimaryKey(courseID);
@@ -238,6 +241,19 @@ public class CourseServiceImp implements CourseService {
         ResHotCourseList resHotCourseList = new ResHotCourseList();
         resHotCourseList.setCourseList(courseMapper.getHotCourses());
         return resHotCourseList;
+    }
+
+    @Override
+    public ResCommonCourseDetail getCommonCourseDetail(int courseId) throws ApplicationErrorException {
+        Course course = this.getCourseById(courseId);
+
+        Teacher teacher = teacherMapper.selectByUserId(course.getTeacherId());
+        int classNum = clazzMapper.getClassNumByCourseId(courseId);
+        int studentNum = studentClassMapper.getStudentNumByCourseId(courseId);
+
+        ResCommonCourseDetail detail = new ResCommonCourseDetail(teacher.getName(), classNum, studentNum);
+
+        return detail;
     }
 
     private void validateCourse(Course course) throws ApplicationErrorException {

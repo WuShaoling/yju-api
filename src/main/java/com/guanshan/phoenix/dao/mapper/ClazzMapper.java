@@ -127,4 +127,11 @@ public interface ClazzMapper {
             @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR)
     })
     List<Clazz> selectByCourseId(@Param("courseId") int courseId);
+
+    @Select({
+        "select count(*)",
+        "from class",
+        "where course_id = #{courseId,jdbcType=INTEGER}"
+    })
+    int getClassNumByCourseId(@Param("courseId") int courseId);
 }
