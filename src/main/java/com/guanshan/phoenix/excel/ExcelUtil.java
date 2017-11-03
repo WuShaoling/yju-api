@@ -31,7 +31,7 @@ public class ExcelUtil {
             for (int rowNum=1; rowNum<=sheet.getLastRowNum(); rowNum++) {
                 ExcelStudent.ExcelStudentElement element = new ExcelStudent().new ExcelStudentElement();
                 Row row = sheet.getRow(rowNum);
-                element.setStudentNum(new Integer(new Double(row.getCell(0).toString()).intValue()).toString());
+                element.setStudentNum(Integer.toString(new Double(row.getCell(0).toString()).intValue()));
                 element.setStudentName(row.getCell(1).toString());
                 element.setGender(new Double(row.getCell(2).toString()).intValue());
                 excelStudentElementList.add(element);
@@ -55,7 +55,7 @@ public class ExcelUtil {
             for (int rowNum=1; rowNum<=sheet.getLastRowNum(); rowNum++) {
                 ExcelTeacher.ExcelTeacherElement element = new ExcelTeacher().new ExcelTeacherElement();
                 Row row = sheet.getRow(rowNum);
-                element.setTeacherNum(new Integer(new Double(row.getCell(0).toString()).intValue()).toString());
+                element.setTeacherNum(Integer.toString(new Double(row.getCell(0).toString()).intValue()));
                 element.setTeacherName(row.getCell(1).toString());
                 element.setGender(new Double(row.getCell(2).toString()).intValue());
                 element.setTeacherTitle(new Double(row.getCell(3).toString()).intValue());
