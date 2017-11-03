@@ -72,25 +72,25 @@ public interface CourseMapper {
     boolean isTeacherUsedByCourse(int teacherId);
 
     @Select({
-            "select course_actual_student.course_id, course_actual_student.actual_student_num, ",
-            "course_total_student.total_student_num, c.name course_name, c.description, r.url, t.name teacher_name, t.email ",
-            "from",
-                "(select course_id, count(*) as actual_student_num",
-                "from class c inner join student_class sc on sc.class_id  = c.id",
-                "group by course_id) as course_actual_student",
-            "inner join",
-                "(select course_id, sum(student_num) as total_student_num",
-                "from class",
-                "group by course_id",
-                ") as course_total_student on course_actual_student.course_id = course_total_student.course_id",
-            "inner join course c on course_total_student.course_id = c.id",
-            "inner join course_resource cr on cr.course_id = c.id and type = 1",
-            "inner join resource r on r.id = cr.resource_id",
-            "inner join teacher t on t.user_id = c.teacher_id",
-            "order by actual_student_num desc limit 5"
+            "select c.id, ifnull(course_actual_student.actual_student_num, 0) actual_student_num, ",
+                    "ifnull(course_total_student.total_student_num, 0) total_student_num, c.name course_name, c.description, r.url, t.name teacher_name, t.email",
+                    "from course c",
+                          "inner join course_resource cr on cr.course_id = c.id and type = 1",
+                          "inner join resource r on r.id = cr.resource_id",
+                          "inner join teacher t on t.user_id = c.teacher_id",
+                          "left join",
+                            "(select course_id, count(*) as actual_student_num",
+                             "from class c inner join student_class sc on sc.class_id  = c.id",
+                             "group by course_id) as course_actual_student on course_actual_student.course_id=c.id",
+                          "left join",
+                            "(select course_id, sum(student_num) as total_student_num",
+                             "from class",
+                             "group by course_id",
+                            ") as course_total_student on course_actual_student.course_id = course_total_student.course_id",
+                    "order by actual_student_num desc limit 5"
     })
     @ConstructorArgs({
-            @Arg(column="course_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="actual_student_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="total_student_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="course_name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
