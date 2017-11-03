@@ -349,7 +349,6 @@ public class HomeworkServiceImp implements HomeworkService {
             clazzLists.addAll(clazzList);
         }
 
-        int i = 0;
         for (Clazz clazz : clazzLists) {
             for (Homework homework : homeworkMapper.selectByClassId(clazz.getId())) {
                 ResTeacherHomeworkList.ResHomework resHomework = new ResTeacherHomeworkList().new ResHomework();
@@ -367,13 +366,6 @@ public class HomeworkServiceImp implements HomeworkService {
                 resHomework.setDeadlineDate(Utility.formatDate(homework.getDeadlineDate()));
 
                 resHomeworkList.add(resHomework);
-                i++;
-                if (i >= noticeLimit) {
-                    break;
-                }
-            }
-            if (i >= noticeLimit) {
-                break;
             }
         }
 
