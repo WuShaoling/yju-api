@@ -11,23 +11,33 @@ buildscript {
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 		classpath "gradle.plugin.com.arenagod.gradle:mybatis-generator-plugin:1.4"
+		classpath('se.transmode.gradle:gradle-docker:1.2')
 	}
 }
 
-apply plugin: 'war'
 apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'docker'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: "com.arenagod.gradle.MybatisGenerator"
 
-group = 'com.guanshan.phoenix'
-version = '0.0.1-SNAPSHOT'
+group = 'com.guanshan'
+
 sourceCompatibility = 1.8
 
 repositories {
 	mavenCentral()
 }
 
+jar {
+	baseName = 'app'
+}
+
+war {
+	baseName = "${project.name}"
+	version = '0.0.1-SNAPSHOT'
+}
 
 dependencies {
 
@@ -72,4 +82,16 @@ configurations {
 mybatisGenerator {
 	verbose = true
 	configFile = 'src/main/resources/generatorConfig.xml'
+}
+
+task buildDocker(type: Docker, dependsOn: jar, group: "customer") {
+	push = false
+	applicationName = jar.baseName
+	dockerfile = file('src/main/docker/Dockerfile')
+	doFirst {
+		copy {
+			from jar
+			into stageDir
+		}
+	}
 }
