@@ -39,9 +39,9 @@ public class FileServiceImp implements FileService {
         String uploadFilePath = file.getOriginalFilename();
 
         if (!uploadFilePath.endsWith(".jpg") &&
-                !uploadFilePath.equals(".jpeg") &&
-                !uploadFilePath.equals(".bmp") &&
-                !uploadFilePath.equals(".png")) {
+                !uploadFilePath.endsWith(".jpeg") &&
+                !uploadFilePath.endsWith(".bmp") &&
+                !uploadFilePath.endsWith(".png")) {
             throw new ApplicationErrorException(ErrorCode.FileIsNotImage);
         }
 
