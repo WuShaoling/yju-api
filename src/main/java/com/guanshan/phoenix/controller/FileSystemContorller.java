@@ -50,7 +50,7 @@ public class FileSystemContorller {
     }
 
     @ApiOperation(value = "下载Report")
-    @GetMapping(value = "/report/{path:.+}/{fileName:.+}")
+    @GetMapping(value = "/report/{path}/{fileName:.+}")
     public void downloadReport(@PathVariable("path") String path, @PathVariable("fileName") String fileName, HttpServletResponse response) throws ApplicationErrorException {
         fileService.downloadReport(path, fileName, response);
     }
