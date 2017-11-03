@@ -161,9 +161,9 @@ public class FileServiceImp implements FileService {
             int i = fis.read(temp);
             while (i != -1) {
                 fos.write(temp, 0, temp.length);
-                fos.flush();
                 i = fis.read(temp);
             }
+            fos.flush();
         } finally {
             if (fis != null) {
                 fis.close();
