@@ -28,4 +28,6 @@ public interface TeacherService {
     void deleteTeacherByTeacherUserId(ReqDeleteTeacher reqDeleteTeacher) throws ApplicationErrorException;
 
     ResBatchAddTeacher batchTeacherCreation(MultipartFile file) throws ApplicationErrorException, IOException;
+
+    int getCount();
 }

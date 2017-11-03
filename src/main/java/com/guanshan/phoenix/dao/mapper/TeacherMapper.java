@@ -149,4 +149,9 @@ public interface TeacherMapper {
             @Arg(column="phone", javaType=String.class, jdbcType=JdbcType.VARCHAR)
     })
     Teacher selectByClassId(int classId);
+
+    @Select({
+            "select count(*) from teacher"
+    })
+    int getCount();
 }

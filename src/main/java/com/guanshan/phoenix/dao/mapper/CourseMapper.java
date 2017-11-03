@@ -114,4 +114,9 @@ public interface CourseMapper {
             @Arg(column="description", javaType=String.class, jdbcType=JdbcType.VARCHAR)
     })
     List<Course> selectByTeacherId(@Param("teacherId") Integer teacherId);
+
+    @Select({
+            "select count(*) from course"
+    })
+    int getCount();
 }

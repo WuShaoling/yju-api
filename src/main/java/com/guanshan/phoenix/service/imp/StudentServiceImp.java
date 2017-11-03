@@ -161,5 +161,8 @@ public class StudentServiceImp implements StudentService {
         userMapper.updateByPrimaryKey(user);
     }
 
-
+    @Override
+    public int getCount() {
+        return studentMapper.getCount();
+    }
 }

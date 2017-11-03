@@ -230,6 +230,11 @@ public class TeacherServiceImp implements TeacherService {
         return resBatchAddTeacher;
     }
 
+    @Override
+    public int getCount() {
+        return teacherMapper.getCount();
+    }
+
     private void validateTeacher(ReqUpdateTeacher reqUpdateTeacher) throws ApplicationErrorException {
 
         TitleEnum title = TitleEnum.fromInt(reqUpdateTeacher.getTeacherTitleId());

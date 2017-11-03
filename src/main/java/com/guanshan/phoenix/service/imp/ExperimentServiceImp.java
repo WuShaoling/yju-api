@@ -116,6 +116,11 @@ public class ExperimentServiceImp implements ExperimentService {
         return experimentInfo;
     }
 
+    @Override
+    public int getCount() {
+        return experimentMapper.getCount();
+    }
+
     private void validateExperiment(Experiment experiment) throws ApplicationErrorException {
         if(moduleMapper.selectByPrimaryKey(experiment.getModuleId()) == null){
             throw new ApplicationErrorException(ErrorCode.ModuleNotExists);

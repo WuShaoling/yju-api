@@ -128,4 +128,9 @@ public interface ExperimentMapper {
             "where experiment_id=#{experimentId, jdbcType=INTEGER})"
     })
     boolean isExperimentUsedByStudentExperiment(int experimentId);
+
+    @Select({
+            "select count(*) from experiment"
+    })
+    int getCount();
 }

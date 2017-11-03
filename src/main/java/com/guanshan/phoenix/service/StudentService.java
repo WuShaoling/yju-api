@@ -23,4 +23,6 @@ public interface StudentService {
     void createStudent(Student student) throws ApplicationErrorException;
 
     void updateStudent(Student student) throws ApplicationErrorException;
+
+    int getCount();
 }

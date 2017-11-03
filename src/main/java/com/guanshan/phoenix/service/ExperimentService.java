@@ -15,4 +15,6 @@ public interface ExperimentService {
     int updateExperiment(ReqExperiment reqExperiment) throws ApplicationErrorException;
 
     ResExperimentInfo getExperiment(int experimentId) throws ApplicationErrorException;
+
+    int getCount();
 }

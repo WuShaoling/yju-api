@@ -256,6 +256,11 @@ public class CourseServiceImp implements CourseService {
         return detail;
     }
 
+    @Override
+    public int getCount() {
+        return courseMapper.getCount();
+    }
+
     private void validateCourse(Course course) throws ApplicationErrorException {
         Teacher teacher = teacherMapper.selectByUserId(course.getTeacherId());
         if(teacher == null){

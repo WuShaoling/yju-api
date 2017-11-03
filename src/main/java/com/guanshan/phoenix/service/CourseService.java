@@ -28,4 +28,6 @@ public interface CourseService {
     void deleteCourse(ReqDeleteCourse reqDeleteCourse) throws ApplicationErrorException;
 
     ResCommonCourseDetail getCommonCourseDetail(int courseId) throws ApplicationErrorException;
+
+    int getCount();
 }

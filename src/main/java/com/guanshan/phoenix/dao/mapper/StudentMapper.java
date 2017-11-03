@@ -115,4 +115,9 @@ public interface StudentMapper {
             @Arg(column="birthday", javaType=String.class, jdbcType=JdbcType.VARCHAR)
     })
     Student selectByStudentNo(String sno);
+
+    @Select({
+            "select count(*) from student"
+    })
+    int getCount();
 }
