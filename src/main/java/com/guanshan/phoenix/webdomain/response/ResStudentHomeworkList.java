@@ -20,6 +20,7 @@ public class ResStudentHomeworkList {
         private int publishDay;
         private int classId;
         private String className;
+        private String teacherName;
         private Boolean complete;
 
         public int getPublishMonth() {
@@ -100,6 +101,14 @@ public class ResStudentHomeworkList {
 
         public void setClassName(String className) {
             this.className = className;
+        }
+
+        public String getTeacherName() {
+            return teacherName;
+        }
+
+        public void setTeacherName(String teacherName) {
+            this.teacherName = teacherName;
         }
 
         public Boolean getComplete() {
