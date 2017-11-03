@@ -200,6 +200,21 @@ public class CourseServiceImp implements CourseService {
         validateCourse(course);
 
         courseMapper.updateByPrimaryKey(course);
+
+        CourseResource courseResource = courseResourceMapper.selectByCourseIdAndType(course.getId(), ResourceTypeEnum.IMAGE.getCode());
+        if(courseResource == null){
+            Resource resource = new Resource();
+            resource.setUrl(course.getImageUrl());
+            resourceMapper.insert(resource);
+            courseResource = new CourseResource();
+            courseResource.setCourseId(course.getId());
+            courseResource.setResourceId(resource.getId());
+            courseResourceMapper.insert(courseResource);
+        } else {
+            Resource resource = resourceMapper.selectByPrimaryKey(courseResource.getResourceId());
+            resource.setUrl(course.getImageUrl());
+            resourceMapper.updateByPrimaryKey(resource);
+        }
     }
 
     @Override

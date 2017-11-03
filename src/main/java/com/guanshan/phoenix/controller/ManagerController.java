@@ -156,6 +156,7 @@ public class ManagerController {
 
     @ApiOperation(value = "更新课程信息", notes = "")
     @PostMapping(value = "course/updation")
+    @Transactional(rollbackFor = Throwable.class)
     public ResponseMessage updateCourse(@RequestBody Course course) throws ApplicationErrorException {
         courseService.updateCourse(course);
         return new ResponseMessage.Success();
