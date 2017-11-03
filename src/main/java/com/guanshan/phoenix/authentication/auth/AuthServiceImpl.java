@@ -4,6 +4,10 @@ import com.guanshan.phoenix.authentication.authUser.AuthUserInfo;
 import com.guanshan.phoenix.authentication.authUser.AuthUserInfoService;
 import com.guanshan.phoenix.authentication.security.JwtTokenUtil;
 import com.guanshan.phoenix.authentication.security.JwtUser;
+import com.guanshan.phoenix.dao.entity.User;
+import com.guanshan.phoenix.error.ApplicationErrorException;
+import com.guanshan.phoenix.error.ErrorCode;
+import com.guanshan.phoenix.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,6 +33,7 @@ public class AuthServiceImpl implements AuthService {
     private UserDetailsService userDetailsService;
     private JwtTokenUtil jwtTokenUtil;
     private AuthUserInfoService authUserInfoService;
+    private UserService userService;
 
     @Value("${token.tokenHeader}")
     private String tokenHead;
@@ -41,11 +46,13 @@ public class AuthServiceImpl implements AuthService {
             AuthenticationManager authenticationManager,
             UserDetailsService userDetailsService,
             JwtTokenUtil jwtTokenUtil,
-            AuthUserInfoService authUserInfoService) {
+            AuthUserInfoService authUserInfoService,
+            UserService userService) {
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
         this.jwtTokenUtil = jwtTokenUtil;
         this.authUserInfoService = authUserInfoService;
+        this.userService = userService;
     }
 
     @Override
@@ -81,5 +88,25 @@ public class AuthServiceImpl implements AuthService {
             return jwtTokenUtil.refreshToken(token);
         }
         return null;
+    }
+
+    @Override
+    public void updatePassword(int userId, String oldPassword, String newPassword, String confirmPassword) throws ApplicationErrorException {
+        User user = userService.getUserInfo(userId);
+        if(user == null){
+            throw new ApplicationErrorException(ErrorCode.UserNotExist);
+        }
+
+        if(!newPassword.equals(confirmPassword)){
+            throw new ApplicationErrorException(ErrorCode.NewPasswordsNotTheSame);
+        }
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        if(!encoder.matches(oldPassword, user.getPassword())){
+            throw new ApplicationErrorException(ErrorCode.IncorrectOldPassword);
+        }
+
+        user.setPassword(encoder.encode(newPassword));
+        userService.updateUser(user);
     }
 }

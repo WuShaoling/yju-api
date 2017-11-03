@@ -17,7 +17,17 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public User getUserInfo(int userId){
+        return userMapper.selectByPrimaryKey(userId);
+    }
+
+    @Override
     public void deleteUserById(int id) {
         userMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public void updateUser(User user) {
+        userMapper.updateByPrimaryKey(user);
     }
 }

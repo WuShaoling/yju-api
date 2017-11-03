@@ -157,6 +157,9 @@ public enum ErrorCode {
     @ErrorMessage("Excel文件已损坏")
     InvalidExcelFileFormat(51),
 
+    @ErrorMessage("两次新密码输入不一致")
+    NewPasswordsNotTheSame(52),
+
     @ErrorMessage("服务器出错，请联系管理员")
     GeneralError(Integer.MAX_VALUE);
 

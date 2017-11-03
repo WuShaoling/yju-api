@@ -1,6 +1,7 @@
 package com.guanshan.phoenix.authentication.auth;
 
 import com.guanshan.phoenix.authentication.authUser.AuthUserInfo;
+import com.guanshan.phoenix.error.ApplicationErrorException;
 
 /**
  * Created by Justin on 2017/6/3.
@@ -29,4 +30,6 @@ public interface AuthService {
      * @return
      */
     String refresh(String oldToken);
+
+    void updatePassword(int userId, String oldPassword, String newPassword, String confirmPassword) throws ApplicationErrorException;
 }
