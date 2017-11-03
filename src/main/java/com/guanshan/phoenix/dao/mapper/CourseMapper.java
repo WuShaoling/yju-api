@@ -87,7 +87,7 @@ public interface CourseMapper {
             "inner join course_resource cr on cr.course_id = c.id and type = 1",
             "inner join resource r on r.id = cr.resource_id",
             "inner join teacher t on t.user_id = c.teacher_id",
-            "order by actual_student_num desc limit 4"
+            "order by actual_student_num desc limit 5"
     })
     @ConstructorArgs({
             @Arg(column="course_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
