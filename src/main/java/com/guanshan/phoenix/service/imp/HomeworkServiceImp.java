@@ -327,7 +327,7 @@ public class HomeworkServiceImp implements HomeworkService {
                 return o2.getPublishDate().compareTo(o1.getPublishDate());
             }
         });
-        
+
         resStudentHomeworkList.setResHomeworkList(resHomeworkList);
         return resStudentHomeworkList;
     }
@@ -414,7 +414,7 @@ public class HomeworkServiceImp implements HomeworkService {
                 submissionDetail.setCompleted(false);
             }else{
                 submissionDetail.setStudentHomeworkId(studentHomework.getId());
-                submissionDetail.setCompleted(true);
+                submissionDetail.setCompleted(studentHomework.getSubmissionDate() != null);
                 submissionDetail.setSubmissionDate(Utility.formatDate(studentHomework.getSubmissionDate()));
                 submissionDetail.setLastEditDate(Utility.formatDate(studentHomework.getLastEditDate()));
                 submissionDetail.setScore(studentHomework.getScore());
