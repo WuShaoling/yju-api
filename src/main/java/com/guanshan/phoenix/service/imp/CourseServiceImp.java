@@ -266,7 +266,7 @@ public class CourseServiceImp implements CourseService {
         int classNum = clazzMapper.getClassNumByCourseId(courseId);
         int studentNum = studentClassMapper.getStudentNumByCourseId(courseId);
 
-        ResCommonCourseDetail detail = new ResCommonCourseDetail(teacher.getName(), classNum, studentNum);
+        ResCommonCourseDetail detail = new ResCommonCourseDetail(teacher.getName(), classNum, studentNum, course.getDescription());
 
         return detail;
     }
