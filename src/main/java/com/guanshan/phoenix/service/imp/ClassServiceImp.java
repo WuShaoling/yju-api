@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ClassServiceImp implements ClassService {
@@ -76,29 +78,6 @@ public class ClassServiceImp implements ClassService {
     }
 
     @Override
-    public ResClassDetail getClassDetailInfo(int classID) throws ApplicationErrorException {
-        Clazz classInfo = this.getClassById(classID);
-        Term termInfo = termService.getTermById(classInfo.getTermId());
-        Course courseInfo = courseService.getCourseById(classInfo.getCourseId());
-        Teacher teacherInfo = teacherService.getTeacherByUserId(courseInfo.getTeacherId());
-
-        ResClassDetail resClassDetailInfo = new ResClassDetail();
-        resClassDetailInfo.setClassId(classInfo.getId());
-        resClassDetailInfo.setClassName(classInfo.getName());
-        resClassDetailInfo.setTerm(termInfo.getDescription());
-        resClassDetailInfo.setImage(courseInfo.getImageUrl());
-        resClassDetailInfo.setDuration(classInfo.getDuration());
-        resClassDetailInfo.setStudentNumber(classInfo.getStudentNum());
-        resClassDetailInfo.setCourseDescription(courseInfo.getDescription());
-        resClassDetailInfo.setCourseId(courseInfo.getId());
-        resClassDetailInfo.setCourseName(courseInfo.getName());
-        resClassDetailInfo.setTeacherContract(teacherInfo.getEmail());
-        resClassDetailInfo.setTeacherName(teacherInfo.getName());
-        resClassDetailInfo.setClassDate(Utility.formatDate(classInfo.getDate()));
-        return resClassDetailInfo;
-    }
-
-    @Override
     public int deleteClassStudent(ReqDeleteClassStudent reqDeleteClassStudent) throws ApplicationErrorException {
         if(!clazzMapper.isStudentInClass(reqDeleteClassStudent.getStudentId(), reqDeleteClassStudent.getClassId())){
             throw new ApplicationErrorException(ErrorCode.StudentNotInClass);
@@ -147,17 +126,17 @@ public class ClassServiceImp implements ClassService {
         ResClassStudents resClassStudents = new ResClassStudents();
 
         List<ResClassStudents.ResClassStudent> resClassStudentList = new ArrayList<>();
-        List<StudentClass> studentClassList = studentClassMapper.selectByClassID(classId);
-        for (StudentClass studentClass : studentClassList) {
+        resClassStudents.setStudentList(resClassStudentList);
+        for (Map studentInfo : studentClassMapper.getAllStudentByClassId(classId)){
             ResClassStudents.ResClassStudent resClassStudent = new ResClassStudents().new ResClassStudent();
-            Student student = studentMapper.selectByUserId(studentClass.getStudentId());
-            resClassStudent.setId(student.getUserId());
-            resClassStudent.setStudentNo(student.getSno());
-            resClassStudent.setStudentName(student.getName());
-            resClassStudent.setGender(student.getGender());
+            resClassStudent.setId((int)studentInfo.get("userId"));
+            resClassStudent.setStudentNo((String) studentInfo.get("sno"));
+            resClassStudent.setStudentName((String)studentInfo.get("name"));
+            resClassStudent.setGender((int)studentInfo.get("gender"));
 
             resClassStudentList.add(resClassStudent);
         }
+
         resClassStudents.setStudentList(resClassStudentList);
 
         return resClassStudents;
@@ -223,36 +202,33 @@ public class ClassServiceImp implements ClassService {
         ResClassInfos resClassInfos = new ResClassInfos();
         List<ResClassInfos.ResClassInfo> resClassInfoList = new ArrayList<>();
 
-        List<Clazz> clazzList = clazzMapper.selectAll();
-        for (Clazz clazz : clazzList) {
+        for (Map classInfo : clazzMapper.selectAllClassInfo()){
             ResClassInfos.ResClassInfo resClassInfo = new ResClassInfos.ResClassInfo();
 
-            resClassInfo.setClassId(clazz.getId());
-            resClassInfo.setClassName(clazz.getName());
-            resClassInfo.setCourseId(clazz.getCourseId());
+            resClassInfo.setClassId((int)classInfo.get("classId"));
+            resClassInfo.setClassName((String) classInfo.get("className"));
+            resClassInfo.setCourseId((int)classInfo.get("courseId"));
 
-            Course course = courseMapper.selectByPrimaryKey(clazz.getCourseId());
-            resClassInfo.setCourseName(course.getName());
-            resClassInfo.setCourseDes(course.getDescription());
+            resClassInfo.setCourseName((String) classInfo.get("courseName"));
+            resClassInfo.setCourseDes((String) classInfo.get("description"));
 
-            Teacher teacher = teacherMapper.selectByUserId(course.getTeacherId());
-            resClassInfo.setTeacherName(teacher.getName());
-            resClassInfo.setTeacherContact(teacher.getEmail());
+            resClassInfo.setTeacherName((String) classInfo.get("teacherName"));
+            resClassInfo.setTeacherContact((String) classInfo.get("email"));
 
-            Term term = termMapper.selectByPrimaryKey(clazz.getTermId());
-            resClassInfo.setTerm(term.getDescription());
+            resClassInfo.setTerm(new Term(
+                    (String) classInfo.get("year"),
+                    (int) classInfo.get("semester")
+            ).getDescription());
 
-            CourseResource courseResource =
-                    courseResourceMapper.selectByCourseIdAndType(clazz.getCourseId(), ResourceTypeEnum.IMAGE.getCode());
-            Resource resource = resourceMapper.selectByPrimaryKey(courseResource.getResourceId());
-            resClassInfo.setCourseImage(resource.getUrl());
+            resClassInfo.setCourseImage((String) classInfo.get("url"));
 
-            resClassInfo.setDuration(clazz.getDuration());
-            resClassInfo.setStudentNum(clazz.getStudentNum());
-            resClassInfo.setCourseDate(Utility.formatDate(clazz.getDate()));
+            resClassInfo.setDuration((String) classInfo.get("duration"));
+            resClassInfo.setStudentNum((int) classInfo.get("studentNum"));
+            resClassInfo.setCourseDate(Utility.formatDate((Date) classInfo.get("classDate")));
 
             resClassInfoList.add(resClassInfo);
         }
+
         resClassInfos.setClassInfoList(resClassInfoList);
 
         return resClassInfos;

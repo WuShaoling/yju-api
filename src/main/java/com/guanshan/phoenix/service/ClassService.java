@@ -10,8 +10,6 @@ import com.guanshan.phoenix.webdomain.response.ResClassStudents;
 public interface ClassService {
     Clazz getClassById(int classID) throws ApplicationErrorException;
 
-    ResClassDetail getClassDetailInfo(int classID) throws ApplicationErrorException;
-
     int deleteClassStudent(ReqDeleteClassStudent reqDeleteClassStudent) throws ApplicationErrorException;
 
     int addClassStudent(ReqAddClassStudent reqAddClassStudent) throws ApplicationErrorException;

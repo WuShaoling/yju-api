@@ -3,7 +3,6 @@ package com.guanshan.phoenix.controller;
 import com.guanshan.phoenix.dao.entity.Course;
 import com.guanshan.phoenix.dao.entity.Module;
 import com.guanshan.phoenix.dao.entity.Term;
-import com.guanshan.phoenix.enums.ResourceTypeEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ResponseMessage;
 import com.guanshan.phoenix.service.*;
@@ -49,9 +48,6 @@ public class ManagerController {
 
     @Autowired
     private ExperimentService experimentService;
-
-    @Autowired
-    private FileService fileService;
 
 
     @ApiOperation(value = "获取所有老师信息", notes = "")

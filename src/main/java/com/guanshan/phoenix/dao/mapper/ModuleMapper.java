@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ModuleMapper {
     @Delete({
@@ -62,8 +63,14 @@ public interface ModuleMapper {
     List<Module> selectByCourseID(Integer courseId);
 
     @Select({
-            "select exists (select 1 from module",
-            "where course_id=#{courseId, jdbcType=INTEGER})"
+            "select m.id moduleId, m.name moduleName, e.id experimentId, e.name experimentName, ",
+            "e.description experimentDes, e.cloudware_type cloudwareType, e.deadline_date dueDate, ",
+            "e.publish_date publishDate",
+            "from module m left join experiment e on e.module_id = m.id",
+            "where course_id=#{courseId, jdbcType=INTEGER}",
+            "order by moduleId"
     })
-    boolean isCourseUsedByModule(int courseId);
+    List<Map> selectModuleExperimentInfoByCourseId(int courseId);
+
+
 }

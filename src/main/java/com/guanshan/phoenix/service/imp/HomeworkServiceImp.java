@@ -62,19 +62,15 @@ public class HomeworkServiceImp implements HomeworkService {
 
     @Override
     public ResHomeworkDetail getHomeworkDetail(int homeworkID) throws ApplicationErrorException {
-        if(homeworkMapper.selectByPrimaryKey(homeworkID) == null){
+        Homework homework = homeworkMapper.selectByPrimaryKey(homeworkID);
+        if(homework == null){
             throw new ApplicationErrorException(ErrorCode.HomeworkNotExists);
         }
 
         ResHomeworkDetail homeworkDetail = new ResHomeworkDetail();
 
-        Homework homework = homeworkMapper.selectByPrimaryKey(homeworkID);
         Module module = moduleMapper.selectByPrimaryKey(homework.getModuleId());
         Course course = courseMapper.selectByPrimaryKey(module.getCourseId());
-
-        if(homework == null){
-            throw new ApplicationErrorException(ErrorCode.HomeworkNotExists);
-        }
 
         homeworkDetail.setCourseName(course.getName());
         homeworkDetail.setModuleName(module.getName());
@@ -238,35 +234,35 @@ public class HomeworkServiceImp implements HomeworkService {
         resClassHomework.setClassId(classId);
         resClassHomework.setClassName(clazz.getName());
         resClassHomework.setCourseName(course.getName());
+        ResClassHomework.ResClassHomeworkModule resClassHomeworkModule = new ResClassHomework().new ResClassHomeworkModule();
 
         List<ResClassHomework.ResClassHomeworkModule> modules = new ArrayList<>();
-        List<Module> moduleList = moduleMapper.selectByCourseID(clazz.getCourseId());
-        for (Module module : moduleList) {
-            ResClassHomework.ResClassHomeworkModule resClassHomeworkModule = new ResClassHomework().new ResClassHomeworkModule();
-            resClassHomeworkModule.setModuleId(module.getId());
-            resClassHomeworkModule.setModuleName(module.getName());
+        resClassHomework.setModules(modules);
 
-            List<ResClassHomework.ResClassHomeworkModuleHomework> homeworks =  new ArrayList<>();
-            List<Homework> homeworkList = homeworkMapper.selectByModuleIdAndClassId(module.getId(), classId);
-            for (Homework homework : homeworkList) {
-                ResClassHomework.ResClassHomeworkModuleHomework resClassHomeworkModuleHomework = new ResClassHomework().new ResClassHomeworkModuleHomework();
-                resClassHomeworkModuleHomework.setHomeworkId(homework.getId());
-                resClassHomeworkModuleHomework.setHomeworkName(homework.getName());
-                resClassHomeworkModuleHomework.setHomeworkDes(homework.getDescription());
-                resClassHomeworkModuleHomework.setHomeworkCreateDate(Utility.formatDate(homework.getPublishDate()));
-                resClassHomeworkModuleHomework.setTeacherName(teacher.getName());
-                resClassHomeworkModuleHomework.setHomeworkDueDate(Utility.formatDate(homework.getDeadlineDate()));
-                CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt(homework.getCloudwareType());
-                resClassHomeworkModuleHomework.setCloudwareType(cloudwareType == null ? "" : cloudwareType.toString());
-
-                homeworks.add(resClassHomeworkModuleHomework);
+        for(Map moduleHomeworkInfo : homeworkMapper.selectHomeworkListByCourseAndClassId(course.getId(), classId)){
+            int moduleId = (int)moduleHomeworkInfo.get("moduleId");
+            if(moduleId != resClassHomeworkModule.getModuleId()){
+                resClassHomeworkModule = new ResClassHomework().new ResClassHomeworkModule();
+                modules.add(resClassHomeworkModule);
+                resClassHomeworkModule.setModuleId(moduleId);
+                resClassHomeworkModule.setModuleName((String)moduleHomeworkInfo.get("moduleName"));
+                resClassHomeworkModule.setHomeworks(new ArrayList<>());
             }
 
-            resClassHomeworkModule.setHomeworks(homeworks);
-            modules.add(resClassHomeworkModule);
+            if(moduleHomeworkInfo.get("homeworkId") != null){
+                ResClassHomework.ResClassHomeworkModuleHomework resClassHomeworkModuleHomework = new ResClassHomework().new ResClassHomeworkModuleHomework();
+                resClassHomeworkModuleHomework.setHomeworkId((int)moduleHomeworkInfo.get("homeworkId"));
+                resClassHomeworkModuleHomework.setHomeworkName((String)moduleHomeworkInfo.get("homeworkName"));
+                resClassHomeworkModuleHomework.setHomeworkDes((String)moduleHomeworkInfo.get("homeworkDes"));
+                resClassHomeworkModuleHomework.setHomeworkCreateDate(Utility.formatDate((Date) moduleHomeworkInfo.get("publishDate")));
+                resClassHomeworkModuleHomework.setTeacherName(teacher.getName());
+                resClassHomeworkModuleHomework.setHomeworkDueDate(Utility.formatDate((Date) moduleHomeworkInfo.get("dueDate")));
+                CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt((int)moduleHomeworkInfo.get("cloudwareType"));
+                resClassHomeworkModuleHomework.setCloudwareType(cloudwareType == null ? "" : cloudwareType.toString());
 
+                resClassHomeworkModule.getHomeworks().add(resClassHomeworkModuleHomework);
+            }
         }
-        resClassHomework.setModules(modules);
 
         return resClassHomework;
     }
@@ -276,57 +272,29 @@ public class HomeworkServiceImp implements HomeworkService {
         ResStudentHomeworkList resStudentHomeworkList = new ResStudentHomeworkList();
         List<ResStudentHomeworkList.ResHomework> resHomeworkList = new ArrayList<>();
 
-        List<StudentClass> studentClassList = studentClassMapper.selectByStudentUserId(studentId);
-        if (studentClassList == null) {
-            throw new ApplicationErrorException(ErrorCode.StudentNotInClass);
-        }
-
-        List<Integer> classIds = new ArrayList<>();
-        for (StudentClass studentClass : studentClassList) {
-            classIds.add(studentClass.getClassId());
-        }
-
-        List<Homework> homeworkList = new ArrayList<>();
-        for (Integer classId : classIds) {
-            homeworkList.addAll(homeworkMapper.selectByClassId(classId));
-        }
-
-        for (Homework homework : homeworkList) {
+        for(Map homeworkInfo : studentClassMapper.getStudentHomeworkByStudentId(studentId)){
             ResStudentHomeworkList.ResHomework resHomework = new ResStudentHomeworkList().new ResHomework();
-            resHomework.setId(homework.getId());
-            resHomework.setName(homework.getName());
-            resHomework.setDescription(homework.getDescription());
-            CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt(homework.getCloudwareType());
+            resHomework.setId((int)homeworkInfo.get("homeworkId"));
+            resHomework.setName((String)homeworkInfo.get("homeworkName"));
+            resHomework.setDescription((String)homeworkInfo.get("homeworkDes"));
+            CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt((int)homeworkInfo.get("cloudwareType"));
             resHomework.setCloudwareType(cloudwareType == null ? "" : cloudwareType.toString());
-            resHomework.setPublishDate(Utility.formatDate(homework.getPublishDate()));
+            resHomework.setPublishDate(Utility.formatDate((Date)homeworkInfo.get("publishDate")));
             Calendar calendar = Calendar.getInstance();
-            calendar.setTime(homework.getPublishDate());
+            calendar.setTime((Date)homeworkInfo.get("publishDate"));
             resHomework.setPublishMonth(calendar.get(Calendar.MONTH) + 1);
             resHomework.setPublishDay(calendar.get(Calendar.DATE));
-            resHomework.setDeadlineDate(Utility.formatDate(homework.getDeadlineDate()));
-            resHomework.setClassId(homework.getClassId());
-            resHomework.setClassName(clazzMapper.selectByPrimaryKey(homework.getClassId()).getName());
-            resHomework.setTeacherName(teacherMapper.selectByClassId(homework.getClassId()).getName());
-            resHomework.setComplete(false);
+            resHomework.setDeadlineDate(Utility.formatDate((Date)homeworkInfo.get("deadlineDate")));
+            resHomework.setClassId((int)homeworkInfo.get("classId"));
+            resHomework.setClassName((String)homeworkInfo.get("className"));
+            resHomework.setTeacherName((String)homeworkInfo.get("teacherName"));
+
+            boolean isCompleted = homeworkInfo.get("studentHomeworkId") != null &&
+                    homeworkInfo.get("submissionDate") != null;
+            resHomework.setComplete(isCompleted);
 
             resHomeworkList.add(resHomework);
         }
-
-        List<StudentHomework> studentHomeworkList = studentHomeworkMapper.selectByStudentId(studentId);
-        for (StudentHomework studentHomework: studentHomeworkList) {
-            for (ResStudentHomeworkList.ResHomework resHomework : resHomeworkList) {
-                if (studentHomework.getHomeworkId().equals(resHomework.getId())) {
-                    resHomework.setComplete(true);
-                }
-            }
-        }
-
-        Collections.sort(resHomeworkList, new Comparator<ResStudentHomeworkList.ResHomework>() {
-            @Override
-            public int compare(ResStudentHomeworkList.ResHomework o1, ResStudentHomeworkList.ResHomework o2) {
-                return o2.getPublishDate().compareTo(o1.getPublishDate());
-            }
-        });
 
         resStudentHomeworkList.setResHomeworkList(resHomeworkList);
         return resStudentHomeworkList;
@@ -337,44 +305,24 @@ public class HomeworkServiceImp implements HomeworkService {
         ResTeacherHomeworkList resTeacherHomeworkList = new ResTeacherHomeworkList();
         List<ResTeacherHomeworkList.ResHomework> resHomeworkList = new ArrayList<>();
 
+        for(Map homeworkInfo : homeworkMapper.selectHomeworkDetailByTeacherId(teacherId)){
+            ResTeacherHomeworkList.ResHomework resHomework = new ResTeacherHomeworkList().new ResHomework();
+            resHomework.setClassId((int)homeworkInfo.get("classId"));
+            resHomework.setClassName((String) homeworkInfo.get("className"));
+            resHomework.setName((String) homeworkInfo.get("homeworkName"));
+            resHomework.setDescription((String) homeworkInfo.get("description"));
+            CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt((int) homeworkInfo.get("cloudwareType"));
+            resHomework.setCloudwareType(cloudwareType == null ? "" : cloudwareType.toString());
+            resHomework.setPublishDate(Utility.formatDate((Date) homeworkInfo.get("publishDate")));
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime((Date) homeworkInfo.get("publishDate"));
+            resHomework.setPublishMonth(calendar.get(Calendar.MONTH) + 1);
+            resHomework.setPublishDay(calendar.get(Calendar.DATE));
+            resHomework.setDeadlineDate(Utility.formatDate((Date) homeworkInfo.get("deadlineDate")));
 
-        List<Course> courseList = courseMapper.selectByTeacherId(teacherId);
-        if (courseList == null) {
-            throw new ApplicationErrorException(ErrorCode.TeacherIsNotInClass);
+            resHomeworkList.add(resHomework);
         }
 
-        List<Clazz> clazzLists = new ArrayList<>();
-        for (Course course : courseList) {
-            List<Clazz> clazzList = clazzMapper.selectByCourseId(course.getId());
-            clazzLists.addAll(clazzList);
-        }
-
-        for (Clazz clazz : clazzLists) {
-            for (Homework homework : homeworkMapper.selectByClassId(clazz.getId())) {
-                ResTeacherHomeworkList.ResHomework resHomework = new ResTeacherHomeworkList().new ResHomework();
-                resHomework.setClassId(clazz.getId());
-                resHomework.setClassName(clazz.getName());
-                resHomework.setName(homework.getName());
-                resHomework.setDescription(homework.getDescription());
-                CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt(homework.getCloudwareType());
-                resHomework.setCloudwareType(cloudwareType == null ? "" : cloudwareType.toString());
-                resHomework.setPublishDate(Utility.formatDate(homework.getPublishDate()));
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(homework.getPublishDate());
-                resHomework.setPublishMonth(calendar.get(Calendar.MONTH) + 1);
-                resHomework.setPublishDay(calendar.get(Calendar.DATE));
-                resHomework.setDeadlineDate(Utility.formatDate(homework.getDeadlineDate()));
-
-                resHomeworkList.add(resHomework);
-            }
-        }
-
-        Collections.sort(resHomeworkList, new Comparator<ResTeacherHomeworkList.ResHomework>() {
-            @Override
-            public int compare(ResTeacherHomeworkList.ResHomework o1, ResTeacherHomeworkList.ResHomework o2) {
-                return o2.getPublishDate().compareTo(o1.getPublishDate());
-            }
-        });
         resTeacherHomeworkList.setResHomeworkList(resHomeworkList);
         return resTeacherHomeworkList;
     }
@@ -392,38 +340,40 @@ public class HomeworkServiceImp implements HomeworkService {
                 new ArrayList<>();
         resHomeworkList.setHomeworkSubmissionList(submissionDetails);
 
-        List<Student> studentsInClass = studentMapper.selectByClassId(homework.getClassId());
         int completed = 0;
-
-        for (Student student : studentsInClass){
+        int incomplete = 0;
+        for(Map studentHomeworkInfo :
+                studentClassMapper.getStudentHomeworkByClassAndHomeworkId(homework.getClassId(), homework.getId())){
             ResHomeworkSubmissionList.ResHomeworkSubmissionDetail submissionDetail =
                     new ResHomeworkSubmissionList.ResHomeworkSubmissionDetail();
             submissionDetails.add(submissionDetail);
 
             submissionDetail.setHomeworkId(homework.getId());
-            submissionDetail.setStudentId(student.getUserId());
-            submissionDetail.setStudentNo(student.getSno());
-            submissionDetail.setStudentName(student.getName());
+            submissionDetail.setStudentId((int)studentHomeworkInfo.get("studentId"));
+            submissionDetail.setStudentNo((String) studentHomeworkInfo.get("sno"));
+            submissionDetail.setStudentName((String) studentHomeworkInfo.get("studentName"));
             submissionDetail.setDueDate(Utility.formatDate(homework.getDeadlineDate()));
 
-            StudentHomework studentHomework =
-                studentHomeworkMapper.selectByStudentIdAndHomeworkId(student.getUserId(), homework.getId());
-
-            if(studentHomework == null){
+            if(studentHomeworkInfo.get("studentHomeworkId") == null){
                 submissionDetail.setStudentHomeworkId(0);
                 submissionDetail.setCompleted(false);
-            }else{
-                submissionDetail.setStudentHomeworkId(studentHomework.getId());
-                submissionDetail.setCompleted(studentHomework.getSubmissionDate() != null);
-                submissionDetail.setSubmissionDate(Utility.formatDate(studentHomework.getSubmissionDate()));
-                submissionDetail.setLastEditDate(Utility.formatDate(studentHomework.getLastEditDate()));
-                submissionDetail.setScore(studentHomework.getScore());
+            } else {
+                submissionDetail.setStudentHomeworkId((int)studentHomeworkInfo.get("studentHomeworkId"));
+                submissionDetail.setCompleted(studentHomeworkInfo.get("submissionDate") != null);
+                submissionDetail.setSubmissionDate(Utility.formatDate((Date)studentHomeworkInfo.get("submissionDate") ));
+                submissionDetail.setLastEditDate(Utility.formatDate((Date)studentHomeworkInfo.get("lastEditDate")));
+                submissionDetail.setScore((int)studentHomeworkInfo.get("score"));
+            }
+
+            if(submissionDetail.isCompleted()){
                 completed++;
+            }else {
+                incomplete++;
             }
         }
 
         resHomeworkList.setCompletedCount(completed);
-        resHomeworkList.setNonCompletedCount(studentsInClass.size() - completed);
+        resHomeworkList.setNonCompletedCount(incomplete);
         return resHomeworkList;
     }
 

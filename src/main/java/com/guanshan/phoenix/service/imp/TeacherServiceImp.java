@@ -1,10 +1,8 @@
 package com.guanshan.phoenix.service.imp;
 
 import com.guanshan.phoenix.Util.EncryptionUtil;
-import com.guanshan.phoenix.dao.entity.Clazz;
-import com.guanshan.phoenix.dao.entity.StudentHomework;
-import com.guanshan.phoenix.dao.entity.Teacher;
-import com.guanshan.phoenix.dao.entity.User;
+import com.guanshan.phoenix.Util.Utility;
+import com.guanshan.phoenix.dao.entity.*;
 import com.guanshan.phoenix.dao.mapper.*;
 import com.guanshan.phoenix.enums.RoleEnum;
 import com.guanshan.phoenix.enums.TitleEnum;
@@ -27,7 +25,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TeacherServiceImp implements TeacherService {
@@ -86,10 +86,25 @@ public class TeacherServiceImp implements TeacherService {
         List<ResClassDetail> resTeacherClasses = new ArrayList<>();
         resTeacherClassList.setTeacherClassList(resTeacherClasses);
 
-        List<Clazz> classes = clazzMapper.selectByTeacherUserId(teacherUserId);
-        for (Clazz clazz : classes) {
-            ResClassDetail resClassDetailInfo = classService.getClassDetailInfo(clazz.getId());
+        for (Map clazzInfo : clazzMapper.selectAllClassInfoByTeacherUserId(teacherUserId)) {
+            ResClassDetail resClassDetailInfo = new ResClassDetail();
             resTeacherClasses.add(resClassDetailInfo);
+
+            resClassDetailInfo.setClassId((int)clazzInfo.get("classId"));
+            resClassDetailInfo.setClassName((String) clazzInfo.get("className"));
+            resClassDetailInfo.setTerm(new Term(
+                    (String) clazzInfo.get("year"),
+                    (int) clazzInfo.get("semester")
+            ).getDescription());
+            resClassDetailInfo.setImage((String) clazzInfo.get("url"));
+            resClassDetailInfo.setDuration((String) clazzInfo.get("duration"));
+            resClassDetailInfo.setStudentNumber((int) clazzInfo.get("studentNum"));
+            resClassDetailInfo.setCourseDescription((String) clazzInfo.get("description"));
+            resClassDetailInfo.setCourseId((int) clazzInfo.get("courseId"));
+            resClassDetailInfo.setCourseName((String) clazzInfo.get("courseName"));
+            resClassDetailInfo.setTeacherContract((String) clazzInfo.get("email"));
+            resClassDetailInfo.setTeacherName((String) clazzInfo.get("teacherName"));
+            resClassDetailInfo.setClassDate(Utility.formatDate((Date) clazzInfo.get("classDate")));
         }
 
         return resTeacherClassList;

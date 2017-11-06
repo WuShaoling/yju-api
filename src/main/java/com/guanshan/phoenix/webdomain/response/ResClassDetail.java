@@ -12,8 +12,9 @@ public class ResClassDetail {
     private String courseDescription;
     private String classDate;
     private String teacherName;
-
     private String teacherContract;
+
+    public ResClassDetail(){}
 
     public int getClassId() {
         return classId;

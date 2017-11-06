@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ModuleResourceMapper {
     @Delete({
@@ -77,4 +78,13 @@ public interface ModuleResourceMapper {
             @Arg(column="type", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
     })
     ModuleResource selectByModuleIdAndResourceId(@Param("moduleId") int moduleId, @Param("resourceId") int resourceId);
+
+    @Select({
+            "select",
+            "r.id resourceId, r.name, r.url, r.width, r.height",
+            "from module_resource mr",
+            "inner join resource r on mr.resource_id = r.id",
+            "where mr.module_id = #{moduleId,jdbcType=INTEGER} and type = #{type,jdbcType=INTEGER}"
+    })
+    List<Map> selectAllByModuleIdAndType(@Param("moduleId") int moduleId, @Param("type") int type);
 }

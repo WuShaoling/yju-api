@@ -1,7 +1,9 @@
 package com.guanshan.phoenix.service.imp;
 
+import com.guanshan.phoenix.Util.Utility;
 import com.guanshan.phoenix.dao.entity.*;
 import com.guanshan.phoenix.dao.mapper.*;
+import com.guanshan.phoenix.enums.CloudwareTypeEnum;
 import com.guanshan.phoenix.enums.ResourceTypeEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
@@ -18,7 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CourseServiceImp implements CourseService {
@@ -81,31 +85,48 @@ public class CourseServiceImp implements CourseService {
     public ResCourseModuleExperiments getClassModuleExperiments(int classId) throws ApplicationErrorException{
         Clazz clazz = classService.getClassById(classId);
         Course course = this.getCourseById(clazz.getCourseId());
-        return getCourseModuleExperiments(course.getId());
+        return getCourseModuleExperiments(course);
     }
 
     @Override
     public ResCourseModuleExperiments getCourseModuleExperiments(int courseId) throws ApplicationErrorException {
+        Course course = this.getCourseById(courseId);
+
+        return getCourseModuleExperiments(course);
+    }
+
+    private ResCourseModuleExperiments getCourseModuleExperiments(Course course){
         ResCourseModuleExperiments courseDetail = new ResCourseModuleExperiments();
 
-        Course course = this.getCourseById(courseId);
         courseDetail.setCourseName(course.getName());
         courseDetail.setCourseId(course.getId());
 
         List<ResCourseModuleExperiments.ModuleInfo> moduleList = new ArrayList<>();
         courseDetail.setModuleList(moduleList);
-        for(Module module : moduleMapper.selectByCourseID(courseId)){
-            ResCourseModuleExperiments.ModuleInfo moduleInfo = new ResCourseModuleExperiments.ModuleInfo();
-            moduleList.add(moduleInfo);
+        ResCourseModuleExperiments.ModuleInfo module = new ResCourseModuleExperiments.ModuleInfo();
 
-            moduleInfo.setModuleId(module.getId());
-            moduleInfo.setModuleName(module.getName());
+        for(Map moduleInfo : moduleMapper.selectModuleExperimentInfoByCourseId(course.getId())){
+            int moduleId = (int)moduleInfo.get("moduleId");
+            if(module.getModuleId() != moduleId){
+                module = new ResCourseModuleExperiments.ModuleInfo();
+                moduleList.add(module);
+                module.setModuleContent(new ArrayList<>());
+                module.setModuleId(moduleId);
+                module.setModuleName((String)moduleInfo.get("moduleName"));
+            }
 
-            List<ResExperimentInfo> experimentInfoList = new ArrayList<>();
-            moduleInfo.setModuleContent(experimentInfoList);
-            for(Experiment experiment : experimentMapper.selectByModuleId(module.getId())){
-                ResExperimentInfo resExperimentInfo = new ResExperimentInfo(experiment);
-                experimentInfoList.add(resExperimentInfo);
+            if(moduleInfo.get("experimentId") != null){
+                ResExperimentInfo resExperimentInfo = new ResExperimentInfo();
+                module.getModuleContent().add(resExperimentInfo);
+                resExperimentInfo.setId((int)moduleInfo.get("experimentId"));
+                resExperimentInfo.setExperimentName((String)moduleInfo.get("experimentName"));
+                resExperimentInfo.setExperimentDes((String)moduleInfo.get("experimentDes"));
+                CloudwareTypeEnum cloudwareTypeEnum = CloudwareTypeEnum.fromInt(
+                        (int)moduleInfo.get("cloudwareType")
+                );
+                resExperimentInfo.setCloudwareType(cloudwareTypeEnum == null ? "" : cloudwareTypeEnum.toString());
+                resExperimentInfo.setDueDate(Utility.formatDate((Date)moduleInfo.get("dueDate")));
+                resExperimentInfo.setPublishDate(Utility.formatDate((Date)moduleInfo.get("publishDate")));
             }
         }
 
@@ -126,28 +147,31 @@ public class CourseServiceImp implements CourseService {
 
         List<ResCourseHomeworks.ModuleInfo> moduleList = new ArrayList<>();
         courseDetail.setModuleList(moduleList);
-        for(Module module : moduleMapper.selectByCourseID(clazz.getCourseId())){
-            ResCourseHomeworks.ModuleInfo moduleInfo = new ResCourseHomeworks.ModuleInfo();
+        ResCourseHomeworks.ModuleInfo moduleInfo = new ResCourseHomeworks.ModuleInfo();
 
-            moduleInfo.setModuleId(module.getId());
-            moduleInfo.setModuleName(module.getName());
-
-            List<ResCourseHomeworks.HomeworkInfo> homeworks = new ArrayList<>();
-            moduleInfo.setModuleContent(homeworks);
-            for(Homework homework : homeworkMapper.selectByModuleIdAndClassId(module.getId(), classID)){
-                ResCourseHomeworks.HomeworkInfo homeworkInfo = new ResCourseHomeworks.HomeworkInfo(homework);
-                homeworks.add(homeworkInfo);
-
-                StudentHomework studentHomework =
-                        studentHomeworkMapper.selectByStudentIdAndHomeworkId(studentId, homework.getId());
-                homeworkInfo.setCompleted(
-                        studentHomework != null && studentHomework.getSubmissionDate() != null
-                );
-            }
-
-            if(homeworks.size() > 0){
+        for(Map moduleHomeworkInfo : homeworkMapper.selectHomeworkDetailByClassAndStudentId(classID, studentId)){
+            int moduleId = (int)moduleHomeworkInfo.get("moduleId");
+            if(moduleId != moduleInfo.getModuleId()){
+                moduleInfo = new ResCourseHomeworks.ModuleInfo();
                 moduleList.add(moduleInfo);
+                moduleInfo.setModuleId(moduleId);
+                moduleInfo.setModuleName((String)moduleHomeworkInfo.get("moduleName"));
+                moduleInfo.setModuleContent(new ArrayList<>());
             }
+
+            ResCourseHomeworks.HomeworkInfo homeworkInfo = new ResCourseHomeworks.HomeworkInfo();
+            moduleInfo.getModuleContent().add(homeworkInfo);
+            homeworkInfo.setId((int)moduleHomeworkInfo.get("homeworkId"));
+            homeworkInfo.setHomeworkName((String)moduleHomeworkInfo.get("homeworkName"));
+            homeworkInfo.setHomeworkDes((String)moduleHomeworkInfo.get("homeworkDes"));
+            CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt((int)moduleHomeworkInfo.get("cloudwareType"));
+            homeworkInfo.setCloudwareType(cloudwareType == null ? "" : cloudwareType.toString());
+            homeworkInfo.setDueDate(Utility.formatDate((Date)moduleHomeworkInfo.get("dueDate")));
+            homeworkInfo.setPublishDate(Utility.formatDate((Date)moduleHomeworkInfo.get("publishDate")));
+
+            boolean isCompleted = moduleHomeworkInfo.get("studentHomeworkId") != null &&
+                    moduleHomeworkInfo.get("submissionDate") != null;
+            homeworkInfo.setCompleted(isCompleted);
         }
 
         return courseDetail;
@@ -159,17 +183,15 @@ public class CourseServiceImp implements CourseService {
         List<ResCourseList.CourseInfo> courseInfoList = new ArrayList<>();
         courseList.setCourseInfoList(courseInfoList);
 
-        for(Course course : courseMapper.getAllCourses()){
+        for(Map course : courseMapper.getAllCourses()){
             ResCourseList.CourseInfo courseInfo = new ResCourseList.CourseInfo();
             courseInfoList.add(courseInfo);
 
-            courseInfo.setId(course.getId());
-            courseInfo.setCourseName(course.getName());
-            courseInfo.setCourseDes(course.getDescription());
-
-            Teacher teacher = teacherService.getTeacherByUserId(course.getTeacherId());
-            courseInfo.setTeacherName(teacher.getName());
-            courseInfo.setTeacherContact(teacher.getEmail());
+            courseInfo.setId((int)course.get("courseId"));
+            courseInfo.setCourseName((String) course.get("courseName"));
+            courseInfo.setCourseDes((String) course.get("courseDes"));
+            courseInfo.setTeacherName((String) course.get("teacherName"));
+            courseInfo.setTeacherContact((String) course.get("teacherContact"));
         }
 
         return courseList;

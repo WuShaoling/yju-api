@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ModuleServiceImp implements ModuleService {
@@ -93,15 +94,13 @@ public class ModuleServiceImp implements ModuleService {
         ResModuleImages resModuleImages = new ResModuleImages();
         List<ResModuleImages.ResModuleImage> urlList = new ArrayList<>();
 
-        List<ModuleResource> moduleResourceList = moduleResourceMapper.selectByModuleId(moduleId);
-        for (ModuleResource moduleResource : moduleResourceList) {
-            Resource resource = resourceMapper.selectByPrimaryKey(moduleResource.getResourceId());
+        for (Map resource : moduleResourceMapper.selectAllByModuleIdAndType(moduleId, ResourceTypeEnum.IMAGE.getCode())){
             ResModuleImages.ResModuleImage moduleImage = new ResModuleImages.ResModuleImage(
-                    resource.getId(),
-                    resource.getName(),
-                    resource.getUrl(),
-                    resource.getWidth(),
-                    resource.getHeight()
+                    (int)resource.get("resourceId"),
+                    (String) resource.get("name"),
+                    (String) resource.get("url"),
+                    (int) resource.get("width"),
+                    (int) resource.get("height")
             );
             urlList.add(moduleImage);
         }

@@ -1,7 +1,9 @@
 package com.guanshan.phoenix.service.imp;
 
+import com.guanshan.phoenix.Util.Utility;
 import com.guanshan.phoenix.dao.entity.Student;
 import com.guanshan.phoenix.dao.entity.StudentClass;
+import com.guanshan.phoenix.dao.entity.Term;
 import com.guanshan.phoenix.dao.entity.User;
 import com.guanshan.phoenix.dao.mapper.ClazzMapper;
 import com.guanshan.phoenix.dao.mapper.StudentClassMapper;
@@ -28,7 +30,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class StudentServiceImp implements StudentService {
@@ -64,14 +68,30 @@ public class StudentServiceImp implements StudentService {
         if(studentMapper.selectByUserId(studentID) == null){
             throw new ApplicationErrorException(ErrorCode.StudentNotExists);
         }
-        ResStudentClassList resStudentClassInfoList = new ResStudentClassList();
-        List<ResClassDetail> resStudentClasses = new ArrayList<>();
-        resStudentClassInfoList.setStudentClassList(resStudentClasses);
 
-        List<StudentClass> studentClasses = this.getAllStudentClassByUserId(studentID);
-        for (StudentClass studentClass : studentClasses) {
-            ResClassDetail resClassDetailInfo = classService.getClassDetailInfo(studentClass.getClassId());
-            resStudentClasses.add(resClassDetailInfo);
+        List<Map> classDetailList = studentClassMapper.getStudentClassInfoByUserId(studentID);
+        ResStudentClassList resStudentClassInfoList = new ResStudentClassList();
+
+        List<ResClassDetail> studentClassList = new ArrayList<>(classDetailList.size());
+        resStudentClassInfoList.setStudentClassList(studentClassList);
+        int index = 0;
+        for (Map classDetail : classDetailList){
+            ResClassDetail resClassDetail = new ResClassDetail();
+            studentClassList.add(index++, resClassDetail);
+
+            resClassDetail.setClassId((int)classDetail.get("classId"));
+            resClassDetail.setClassName((String) classDetail.get("className"));
+            resClassDetail.setTerm( new Term((String) classDetail.get("year"),
+                                    (int) classDetail.get("semester")).getDescription());
+            resClassDetail.setImage((String)classDetail.get("url"));
+            resClassDetail.setDuration((String)classDetail.get("duration"));
+            resClassDetail.setStudentNumber((int)classDetail.get("studentNum"));
+            resClassDetail.setCourseId((int)classDetail.get("courseId"));
+            resClassDetail.setCourseName((String) classDetail.get("courseName"));
+            resClassDetail.setCourseDescription((String) classDetail.get("description"));
+            resClassDetail.setClassDate(Utility.formatDate((Date)classDetail.get("classDate")));
+            resClassDetail.setTeacherName((String) classDetail.get("teacherName"));
+            resClassDetail.setTeacherContract((String) classDetail.get("teacherContact"));
         }
 
         return resStudentClassInfoList;

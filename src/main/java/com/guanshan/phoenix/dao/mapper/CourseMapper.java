@@ -7,6 +7,7 @@ import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CourseMapper {
     @Delete({
@@ -54,16 +55,12 @@ public interface CourseMapper {
     int updateByPrimaryKey(Course record);
 
     @Select({
-            "select *",
-            "from course",
+            "select c.id courseId, c.name courseName, c.description courseDes,",
+            "t.name teacherName, t.email teacherContact",
+            "from course c",
+            "inner join teacher t on c.teacher_id = t.user_id",
     })
-    @ConstructorArgs({
-            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
-            @Arg(column="teacher_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
-            @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
-            @Arg(column="description", javaType=String.class, jdbcType=JdbcType.VARCHAR)
-    })
-    List<Course> getAllCourses();
+    List<Map> getAllCourses();
 
     @Select({
             "select exists (select 1 from course",

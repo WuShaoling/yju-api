@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 import java.util.List;
+import java.util.Map;
 
 public interface StudentClassMapper {
     @Delete({
@@ -91,4 +92,51 @@ public interface StudentClassMapper {
                                "where course_id=#{courseId, jdbcType=INTEGER})"
     })
     int getStudentNumByCourseId(int courseId);
+
+    @Select({
+            "select c.id classId, c.name className, t.year, t.semester, r.url, c.duration, c.student_num studentNum, ",
+            "cs.description, cs.id courseId, cs.name courseName, tc.email teacherContact, tc.name teacherName, c.date classDate",
+            "from student_class sc",
+            "inner join class c on sc.class_id = c.id",
+            "inner join term t on c.term_id = t.id",
+            "inner join course cs on c.course_id = cs.id",
+            "left join course_resource cr on cr.course_id = cs.id and cr.type = 1",
+            "left join resource r on cr.resource_id = r.id",
+            "inner join teacher tc on cs.teacher_id = tc.user_id",
+            "where sc.student_id=#{studentId, jdbcType=INTEGER}"
+    })
+    List<Map> getStudentClassInfoByUserId(int studentId);
+
+    @Select({
+            "select hw.id homeworkId, hw.name homeworkName, hw.description homeworkDes, hw.cloudware_type cloudwareType,",
+            "hw.publish_date publishDate, hw.deadline_date deadlineDate, c.id classId, c.name className,",
+            "t.name teacherName, shw.id studentHomeworkId, shw.submission_date submissionDate",
+            "from student_class sc",
+            "inner join class c on sc.class_id = c.id",
+            "inner join course cs on c.course_id = cs.id",
+            "inner join teacher t on cs.teacher_id = t.user_id",
+            "inner join homework hw on hw.class_id = c.id",
+            "left join student_homework shw on shw.homework_id = hw.id",
+            "where sc.student_id=#{studentId, jdbcType=INTEGER}",
+            "order by publishDate;"
+    })
+    List<Map> getStudentHomeworkByStudentId(int studentId);
+
+    @Select({
+            "select sc.student_id studentId, s.sno, s.name studentName,",
+            "sh.id studentHomeworkId, sh.submission_date submissionDate, sh.lastEdit_date lastEditDate, sh.score",
+            "from student_class sc",
+            "inner join student s on s.user_id=sc.student_id",
+            "left join student_homework sh on sh.student_id=s.user_id and homework_id=#{homeworkId,jdbcType=INTEGER}",
+            "where sc.class_id=#{classId,jdbcType=INTEGER}",
+    })
+    List<Map> getStudentHomeworkByClassAndHomeworkId(@Param("classId") Integer classId, @Param("homeworkId") Integer homeworkId);
+
+    @Select({
+            "select s.user_id userId, s.sno, s.name, s.gender",
+            "from student_class sc",
+            "inner join student s on sc.student_id = s.user_id",
+            "where sc.class_id = #{classId,jdbcType=INTEGER}",
+    })
+    List<Map> getAllStudentByClassId(int classId);
 }

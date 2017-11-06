@@ -3,6 +3,7 @@ package com.guanshan.phoenix.dao.mapper;
 import com.guanshan.phoenix.dao.entity.Clazz;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
@@ -60,22 +61,33 @@ public interface ClazzMapper {
     int updateByPrimaryKey(Clazz record);
 
     @Select({
-            "select *",
-            "from class",
-            "where course_id in",
-            "(select course.id from course inner join teacher on course.teacher_id=teacher.user_id",
-              "where teacher.user_id=#{teacherUserId, jdbcType=INTEGER})"
+            "select c.id classId, c.name className, tm.year, tm.semester, r.url, c.duration,",
+            "c.student_num studentNum, cs.description, cs.id courseId, cs.name courseName,",
+            "t.email, t.name teacherName, c.date classDate",
+            "from class c",
+            "inner join course cs on c.course_id = cs.id",
+            "left join course_resource cr on cr.course_id = cs.id and cr.type = 1",
+            "left join resource r on cr.resource_id = r.id",
+            "inner join teacher t on cs.teacher_id = t.user_id",
+            "inner join term tm on c.term_id = tm.id",
+            "where t.user_id = #{teacherUserId,jdbcType=INTEGER}",
+            "order by c.id",
     })
-    @ConstructorArgs({
-            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
-            @Arg(column="term_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
-            @Arg(column="course_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
-            @Arg(column="date", javaType=Date.class, jdbcType=JdbcType.DATE),
-            @Arg(column="duration", javaType=String.class, jdbcType=JdbcType.VARCHAR),
-            @Arg(column="student_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
-            @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR)
+    List<Map> selectAllClassInfoByTeacherUserId(int teacherUserId);
+
+    @Select({
+            "select c.id classId, c.name className, tm.year, tm.semester, r.url, c.duration,",
+            "c.student_num studentNum, cs.description, cs.id courseId, cs.name courseName,",
+            "t.email, t.name teacherName, c.date classDate",
+            "from class c",
+            "inner join course cs on c.course_id = cs.id",
+            "left join course_resource cr on cr.course_id = cs.id and cr.type = 1",
+            "left join resource r on cr.resource_id = r.id",
+            "inner join teacher t on cs.teacher_id = t.user_id",
+            "inner join term tm on c.term_id = tm.id",
+            "order by c.id",
     })
-    List<Clazz> selectByTeacherUserId(int teacherUserId);
+    List<Map> selectAllClassInfo();
 
     @Select({
             "select",
