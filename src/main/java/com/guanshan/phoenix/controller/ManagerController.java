@@ -281,9 +281,8 @@ public class ManagerController {
     @ApiOperation(value = "增加课时图片资源", notes = "")
     @PostMapping(value = "/module/lib/add")
     @Transactional(rollbackFor = Throwable.class)
-    public ResponseMessage addModuleResource(@RequestBody ReqAddModuleResource reqAddModuleResource) throws ApplicationErrorException {
-        moduleService.addModuleResource(reqAddModuleResource);
-        return new ResponseMessage.Success();
+    public ResponseMessage<Integer> addModuleResource(@RequestBody ReqAddModuleResource reqAddModuleResource) throws ApplicationErrorException {
+        return new ResponseMessage.Success<>(moduleService.addModuleResource(reqAddModuleResource));
     }
 
     @ApiOperation(value = "删除课时图片资源", notes = "")

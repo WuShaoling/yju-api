@@ -110,7 +110,7 @@ public class ModuleServiceImp implements ModuleService {
     }
 
     @Override
-    public void addModuleResource(ReqAddModuleResource reqAddModuleResource) throws ApplicationErrorException {
+    public Integer addModuleResource(ReqAddModuleResource reqAddModuleResource) throws ApplicationErrorException {
         if(moduleMapper.selectByPrimaryKey(reqAddModuleResource.getModuleId()) == null){
             throw new ApplicationErrorException(ErrorCode.ModuleNotExists);
         }
@@ -129,6 +129,7 @@ public class ModuleServiceImp implements ModuleService {
                 ResourceTypeEnum.IMAGE.getCode()
         );
         moduleResourceMapper.insert(moduleResource);
+        return resource.getId();
     }
 
     @Override

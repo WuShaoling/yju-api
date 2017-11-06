@@ -15,7 +15,7 @@ public interface ModuleService {
 
     ResModuleImages getModuleImageUrls(int moduleId);
 
-    void addModuleResource(ReqAddModuleResource reqAddModuleResource) throws ApplicationErrorException;
+    Integer addModuleResource(ReqAddModuleResource reqAddModuleResource) throws ApplicationErrorException;
 
     void deleteModuleResource(ReqDeleteModuleResource reqDeleteModuleResource) throws ApplicationErrorException;
 }
