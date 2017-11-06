@@ -4,11 +4,13 @@ public class ResCommonCourseDetail {
     private String teacherName;
     private int classNum;
     private int studentNum;
+    private String courseDescription;
 
-    public ResCommonCourseDetail(String teacherName, int classNum, int studentNum) {
+    public ResCommonCourseDetail(String teacherName, int classNum, int studentNum, String courseDescription) {
         this.teacherName = teacherName;
         this.classNum = classNum;
         this.studentNum = studentNum;
+        this.courseDescription = courseDescription;
     }
 
     public String getTeacherName() {
@@ -33,5 +35,13 @@ public class ResCommonCourseDetail {
 
     public void setStudentNum(int studentNum) {
         this.studentNum = studentNum;
+    }
+
+    public String getCourseDescription() {
+        return courseDescription;
+    }
+
+    public void setCourseDescription(String courseDescription) {
+        this.courseDescription = courseDescription;
     }
 }
