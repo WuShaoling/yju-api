@@ -77,15 +77,20 @@ public interface ClazzMapper {
 
     @Select({
             "select c.id classId, c.name className, tm.year, tm.semester, r.url, c.duration,",
-            "c.student_num studentNum, cs.description, cs.id courseId, cs.name courseName,",
+            "ifnull(student_count.student_num,0) studentNum, cs.description, cs.id courseId, cs.name courseName,",
             "t.email, t.name teacherName, c.date classDate",
             "from class c",
+            "left join (",
+            "select class_id, count(*) student_num",
+            "from student_class",
+            "group by class_id",
+            "        ) student_count on student_count.class_id = c.id",
             "inner join course cs on c.course_id = cs.id",
             "left join course_resource cr on cr.course_id = cs.id and cr.type = 1",
             "left join resource r on cr.resource_id = r.id",
             "inner join teacher t on cs.teacher_id = t.user_id",
             "inner join term tm on c.term_id = tm.id",
-            "order by c.id",
+            "order by c.id"
     })
     List<Map> selectAllClassInfo();
 

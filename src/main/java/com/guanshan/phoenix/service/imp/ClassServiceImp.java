@@ -223,7 +223,7 @@ public class ClassServiceImp implements ClassService {
             resClassInfo.setCourseImage((String) classInfo.get("url"));
 
             resClassInfo.setDuration((String) classInfo.get("duration"));
-            resClassInfo.setStudentNum((int) classInfo.get("studentNum"));
+            resClassInfo.setStudentNum(((Long) classInfo.get("studentNum")).intValue());
             resClassInfo.setCourseDate(Utility.formatDate((Date) classInfo.get("classDate")));
 
             resClassInfoList.add(resClassInfo);
