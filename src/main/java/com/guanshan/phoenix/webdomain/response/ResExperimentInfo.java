@@ -15,6 +15,8 @@ public class ResExperimentInfo {
 
     private String experimentDes;
 
+    private int cloudwareTypeId;
+
     private String cloudwareType;
 
     private String dueDate;
@@ -31,6 +33,7 @@ public class ResExperimentInfo {
         this.setId(experiment.getId());
         this.setExperimentName(experiment.getName());
         this.setExperimentDes(experiment.getDescription());
+        this.setCloudwareTypeId(experiment.getCloudwareType());
         CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt(experiment.getCloudwareType());
         this.setCloudwareType(cloudwareType == null ? "" : cloudwareType.toString());
         this.setDueDate(Utility.formatDate(experiment.getDeadlineDate()));
@@ -60,6 +63,14 @@ public class ResExperimentInfo {
 
     public void setExperimentDes(String experimentDes) {
         this.experimentDes = experimentDes;
+    }
+
+    public int getCloudwareTypeId() {
+        return cloudwareTypeId;
+    }
+
+    public void setCloudwareTypeId(int cloudwareTypeId) {
+        this.cloudwareTypeId = cloudwareTypeId;
     }
 
     public String getCloudwareType() {
