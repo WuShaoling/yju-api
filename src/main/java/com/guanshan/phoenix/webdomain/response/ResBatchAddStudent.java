@@ -10,6 +10,7 @@ public class ResBatchAddStudent {
 
     public class FailureReason {
         private String studentNum;
+        private String studentName;
         private int classId;
         private String reason;
 
@@ -19,6 +20,14 @@ public class ResBatchAddStudent {
 
         public void setStudentNum(String studentNum) {
             this.studentNum = studentNum;
+        }
+
+        public String getStudentName() {
+            return studentName;
+        }
+
+        public void setStudentName(String studentName) {
+            this.studentName = studentName;
         }
 
         public int getClassId() {

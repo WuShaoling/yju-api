@@ -231,6 +231,7 @@ public class TeacherServiceImp implements TeacherService {
             } catch (ApplicationErrorException e) {
                 ResBatchAddTeacher.FailureReason failureReason = new ResBatchAddTeacher().new FailureReason();
                 failureReason.setTeacherNum(excelTeacherElement.getTeacherNum());
+                failureReason.setTeacherName(excelTeacherElement.getTeacherName());
                 // todo
                 failureReason.setReason(e.getMessage());
                 failureReasonList.add(failureReason);
