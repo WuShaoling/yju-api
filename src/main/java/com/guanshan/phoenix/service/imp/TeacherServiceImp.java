@@ -1,6 +1,5 @@
 package com.guanshan.phoenix.service.imp;
 
-import com.guanshan.phoenix.Util.EncryptionUtil;
 import com.guanshan.phoenix.Util.Utility;
 import com.guanshan.phoenix.dao.entity.*;
 import com.guanshan.phoenix.dao.mapper.*;
@@ -14,10 +13,7 @@ import com.guanshan.phoenix.service.*;
 import com.guanshan.phoenix.webdomain.request.ReqDeleteTeacher;
 import com.guanshan.phoenix.webdomain.request.ReqHomeworkGrade;
 import com.guanshan.phoenix.webdomain.request.ReqUpdateTeacher;
-import com.guanshan.phoenix.webdomain.response.ResBatchAddTeacher;
-import com.guanshan.phoenix.webdomain.response.ResClassDetail;
-import com.guanshan.phoenix.webdomain.response.ResTeacherClassList;
-import com.guanshan.phoenix.webdomain.response.ResTeacherList;
+import com.guanshan.phoenix.webdomain.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -133,11 +129,11 @@ public class TeacherServiceImp implements TeacherService {
     @Override
     public ResTeacherList getAllTeacherList() throws ApplicationErrorException {
         ResTeacherList teacherList = new ResTeacherList();
-        List<ResTeacherList.ResTeacherInfo> teacherInfoList = new ArrayList<>();
+        List<ResTeacherInfo> teacherInfoList = new ArrayList<>();
         teacherList.setTeacherInfoList(teacherInfoList);
 
         for (Teacher teacher : teacherMapper.getAllTeachers()){
-            ResTeacherList.ResTeacherInfo teacherInfo = new ResTeacherList.ResTeacherInfo(teacher);
+            ResTeacherInfo teacherInfo = new ResTeacherInfo(teacher);
             teacherInfoList.add(teacherInfo);
         }
 
