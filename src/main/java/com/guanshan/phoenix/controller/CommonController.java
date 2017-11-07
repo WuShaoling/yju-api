@@ -6,10 +6,7 @@ import com.guanshan.phoenix.service.CourseService;
 import com.guanshan.phoenix.service.ExperimentService;
 import com.guanshan.phoenix.service.StudentService;
 import com.guanshan.phoenix.service.TeacherService;
-import com.guanshan.phoenix.webdomain.response.ResCommonCourseDetail;
-import com.guanshan.phoenix.webdomain.response.ResCourseModuleExperiments;
-import com.guanshan.phoenix.webdomain.response.ResHotCourseList;
-import com.guanshan.phoenix.webdomain.response.ResStatistics;
+import com.guanshan.phoenix.webdomain.response.*;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -49,6 +46,13 @@ public class CommonController {
     @GetMapping(value = "course/{courseId}/detail")
     public ResponseMessage<ResCommonCourseDetail> getCourseCommonDetail(@PathVariable int courseId) throws ApplicationErrorException {
         return new ResponseMessage.Success<>(courseService.getCommonCourseDetail(courseId));
+    }
+
+    @ApiOperation(value = "获取老师信息", notes = "")
+    @GetMapping(value = "teacher/{teacherId}")
+    public ResponseMessage<ResTeacherInfo> getTeacherDetail(@PathVariable int teacherId) throws ApplicationErrorException {
+        ResTeacherInfo teacherInfo = new ResTeacherInfo(teacherService.getTeacherByUserId(teacherId));
+        return new ResponseMessage.Success<>(teacherInfo);
     }
 
     @ApiOperation(value = "获取网站统计信息", notes = "包含学生，课程，实验，老师数量")

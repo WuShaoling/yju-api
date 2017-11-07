@@ -128,7 +128,7 @@ public class StudentServiceImp implements StudentService {
                 newClassStudent.setStudentNo(excelStudentElement.getStudentNum());
                 newClassStudent.setStudentName(excelStudentElement.getStudentName());
                 newClassStudent.setGender(excelStudentElement.getGender());
-                newClassStudent.setOverride(true);
+                newClassStudent.setOverride(false);
 
                 classService.addClassStudent(newClassStudent);
 
@@ -137,6 +137,7 @@ public class StudentServiceImp implements StudentService {
                 ResBatchAddStudent.FailureReason failureReason = new ResBatchAddStudent().new FailureReason();
                 failureReason.setClassId(classId);
                 failureReason.setStudentNum(excelStudentElement.getStudentNum());
+                failureReason.setStudentName(excelStudentElement.getStudentName());
                 // todo
                 failureReason.setReason(ex.getMessage());
                 failureReasonList.add(failureReason);

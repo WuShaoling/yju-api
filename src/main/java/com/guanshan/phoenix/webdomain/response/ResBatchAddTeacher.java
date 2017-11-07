@@ -10,6 +10,7 @@ public class ResBatchAddTeacher {
 
     public class FailureReason {
         private String teacherNum;
+        private String teacherName;
         private String reason;
 
         public String getTeacherNum() {
@@ -18,6 +19,14 @@ public class ResBatchAddTeacher {
 
         public void setTeacherNum(String teacherNum) {
             this.teacherNum = teacherNum;
+        }
+
+        public String getTeacherName() {
+            return teacherName;
+        }
+
+        public void setTeacherName(String teacherName) {
+            this.teacherName = teacherName;
         }
 
         public String getReason() {
