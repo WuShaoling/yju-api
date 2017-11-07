@@ -88,7 +88,7 @@ public enum ErrorCode {
     @ErrorMessage("该学生'%S'已存在")
     StudentAlreadyExists(28),
 
-    @ErrorMessage("学号为'%s'的学生名字叫'%s'。是否要覆盖？")
+    @ErrorMessage("已存在学号为'%s'的学生名字叫'%s'。是否要覆盖？")
     DuplicateStudentNoFound(29),
 
     @ErrorMessage("该实验不存在")
@@ -154,7 +154,7 @@ public enum ErrorCode {
     @ErrorMessage("报告文件只支持pdf, doc以及docx格式")
     InvalidReportType(50),
 
-    @ErrorMessage("Excel文件已损坏")
+    @ErrorMessage("Excel文件格式不正确")
     InvalidExcelFileFormat(51),
 
     @ErrorMessage("两次新密码输入不一致")
