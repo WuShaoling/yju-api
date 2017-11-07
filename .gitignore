@@ -26,3 +26,7 @@ dist/
 nbdist/
 .nb-gradle/
 .DS_Store
+
+### Docker build ###
+/docker/application.properties
+/docker/phoenix-api-0.0.1-SNAPSHOT.jar
