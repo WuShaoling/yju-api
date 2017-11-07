@@ -285,10 +285,11 @@ public class CourseServiceImp implements CourseService {
         Course course = this.getCourseById(courseId);
 
         Teacher teacher = teacherMapper.selectByUserId(course.getTeacherId());
+        ResTeacherInfo teacherInfo = new ResTeacherInfo(teacher);
         int classNum = clazzMapper.getClassNumByCourseId(courseId);
         int studentNum = studentClassMapper.getStudentNumByCourseId(courseId);
 
-        ResCommonCourseDetail detail = new ResCommonCourseDetail(teacher.getName(), classNum, studentNum, course.getDescription());
+        ResCommonCourseDetail detail = new ResCommonCourseDetail(teacherInfo, classNum, studentNum, course.getDescription());
 
         return detail;
     }

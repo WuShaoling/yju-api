@@ -48,13 +48,6 @@ public class CommonController {
         return new ResponseMessage.Success<>(courseService.getCommonCourseDetail(courseId));
     }
 
-    @ApiOperation(value = "获取老师信息", notes = "")
-    @GetMapping(value = "teacher/{teacherId}")
-    public ResponseMessage<ResTeacherInfo> getTeacherDetail(@PathVariable int teacherId) throws ApplicationErrorException {
-        ResTeacherInfo teacherInfo = new ResTeacherInfo(teacherService.getTeacherByUserId(teacherId));
-        return new ResponseMessage.Success<>(teacherInfo);
-    }
-
     @ApiOperation(value = "获取网站统计信息", notes = "包含学生，课程，实验，老师数量")
     @GetMapping(value = "statistics")
     public ResponseMessage<ResStatistics> getStatistics() throws ApplicationErrorException {

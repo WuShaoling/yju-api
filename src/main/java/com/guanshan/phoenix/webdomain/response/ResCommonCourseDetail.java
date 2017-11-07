@@ -1,24 +1,24 @@
 package com.guanshan.phoenix.webdomain.response;
 
 public class ResCommonCourseDetail {
-    private String teacherName;
+    private ResTeacherInfo teacherInfo;
     private int classNum;
     private int studentNum;
     private String courseDescription;
 
-    public ResCommonCourseDetail(String teacherName, int classNum, int studentNum, String courseDescription) {
-        this.teacherName = teacherName;
+    public ResCommonCourseDetail(ResTeacherInfo teacherInfo, int classNum, int studentNum, String courseDescription) {
+        this.teacherInfo = teacherInfo;
         this.classNum = classNum;
         this.studentNum = studentNum;
         this.courseDescription = courseDescription;
     }
 
-    public String getTeacherName() {
-        return teacherName;
+    public ResTeacherInfo getTeacherInfo() {
+        return teacherInfo;
     }
 
-    public void setTeacherName(String teacherName) {
-        this.teacherName = teacherName;
+    public void setTeacherInfo(ResTeacherInfo teacherInfo) {
+        this.teacherInfo = teacherInfo;
     }
 
     public int getClassNum() {
