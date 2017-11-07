@@ -128,7 +128,7 @@ public class StudentServiceImp implements StudentService {
                 newClassStudent.setStudentNo(excelStudentElement.getStudentNum());
                 newClassStudent.setStudentName(excelStudentElement.getStudentName());
                 newClassStudent.setGender(excelStudentElement.getGender());
-                newClassStudent.setOverride(true);
+                newClassStudent.setOverride(false);
 
                 classService.addClassStudent(newClassStudent);
 
