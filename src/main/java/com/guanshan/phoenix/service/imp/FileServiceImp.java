@@ -94,9 +94,9 @@ public class FileServiceImp implements FileService {
     public String uploadReport(MultipartFile file) throws ApplicationErrorException, IOException {
         String uploadFilePath = file.getOriginalFilename();
 
-        if (!uploadFilePath.endsWith(".pdf") &&
-                !uploadFilePath.endsWith(".doc") &&
-                !uploadFilePath.endsWith(".docx")) {
+        if (!uploadFilePath.endsWith(".pdf")) {
+//                !uploadFilePath.endsWith(".doc") &&
+//                !uploadFilePath.endsWith(".docx")) {
             throw new ApplicationErrorException(ErrorCode.InvalidReportType);
         }
 

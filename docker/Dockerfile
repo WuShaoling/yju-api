@@ -1,6 +1,6 @@
 FROM java:openjdk-8-alpine
 
-VOLUME /tmp
+VOLUME ["/home", "/logs"]
 ADD phoenix-api-0.0.1-SNAPSHOT.jar app.jar
 ADD application.properties application.properties
 EXPOSE 8080
