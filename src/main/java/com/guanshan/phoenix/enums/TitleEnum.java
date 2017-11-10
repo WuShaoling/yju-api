@@ -5,7 +5,7 @@ import com.guanshan.phoenix.error.ErrorCode;
 
 public enum TitleEnum {
     PROFESSOR(1, "professor", "教授"),
-    DEPUTY_PROFESSOR(2, "deputy professor", "副教师"),
+    DEPUTY_PROFESSOR(2, "deputy professor", "副教授"),
     LECTURER(3, "lecturer", "讲师"),
     RESEARCHER(4, "RESEARCHER", "研究员"),
     ASSISTANT(5, "assistant", "助教");
