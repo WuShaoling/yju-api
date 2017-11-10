@@ -187,7 +187,7 @@ public class FileServiceImp implements FileService {
         }
 
         // fix chinese filename problem
-        String filename = new String(fileName.getBytes("gbk"), "iso-8859-1");
+        String filename = new String(fileName.getBytes("utf-8"), "iso-8859-1");
         response.setHeader("content-type", "application/octet-stream");
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition", "attachment;filename=\"" + filename + "\"");
