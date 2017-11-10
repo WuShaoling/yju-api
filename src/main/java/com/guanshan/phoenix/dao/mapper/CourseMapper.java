@@ -84,7 +84,7 @@ public interface CourseMapper {
                              "from class",
                              "group by course_id",
                             ") as course_total_student on course_actual_student.course_id = course_total_student.course_id",
-                    "order by actual_student_num desc limit 5"
+                    "order by actual_student_num desc limit 8"
     })
     @ConstructorArgs({
             @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
