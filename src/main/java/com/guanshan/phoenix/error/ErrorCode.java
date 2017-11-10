@@ -151,7 +151,8 @@ public enum ErrorCode {
     @ErrorMessage("该老师没有布置作业")
     TeacherHasNotHomework(49),
 
-    @ErrorMessage("报告文件只支持pdf, doc以及docx格式")
+//    @ErrorMessage("报告文件只支持pdf, doc以及docx格式")
+    @ErrorMessage("报告文件只支持pdf格式")
     InvalidReportType(50),
 
     @ErrorMessage("Excel文件格式不正确")
