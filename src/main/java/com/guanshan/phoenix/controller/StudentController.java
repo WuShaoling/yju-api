@@ -9,6 +9,7 @@ import com.guanshan.phoenix.webdomain.request.ReqStudentExperiment;
 import com.guanshan.phoenix.webdomain.request.ReqStudentExperimentCloudware;
 import com.guanshan.phoenix.webdomain.request.ReqStudentHomeworkCloudware;
 import com.guanshan.phoenix.webdomain.response.*;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -122,5 +123,11 @@ public class StudentController {
         studentExperimentService.deleteStudentExperiment(reqStudentExperiment.getExperimentId(),
                                                          reqStudentExperiment.getStudentId());
         return new ResponseMessage.Success();
+    }
+
+    @ApiOperation(value = "获取学生上次未完成实验信息", notes="为了通知用户一次只能开启一个实验容器")
+    @GetMapping(value = "experiment/last/{studentId}")
+    public ResponseMessage<ResStudentLastExperiment> getStudentLastExperiment(@PathVariable int studentId) throws ApplicationErrorException {
+        return new ResponseMessage.Success<>(studentExperimentService.getStudentLastExperiment(studentId));
     }
 }

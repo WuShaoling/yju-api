@@ -151,7 +151,6 @@ public enum ErrorCode {
     @ErrorMessage("该老师没有布置作业")
     TeacherHasNotHomework(49),
 
-//    @ErrorMessage("报告文件只支持pdf, doc以及docx格式")
     @ErrorMessage("报告文件只支持pdf格式")
     InvalidReportType(50),
 
@@ -160,6 +159,9 @@ public enum ErrorCode {
 
     @ErrorMessage("两次新密码输入不一致")
     NewPasswordsNotTheSame(52),
+
+    @ErrorMessage("一个用户仅能同时打开%d个实验容器")
+    CannotCreateExCloudwareMultipleTime(53),
 
     @ErrorMessage("服务器出错，请联系管理员")
     GeneralError(Integer.MAX_VALUE);

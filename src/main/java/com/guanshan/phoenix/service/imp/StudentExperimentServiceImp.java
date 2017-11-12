@@ -1,20 +1,21 @@
 package com.guanshan.phoenix.service.imp;
 
-import com.guanshan.phoenix.dao.entity.*;
-import com.guanshan.phoenix.dao.mapper.*;
-import com.guanshan.phoenix.enums.ResourceTypeEnum;
+import com.guanshan.phoenix.dao.entity.Cloudware;
+import com.guanshan.phoenix.dao.entity.StudentExperiment;
+import com.guanshan.phoenix.dao.mapper.CloudwareMapper;
+import com.guanshan.phoenix.dao.mapper.ExperimentMapper;
+import com.guanshan.phoenix.dao.mapper.StudentExperimentMapper;
+import com.guanshan.phoenix.dao.mapper.UserMapper;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.CloudwareService;
 import com.guanshan.phoenix.service.StudentExperimentService;
-import com.guanshan.phoenix.service.StudentHomeworkService;
-import com.guanshan.phoenix.webdomain.request.ReqHomeworkSubmission;
 import com.guanshan.phoenix.webdomain.request.ReqStudentExperimentCloudware;
-import com.guanshan.phoenix.webdomain.request.ReqStudentHomeworkCloudware;
+import com.guanshan.phoenix.webdomain.response.ResStudentLastExperiment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.util.Map;
 
 @Service
 public class StudentExperimentServiceImp implements StudentExperimentService {
@@ -105,6 +106,24 @@ public class StudentExperimentServiceImp implements StudentExperimentService {
         if(studentExperiment.getCloudwareId() != null){
             cloudwareService.deleteCloudware(studentExperiment.getCloudwareId());
         }
+    }
+
+    @Override
+    public ResStudentLastExperiment getStudentLastExperiment(int studentId) throws ApplicationErrorException {
+        if(userMapper.selectByPrimaryKey(studentId) == null){
+            throw new ApplicationErrorException(ErrorCode.UserNotExist);
+        }
+
+        Map lastExperimentInfo = studentExperimentMapper.selectLastExperimentByUserId(studentId);
+        if(lastExperimentInfo == null){
+            return new ResStudentLastExperiment();
+        }
+
+        return new ResStudentLastExperiment(
+                (int)lastExperimentInfo.get("experimentId"),
+                (String)lastExperimentInfo.get("experimentName"),
+                (String)lastExperimentInfo.get("moduleName")
+        );
     }
 
     private void validateStudentExperiment(int studentId, int experimentId) throws ApplicationErrorException {

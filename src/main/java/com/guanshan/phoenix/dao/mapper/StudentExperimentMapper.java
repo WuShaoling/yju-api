@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 import java.util.List;
+import java.util.Map;
 
 public interface StudentExperimentMapper {
     @Delete({
@@ -71,4 +72,14 @@ public interface StudentExperimentMapper {
             "WHERE experiment_id=#{experimentId}"
     })
     List<Integer> selectStudentExperimentByExperimentId(Integer experimentId);
+
+    @Select({
+            "select e.id experimentId, e.name experimentName, m.name moduleName",
+            "from student_experiment se",
+            "inner join experiment e on se.experiment_id = e.id",
+            "inner join module m on e.module_id = m.id",
+            "where student_id = #{studentId,jdbcType=INTEGER}",
+            "limit 1",
+    })
+    Map selectLastExperimentByUserId(int studentId);
 }
