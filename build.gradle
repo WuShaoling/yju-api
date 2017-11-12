@@ -16,7 +16,7 @@ buildscript {
 }
 
 apply plugin: 'java'
-//apply plugin: 'war'
+apply plugin: 'war'
 apply plugin: 'docker'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
