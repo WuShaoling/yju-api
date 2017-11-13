@@ -223,6 +223,10 @@ public class CourseServiceImp implements CourseService {
 
         courseMapper.updateByPrimaryKey(course);
 
+        if(course.getImageUrl() == null || course.getImageUrl().isEmpty()){
+            return;
+        }
+
         CourseResource courseResource = courseResourceMapper.selectByCourseIdAndType(course.getId(), ResourceTypeEnum.IMAGE.getCode());
         if(courseResource == null){
             Resource resource = new Resource();
