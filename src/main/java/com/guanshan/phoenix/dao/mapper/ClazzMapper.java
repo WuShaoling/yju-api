@@ -18,10 +18,12 @@ public interface ClazzMapper {
     @Insert({
         "insert into class (id, term_id, ",
         "course_id, date, duration, ",
-        "student_num, name)",
+        "student_num, name, ",
+        "teacher_id)",
         "values (#{id,jdbcType=INTEGER}, #{termId,jdbcType=INTEGER}, ",
         "#{courseId,jdbcType=INTEGER}, #{date,jdbcType=DATE}, #{duration,jdbcType=VARCHAR}, ",
-        "#{studentNum,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR})"
+        "#{studentNum,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, ",
+        "#{teacherId,jdbcType=INTEGER})"
     })
     int insert(Clazz record);
 
@@ -30,7 +32,7 @@ public interface ClazzMapper {
 
     @Select({
         "select",
-        "id, term_id, course_id, date, duration, student_num, name",
+        "id, term_id, course_id, date, duration, student_num, name, teacher_id",
         "from class",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -41,7 +43,8 @@ public interface ClazzMapper {
         @Arg(column="date", javaType=Date.class, jdbcType=JdbcType.DATE),
         @Arg(column="duration", javaType=String.class, jdbcType=JdbcType.VARCHAR),
         @Arg(column="student_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
-        @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR)
+        @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+        @Arg(column="teacher_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
     })
     Clazz selectByPrimaryKey(Integer id);
 
@@ -55,7 +58,8 @@ public interface ClazzMapper {
           "date = #{date,jdbcType=DATE},",
           "duration = #{duration,jdbcType=VARCHAR},",
           "student_num = #{studentNum,jdbcType=INTEGER},",
-          "name = #{name,jdbcType=VARCHAR}",
+          "name = #{name,jdbcType=VARCHAR},",
+          "teacher_id = #{teacherId,jdbcType=INTEGER}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Clazz record);
@@ -68,7 +72,7 @@ public interface ClazzMapper {
             "inner join course cs on c.course_id = cs.id",
             "left join course_resource cr on cr.course_id = cs.id and cr.type = 1",
             "left join resource r on cr.resource_id = r.id",
-            "inner join teacher t on cs.teacher_id = t.user_id",
+            "inner join teacher t on c.teacher_id = t.user_id",
             "inner join term tm on c.term_id = tm.id",
             "where t.user_id = #{teacherUserId,jdbcType=INTEGER}",
             "order by c.id",
@@ -78,7 +82,7 @@ public interface ClazzMapper {
     @Select({
             "select c.id classId, c.name className, tm.year, tm.semester, r.url, c.duration,",
             "ifnull(student_count.student_num,0) studentNum, cs.description, cs.id courseId, cs.name courseName,",
-            "t.email, t.name teacherName, c.date classDate",
+            "t.user_id teacherId, t.email, t.name teacherName, c.date classDate",
             "from class c",
             "left join (",
             "select class_id, count(*) student_num",
@@ -88,7 +92,7 @@ public interface ClazzMapper {
             "inner join course cs on c.course_id = cs.id",
             "left join course_resource cr on cr.course_id = cs.id and cr.type = 1",
             "left join resource r on cr.resource_id = r.id",
-            "inner join teacher t on cs.teacher_id = t.user_id",
+            "inner join teacher t on c.teacher_id = t.user_id",
             "inner join term tm on c.term_id = tm.id",
             "order by c.id"
     })
@@ -151,4 +155,10 @@ public interface ClazzMapper {
         "where course_id = #{courseId,jdbcType=INTEGER}"
     })
     int getClassNumByCourseId(@Param("courseId") int courseId);
+
+    @Select({
+            "select exists (select 1 from class",
+            "where teacher_id=#{teacherId, jdbcType=INTEGER})"
+    })
+    boolean isTeacherUsedByClass(int teacherId);
 }

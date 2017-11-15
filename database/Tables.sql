@@ -158,11 +158,14 @@ CREATE TABLE `class` (
   `duration` varchar(45) DEFAULT NULL,
   `student_num` int(11) DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
+  `teacher_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `term_class_fk_idx` (`term_id`),
   KEY `course_class_fk_idx` (`course_id`),
+  KEY `teacher_class_fk_idx` (`teacher_id`),
   CONSTRAINT `course_class_fk` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`),
+  CONSTRAINT `teacher_class_fk` FOREIGN KEY (`teacher_id`) REFERENCES `user` (`id`),
   CONSTRAINT `term_class_fk` FOREIGN KEY (`term_id`) REFERENCES `term` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;

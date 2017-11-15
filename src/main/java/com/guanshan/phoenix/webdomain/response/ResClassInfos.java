@@ -14,6 +14,7 @@ public class ResClassInfos {
         private int courseId;
         private String courseName;
         private String courseDes;
+        private int teacherId;
         private String teacherName;
         private String teacherContact;
         private String term;
@@ -60,6 +61,14 @@ public class ResClassInfos {
 
         public void setCourseDes(String courseDes) {
             this.courseDes = courseDes;
+        }
+
+        public int getTeacherId() {
+            return teacherId;
+        }
+
+        public void setTeacherId(int teacherId) {
+            this.teacherId = teacherId;
         }
 
         public String getTeacherName() {

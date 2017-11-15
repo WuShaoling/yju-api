@@ -195,9 +195,11 @@ public class TeacherServiceImp implements TeacherService {
         Teacher teacher = teacherMapper.selectByUserId(teacherId);
         if (teacher == null)
             throw new ApplicationErrorException(ErrorCode.TeacherNotExists);
-
         if (courseMapper.isTeacherUsedByCourse(teacherId)) {
             throw new ApplicationErrorException(ErrorCode.TeacherIsUsedByCourse);
+        }
+        if (clazzMapper.isTeacherUsedByClass(teacherId)) {
+            throw new ApplicationErrorException(ErrorCode.TeacherIsUsedByClass);
         }
 
         teacherMapper.deleteByUserId(teacherId);

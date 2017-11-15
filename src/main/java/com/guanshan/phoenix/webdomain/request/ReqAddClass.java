@@ -4,6 +4,7 @@ public class ReqAddClass {
     private String className;
     private int courseId;
     private int termId;
+    private int teacherId;
 
     public String getClassName() {
         return className;
@@ -27,5 +28,13 @@ public class ReqAddClass {
 
     public void setTermId(int termId) {
         this.termId = termId;
+    }
+
+    public int getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(int teacherId) {
+        this.teacherId = teacherId;
     }
 }

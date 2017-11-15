@@ -190,6 +190,7 @@ public class CourseServiceImp implements CourseService {
             courseInfo.setId((int)course.get("courseId"));
             courseInfo.setCourseName((String) course.get("courseName"));
             courseInfo.setCourseDes((String) course.get("courseDes"));
+            courseInfo.setTeacherId((int)course.get("teacherId"));
             courseInfo.setTeacherName((String) course.get("teacherName"));
             courseInfo.setTeacherContact((String) course.get("teacherContact"));
         }

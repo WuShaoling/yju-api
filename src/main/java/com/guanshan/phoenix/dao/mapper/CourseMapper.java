@@ -56,7 +56,7 @@ public interface CourseMapper {
 
     @Select({
             "select c.id courseId, c.name courseName, c.description courseDes,",
-            "t.name teacherName, t.email teacherContact",
+            "t.user_id teacherId, t.name teacherName, t.email teacherContact",
             "from course c",
             "inner join teacher t on c.teacher_id = t.user_id",
     })
@@ -97,20 +97,6 @@ public interface CourseMapper {
             @Arg(column="email", javaType=String.class, jdbcType=JdbcType.VARCHAR),
     })
     List<ResHotCourseList.ResHotCourseDetail> getHotCourses();
-
-    @Select({
-            "select",
-            "id, teacher_id, name, description",
-            "from course",
-            "where teacher_id = #{teacherId,jdbcType=INTEGER}"
-    })
-    @ConstructorArgs({
-            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
-            @Arg(column="teacher_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
-            @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
-            @Arg(column="description", javaType=String.class, jdbcType=JdbcType.VARCHAR)
-    })
-    List<Course> selectByTeacherId(@Param("teacherId") Integer teacherId);
 
     @Select({
             "select count(*) from course"

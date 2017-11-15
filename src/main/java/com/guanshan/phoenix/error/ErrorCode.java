@@ -163,6 +163,9 @@ public enum ErrorCode {
     @ErrorMessage("一个用户仅能同时打开%d个实验容器")
     CannotCreateExCloudwareMultipleTime(53),
 
+    @ErrorMessage("该教师正在被班级表使用")
+    TeacherIsUsedByClass(54),
+
     @ErrorMessage("服务器出错，请联系管理员")
     GeneralError(Integer.MAX_VALUE);
 

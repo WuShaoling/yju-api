@@ -6,6 +6,7 @@ public class ReqUpdateClass {
     private int courseId;
     private String termYear;
     private int termId;
+    private int teacherId;
 
     public int getClassId() {
         return classId;
@@ -45,5 +46,13 @@ public class ReqUpdateClass {
 
     public void setTermId(int termId) {
         this.termId = termId;
+    }
+
+    public int getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(int teacherId) {
+        this.teacherId = teacherId;
     }
 }

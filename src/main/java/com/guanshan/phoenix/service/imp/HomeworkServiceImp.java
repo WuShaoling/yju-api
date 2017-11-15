@@ -354,21 +354,18 @@ public class HomeworkServiceImp implements HomeworkService {
             submissionDetail.setStudentName((String) studentHomeworkInfo.get("studentName"));
             submissionDetail.setDueDate(Utility.formatDate(homework.getDeadlineDate()));
 
-            if(studentHomeworkInfo.get("studentHomeworkId") == null){
+            if(studentHomeworkInfo.get("studentHomeworkId") == null ||
+                    studentHomeworkInfo.get("submissionDate") == null){
                 submissionDetail.setStudentHomeworkId(0);
                 submissionDetail.setCompleted(false);
+                incomplete++;
             } else {
                 submissionDetail.setStudentHomeworkId((int)studentHomeworkInfo.get("studentHomeworkId"));
                 submissionDetail.setCompleted(studentHomeworkInfo.get("submissionDate") != null);
                 submissionDetail.setSubmissionDate(Utility.formatDate((Date)studentHomeworkInfo.get("submissionDate") ));
                 submissionDetail.setLastEditDate(Utility.formatDate((Date)studentHomeworkInfo.get("lastEditDate")));
                 submissionDetail.setScore((int)studentHomeworkInfo.get("score"));
-            }
-
-            if(submissionDetail.isCompleted()){
                 completed++;
-            }else {
-                incomplete++;
             }
         }
 

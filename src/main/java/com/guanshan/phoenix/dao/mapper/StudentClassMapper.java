@@ -102,7 +102,7 @@ public interface StudentClassMapper {
             "inner join course cs on c.course_id = cs.id",
             "left join course_resource cr on cr.course_id = cs.id and cr.type = 1",
             "left join resource r on cr.resource_id = r.id",
-            "inner join teacher tc on cs.teacher_id = tc.user_id",
+            "inner join teacher tc on c.teacher_id = tc.user_id",
             "where sc.student_id=#{studentId, jdbcType=INTEGER}"
     })
     List<Map> getStudentClassInfoByUserId(int studentId);
@@ -113,8 +113,7 @@ public interface StudentClassMapper {
             "t.name teacherName, shw.id studentHomeworkId, shw.submission_date submissionDate",
             "from student_class sc",
             "inner join class c on sc.class_id = c.id",
-            "inner join course cs on c.course_id = cs.id",
-            "inner join teacher t on cs.teacher_id = t.user_id",
+            "inner join teacher t on c.teacher_id = t.user_id",
             "inner join homework hw on hw.class_id = c.id",
             "left join student_homework shw on shw.homework_id = hw.id",
             "where sc.student_id=#{studentId, jdbcType=INTEGER}",

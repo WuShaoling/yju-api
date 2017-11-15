@@ -145,8 +145,7 @@ public interface HomeworkMapper {
             "hw.cloudware_type cloudwareType, hw.publish_date publishDate, hw.deadline_date deadlineDate",
             "from homework hw",
             "inner join class c on hw.class_id = c.id",
-            "inner join course cs on c.course_id = cs.id",
-            "inner join teacher t on cs.teacher_id = t.user_id",
+            "inner join teacher t on c.teacher_id = t.user_id",
             "where t.user_id=#{teacherId, jdbcType=INTEGER}",
             "order by publishDate desc"
     })

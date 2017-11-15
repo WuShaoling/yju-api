@@ -177,6 +177,7 @@ public class ClassServiceImp implements ClassService {
         clazz.setName(reqUpdateClass.getClassName());
         clazz.setCourseId(reqUpdateClass.getCourseId());
         clazz.setTermId(reqUpdateClass.getTermId());
+        clazz.setTeacherId(reqUpdateClass.getTeacherId());
 
         validateClass(clazz);
 
@@ -190,6 +191,7 @@ public class ClassServiceImp implements ClassService {
         clazz.setName(reqAddClass.getClassName());
         clazz.setCourseId(reqAddClass.getCourseId());
         clazz.setTermId(reqAddClass.getTermId());
+        clazz.setTeacherId(reqAddClass.getTeacherId());
 
         validateClass(clazz);
 
@@ -212,6 +214,7 @@ public class ClassServiceImp implements ClassService {
             resClassInfo.setCourseName((String) classInfo.get("courseName"));
             resClassInfo.setCourseDes((String) classInfo.get("description"));
 
+            resClassInfo.setTeacherId((int)classInfo.get("teacherId"));
             resClassInfo.setTeacherName((String) classInfo.get("teacherName"));
             resClassInfo.setTeacherContact((String) classInfo.get("email"));
 
@@ -242,5 +245,10 @@ public class ClassServiceImp implements ClassService {
         if(courseMapper.selectByPrimaryKey(clazz.getCourseId()) == null){
             throw new ApplicationErrorException(ErrorCode.CourseNotExists);
         }
+
+        if(teacherMapper.selectByUserId(clazz.getTeacherId()) == null){
+            throw new ApplicationErrorException(ErrorCode.TeacherNotExists);
+        }
+
     }
 }

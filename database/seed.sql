@@ -85,15 +85,15 @@ insert into module (id, course_id, name) values (12, 5, "课时王机器学习-2
 insert into module (id, course_id, name) values (13, 6, "课时杜软件工程-1");-- 13
 insert into module (id, course_id, name) values (14, 7, "课时杜测试-1");   -- 14
 
-insert into class (id, term_id, course_id, date, duration, student_num, name) values (1, 1, 1, '2014-2-3', '1h20min', 20, '班1');-- 1
-insert into class (id, term_id, course_id, date, duration, student_num, name) values (2, 2, 1, '2014-2-3', '1h20min', 20, '班2');-- 2
-insert into class (id, term_id, course_id, date, duration, student_num, name) values (3, 1, 2, '2014-2-3', '1h20min', 20, '班3');-- 3
-insert into class (id, term_id, course_id, date, duration, student_num, name) values (4, 2, 3, '2014-2-3', '1h20min', 20, '班4');-- 4
-insert into class (id, term_id, course_id, date, duration, student_num, name) values (5, 1, 4, '2014-2-3', '1h20min', 20, '班5');-- 5
-insert into class (id, term_id, course_id, date, duration, student_num, name) values (6, 2, 4, '2014-2-3', '1h20min', 20, '班6');-- 6
-insert into class (id, term_id, course_id, date, duration, student_num, name) values (7, 1, 5, '2014-2-3', '1h20min', 20, '班7');-- 7
-insert into class (id, term_id, course_id, date, duration, student_num, name) values (8, 2, 6, '2014-2-3', '1h20min', 20, '班8');-- 8
-insert into class (id, term_id, course_id, date, duration, student_num, name) values (9, 1, 7, '2014-2-3', '1h20min', 20, '班8');-- 9
+insert into class (id, term_id, course_id, date, duration, student_num, name, teacher_id) values (1, 1, 1, '2014-2-3', '1h20min', 20, '班1', 5);-- 1
+insert into class (id, term_id, course_id, date, duration, student_num, name, teacher_id) values (2, 2, 1, '2014-2-3', '1h20min', 20, '班2', 6);-- 2
+insert into class (id, term_id, course_id, date, duration, student_num, name, teacher_id) values (3, 1, 2, '2014-2-3', '1h20min', 20, '班3', 7);-- 3
+insert into class (id, term_id, course_id, date, duration, student_num, name, teacher_id) values (4, 2, 3, '2014-2-3', '1h20min', 20, '班4', 7);-- 4
+insert into class (id, term_id, course_id, date, duration, student_num, name, teacher_id) values (5, 1, 4, '2014-2-3', '1h20min', 20, '班5', 6);-- 5
+insert into class (id, term_id, course_id, date, duration, student_num, name, teacher_id) values (6, 2, 4, '2014-2-3', '1h20min', 20, '班6', 5);-- 6
+insert into class (id, term_id, course_id, date, duration, student_num, name, teacher_id) values (7, 1, 5, '2014-2-3', '1h20min', 20, '班7', 5);-- 7
+insert into class (id, term_id, course_id, date, duration, student_num, name, teacher_id) values (8, 2, 6, '2014-2-3', '1h20min', 20, '班8', 6);-- 8
+insert into class (id, term_id, course_id, date, duration, student_num, name, teacher_id) values (9, 1, 7, '2014-2-3', '1h20min', 20, '班8', 7);-- 9
 
 insert into experiment (id, module_id, name, description, cloudware_type, publish_date, deadline_date) values
   									(1, 1, "邱大数据-1-实验", "实验一", 1, '2014-03-02', '2014-03-04');  -- 1
