@@ -42,6 +42,12 @@ public class CommonController {
         return new ResponseMessage.Success<>(courseService.getCourseModuleExperiments(courseId));
     }
 
+    @ApiOperation(value = "获取实验信息", notes = "")
+    @GetMapping(value = "experiment/{experimentId}")
+    public ResponseMessage<ResExperimentInfo> getExperiment(@PathVariable int experimentId) throws ApplicationErrorException {
+        return new ResponseMessage.Success(experimentService.getExperiment(experimentId));
+    }
+
     @ApiOperation(value = "获取课程相关信息", notes = "包含老师姓名，班级数以及班级人数")
     @GetMapping(value = "course/{courseId}/detail")
     public ResponseMessage<ResCommonCourseDetail> getCourseCommonDetail(@PathVariable int courseId) throws ApplicationErrorException {
