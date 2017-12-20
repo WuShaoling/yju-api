@@ -1,10 +1,11 @@
 package com.guanshan.phoenix.enums;
 
 public enum CloudwareTypeEnum {
-    RSTUDIO(1, "type 1", "第一个类型"),
-    PYTHON(2, "type 2", "第二个类型"),
-    BASE(3, "type 3", "第三个类型"),
-    HADOOP(4, "type 4", "第四个类型");
+    RSTUDIO(1, "rstudio", "RSTUDIO"),
+    PYTHON(2, "python", "PYTHON"),
+    BASE(3, "base", "BASE"),
+    HADOOP(4, "hadoop", "HADOOP"),
+    NOTEBOOK(4, "notebook", "NOTEBOOK");
 
     private int code;
     private String en;
