@@ -74,7 +74,7 @@ public class CloudwareServiceImp implements CloudwareService {
     }
 
     @Override
-    public void deleteCloudware(int cloudwareId){
+    public void deleteCloudware(int cloudwareId) {
         log.info(String.format("Start to delete cloudware for cloudware id %d...", cloudwareId));
 
         Cloudware cloudware = cloudwareMapper.selectByPrimaryKey(cloudwareId);
