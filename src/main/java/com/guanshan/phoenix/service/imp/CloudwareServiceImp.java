@@ -12,6 +12,7 @@ import com.guanshan.phoenix.service.CloudwareService;
 import com.guanshan.phoenix.webdomain.request.ReqDeleteCloudware;
 import com.guanshan.phoenix.webdomain.request.ReqStudentExperiment;
 import com.guanshan.phoenix.webdomain.response.ResExperimentInfo;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -89,8 +90,8 @@ public class CloudwareServiceImp implements CloudwareService {
             }
         } catch (RestClientException e) {
             //swallow the exception, because the cloudware may have been deleted
-            log.error(String.format("delete cloudware failed. Error message:%s", e.getMessage()));
-            Utility.logError(log, e);
+            log.error(String.format("delete cloudware failed."));
+            log.log(Level.ERROR, e.getMessage(), e);
         }
 
         cloudwareMapper.deleteByPrimaryKey(cloudwareId);

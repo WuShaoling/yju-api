@@ -1,7 +1,5 @@
 package com.guanshan.phoenix.error;
 
-import com.guanshan.phoenix.Util.LoggingOutputStream;
-import com.guanshan.phoenix.Util.Utility;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.springframework.dao.DuplicateKeyException;
@@ -9,12 +7,10 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.PrintStream;
 
 @ControllerAdvice
 public class ErrorHandler extends ResponseEntityExceptionHandler {
@@ -34,7 +30,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     ResponseMessage handleDulicateKeyException(HttpServletRequest request, Throwable ex) {
         //todo: log original exception
         log.error(String.format("Encountered DuplicateKey Exception. Message: %s", ex.getMessage()));
-        Utility.logError(log, ex);
+        log.log(Level.ERROR, ex.getMessage(), ex);
         DuplicateKeyException duplicateException = (DuplicateKeyException)ex;
         String errorMessage = duplicateException.getMessage();
 
@@ -61,7 +57,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     ResponseMessage handleThrowableException(HttpServletRequest request, Throwable ex) {
         //todo: log original exception
         log.error(String.format("Encountered server error. Message: %s", ex.getMessage()));
-        Utility.logError(log, ex);
+        log.log(Level.ERROR, ex.getMessage(), ex);
         return new ResponseMessage.Fail(new ApplicationErrorException(ErrorCode.GeneralError));
     }
 }

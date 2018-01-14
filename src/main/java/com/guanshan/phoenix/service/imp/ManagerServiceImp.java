@@ -11,6 +11,7 @@ import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.ManagerService;
 import com.guanshan.phoenix.webdomain.request.ReqResetPassword;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -72,7 +73,7 @@ public class ManagerServiceImp implements ManagerService {
             }
         }catch (RestClientException e){
             log.error(String.format("Creating volume failed. Error message:%s", e.getMessage()));
-            Utility.logError(log, e);
+            log.log(Level.ERROR, e.getMessage(), e);
             throw new ApplicationErrorException(ErrorCode.GeneralError);
         }
         log.info("Creating volume succeeded.");

@@ -64,13 +64,6 @@ public final class Utility {
                 "\"message\": \"%s\"}", errorCode.getCode(), errorCode.getErrorStringFormat()));
     }
 
-    public static void logError(Logger logger, Throwable ex){
-        logger.error("Stack Trace: ");
-        LoggingOutputStream logStream = new LoggingOutputStream(logger, Level.ERROR);
-        ex.printStackTrace(new PrintStream(logStream));
-        logStream.close();
-    }
-
     public static String getCurrentUserName(){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
