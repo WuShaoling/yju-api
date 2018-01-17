@@ -6,7 +6,7 @@ public enum CloudwareTypeEnum {
     BASE(3, "base", "BASE"),
     HADOOP(4, "hadoop", "HADOOP"),
     JUPYTER_PYTHON(5, "jupyterPython", "JUPYTER_PYTHON"),
-    WEBIDE(5, "webide", "WEBIDE");
+    IDE_JAVA(5, "ide_java", "IDE_JAVA");
 
     private int code;
     private String en;
