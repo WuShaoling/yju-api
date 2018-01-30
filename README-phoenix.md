@@ -1,5 +1,8 @@
 # 部署步骤
 
+# 配置
+1. vi src/main/resources/application.properties
+
 ## API
 1. ./gradlew clean build
 2. docker build -t phoenix-api .
@@ -7,4 +10,4 @@
 
 
 ## DB
-1. docker run -d --restart=always -p 1300:8080 --name phoenix-db -h phoenix-db  mysql:latest
+1. docker run -d --restart=always -p 1302:8080 --name phoenix-db -h phoenix-db  mysql:latest
