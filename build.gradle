@@ -11,19 +11,16 @@ buildscript {
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 		classpath "gradle.plugin.com.arenagod.gradle:mybatis-generator-plugin:1.4"
-		classpath('se.transmode.gradle:gradle-docker:1.2')
 	}
 }
 
 apply plugin: 'java'
-//apply plugin: 'war'
-apply plugin: 'docker'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: "com.arenagod.gradle.MybatisGenerator"
 
 group = 'com.guanshan'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0'
 sourceCompatibility = 1.8
 
 repositories {
