@@ -6,9 +6,11 @@ public class ResHomeworkDetail {
     private String homeworkName;
     private String homeworkDes;
     private int classId;
+    private int cloudwareTypeId;
     private String cloudwareType;
     private String dueDate;
     private String publishDate;
+    private String homeworkContent;
 
     public String getCourseName() {
         return courseName;
@@ -72,5 +74,21 @@ public class ResHomeworkDetail {
 
     public void setPublishDate(String publishDate) {
         this.publishDate = publishDate;
+    }
+
+    public String getHomeworkContent() {
+        return homeworkContent;
+    }
+
+    public void setHomeworkContent(String homeworkContent) {
+        this.homeworkContent = homeworkContent;
+    }
+
+    public int getCloudwareTypeId() {
+        return cloudwareTypeId;
+    }
+
+    public void setCloudwareTypeId(int cloudwareTypeId) {
+        this.cloudwareTypeId = cloudwareTypeId;
     }
 }

@@ -40,6 +40,10 @@ public class HomeworkSqlProvider {
         if (record.getClassId() != null) {
             sql.VALUES("class_id", "#{classId,jdbcType=INTEGER}");
         }
+
+        if(record.getHomeworkContent() != null){
+            sql.VALUES("homework_content", "#{homeworkContent, jdbcType=LONGVARCHAR}");
+        }
         
         return sql.toString();
     }
@@ -74,6 +78,10 @@ public class HomeworkSqlProvider {
         
         if (record.getClassId() != null) {
             sql.SET("class_id = #{classId,jdbcType=INTEGER}");
+        }
+
+        if(record.getHomeworkContent() != null){
+            sql.SET("homework_content = #{homeworkContent, jdbcType=LONGVARCHAR}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

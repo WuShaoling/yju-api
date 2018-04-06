@@ -22,7 +22,10 @@ public class Homework {
 
     private Integer classId;
 
-    public Homework(Integer id, Integer moduleId, String name, String description, Integer cloudwareType, Date publishDate, Date deadlineDate, Integer classId) {
+    private String homeworkContent;
+
+    public Homework(Integer id, Integer moduleId, String name, String description,
+                    Integer cloudwareType, Date publishDate, Date deadlineDate, Integer classId, String homeworkContent) {
         this.id = id;
         this.moduleId = moduleId;
         this.name = name;
@@ -31,6 +34,7 @@ public class Homework {
         this.publishDate = publishDate;
         this.deadlineDate = deadlineDate;
         this.classId = classId;
+        this.homeworkContent = homeworkContent;
     }
 
     public Homework() {
@@ -113,5 +117,13 @@ public class Homework {
 
     public void setClassId(Integer classId) {
         this.classId = classId;
+    }
+
+    public String getHomeworkContent() {
+        return homeworkContent;
+    }
+
+    public void setHomeworkContent(String homeworkContent) {
+        this.homeworkContent = homeworkContent;
     }
 }

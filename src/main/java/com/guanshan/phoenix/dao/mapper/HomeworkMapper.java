@@ -33,7 +33,7 @@ public interface HomeworkMapper {
     @Select({
         "select",
         "id, module_id, name, description, cloudware_type, publish_date, deadline_date, ",
-        "class_id",
+        "class_id, homework_content",
         "from homework",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -45,7 +45,8 @@ public interface HomeworkMapper {
         @Arg(column="cloudware_type", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
         @Arg(column="publish_date", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
         @Arg(column="deadline_date", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
-        @Arg(column="class_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
+        @Arg(column="class_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+        @Arg(column="homework_content", javaType=String.class, jdbcType=JdbcType.LONGVARCHAR)
     })
     Homework selectByPrimaryKey(Integer id);
 

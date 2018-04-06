@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+import static com.guanshan.phoenix.Util.Utility.shortDateFormat;
+
 @Service
 public class HomeworkServiceImp implements HomeworkService {
 
@@ -77,10 +79,12 @@ public class HomeworkServiceImp implements HomeworkService {
         homeworkDetail.setHomeworkName(homework.getName());
         homeworkDetail.setHomeworkDes(homework.getDescription());
         homeworkDetail.setClassId(homework.getClassId());
+        homeworkDetail.setCloudwareTypeId(homework.getCloudwareType());
         CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt(homework.getCloudwareType());
         homeworkDetail.setCloudwareType(cloudwareType == null ? "" : cloudwareType.toString());
-        homeworkDetail.setDueDate(Utility.formatDate(homework.getDeadlineDate()));
+        homeworkDetail.setDueDate(Utility.formatDate(homework.getDeadlineDate(), shortDateFormat));
         homeworkDetail.setPublishDate(Utility.formatDate(homework.getPublishDate()));
+        homeworkDetail.setHomeworkContent(homework.getHomeworkContent());
 
         return homeworkDetail;
     }
@@ -192,6 +196,7 @@ public class HomeworkServiceImp implements HomeworkService {
         }
 
         homework.setCloudwareType(reqUpdateHomework.getCloudwareType());
+        homework.setHomeworkContent(reqUpdateHomework.getHomeworkContent());
 
         validate(homework);
 
@@ -206,6 +211,7 @@ public class HomeworkServiceImp implements HomeworkService {
         homework.setModuleId(reqCreateHomework.getModuleId());
         homework.setName(reqCreateHomework.getHomeworkName());
         homework.setDescription(reqCreateHomework.getHomeworkDes());
+        homework.setHomeworkContent(reqCreateHomework.getHomeworkContent());
         if (reqCreateHomework.getHomeworkCreateDate() != null) {
             homework.setPublishDate(reqCreateHomework.getHomeworkCreateDate());
         }
