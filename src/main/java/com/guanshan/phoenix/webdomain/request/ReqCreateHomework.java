@@ -12,6 +12,7 @@ public class ReqCreateHomework {
     private String homeworkCreateDate;
     private String homeworkDueDate;
     private int cloudwareType;
+    private String homeworkContent;
 
     public int getClassId() {
         return classId;
@@ -67,5 +68,13 @@ public class ReqCreateHomework {
 
     public void setCloudwareType(int cloudwareType) {
         this.cloudwareType = cloudwareType;
+    }
+
+    public String getHomeworkContent() {
+        return homeworkContent;
+    }
+
+    public void setHomeworkContent(String homeworkContent) {
+        this.homeworkContent = homeworkContent;
     }
 }
