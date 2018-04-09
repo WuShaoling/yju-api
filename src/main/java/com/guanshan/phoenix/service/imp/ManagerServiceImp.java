@@ -10,6 +10,7 @@ import com.guanshan.phoenix.enums.RoleEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.ManagerService;
+import com.guanshan.phoenix.service.RancherService;
 import com.guanshan.phoenix.webdomain.request.ReqResetPassword;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -36,7 +37,7 @@ public class ManagerServiceImp implements ManagerService {
     private UserMapper userMapper;
 
     @Autowired
-    private RestTemplate restTemplate;
+    private RancherService rancherService;
 
     @Override
     public int resetPassword(ReqResetPassword reqResetPassword) throws ApplicationErrorException {
@@ -61,17 +62,9 @@ public class ManagerServiceImp implements ManagerService {
 
         log.info(String.format("Start to create volume for user %d...", user.getId()));
 
-        ReqCreateVolume reqCreateVolume = new ReqCreateVolume();
-        reqCreateVolume.setUserId(user.getId());
-        reqCreateVolume.setSecret("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIiLCJpYXQiOjE1MDU4MTM0NTd9.Ftw1yHeUrqdNvymFZcIpuEoS0RHBFZqu4MfUZON9Zm0");
-
         try {
-            ResCloudware resCloudware = restTemplate.postForObject(createVolumeUrl, reqCreateVolume, ResCloudware.class);
-            if (resCloudware.getErrorCode() != 0) {
-                log.error(String.format("Creating volume failed. Error code returned %d.", resCloudware.getErrorCode()));
-                throw new ApplicationErrorException(ErrorCode.GeneralError);
-            }
-        }catch (RestClientException e){
+            rancherService.createUserVolume(user.getId());
+        }catch (Exception e){
             log.error(String.format("Creating volume failed. Error message:%s", e.getMessage()));
             log.log(Level.ERROR, e.getMessage(), e);
             throw new ApplicationErrorException(ErrorCode.GeneralError);

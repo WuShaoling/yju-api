@@ -15,7 +15,7 @@ public interface StudentHomeworkService {
 
     Cloudware getStudentHomeworkCloudware(int homeworkId, int studentId) throws ApplicationErrorException;
 
-    void createStudentHomeworkCloudware(ReqStudentHomeworkCloudware reqStudentHomeworkCloudware) throws ApplicationErrorException;
+    Cloudware createStudentHomeworkCloudware(ReqStudentHomeworkCloudware reqStudentHomeworkCloudware) throws ApplicationErrorException, InterruptedException;
 
     void deleteStudentHomework(int studentHomeworkId) throws ApplicationErrorException;
 }

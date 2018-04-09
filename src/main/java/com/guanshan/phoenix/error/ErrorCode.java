@@ -166,6 +166,9 @@ public enum ErrorCode {
     @ErrorMessage("该教师正在被班级表使用")
     TeacherIsUsedByClass(54),
 
+    @ErrorMessage("创建云件失败")
+    FailedToCreateCloudware(55),
+
     @ErrorMessage("服务器出错，请联系管理员")
     GeneralError(Integer.MAX_VALUE);
 

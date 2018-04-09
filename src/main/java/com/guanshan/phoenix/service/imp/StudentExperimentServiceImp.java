@@ -9,6 +9,7 @@ import com.guanshan.phoenix.dao.mapper.UserMapper;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.CloudwareService;
+import com.guanshan.phoenix.service.RancherService;
 import com.guanshan.phoenix.service.StudentExperimentService;
 import com.guanshan.phoenix.webdomain.request.ReqStudentExperimentCloudware;
 import com.guanshan.phoenix.webdomain.response.ResStudentLastExperiment;
@@ -35,6 +36,9 @@ public class StudentExperimentServiceImp implements StudentExperimentService {
     @Autowired
     private ExperimentMapper experimentMapper;
 
+    @Autowired
+    private RancherService rancherService;
+
     @Override
     public Cloudware getStudentExperimentCloudware(int experimentId, int studentId) throws ApplicationErrorException {
         StudentExperiment studentExperiment = studentExperimentMapper.selectByStudentIdAndExperimentId(studentId, experimentId);
@@ -49,20 +53,19 @@ public class StudentExperimentServiceImp implements StudentExperimentService {
     }
 
     @Override
-    public void createStudentExperimentCloudware(ReqStudentExperimentCloudware reqStudentExperimentCloudware) throws ApplicationErrorException {
+    public Cloudware createStudentExperimentCloudware(ReqStudentExperimentCloudware reqStudentExperimentCloudware) throws ApplicationErrorException, InterruptedException {
         validateStudentExperiment(
                 reqStudentExperimentCloudware.getStudentId(),
                 reqStudentExperimentCloudware.getExperimentId()
         );
+
+        Cloudware cloudware = rancherService.createCloudware(reqStudentExperimentCloudware.getStudentId(),
+                                                             reqStudentExperimentCloudware.getCloudwareType());
+
         StudentExperiment studentExperiment =
                 studentExperimentMapper.selectByStudentIdAndExperimentId(reqStudentExperimentCloudware.getStudentId(),
                         reqStudentExperimentCloudware.getExperimentId());
 
-        Cloudware cloudware = new Cloudware(reqStudentExperimentCloudware.getWebSocket(),
-                reqStudentExperimentCloudware.getServiceId(),
-                reqStudentExperimentCloudware.getInstanceId(),
-                reqStudentExperimentCloudware.getServiceName(),
-                reqStudentExperimentCloudware.getPulsarId());
         cloudwareMapper.insert(cloudware);
 
         if(studentExperiment != null){
@@ -77,6 +80,8 @@ public class StudentExperimentServiceImp implements StudentExperimentService {
             );
             studentExperimentMapper.insert(studentExperiment);
         }
+
+        return cloudware;
     }
 
     @Override
