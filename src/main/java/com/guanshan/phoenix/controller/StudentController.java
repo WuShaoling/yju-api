@@ -85,17 +85,15 @@ public class StudentController {
     @ApiOperation(value = "创建学生作业以及云件", notes = "")
     @PostMapping(value = "homework/creation")
     @Transactional(rollbackFor = Throwable.class)
-    public ResponseMessage createStudentHomeworkCloudware(@RequestBody ReqStudentHomeworkCloudware reqStudentHomeworkCloudware) throws ApplicationErrorException {
-        studentHomeworkService.createStudentHomeworkCloudware(reqStudentHomeworkCloudware);
-        return new ResponseMessage.Success();
+    public ResponseMessage<Cloudware> createStudentHomeworkCloudware(@RequestBody ReqStudentHomeworkCloudware reqStudentHomeworkCloudware) throws ApplicationErrorException, InterruptedException {
+        return new ResponseMessage.Success(studentHomeworkService.createStudentHomeworkCloudware(reqStudentHomeworkCloudware));
     }
 
     @ApiOperation(value = "创建学生实验以及云件", notes = "")
     @PostMapping(value = "experiment/creation")
     @Transactional(rollbackFor = Throwable.class)
-    public ResponseMessage createStudentExperimentCloudware(@RequestBody ReqStudentExperimentCloudware reqStudentExperimentCloudware) throws ApplicationErrorException {
-        studentExperimentService.createStudentExperimentCloudware(reqStudentExperimentCloudware);
-        return new ResponseMessage.Success();
+    public ResponseMessage<Cloudware> createStudentExperimentCloudware(@RequestBody ReqStudentExperimentCloudware reqStudentExperimentCloudware) throws ApplicationErrorException, InterruptedException {
+        return new ResponseMessage.Success(studentExperimentService.createStudentExperimentCloudware(reqStudentExperimentCloudware));
     }
 
     @ApiOperation(value = "单个学生作业详情", notes = "")

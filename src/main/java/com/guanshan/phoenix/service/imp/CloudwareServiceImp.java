@@ -1,7 +1,5 @@
 package com.guanshan.phoenix.service.imp;
 
-import com.guanshan.phoenix.Util.Utility;
-import com.guanshan.phoenix.cloudwareDomain.ResCloudware;
 import com.guanshan.phoenix.dao.entity.Cloudware;
 import com.guanshan.phoenix.dao.entity.Course;
 import com.guanshan.phoenix.dao.entity.Experiment;
@@ -9,7 +7,7 @@ import com.guanshan.phoenix.dao.entity.Module;
 import com.guanshan.phoenix.dao.mapper.*;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.service.CloudwareService;
-import com.guanshan.phoenix.webdomain.request.ReqDeleteCloudware;
+import com.guanshan.phoenix.service.RancherService;
 import com.guanshan.phoenix.webdomain.request.ReqStudentExperiment;
 import com.guanshan.phoenix.webdomain.response.ResExperimentInfo;
 import org.apache.log4j.Level;
@@ -17,8 +15,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
+
+import java.io.IOException;
 
 /**
  * Created by Administrator on 2017/10/19.
@@ -47,7 +45,7 @@ public class CloudwareServiceImp implements CloudwareService {
     private CourseMapper courseMapper;
 
     @Autowired
-    private RestTemplate restTemplate;
+    private RancherService rancherService;
 
 
     @Override
@@ -79,16 +77,11 @@ public class CloudwareServiceImp implements CloudwareService {
         log.info(String.format("Start to delete cloudware for cloudware id %d...", cloudwareId));
 
         Cloudware cloudware = cloudwareMapper.selectByPrimaryKey(cloudwareId);
-        ReqDeleteCloudware reqDeleteCloudware = new ReqDeleteCloudware(cloudware);
 
         try {
-            ResCloudware resCloudware = restTemplate.postForObject(deleteCloudwareUrl, reqDeleteCloudware, ResCloudware.class);
-            if (resCloudware.getErrorCode() != 0) {
-                log.error(String.format("Deleting cloudware failed. Error code returned %d.", resCloudware.getErrorCode()));
-            } else {
-                log.info("delete cloudware succeeded.");
-            }
-        } catch (RestClientException e) {
+            rancherService.deleteCloudware(cloudware.getServiceId(), cloudware.getPulsarId());
+            log.info("delete cloudware succeeded.");
+        } catch (Exception e) {
             //swallow the exception, because the cloudware may have been deleted
             log.error(String.format("delete cloudware failed."));
             log.log(Level.ERROR, e.getMessage(), e);

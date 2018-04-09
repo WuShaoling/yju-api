@@ -6,6 +6,7 @@ import com.guanshan.phoenix.enums.ResourceTypeEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.CloudwareService;
+import com.guanshan.phoenix.service.RancherService;
 import com.guanshan.phoenix.service.StudentHomeworkService;
 import com.guanshan.phoenix.webdomain.request.ReqHomeworkSubmission;
 import com.guanshan.phoenix.webdomain.request.ReqStudentHomeworkCloudware;
@@ -39,6 +40,9 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
 
     @Autowired
     private StudentHomeworkResourceMapper studentHomeworkResourceMapper;
+
+    @Autowired
+    private RancherService rancherService;
 
     @Override
     public StudentHomework getStudentHomeworkById(int studentHomeworkId) throws ApplicationErrorException {
@@ -94,17 +98,15 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
     }
 
     @Override
-    public void createStudentHomeworkCloudware(ReqStudentHomeworkCloudware reqStudentHomeworkCloudware) throws ApplicationErrorException {
+    public Cloudware createStudentHomeworkCloudware(ReqStudentHomeworkCloudware reqStudentHomeworkCloudware) throws ApplicationErrorException, InterruptedException {
         validStudentHomeWork(reqStudentHomeworkCloudware.getStudentId(), reqStudentHomeworkCloudware.getHomeworkId());
+
+        Cloudware cloudware = rancherService.createCloudware(reqStudentHomeworkCloudware.getStudentId(),
+                                                             reqStudentHomeworkCloudware.getCloudwareType());
+
         StudentHomework studentHomework =
                 studentHomeworkMapper.selectByStudentIdAndHomeworkId(reqStudentHomeworkCloudware.getStudentId(),
                                                                      reqStudentHomeworkCloudware.getHomeworkId());
-
-        Cloudware cloudware = new Cloudware(reqStudentHomeworkCloudware.getWebSocket(),
-                                            reqStudentHomeworkCloudware.getServiceId(),
-                                            reqStudentHomeworkCloudware.getInstanceId(),
-                                            reqStudentHomeworkCloudware.getServiceName(),
-                                            reqStudentHomeworkCloudware.getPulsarId());
 
         cloudwareMapper.insert(cloudware);
 
@@ -126,6 +128,8 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
             studentHomework.setCloudwareId(cloudware.getId());
             studentHomeworkMapper.updateByPrimaryKey(studentHomework);
         }
+
+        return cloudware;
     }
 
     @Override
