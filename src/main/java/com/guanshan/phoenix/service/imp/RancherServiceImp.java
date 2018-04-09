@@ -37,8 +37,12 @@ public class RancherServiceImp implements RancherService {
     @Value("${rancher.cloudwareStackId}")
     private String cloudwareStackId;
     private String lbid;
+    @Value("${rancher.cloudwareHubDomain}")
+    private String cloudwareHubDomain;
     @Value("${rancher.wsUrl}")
     private String wsUrl;
+    @Value("${rancher.webIdeBaseUrl}")
+    private String webIdeBaseUrl;
     @Value("${rancher.vmLbSourcePort}")
     private int vmLbSourcePort;
     @Value("${rancher.vmLbTargetPort}")
@@ -186,10 +190,10 @@ public class RancherServiceImp implements RancherService {
             }
 
             nbService = response.body();
-            createLBRules(nbService.getName() + ".cloudwarehub.com", null, nbService.getId(), notebookLbSourcePort, notebookLbTargetPort);
+            createLBRules(nbService.getName() + "." + cloudwareHubDomain, null, nbService.getId(), notebookLbSourcePort, notebookLbTargetPort);
 
             cloudware = new Cloudware();
-            cloudware.setWebSocket(nbService.getName()+".cloudwarehub.com:"+notebookLbSourcePort);
+            cloudware.setWebSocket(nbService.getName()+"." + cloudwareHubDomain + ":" + notebookLbSourcePort);
             cloudware.setServiceId(nbService.getId());
             cloudware.setServiceName(nbService.getName());
             isSuccess = true;
@@ -224,10 +228,10 @@ public class RancherServiceImp implements RancherService {
             }
 
             ideService = response.body();
-            createLBRules(ideService.getName() + ".cloudwarehub.com", null, ideService.getId(), ideLbSourcePort, ideLbTargetPort);
+            createLBRules(ideService.getName() + "." + cloudwareHubDomain, null, ideService.getId(), ideLbSourcePort, ideLbTargetPort);
 
             cloudware = new Cloudware();
-            cloudware.setWebSocket(ideService.getName()+".cloudwarehub.com:"+ideLbSourcePort);
+            cloudware.setWebSocket(ideService.getName()+"."+ cloudwareHubDomain + ":"+ideLbSourcePort);
             cloudware.setServiceId(ideService.getId());
             cloudware.setServiceName(ideService.getName());
             isSuccess = true;
