@@ -1,0 +1,75 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.7.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+		maven {
+			url "https://plugins.gradle.org/m2/"
+		}
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath "gradle.plugin.com.arenagod.gradle:mybatis-generator-plugin:1.4"
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: "com.arenagod.gradle.MybatisGenerator"
+
+group = 'com.guanshan'
+version = '1.0.0'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	//spring boot
+	compile('org.springframework.boot:spring-boot-starter-aop')
+	compile ('org.springframework.boot:spring-boot-starter-web'){
+		exclude module: 'org.springframework.boot:spring-boot-starter-logging'
+	}
+	compile ('org.springframework.boot:spring-boot-starter-log4j2')
+
+	// mysql 数据库相关
+	compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:1.2.0')
+	compile('mysql:mysql-connector-java:5.1.21')
+
+	//spring security加入
+	compile('org.springframework.boot:spring-boot-starter-security')
+	compile 'commons-dbcp:commons-dbcp:1.4'
+
+	//jwt 加入
+	compile('io.jsonwebtoken:jjwt:0.6.0')
+	compile("org.apache.commons:commons-lang3:3.2")
+
+	//Swagger 加入
+	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.6.1'
+	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.6.1'
+
+	// excel 解析相关
+	compile group: 'org.apache.poi', name: 'poi', version: '3.15'
+	compile group: 'org.apache.poi', name: 'poi-ooxml', version: '3.15'
+
+	// rancher java api
+	compile "com.squareup.retrofit2:retrofit:2.0.0-beta3"
+	compile "com.squareup.retrofit2:converter-jackson:2.0.0-beta3"
+	compile files('libs/rancher-java-sdk.jar')
+
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+//	testCompile('org.springframework.security:spring-security-test')
+}
+
+configurations {
+	mybatisGenerator
+	compile.exclude group:'ch.qos.logback'
+}
+
+mybatisGenerator {
+	verbose = true
+	configFile = 'src/main/resources/generatorConfig.xml'
+}
