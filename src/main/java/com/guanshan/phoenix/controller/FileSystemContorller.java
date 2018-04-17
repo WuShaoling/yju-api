@@ -40,9 +40,10 @@ public class FileSystemContorller {
 
     @ApiOperation(value = "下载Image")
     @GetMapping(value = "/image/{fileName:.+}")
+    @ResponseBody
     @Cacheable(cacheNames = "Images", key = "#fileName")
-    public void downloadImage(@PathVariable("fileName") String fileName, HttpServletResponse response) throws ApplicationErrorException, IOException {
-        fileService.downloadImage(fileName, response);
+    public byte[] downloadImage(@PathVariable("fileName") String fileName) throws ApplicationErrorException, IOException {
+        return fileService.downloadImage(fileName);
     }
 
     @ApiOperation(value = "下载Markdown")

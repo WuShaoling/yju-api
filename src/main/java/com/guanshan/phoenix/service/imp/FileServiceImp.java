@@ -5,6 +5,7 @@ import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.FileService;
 import com.guanshan.phoenix.webdomain.response.ResUploadImage;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -115,9 +116,23 @@ public class FileServiceImp implements FileService {
     }
 
     @Override
-    public void downloadImage(String fileName, HttpServletResponse response) throws ApplicationErrorException, IOException {
+    public byte[] downloadImage(String fileName) throws ApplicationErrorException, IOException {
 
-        getFile(fileName, response, baseDir + imageDir);
+        final String filePath = baseDir + imageDir + "/" + fileName;
+
+        File file = new File(filePath);
+
+        if (!file.exists()) {
+            throw new ApplicationErrorException(ErrorCode.FileIsNotExist);
+        }
+
+
+        byte[] bytes = new byte[(int)file.length()];
+        try(InputStream inputStream = new FileInputStream(file)) {
+            IOUtils.readFully(inputStream, bytes);
+        }
+
+        return bytes;
     }
 
     @Override

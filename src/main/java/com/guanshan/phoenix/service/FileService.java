@@ -17,7 +17,7 @@ public interface FileService {
 
     String uploadReport(MultipartFile file) throws ApplicationErrorException, IOException;
 
-    void downloadImage(String fileName, HttpServletResponse response) throws ApplicationErrorException, IOException;
+    byte[] downloadImage(String fileName) throws ApplicationErrorException, IOException;
 
     void downloadMarkdown(String fileName, HttpServletResponse response) throws ApplicationErrorException;
 
