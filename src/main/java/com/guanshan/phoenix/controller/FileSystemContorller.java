@@ -6,6 +6,7 @@ import com.guanshan.phoenix.service.FileService;
 import com.guanshan.phoenix.webdomain.response.ResUploadImage;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,6 +40,7 @@ public class FileSystemContorller {
 
     @ApiOperation(value = "下载Image")
     @GetMapping(value = "/image/{fileName:.+}")
+    @Cacheable(cacheNames = "Images", key = "#fileName")
     public void downloadImage(@PathVariable("fileName") String fileName, HttpServletResponse response) throws ApplicationErrorException, IOException {
         fileService.downloadImage(fileName, response);
     }
