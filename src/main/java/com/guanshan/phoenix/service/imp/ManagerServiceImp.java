@@ -1,9 +1,6 @@
 package com.guanshan.phoenix.service.imp;
 
 import com.guanshan.phoenix.Util.EncryptionUtil;
-import com.guanshan.phoenix.Util.Utility;
-import com.guanshan.phoenix.cloudwareDomain.ReqCreateVolume;
-import com.guanshan.phoenix.cloudwareDomain.ResCloudware;
 import com.guanshan.phoenix.dao.entity.User;
 import com.guanshan.phoenix.dao.mapper.UserMapper;
 import com.guanshan.phoenix.enums.RoleEnum;
@@ -16,11 +13,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 public class ManagerServiceImp implements ManagerService {
