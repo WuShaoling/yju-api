@@ -11,16 +11,16 @@ import java.util.Map;
 
 public interface CourseMapper {
     @Delete({
-        "delete from course",
-        "where id = #{id,jdbcType=INTEGER}"
+            "delete from course",
+            "where id = #{id,jdbcType=INTEGER}"
     })
     int deleteByPrimaryKey(Integer id);
 
     @Insert({
-        "insert into course (id, teacher_id, ",
-        "name, description)",
-        "values (#{id,jdbcType=INTEGER}, #{teacherId,jdbcType=INTEGER}, ",
-        "#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR})"
+            "insert into course (id, teacher_id, ",
+            "name, description)",
+            "values (#{id,jdbcType=INTEGER}, #{teacherId,jdbcType=INTEGER}, ",
+            "#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR})"
     })
     @Options(useGeneratedKeys = true, keyColumn = "id")
     int insert(Course record);
@@ -29,16 +29,16 @@ public interface CourseMapper {
     int insertSelective(Course record);
 
     @Select({
-        "select",
-        "id, teacher_id, name, description",
-        "from course",
-        "where id = #{id,jdbcType=INTEGER}"
+            "select",
+            "id, teacher_id, name, description",
+            "from course",
+            "where id = #{id,jdbcType=INTEGER}"
     })
     @ConstructorArgs({
-        @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
-        @Arg(column="teacher_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
-        @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
-        @Arg(column="description", javaType=String.class, jdbcType=JdbcType.VARCHAR)
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="teacher_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="description", javaType=String.class, jdbcType=JdbcType.VARCHAR)
     })
     Course selectByPrimaryKey(Integer id);
 
@@ -46,11 +46,11 @@ public interface CourseMapper {
     int updateByPrimaryKeySelective(Course record);
 
     @Update({
-        "update course",
-        "set teacher_id = #{teacherId,jdbcType=INTEGER},",
-          "name = #{name,jdbcType=VARCHAR},",
-          "description = #{description,jdbcType=VARCHAR}",
-        "where id = #{id,jdbcType=INTEGER}"
+            "update course",
+            "set teacher_id = #{teacherId,jdbcType=INTEGER},",
+            "name = #{name,jdbcType=VARCHAR},",
+            "description = #{description,jdbcType=VARCHAR}",
+            "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Course record);
 
@@ -70,21 +70,21 @@ public interface CourseMapper {
 
     @Select({
             "select c.id, ifnull(course_actual_student.actual_student_num, 0) actual_student_num, ",
-                    "ifnull(course_total_student.total_student_num, 0) total_student_num, c.name course_name, c.description, r.url, t.name teacher_name, t.email",
-                    "from course c",
-                          "inner join course_resource cr on cr.course_id = c.id and type = 1",
-                          "inner join resource r on r.id = cr.resource_id",
-                          "inner join teacher t on t.user_id = c.teacher_id",
-                          "left join",
-                            "(select course_id, count(*) as actual_student_num",
-                             "from class c inner join student_class sc on sc.class_id  = c.id",
-                             "group by course_id) as course_actual_student on course_actual_student.course_id=c.id",
-                          "left join",
-                            "(select course_id, sum(student_num) as total_student_num",
-                             "from class",
-                             "group by course_id",
-                            ") as course_total_student on course_actual_student.course_id = course_total_student.course_id",
-                    "order by actual_student_num desc limit 8"
+            "ifnull(course_total_student.total_student_num, 0) total_student_num, c.name course_name, c.description, r.url, t.name teacher_name, t.email",
+            "from course c",
+            "inner join course_resource cr on cr.course_id = c.id and type = 1",
+            "inner join resource r on r.id = cr.resource_id",
+            "inner join teacher t on t.user_id = c.teacher_id",
+            "left join",
+            "(select course_id, count(*) as actual_student_num",
+            "from class c inner join student_class sc on sc.class_id  = c.id",
+            "group by course_id) as course_actual_student on course_actual_student.course_id=c.id",
+            "left join",
+            "(select course_id, sum(student_num) as total_student_num",
+            "from class",
+            "group by course_id",
+            ") as course_total_student on course_actual_student.course_id = course_total_student.course_id",
+            "order by actual_student_num desc limit #{skip,jdbcType=INTEGER}, #{limit,jdbcType=INTEGER}"
     })
     @ConstructorArgs({
             @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
@@ -96,7 +96,7 @@ public interface CourseMapper {
             @Arg(column="teacher_name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="email", javaType=String.class, jdbcType=JdbcType.VARCHAR),
     })
-    List<ResHotCourseList.ResHotCourseDetail> getHotCourses();
+    List<ResHotCourseList.ResHotCourseDetail> getHotCourses(@Param("skip") int skip, @Param("limit") int limit);
 
     @Select({
             "select count(*) from course"

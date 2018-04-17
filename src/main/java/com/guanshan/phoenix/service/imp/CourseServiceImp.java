@@ -281,7 +281,7 @@ public class CourseServiceImp implements CourseService {
     @Override
     public ResHotCourseList getHotCourses(){
         ResHotCourseList resHotCourseList = new ResHotCourseList();
-        resHotCourseList.setCourseList(courseMapper.getHotCourses());
+        resHotCourseList.setCourseList(courseMapper.getHotCourses(0, 100));
         return resHotCourseList;
     }
 
