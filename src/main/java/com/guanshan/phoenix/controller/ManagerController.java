@@ -10,6 +10,7 @@ import com.guanshan.phoenix.webdomain.request.*;
 import com.guanshan.phoenix.webdomain.response.*;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -145,6 +146,7 @@ public class ManagerController {
     @ApiOperation(value = "创建课程信息", notes = "")
     @PostMapping(value = "course/creation")
     @Transactional(rollbackFor = Throwable.class)
+    @CacheEvict(cacheNames="HotCourses", allEntries=true)
     public ResponseMessage createCourse(@RequestBody ReqAddCourse reqAddCourse) throws ApplicationErrorException {
         courseService.createCourse(reqAddCourse);
         return new ResponseMessage.Success();
@@ -153,6 +155,7 @@ public class ManagerController {
     @ApiOperation(value = "更新课程信息", notes = "")
     @PostMapping(value = "course/updation")
     @Transactional(rollbackFor = Throwable.class)
+    @CacheEvict(cacheNames="HotCourses", allEntries=true)
     public ResponseMessage updateCourse(@RequestBody Course course) throws ApplicationErrorException {
         courseService.updateCourse(course);
         return new ResponseMessage.Success();
@@ -161,6 +164,7 @@ public class ManagerController {
     @ApiOperation(value = "删除课程信息", notes = "")
     @PostMapping(value = "course/deletion")
     @Transactional(rollbackFor = Throwable.class)
+    @CacheEvict(cacheNames="HotCourses", allEntries=true)
     public ResponseMessage deleteCourse(@RequestBody ReqDeleteCourse reqDeleteCourse) throws ApplicationErrorException {
         courseService.deleteCourse(reqDeleteCourse);
         return new ResponseMessage.Success();

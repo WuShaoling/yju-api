@@ -9,6 +9,7 @@ import com.guanshan.phoenix.service.TeacherService;
 import com.guanshan.phoenix.webdomain.response.*;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,6 +33,7 @@ public class CommonController {
 
     @ApiOperation(value = "获取热门课程信息", notes = "")
     @GetMapping(value = "hotCourses/all")
+    @Cacheable(cacheNames = "HotCourses")
     public ResponseMessage<ResHotCourseList> getHotCourses() {
         return new ResponseMessage.Success<>(courseService.getHotCourses());
     }
