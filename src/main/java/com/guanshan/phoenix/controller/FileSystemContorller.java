@@ -41,8 +41,10 @@ public class FileSystemContorller {
     @ApiOperation(value = "下载Image")
     @GetMapping(value = "/image/{fileName:.+}")
     @ResponseBody
-    @Cacheable(cacheNames = "Images", key = "#fileName")
-    public byte[] downloadImage(@PathVariable("fileName") String fileName) throws ApplicationErrorException, IOException {
+    public byte[] downloadImage(@PathVariable("fileName") String fileName, HttpServletResponse response) throws ApplicationErrorException, IOException {
+        response.setHeader("Cache-Control", "public, max-age=31536000");
+        response.setHeader("Pragma", "");
+        response.setHeader("Expires", "");
         return fileService.downloadImage(fileName);
     }
 
