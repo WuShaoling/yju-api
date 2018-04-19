@@ -33,7 +33,6 @@ public class CommonController {
 
     @ApiOperation(value = "获取热门课程信息", notes = "")
     @GetMapping(value = "hotCourses/all")
-    @Cacheable(cacheNames = "HotCourses")
     public ResponseMessage<ResHotCourseList> getHotCourses() {
         return new ResponseMessage.Success<>(courseService.getHotCourses());
     }

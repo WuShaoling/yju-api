@@ -17,6 +17,8 @@ import com.guanshan.phoenix.webdomain.request.ReqDeleteCourse;
 import com.guanshan.phoenix.webdomain.request.ReqDeleteModule;
 import com.guanshan.phoenix.webdomain.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -215,6 +217,7 @@ public class CourseServiceImp implements CourseService {
     }
 
     @Override
+    @CacheEvict(cacheNames="HotCourses", allEntries=true)
     public void updateCourse(Course course) throws ApplicationErrorException {
         if(courseMapper.selectByPrimaryKey(course.getId()) == null){
             throw new ApplicationErrorException(ErrorCode.CourseNotExists);
@@ -245,6 +248,7 @@ public class CourseServiceImp implements CourseService {
     }
 
     @Override
+    @CacheEvict(cacheNames="HotCourses", allEntries=true)
     public void deleteCourse(ReqDeleteCourse reqDeleteCourse) throws ApplicationErrorException {
         int courseId = reqDeleteCourse.getId();
 
@@ -279,6 +283,7 @@ public class CourseServiceImp implements CourseService {
     }
 
     @Override
+    @Cacheable(cacheNames = "HotCourses")
     public ResHotCourseList getHotCourses(){
         ResHotCourseList resHotCourseList = new ResHotCourseList();
         resHotCourseList.setCourseList(courseMapper.getHotCourses(0, 100));

@@ -7,6 +7,9 @@ buildscript {
 		maven {
 			url "https://plugins.gradle.org/m2/"
 		}
+		maven {
+			url 'https://repo.spring.io/libs-release'
+		}
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -54,6 +57,9 @@ dependencies {
 	// excel 解析相关
 	compile group: 'org.apache.poi', name: 'poi', version: '3.15'
 	compile group: 'org.apache.poi', name: 'poi-ooxml', version: '3.15'
+
+	// redis cache
+	compile('org.springframework.boot:spring-boot-starter-data-redis')
 
 	// rancher java api
 	compile "com.squareup.retrofit2:retrofit:2.0.0-beta3"
