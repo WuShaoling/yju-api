@@ -146,7 +146,6 @@ public class ManagerController {
     @ApiOperation(value = "创建课程信息", notes = "")
     @PostMapping(value = "course/creation")
     @Transactional(rollbackFor = Throwable.class)
-    @CacheEvict(cacheNames="HotCourses", allEntries=true)
     public ResponseMessage createCourse(@RequestBody ReqAddCourse reqAddCourse) throws ApplicationErrorException {
         courseService.createCourse(reqAddCourse);
         return new ResponseMessage.Success();
