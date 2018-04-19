@@ -1,8 +1,9 @@
 package com.guanshan.phoenix.webdomain.response;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ResHotCourseList {
+public class ResHotCourseList implements Serializable {
 
     private List<ResHotCourseDetail> courseList;
 
@@ -14,7 +15,7 @@ public class ResHotCourseList {
         this.courseList = courseList;
     }
 
-    public static class ResHotCourseDetail {
+    public static class ResHotCourseDetail implements Serializable {
         private Integer courseId;
         private Integer actualStudentNum;
         private Integer studentNum;

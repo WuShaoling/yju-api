@@ -155,7 +155,6 @@ public class ManagerController {
     @ApiOperation(value = "更新课程信息", notes = "")
     @PostMapping(value = "course/updation")
     @Transactional(rollbackFor = Throwable.class)
-    @CacheEvict(cacheNames="HotCourses", allEntries=true)
     public ResponseMessage updateCourse(@RequestBody Course course) throws ApplicationErrorException {
         courseService.updateCourse(course);
         return new ResponseMessage.Success();
@@ -164,7 +163,6 @@ public class ManagerController {
     @ApiOperation(value = "删除课程信息", notes = "")
     @PostMapping(value = "course/deletion")
     @Transactional(rollbackFor = Throwable.class)
-    @CacheEvict(cacheNames="HotCourses", allEntries=true)
     public ResponseMessage deleteCourse(@RequestBody ReqDeleteCourse reqDeleteCourse) throws ApplicationErrorException {
         courseService.deleteCourse(reqDeleteCourse);
         return new ResponseMessage.Success();
