@@ -23,9 +23,6 @@ public class ManagerServiceImp implements ManagerService {
     @Value("${default.password}")
     private String defaultPassword;
 
-    @Value("${cloudware.createVolumeUrl}")
-    private String createVolumeUrl;
-
     @Autowired
     private UserMapper userMapper;
 

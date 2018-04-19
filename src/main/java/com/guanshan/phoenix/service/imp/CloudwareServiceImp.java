@@ -26,9 +26,6 @@ public class CloudwareServiceImp implements CloudwareService {
 
     static Logger log = Logger.getLogger(CloudwareServiceImp.class.getName());
 
-    @Value("${cloudware.deleteCloudwareUrl}")
-    private String deleteCloudwareUrl;
-
     @Autowired
     private StudentExperimentMapper studentExperimentMapper;
 
