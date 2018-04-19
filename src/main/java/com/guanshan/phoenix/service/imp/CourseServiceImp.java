@@ -217,7 +217,7 @@ public class CourseServiceImp implements CourseService {
     }
 
     @Override
-    //@CacheEvict(cacheNames="HotCourses", allEntries=true)
+    @CacheEvict(cacheNames="HotCourses", allEntries=true)
     public void updateCourse(Course course) throws ApplicationErrorException {
         if(courseMapper.selectByPrimaryKey(course.getId()) == null){
             throw new ApplicationErrorException(ErrorCode.CourseNotExists);
@@ -248,7 +248,7 @@ public class CourseServiceImp implements CourseService {
     }
 
     @Override
-    //@CacheEvict(cacheNames="HotCourses", allEntries=true)
+    @CacheEvict(cacheNames="HotCourses", allEntries=true)
     public void deleteCourse(ReqDeleteCourse reqDeleteCourse) throws ApplicationErrorException {
         int courseId = reqDeleteCourse.getId();
 
@@ -283,7 +283,7 @@ public class CourseServiceImp implements CourseService {
     }
 
     @Override
-    //@Cacheable(cacheNames = "HotCourses")
+    @Cacheable(cacheNames = "HotCourses")
     public ResHotCourseList getHotCourses(){
         ResHotCourseList resHotCourseList = new ResHotCourseList();
         resHotCourseList.setCourseList(courseMapper.getHotCourses(0, 100));
