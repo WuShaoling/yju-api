@@ -201,6 +201,7 @@ public class CourseServiceImp implements CourseService {
     }
 
     @Override
+    @CacheEvict(cacheNames="HotCourses", allEntries=true)
     public void createCourse(ReqAddCourse reqAddCourse) throws ApplicationErrorException {
         Course course = new Course(
                 reqAddCourse.getTeacherId(), reqAddCourse.getName(), reqAddCourse.getDescription());
