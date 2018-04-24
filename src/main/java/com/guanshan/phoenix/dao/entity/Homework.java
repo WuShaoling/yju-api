@@ -37,6 +37,11 @@ public class Homework {
         this.homeworkContent = homeworkContent;
     }
 
+    public Homework(Integer id, Integer moduleId, String name, String description,
+                    Integer cloudwareType, Date publishDate, Date deadlineDate, Integer classId){
+        this(id, moduleId, name, description, cloudwareType, publishDate, deadlineDate, classId, "");
+    }
+
     public Homework() {
         super();
     }
