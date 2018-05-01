@@ -151,7 +151,7 @@ public class RancherServiceImp implements RancherService {
             pulsarId = response2.body().getId();
 
             //Add rules to lb
-            createLBRules(null,"/" + vmService.getName(), vmService.getId(), vmLbSourcePort, vmLbTargetPort);
+            createLBRules("/" + vmService.getName(), vmService.getId(), vmLbSourcePort, vmLbTargetPort);
 
             cloudware = new Cloudware();
             cloudware.setWebSocket(wsUrl + vmService.getName());
@@ -190,7 +190,7 @@ public class RancherServiceImp implements RancherService {
             }
 
             nbService = response.body();
-            createLBRules(nbService.getName() + "." + cloudwareHubDomain, null, nbService.getId(), notebookLbSourcePort, notebookLbTargetPort);
+            createLBRules("/" + nbService.getName(), nbService.getId(), notebookLbSourcePort, notebookLbTargetPort);
 
             cloudware = new Cloudware();
             cloudware.setWebSocket(nbService.getName()+"." + cloudwareHubDomain + ":" + notebookLbSourcePort);
@@ -228,7 +228,7 @@ public class RancherServiceImp implements RancherService {
             }
 
             ideService = response.body();
-            createLBRules(ideService.getName() + "." + cloudwareHubDomain, null, ideService.getId(), ideLbSourcePort, ideLbTargetPort);
+            createLBRules("/" + ideService.getName(), ideService.getId(), ideLbSourcePort, ideLbTargetPort);
 
             cloudware = new Cloudware();
             cloudware.setWebSocket(ideService.getName()+"."+ cloudwareHubDomain + ":"+ideLbSourcePort);
@@ -368,7 +368,7 @@ public class RancherServiceImp implements RancherService {
         return container;
     }
 
-    private void createLBRules(String hostName, String path, String serviceId, int sourcePort, int targetPort) throws IOException, ApplicationErrorException {
+    private void createLBRules(String path, String serviceId, int sourcePort, int targetPort) throws IOException, ApplicationErrorException {
         Response<LoadBalancerService> response = loadBalancerServiceService.get(lbid).execute();
 
         if(!response.isSuccess()){
@@ -379,7 +379,7 @@ public class RancherServiceImp implements RancherService {
         LoadBalancerService loadBalancerService = response.body();
         PortRule newRule = new PortRule();
         newRule.setProtocol("http");
-        newRule.setHostname(hostName);
+        newRule.setHostname(cloudwareHubDomain);
         newRule.setPath(path);
         newRule.setPriority(12);
         newRule.setServiceId(serviceId);
