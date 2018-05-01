@@ -193,7 +193,7 @@ public class RancherServiceImp implements RancherService {
             createLBRules("/" + nbService.getName(), nbService.getId(), notebookLbSourcePort, notebookLbTargetPort);
 
             cloudware = new Cloudware();
-            cloudware.setWebSocket(nbService.getName()+"." + cloudwareHubDomain + ":" + notebookLbSourcePort);
+            cloudware.setWebSocket(cloudwareHubDomain + ":" + notebookLbSourcePort + "/" + nbService.getName());
             cloudware.setServiceId(nbService.getId());
             cloudware.setServiceName(nbService.getName());
             isSuccess = true;
@@ -231,7 +231,7 @@ public class RancherServiceImp implements RancherService {
             createLBRules("/" + ideService.getName(), ideService.getId(), ideLbSourcePort, ideLbTargetPort);
 
             cloudware = new Cloudware();
-            cloudware.setWebSocket(ideService.getName()+"."+ cloudwareHubDomain + ":"+ideLbSourcePort);
+            cloudware.setWebSocket(cloudwareHubDomain + ":"+ideLbSourcePort + "/" + ideService.getName());
             cloudware.setServiceId(ideService.getId());
             cloudware.setServiceName(ideService.getName());
             isSuccess = true;
