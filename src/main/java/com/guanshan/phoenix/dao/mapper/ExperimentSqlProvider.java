@@ -25,10 +25,6 @@ public class ExperimentSqlProvider {
             sql.VALUES("description", "#{description,jdbcType=VARCHAR}");
         }
         
-        if (record.getCloudwareType() != null) {
-            sql.VALUES("cloudware_type", "#{cloudwareType,jdbcType=INTEGER}");
-        }
-        
         if (record.getPublishDate() != null) {
             sql.VALUES("publish_date", "#{publishDate,jdbcType=TIMESTAMP}");
         }
@@ -39,6 +35,10 @@ public class ExperimentSqlProvider {
         
         if (record.getExperimentContent() != null) {
             sql.VALUES("experiment_content", "#{experimentContent,jdbcType=LONGVARCHAR}");
+        }
+
+        if(record.getImageId() != null){
+            sql.VALUES("image_id", "#{imaged,jdbcType=INTEGER}");
         }
         
         return sql.toString();
@@ -60,10 +60,6 @@ public class ExperimentSqlProvider {
             sql.SET("description = #{description,jdbcType=VARCHAR}");
         }
         
-        if (record.getCloudwareType() != null) {
-            sql.SET("cloudware_type = #{cloudwareType,jdbcType=INTEGER}");
-        }
-        
         if (record.getPublishDate() != null) {
             sql.SET("publish_date = #{publishDate,jdbcType=TIMESTAMP}");
         }
@@ -74,6 +70,10 @@ public class ExperimentSqlProvider {
         
         if (record.getExperimentContent() != null) {
             sql.SET("experiment_content = #{experimentContent,jdbcType=LONGVARCHAR}");
+        }
+
+        if(record.getImageId() != null){
+            sql.SET("image_id = #{imageId,jdbcType=INTEGER}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

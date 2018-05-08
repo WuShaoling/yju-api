@@ -71,7 +71,7 @@ public enum ErrorCode {
     HomeworkModuleClassBelongsToDifferentCourse(22),
 
     @ErrorMessage("云件类型非法")
-    InvalidCloudwareType(23),
+    InvalidImageType(23),
 
     @ErrorMessage("该作业正在被学生作业表使用")
     HomeworkUsedByStudentHomework(24),
@@ -168,6 +168,9 @@ public enum ErrorCode {
 
     @ErrorMessage("创建云件失败")
     FailedToCreateCloudware(55),
+
+    @ErrorMessage("该实验镜像不存在")
+    ImageNotFound(56),
 
     @ErrorMessage("服务器出错，请联系管理员")
     GeneralError(Integer.MAX_VALUE);

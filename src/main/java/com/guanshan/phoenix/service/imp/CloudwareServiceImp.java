@@ -54,8 +54,7 @@ public class CloudwareServiceImp implements CloudwareService {
     }
 
     @Override
-    public ResExperimentInfo getExperiment(int id) throws ApplicationErrorException{
-
+    public ResExperimentInfo getExperiment(int id) {
 
         Experiment experiment = experimentMapper.selectByPrimaryKey(id);
         Module module = moduleMapper.selectByPrimaryKey(experiment.getModuleId());

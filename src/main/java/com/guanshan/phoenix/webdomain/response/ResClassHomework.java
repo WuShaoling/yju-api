@@ -49,7 +49,6 @@ public class ResClassHomework {
         private String homeworkCreateDate;
         private String homeworkDueDate;
         private String teacherName;
-        private String cloudwareType;
 
         public int getHomeworkId() {
             return homeworkId;
@@ -97,14 +96,6 @@ public class ResClassHomework {
 
         public void setTeacherName(String teacherName) {
             this.teacherName = teacherName;
-        }
-
-        public String getCloudwareType() {
-            return cloudwareType;
-        }
-
-        public void setCloudwareType(String cloudwareType) {
-            this.cloudwareType = cloudwareType;
         }
     }
 

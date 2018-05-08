@@ -14,7 +14,11 @@ public class Homework {
 
     private String description;
 
-    private Integer cloudwareType;
+    private Integer imageId;
+
+    private Integer imageType;
+
+    private String imageNameVersion;
 
     private Date publishDate;
 
@@ -25,12 +29,14 @@ public class Homework {
     private String homeworkContent;
 
     public Homework(Integer id, Integer moduleId, String name, String description,
-                    Integer cloudwareType, Date publishDate, Date deadlineDate, Integer classId, String homeworkContent) {
+                    Date publishDate, Date deadlineDate, Integer classId,
+                    Integer imageType, String imageName, String imageVersion, String homeworkContent) {
         this.id = id;
         this.moduleId = moduleId;
         this.name = name;
         this.description = description;
-        this.cloudwareType = cloudwareType;
+        this.imageType = imageType;
+        this.imageNameVersion = imageName + ":" + imageVersion;
         this.publishDate = publishDate;
         this.deadlineDate = deadlineDate;
         this.classId = classId;
@@ -38,8 +44,9 @@ public class Homework {
     }
 
     public Homework(Integer id, Integer moduleId, String name, String description,
-                    Integer cloudwareType, Date publishDate, Date deadlineDate, Integer classId){
-        this(id, moduleId, name, description, cloudwareType, publishDate, deadlineDate, classId, "");
+                    Date publishDate, Date deadlineDate, Integer classId,
+                    Integer imageType, String imageName, String imageVersion){
+        this(id, moduleId, name, description, publishDate, deadlineDate, classId, imageType, imageName, imageVersion, "");
     }
 
     public Homework() {
@@ -76,14 +83,6 @@ public class Homework {
 
     public void setDescription(String description) {
         this.description = description == null ? null : description.trim();
-    }
-
-    public Integer getCloudwareType() {
-        return cloudwareType;
-    }
-
-    public void setCloudwareType(Integer cloudwareType) {
-        this.cloudwareType = cloudwareType;
     }
 
     public Date getPublishDate() {
@@ -130,5 +129,29 @@ public class Homework {
 
     public void setHomeworkContent(String homeworkContent) {
         this.homeworkContent = homeworkContent;
+    }
+
+    public Integer getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(Integer imageId) {
+        this.imageId = imageId;
+    }
+
+    public Integer getImageType() {
+        return imageType;
+    }
+
+    public void setImageType(Integer imageType) {
+        this.imageType = imageType;
+    }
+
+    public String getImageNameVersion() {
+        return imageNameVersion;
+    }
+
+    public void setImageNameVersion(String imageNameVersion) {
+        this.imageNameVersion = imageNameVersion;
     }
 }

@@ -70,7 +70,7 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
 
     @Override
     public void submitStudentHomework(ReqHomeworkSubmission homeworkSubmission) throws ApplicationErrorException {
-        this.validStudentHomeWork(homeworkSubmission.getStudentId(), homeworkSubmission.getHomeworkId());
+        this.validateStudentHomeWork(homeworkSubmission.getStudentId(), homeworkSubmission.getHomeworkId());
         StudentHomework studentHomework = studentHomeworkMapper.selectByStudentIdAndHomeworkId(
                 homeworkSubmission.getStudentId(), homeworkSubmission.getHomeworkId());
 
@@ -82,7 +82,7 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
     }
 
     @Override
-    public void validStudentHomeWork(int studentId, int homeworkId) throws ApplicationErrorException {
+    public Homework validateStudentHomeWork(int studentId, int homeworkId) throws ApplicationErrorException {
         if(studentMapper.selectByUserId(studentId) == null){
             throw new ApplicationErrorException(ErrorCode.StudentNotExists);
         }
@@ -95,14 +95,17 @@ public class StudentHomeworkServiceImp implements StudentHomeworkService {
         if(!clazzMapper.isStudentInClass(studentId, homework.getClassId())){
             throw new ApplicationErrorException(ErrorCode.StudentNotInClass);
         }
+
+        return homework;
     }
 
     @Override
     public Cloudware createStudentHomeworkCloudware(ReqStudentHomeworkCloudware reqStudentHomeworkCloudware) throws ApplicationErrorException, InterruptedException {
-        validStudentHomeWork(reqStudentHomeworkCloudware.getStudentId(), reqStudentHomeworkCloudware.getHomeworkId());
+        Homework homework = validateStudentHomeWork(reqStudentHomeworkCloudware.getStudentId(), reqStudentHomeworkCloudware.getHomeworkId());
 
         Cloudware cloudware = rancherService.createCloudware(reqStudentHomeworkCloudware.getStudentId(),
-                                                             reqStudentHomeworkCloudware.getCloudwareType());
+                                                             homework.getImageType(),
+                                                             homework.getImageNameVersion());
 
         StudentHomework studentHomework =
                 studentHomeworkMapper.selectByStudentIdAndHomeworkId(reqStudentHomeworkCloudware.getStudentId(),

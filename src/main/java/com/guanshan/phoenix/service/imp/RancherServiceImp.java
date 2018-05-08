@@ -1,6 +1,7 @@
 package com.guanshan.phoenix.service.imp;
 
 import com.guanshan.phoenix.dao.entity.Cloudware;
+import com.guanshan.phoenix.enums.ImageTypeEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.RancherService;
@@ -85,13 +86,15 @@ public class RancherServiceImp implements RancherService {
     }
 
     @Override
-    public Cloudware createCloudware(int userId, String cloudwareType) throws ApplicationErrorException, InterruptedException {
-        if(cloudwareType.contains("jupyter")){
-            return createNoteBookCloudware(userId);
-        } else if (cloudwareType.contains("ide")){
-            return createWebIDECloudware();
+    public Cloudware createCloudware(int userId, int imageType, String imageNameVersion) throws ApplicationErrorException, InterruptedException {
+        if(imageType == ImageTypeEnum.NOTEBOOK.getCode()){
+            return createNoteBookCloudware(userId, imageNameVersion);
+        } else if (imageType == ImageTypeEnum.WEBIDE.getCode()){
+            return createWebIDECloudware(imageNameVersion);
+        } else if (imageType == ImageTypeEnum.CLOUDWARE.getCode()){
+            return createVMCloudware(userId, imageNameVersion);
         } else {
-            return createVMCloudware(userId, cloudwareType);
+            throw new ApplicationErrorException(ErrorCode.InvalidImageType);
         }
     }
 
@@ -103,13 +106,13 @@ public class RancherServiceImp implements RancherService {
         volumeService.create(volume).execute();
     }
 
-    private Cloudware createVMCloudware(int userId, String cloudwareType) throws ApplicationErrorException, InterruptedException {
+    private Cloudware createVMCloudware(int userId, String imageNameVersion) throws ApplicationErrorException, InterruptedException {
         io.rancher.type.Service vmService = null;
         String pulsarId = null;
         boolean isSuccess = false;
         Cloudware cloudware;
         try {
-            vmService = createVMService(userId, cloudwareType);
+            vmService = createVMService(userId, imageNameVersion);
 
             Response<io.rancher.type.Service> response = serviceService.create(vmService).execute();
 
@@ -175,13 +178,13 @@ public class RancherServiceImp implements RancherService {
         return cloudware;
     }
 
-    private Cloudware createNoteBookCloudware(int userId) throws ApplicationErrorException {
+    private Cloudware createNoteBookCloudware(int userId, String imageNameVersion) throws ApplicationErrorException {
         io.rancher.type.Service nbService = null;
         boolean isSuccess = false;
         Cloudware cloudware;
 
         try {
-            nbService = createNoteBookService(userId);
+            nbService = createNoteBookService(userId, imageNameVersion);
             Response<io.rancher.type.Service> response = serviceService.create(nbService).execute();
 
             if(!response.isSuccess()){
@@ -213,13 +216,13 @@ public class RancherServiceImp implements RancherService {
         return cloudware;
     }
 
-    private Cloudware createWebIDECloudware() throws ApplicationErrorException {
+    private Cloudware createWebIDECloudware(String imageNameVersion) throws ApplicationErrorException {
         io.rancher.type.Service ideService = null;
         boolean isSuccess = false;
         Cloudware cloudware;
 
         try {
-            ideService = createIDEService();
+            ideService = createIDEService(imageNameVersion);
             Response<io.rancher.type.Service> response = serviceService.create(ideService).execute();
 
             if(!response.isSuccess()){
@@ -280,26 +283,10 @@ public class RancherServiceImp implements RancherService {
         return service;
     }
 
-    private io.rancher.type.Service createVMService(int userId, String cloudwareType){
+    private io.rancher.type.Service createVMService(int userId, String imageNameVersion){
         io.rancher.type.Service vmService = createCommonService();
         //image UUUid
-        switch (cloudwareType) {
-            case "python":
-                vmService.getLaunchConfig().setImageUuid("docker:cloudwarelabs/python:v2.0");
-                break;
-            case "base":
-                vmService.getLaunchConfig().setImageUuid("docker:cloudwarelabs/base:v2.0");
-                break;
-            case "rstudio":
-                vmService.getLaunchConfig().setImageUuid("docker:cloudwarelabs/rstudio:v1.0");
-                break;
-            case "hadoop":
-                vmService.getLaunchConfig().setImageUuid("docker:cloudwarelabs/hadoop:v3.0");
-                break;
-            default:
-                vmService.getLaunchConfig().setImageUuid("docker:cloudwarelabs/base:v2.0");
-                break;
-        }
+        vmService.getLaunchConfig().setImageUuid("docker:" + imageNameVersion);
 
         List<String> entryPoint = new ArrayList<>();
         entryPoint.add("startxfce4");
@@ -314,9 +301,9 @@ public class RancherServiceImp implements RancherService {
         return vmService;
     }
 
-    private io.rancher.type.Service createNoteBookService(int userId){
+    private io.rancher.type.Service createNoteBookService(int userId, String imageNameVersion){
         io.rancher.type.Service nbService = createCommonService();
-        nbService.getLaunchConfig().setImageUuid("docker:jupyter/base-notebook");
+        nbService.getLaunchConfig().setImageUuid("docker:" + imageNameVersion);
 
         //datavolumn
         List<String> dataVolumns = new ArrayList<>();
@@ -329,9 +316,9 @@ public class RancherServiceImp implements RancherService {
         return nbService;
     }
 
-    private io.rancher.type.Service createIDEService(){
+    private io.rancher.type.Service createIDEService(String imageNameVersion){
         io.rancher.type.Service ideService = createCommonService();
-        ideService.getLaunchConfig().setImageUuid("docker:daocloud.io/gst_admin/onlinejavaide_api:master-3fe03ac");
+        ideService.getLaunchConfig().setImageUuid("docker:" + imageNameVersion);
 
         //datavolumn
         List<String> dataVolumns = new ArrayList<>();

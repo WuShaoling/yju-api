@@ -25,10 +25,6 @@ public class HomeworkSqlProvider {
             sql.VALUES("description", "#{description,jdbcType=VARCHAR}");
         }
         
-        if (record.getCloudwareType() != null) {
-            sql.VALUES("cloudware_type", "#{cloudwareType,jdbcType=INTEGER}");
-        }
-        
         if (record.getPublishDate() != null) {
             sql.VALUES("publish_date", "#{publishDate,jdbcType=TIMESTAMP}");
         }
@@ -43,6 +39,10 @@ public class HomeworkSqlProvider {
 
         if(record.getHomeworkContent() != null){
             sql.VALUES("homework_content", "#{homeworkContent, jdbcType=LONGVARCHAR}");
+        }
+
+        if(record.getImageId() != null){
+            sql.VALUES("image_id", "#{imageId,jdbcType=INTEGER}");
         }
         
         return sql.toString();
@@ -64,10 +64,6 @@ public class HomeworkSqlProvider {
             sql.SET("description = #{description,jdbcType=VARCHAR}");
         }
         
-        if (record.getCloudwareType() != null) {
-            sql.SET("cloudware_type = #{cloudwareType,jdbcType=INTEGER}");
-        }
-        
         if (record.getPublishDate() != null) {
             sql.SET("publish_date = #{publishDate,jdbcType=TIMESTAMP}");
         }
@@ -82,6 +78,10 @@ public class HomeworkSqlProvider {
 
         if(record.getHomeworkContent() != null){
             sql.SET("homework_content = #{homeworkContent, jdbcType=LONGVARCHAR}");
+        }
+
+        if(record.getImageId() != null){
+            sql.SET("image_id = #{imageId,jdbcType=INTEGER}");
         }
         
         sql.WHERE("id = #{id,jdbcType=INTEGER}");

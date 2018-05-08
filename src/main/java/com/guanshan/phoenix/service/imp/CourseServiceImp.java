@@ -3,7 +3,7 @@ package com.guanshan.phoenix.service.imp;
 import com.guanshan.phoenix.Util.Utility;
 import com.guanshan.phoenix.dao.entity.*;
 import com.guanshan.phoenix.dao.mapper.*;
-import com.guanshan.phoenix.enums.CloudwareTypeEnum;
+import com.guanshan.phoenix.enums.ImageTypeEnum;
 import com.guanshan.phoenix.enums.ResourceTypeEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
@@ -123,10 +123,7 @@ public class CourseServiceImp implements CourseService {
                 resExperimentInfo.setId((int)moduleInfo.get("experimentId"));
                 resExperimentInfo.setExperimentName((String)moduleInfo.get("experimentName"));
                 resExperimentInfo.setExperimentDes((String)moduleInfo.get("experimentDes"));
-                CloudwareTypeEnum cloudwareTypeEnum = CloudwareTypeEnum.fromInt(
-                        (int)moduleInfo.get("cloudwareType")
-                );
-                resExperimentInfo.setCloudwareType(cloudwareTypeEnum == null ? "" : cloudwareTypeEnum.toString());
+                resExperimentInfo.setImageTypeId((int)moduleInfo.get("imageType"));
                 resExperimentInfo.setDueDate(Utility.formatDate((Date)moduleInfo.get("dueDate")));
                 resExperimentInfo.setPublishDate(Utility.formatDate((Date)moduleInfo.get("publishDate")));
             }
@@ -166,10 +163,9 @@ public class CourseServiceImp implements CourseService {
             homeworkInfo.setId((int)moduleHomeworkInfo.get("homeworkId"));
             homeworkInfo.setHomeworkName((String)moduleHomeworkInfo.get("homeworkName"));
             homeworkInfo.setHomeworkDes((String)moduleHomeworkInfo.get("homeworkDes"));
-            CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt((int)moduleHomeworkInfo.get("cloudwareType"));
-            homeworkInfo.setCloudwareType(cloudwareType == null ? "" : cloudwareType.toString());
             homeworkInfo.setDueDate(Utility.formatDate((Date)moduleHomeworkInfo.get("dueDate")));
             homeworkInfo.setPublishDate(Utility.formatDate((Date)moduleHomeworkInfo.get("publishDate")));
+            homeworkInfo.setImageTypeId((int)moduleHomeworkInfo.get("imageType"));
 
             boolean isCompleted = moduleHomeworkInfo.get("studentHomeworkId") != null &&
                     moduleHomeworkInfo.get("submissionDate") != null;
