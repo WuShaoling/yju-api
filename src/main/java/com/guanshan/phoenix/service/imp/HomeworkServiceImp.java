@@ -3,7 +3,7 @@ package com.guanshan.phoenix.service.imp;
 import com.guanshan.phoenix.Util.Utility;
 import com.guanshan.phoenix.dao.entity.*;
 import com.guanshan.phoenix.dao.mapper.*;
-import com.guanshan.phoenix.enums.CloudwareTypeEnum;
+import com.guanshan.phoenix.enums.ImageTypeEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.HomeworkService;
@@ -57,7 +57,7 @@ public class HomeworkServiceImp implements HomeworkService {
     private TeacherMapper teacherMapper;
 
     @Autowired
-    private CloudwareMapper cloudwareMapper;
+    private ExperimentMapper experimentMapper;
 
     @Autowired
     private StudentClassMapper studentClassMapper;
@@ -79,9 +79,8 @@ public class HomeworkServiceImp implements HomeworkService {
         homeworkDetail.setHomeworkName(homework.getName());
         homeworkDetail.setHomeworkDes(homework.getDescription());
         homeworkDetail.setClassId(homework.getClassId());
-        homeworkDetail.setCloudwareTypeId(homework.getCloudwareType());
-        CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt(homework.getCloudwareType());
-        homeworkDetail.setCloudwareType(cloudwareType == null ? "" : cloudwareType.toString());
+        homeworkDetail.setImageTypeId(homework.getImageType());
+        homeworkDetail.setImageNameVersion(homework.getImageNameVersion());
         homeworkDetail.setDueDate(Utility.formatDate(homework.getDeadlineDate(), shortDateFormat));
         homeworkDetail.setPublishDate(Utility.formatDate(homework.getPublishDate()));
         homeworkDetail.setHomeworkContent(homework.getHomeworkContent());
@@ -195,7 +194,8 @@ public class HomeworkServiceImp implements HomeworkService {
             homework.setDeadlineDate(reqUpdateHomework.getHomeworkDueDate());
         }
 
-        homework.setCloudwareType(reqUpdateHomework.getCloudwareType());
+        homework.setImageType(reqUpdateHomework.getImageType());
+        homework.setImageNameVersion(reqUpdateHomework.getImageNameVersion());
         homework.setHomeworkContent(reqUpdateHomework.getHomeworkContent());
 
         validate(homework);
@@ -218,7 +218,8 @@ public class HomeworkServiceImp implements HomeworkService {
         if (reqCreateHomework.getHomeworkDueDate() != null) {
             homework.setDeadlineDate(reqCreateHomework.getHomeworkDueDate());
         }
-        homework.setCloudwareType(reqCreateHomework.getCloudwareType());
+        homework.setImageType(reqCreateHomework.getImageType());
+        homework.setImageNameVersion(reqCreateHomework.getImageNameVersion());
 
         validate(homework);
 
@@ -263,9 +264,6 @@ public class HomeworkServiceImp implements HomeworkService {
                 resClassHomeworkModuleHomework.setHomeworkCreateDate(Utility.formatDate((Date) moduleHomeworkInfo.get("publishDate")));
                 resClassHomeworkModuleHomework.setTeacherName(teacher.getName());
                 resClassHomeworkModuleHomework.setHomeworkDueDate(Utility.formatDate((Date) moduleHomeworkInfo.get("dueDate")));
-                CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt((int)moduleHomeworkInfo.get("cloudwareType"));
-                resClassHomeworkModuleHomework.setCloudwareType(cloudwareType == null ? "" : cloudwareType.toString());
-
                 resClassHomeworkModule.getHomeworks().add(resClassHomeworkModuleHomework);
             }
         }
@@ -283,8 +281,6 @@ public class HomeworkServiceImp implements HomeworkService {
             resHomework.setId((int)homeworkInfo.get("homeworkId"));
             resHomework.setName((String)homeworkInfo.get("homeworkName"));
             resHomework.setDescription((String)homeworkInfo.get("homeworkDes"));
-            CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt((int)homeworkInfo.get("cloudwareType"));
-            resHomework.setCloudwareType(cloudwareType == null ? "" : cloudwareType.toString());
             resHomework.setPublishDate(Utility.formatDate((Date)homeworkInfo.get("publishDate")));
             Calendar calendar = Calendar.getInstance();
             calendar.setTime((Date)homeworkInfo.get("publishDate"));
@@ -317,8 +313,6 @@ public class HomeworkServiceImp implements HomeworkService {
             resHomework.setClassName((String) homeworkInfo.get("className"));
             resHomework.setName((String) homeworkInfo.get("homeworkName"));
             resHomework.setDescription((String) homeworkInfo.get("description"));
-            CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt((int) homeworkInfo.get("cloudwareType"));
-            resHomework.setCloudwareType(cloudwareType == null ? "" : cloudwareType.toString());
             resHomework.setPublishDate(Utility.formatDate((Date) homeworkInfo.get("publishDate")));
             Calendar calendar = Calendar.getInstance();
             calendar.setTime((Date) homeworkInfo.get("publishDate"));
@@ -339,8 +333,7 @@ public class HomeworkServiceImp implements HomeworkService {
         ResHomeworkSubmissionList.ResHomeworkList resHomeworkList = new ResHomeworkSubmissionList.ResHomeworkList();
         resHomeworkList.setHomeworkId(homework.getId());
         resHomeworkList.setHomeworkName(homework.getName());
-        CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt(homework.getCloudwareType());
-        resHomeworkList.setCloudwareType(cloudwareType == null ? "" : cloudwareType.toString());
+        resHomeworkList.setImageTypeId(homework.getImageType());
 
         List<ResHomeworkSubmissionList.ResHomeworkSubmissionDetail> submissionDetails =
                 new ArrayList<>();
@@ -381,11 +374,17 @@ public class HomeworkServiceImp implements HomeworkService {
     }
 
     private void validate(Homework homework) throws ApplicationErrorException {
-        CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt(homework.getCloudwareType());
-
-        if(cloudwareType == null){
-            throw new ApplicationErrorException(ErrorCode.InvalidCloudwareType);
+        ImageTypeEnum imageType = ImageTypeEnum.fromInt(homework.getImageType());
+        if(imageType == null){
+            throw new ApplicationErrorException(ErrorCode.InvalidImageType);
         }
+
+        Integer imageId = experimentMapper.selectImageIdByTypeAndNameVersion(homework.getImageType(), homework.getImageNameVersion());
+        if(imageId == null){
+            throw new ApplicationErrorException(ErrorCode.ImageNotFound);
+        }
+
+        homework.setImageId(imageId);
 
         Clazz clazz = clazzMapper.selectByPrimaryKey(homework.getClassId());
         if(clazz == null){

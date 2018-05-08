@@ -2,7 +2,7 @@ package com.guanshan.phoenix.webdomain.response;
 
 import com.guanshan.phoenix.Util.Utility;
 import com.guanshan.phoenix.dao.entity.Homework;
-import com.guanshan.phoenix.enums.CloudwareTypeEnum;
+import com.guanshan.phoenix.enums.ImageTypeEnum;
 
 import java.util.List;
 
@@ -67,7 +67,9 @@ public class ResCourseHomeworks {
 
         private String homeworkDes;
 
-        private String cloudwareType;
+        private int imageTypeId;
+
+        private String imageType;
 
         private String dueDate;
 
@@ -81,8 +83,6 @@ public class ResCourseHomeworks {
             this.setId(homework.getId());
             this.setHomeworkName(homework.getName());
             this.setHomeworkDes(homework.getDescription());
-            CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt(homework.getCloudwareType());
-            this.setCloudwareType(cloudwareType == null ? "" : cloudwareType.toString());
             this.setDueDate(Utility.formatDate(homework.getDeadlineDate()));
             this.setPublishDate(Utility.formatDate(homework.getPublishDate()));
         }
@@ -111,14 +111,6 @@ public class ResCourseHomeworks {
             this.homeworkDes = homeworkDes;
         }
 
-        public String getCloudwareType() {
-            return cloudwareType;
-        }
-
-        public void setCloudwareType(String cloudwareType) {
-            this.cloudwareType = cloudwareType;
-        }
-
         public String getDueDate() {
             return dueDate;
         }
@@ -141,6 +133,21 @@ public class ResCourseHomeworks {
 
         public void setCompleted(boolean completed) {
             this.completed = completed;
+        }
+
+        public int getImageTypeId() {
+            return imageTypeId;
+        }
+
+        public void setImageTypeId(int imageTypeId) {
+            this.imageTypeId = imageTypeId;
+
+            ImageTypeEnum imageTypeEnum = ImageTypeEnum.fromInt(imageTypeId);
+            imageType = imageTypeEnum.toString();
+        }
+
+        public String getImageType() {
+            return imageType;
         }
     }
 }

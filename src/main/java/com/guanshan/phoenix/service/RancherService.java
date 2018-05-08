@@ -7,6 +7,6 @@ import java.io.IOException;
 
 public interface RancherService {
     void deleteCloudware(String serviceId, String pulsarId) throws IOException, InterruptedException;
-    Cloudware createCloudware(int userId, String cloudwareType) throws ApplicationErrorException, InterruptedException;
+    Cloudware createCloudware(int userId, int imageType, String imageNameVersion) throws ApplicationErrorException, InterruptedException;
     void createUserVolume(int userId) throws IOException;
 }

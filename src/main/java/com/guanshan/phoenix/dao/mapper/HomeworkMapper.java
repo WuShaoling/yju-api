@@ -15,37 +15,27 @@ public interface HomeworkMapper {
     })
     int deleteByPrimaryKey(Integer id);
 
-    @Insert({
-        "insert into homework (id, module_id, ",
-        "name, description, ",
-        "cloudware_type, publish_date, ",
-        "deadline_date, class_id)",
-        "values (#{id,jdbcType=INTEGER}, #{moduleId,jdbcType=INTEGER}, ",
-        "#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, ",
-        "#{cloudwareType,jdbcType=INTEGER}, #{publishDate,jdbcType=TIMESTAMP}, ",
-        "#{deadlineDate,jdbcType=TIMESTAMP}, #{classId,jdbcType=INTEGER})"
-    })
-    int insert(Homework record);
-
     @InsertProvider(type=HomeworkSqlProvider.class, method="insertSelective")
     int insertSelective(Homework record);
 
     @Select({
         "select",
-        "id, module_id, name, description, cloudware_type, publish_date, deadline_date, ",
-        "class_id, homework_content",
-        "from homework",
-        "where id = #{id,jdbcType=INTEGER}"
+        "hw.id id, hw.module_id, hw.name, hw.description, hw.publish_date, hw.deadline_date, ",
+        "hw.class_id, ei.image_type, ei.image_name, ei.image_version, hw.homework_content",
+        "from homework hw inner join experiment_image ei on hw.image_id = ei.id",
+        "where hw.id = #{id,jdbcType=INTEGER}"
     })
     @ConstructorArgs({
         @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
         @Arg(column="module_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
         @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
         @Arg(column="description", javaType=String.class, jdbcType=JdbcType.VARCHAR),
-        @Arg(column="cloudware_type", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
         @Arg(column="publish_date", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
         @Arg(column="deadline_date", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
         @Arg(column="class_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+        @Arg(column="image_type", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+        @Arg(column="image_name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+        @Arg(column="image_version", javaType=String.class, jdbcType=JdbcType.VARCHAR),
         @Arg(column="homework_content", javaType=String.class, jdbcType=JdbcType.LONGVARCHAR)
     })
     Homework selectByPrimaryKey(Integer id);
@@ -53,22 +43,10 @@ public interface HomeworkMapper {
     @UpdateProvider(type=HomeworkSqlProvider.class, method="updateByPrimaryKeySelective")
     int updateByPrimaryKeySelective(Homework record);
 
-    @Update({
-        "update homework",
-        "set module_id = #{moduleId,jdbcType=INTEGER},",
-          "name = #{name,jdbcType=VARCHAR},",
-          "description = #{description,jdbcType=VARCHAR},",
-          "cloudware_type = #{cloudwareType,jdbcType=INTEGER},",
-          "publish_date = #{publishDate,jdbcType=TIMESTAMP},",
-          "deadline_date = #{deadlineDate,jdbcType=TIMESTAMP},",
-          "class_id = #{classId,jdbcType=INTEGER}",
-        "where id = #{id,jdbcType=INTEGER}"
-    })
-    int updateByPrimaryKey(Homework record);
-
     @Select({
-            "select *",
-            "from homework",
+            "select hw.id id, hw.module_id, hw.name, hw.description, hw.publish_date, hw.deadline_date, hw.class_id,",
+            "ei.image_type, ei.image_name, ei.image_version",
+            "from homework hw inner join experiment_image ei on hw.image_id = ei.id",
             "where module_id = #{moduleId,jdbcType=INTEGER}"
     })
     @ConstructorArgs({
@@ -76,16 +54,19 @@ public interface HomeworkMapper {
             @Arg(column="module_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="description", javaType=String.class, jdbcType=JdbcType.VARCHAR),
-            @Arg(column="cloudware_type", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="publish_date", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
             @Arg(column="deadline_date", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
-            @Arg(column="class_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
+            @Arg(column="class_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="image_type", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="image_name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="image_version", javaType=String.class, jdbcType=JdbcType.VARCHAR)
     })
     List<Homework> selectByModuleId(Integer moduleId);
 
     @Select({
-            "select *",
-            "from homework",
+            "select hw.id id, hw.module_id, hw.name, hw.description, hw.publish_date, hw.deadline_date, hw.class_id,",
+            "ei.image_type, ei.image_name, ei.image_version",
+            "from homework hw inner join experiment_image ei on hw.image_id = ei.id",
             "where module_id = #{moduleId,jdbcType=INTEGER} and class_id = #{classId,jdbcType=INTEGER}"
     })
     @ConstructorArgs({
@@ -93,10 +74,12 @@ public interface HomeworkMapper {
             @Arg(column="module_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="description", javaType=String.class, jdbcType=JdbcType.VARCHAR),
-            @Arg(column="cloudware_type", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="publish_date", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
             @Arg(column="deadline_date", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
-            @Arg(column="class_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
+            @Arg(column="class_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="image_type", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="image_name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="image_version", javaType=String.class, jdbcType=JdbcType.VARCHAR)
     })
     List<Homework> selectByModuleIdAndClassId(@Param("moduleId") Integer moduleId, @Param("classId")Integer classId);
 
@@ -113,8 +96,9 @@ public interface HomeworkMapper {
     boolean isModuleUsedByHomework(int moduleId);
 
     @Select({
-            "select *",
-            "from homework",
+            "select hw.id id, hw.module_id, hw.name, hw.description, hw.publish_date, hw.deadline_date, hw.class_id,",
+            "ei.image_type, ei.image_name, ei.image_version",
+            "from homework hw inner join experiment_image ei on hw.image_id = ei.id",
             "where class_id = #{classId,jdbcType=INTEGER}"
     })
     @ConstructorArgs({
@@ -122,18 +106,21 @@ public interface HomeworkMapper {
             @Arg(column="module_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="description", javaType=String.class, jdbcType=JdbcType.VARCHAR),
-            @Arg(column="cloudware_type", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="publish_date", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
             @Arg(column="deadline_date", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
-            @Arg(column="class_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
+            @Arg(column="class_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="image_type", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="image_name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="image_version", javaType=String.class, jdbcType=JdbcType.VARCHAR)
     })
     List<Homework> selectByClassId(int classId);
 
     @Select({
-            "select m.id moduleId, m.name moduleName,  hw.id homeworkId, hw.name homeworkName,",
-            "hw.description homeworkDes, hw.cloudware_type cloudwareType, hw.deadline_date dueDate,",
+            "select m.id moduleId, m.name moduleName,  hw.id homeworkId, hw.name homeworkName, ei.image_type imageType,",
+            "hw.description homeworkDes, hw.deadline_date dueDate,",
             "hw.publish_date publishDate, sh.id studentHomeworkId, sh.submission_date submissionDate",
             "from homework hw",
+            "inner join experiment_image ei on ei.id = hw.image_id",
             "inner join module m on hw.module_id = m.id",
             "left join student_homework sh on hw.id = sh.homework_id and sh.student_id = #{studentId, jdbcType=INTEGER}",
             "where hw.class_id = #{classId, jdbcType=INTEGER}",
@@ -143,7 +130,7 @@ public interface HomeworkMapper {
 
     @Select({
             "select c.id classId, c.name className, hw.name homeworkName, hw.description,",
-            "hw.cloudware_type cloudwareType, hw.publish_date publishDate, hw.deadline_date deadlineDate",
+            "hw.publish_date publishDate, hw.deadline_date deadlineDate",
             "from homework hw",
             "inner join class c on hw.class_id = c.id",
             "inner join teacher t on c.teacher_id = t.user_id",
@@ -154,7 +141,7 @@ public interface HomeworkMapper {
 
     @Select({
             "select m.id moduleId, m.name moduleName,  hw.id homeworkId, hw.name homeworkName,",
-            "hw.description homeworkDes, hw.cloudware_type cloudwareType, hw.deadline_date dueDate,",
+            "hw.description homeworkDes, hw.deadline_date dueDate,",
             "hw.publish_date publishDate",
             "from module m",
             "left join homework hw on hw.module_id = m.id and hw.class_id=#{classId, jdbcType=INTEGER}",

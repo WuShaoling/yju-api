@@ -3,7 +3,6 @@ package com.guanshan.phoenix.webdomain.request;
 public class ReqStudentHomeworkCloudware {
     private int studentId;
     private int homeworkId;
-    private String cloudwareType;
 
     public int getStudentId() {
         return studentId;
@@ -19,13 +18,5 @@ public class ReqStudentHomeworkCloudware {
 
     public void setHomeworkId(int homeworkId) {
         this.homeworkId = homeworkId;
-    }
-
-    public String getCloudwareType() {
-        return cloudwareType;
-    }
-
-    public void setCloudwareType(String cloudwareType) {
-        this.cloudwareType = cloudwareType;
     }
 }

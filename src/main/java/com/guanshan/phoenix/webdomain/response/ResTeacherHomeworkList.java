@@ -12,7 +12,6 @@ public class ResTeacherHomeworkList {
     public class ResHomework {
         private String name;
         private String description;
-        private String cloudwareType;
         private String publishDate;
         private String deadlineDate;
         private int publishMonth;
@@ -66,14 +65,6 @@ public class ResTeacherHomeworkList {
 
         public void setDescription(String description) {
             this.description = description;
-        }
-
-        public String getCloudwareType() {
-            return cloudwareType;
-        }
-
-        public void setCloudwareType(String cloudwareType) {
-            this.cloudwareType = cloudwareType;
         }
 
         public String getPublishDate() {

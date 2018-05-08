@@ -7,7 +7,7 @@ import com.guanshan.phoenix.dao.mapper.CourseMapper;
 import com.guanshan.phoenix.dao.mapper.ExperimentMapper;
 import com.guanshan.phoenix.dao.mapper.ModuleMapper;
 import com.guanshan.phoenix.dao.mapper.StudentExperimentMapper;
-import com.guanshan.phoenix.enums.CloudwareTypeEnum;
+import com.guanshan.phoenix.enums.ImageTypeEnum;
 import com.guanshan.phoenix.error.ApplicationErrorException;
 import com.guanshan.phoenix.error.ErrorCode;
 import com.guanshan.phoenix.service.ExperimentService;
@@ -58,21 +58,16 @@ public class ExperimentServiceImp implements ExperimentService {
 
     @Override
     public int createExperiment(ReqExperiment reqExperiment) throws ApplicationErrorException {
-        CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt(reqExperiment.getCloudwareType());
-        if(cloudwareType == null){
-            throw new ApplicationErrorException(ErrorCode.InvalidCloudwareType);
-        }
+        int imageId = validateExperiment(reqExperiment);
 
         Experiment experiment = new Experiment();
         experiment.setName(reqExperiment.getExperimentName());
         experiment.setModuleId(reqExperiment.getModuleId());
-        experiment.setCloudwareType(reqExperiment.getCloudwareType());
+        experiment.setImageId(imageId);
         experiment.setPublishDate(reqExperiment.getExperimentCreateDate());
         experiment.setDeadlineDate(reqExperiment.getExperimentDueDate());
         experiment.setExperimentContent(reqExperiment.getExperimentContent());
         experiment.setDescription(reqExperiment.getExperimentDes());
-
-        validateExperiment(experiment);
 
         experimentMapper.insert(experiment);
 
@@ -81,6 +76,7 @@ public class ExperimentServiceImp implements ExperimentService {
 
     @Override
     public int updateExperiment(ReqExperiment reqExperiment) throws ApplicationErrorException {
+        int imageId = validateExperiment(reqExperiment);
 
         Experiment experiment = experimentMapper.selectByPrimaryKey(reqExperiment.getId());
 
@@ -89,11 +85,9 @@ public class ExperimentServiceImp implements ExperimentService {
         }
 
         experiment.setName(reqExperiment.getExperimentName());
-        experiment.setCloudwareType(reqExperiment.getCloudwareType());
+        experiment.setImageId(imageId);
         experiment.setExperimentContent(reqExperiment.getExperimentContent());
         experiment.setDescription(reqExperiment.getExperimentDes());
-
-        validateExperiment(experiment);
 
         experimentMapper.updateByPrimaryKeySelective(experiment);
 
@@ -121,14 +115,21 @@ public class ExperimentServiceImp implements ExperimentService {
         return experimentMapper.getCount();
     }
 
-    private void validateExperiment(Experiment experiment) throws ApplicationErrorException {
+    private int validateExperiment(ReqExperiment experiment) throws ApplicationErrorException {
         if(moduleMapper.selectByPrimaryKey(experiment.getModuleId()) == null){
             throw new ApplicationErrorException(ErrorCode.ModuleNotExists);
         }
 
-        CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt(experiment.getCloudwareType());
-        if(cloudwareType == null){
-            throw new ApplicationErrorException(ErrorCode.InvalidCloudwareType);
+        ImageTypeEnum imageType = ImageTypeEnum.fromInt(experiment.getImageType());
+        if(imageType == null){
+            throw new ApplicationErrorException(ErrorCode.InvalidImageType);
         }
+
+        Integer imageId = experimentMapper.selectImageIdByTypeAndNameVersion(experiment.getImageType(), experiment.getImageNameVersion());
+        if(imageId == null){
+            throw new ApplicationErrorException(ErrorCode.ImageNotFound);
+        }
+
+        return imageId;
     }
 }

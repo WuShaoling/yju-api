@@ -1,6 +1,7 @@
 package com.guanshan.phoenix.service.imp;
 
 import com.guanshan.phoenix.dao.entity.Cloudware;
+import com.guanshan.phoenix.dao.entity.Experiment;
 import com.guanshan.phoenix.dao.entity.StudentExperiment;
 import com.guanshan.phoenix.dao.mapper.CloudwareMapper;
 import com.guanshan.phoenix.dao.mapper.ExperimentMapper;
@@ -54,13 +55,14 @@ public class StudentExperimentServiceImp implements StudentExperimentService {
 
     @Override
     public Cloudware createStudentExperimentCloudware(ReqStudentExperimentCloudware reqStudentExperimentCloudware) throws ApplicationErrorException, InterruptedException {
-        validateStudentExperiment(
+        Experiment experiment = validateStudentExperiment(
                 reqStudentExperimentCloudware.getStudentId(),
                 reqStudentExperimentCloudware.getExperimentId()
         );
 
         Cloudware cloudware = rancherService.createCloudware(reqStudentExperimentCloudware.getStudentId(),
-                                                             reqStudentExperimentCloudware.getCloudwareType());
+                                                             experiment.getImageType(),
+                                                             experiment.getImageNameVersion());
 
         StudentExperiment studentExperiment =
                 studentExperimentMapper.selectByStudentIdAndExperimentId(reqStudentExperimentCloudware.getStudentId(),
@@ -131,13 +133,15 @@ public class StudentExperimentServiceImp implements StudentExperimentService {
         );
     }
 
-    private void validateStudentExperiment(int studentId, int experimentId) throws ApplicationErrorException {
+    private Experiment validateStudentExperiment(int studentId, int experimentId) throws ApplicationErrorException {
         if(userMapper.selectByPrimaryKey(studentId) == null){
             throw new ApplicationErrorException(ErrorCode.UserNotExist);
         }
 
-        if(experimentMapper.selectByPrimaryKey(experimentId) == null){
+        Experiment result = experimentMapper.selectByPrimaryKey(experimentId);
+        if(result == null){
             throw new ApplicationErrorException(ErrorCode.ExperimentNotFound);
         }
+        return result;
     }
 }

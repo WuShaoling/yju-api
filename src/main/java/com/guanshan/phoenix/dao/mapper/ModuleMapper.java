@@ -64,9 +64,10 @@ public interface ModuleMapper {
 
     @Select({
             "select m.id moduleId, m.name moduleName, e.id experimentId, e.name experimentName, ",
-            "e.description experimentDes, e.cloudware_type cloudwareType, e.deadline_date dueDate, ",
+            "e.description experimentDes, ei.image_type imageType, e.deadline_date dueDate, ",
             "e.publish_date publishDate",
             "from module m left join experiment e on e.module_id = m.id",
+            "inner join experiment_image ei on e.image_id = ei.id",
             "where course_id=#{courseId, jdbcType=INTEGER}",
             "order by moduleId"
     })

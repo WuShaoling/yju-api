@@ -2,7 +2,7 @@ package com.guanshan.phoenix.webdomain.response;
 
 import com.guanshan.phoenix.Util.Utility;
 import com.guanshan.phoenix.dao.entity.Experiment;
-import com.guanshan.phoenix.enums.CloudwareTypeEnum;
+import com.guanshan.phoenix.enums.ImageTypeEnum;
 
 public class ResExperimentInfo {
     private int id;
@@ -15,9 +15,11 @@ public class ResExperimentInfo {
 
     private String experimentDes;
 
-    private int cloudwareTypeId;
+    private int imageTypeId;
 
-    private String cloudwareType;
+    private String imageType;
+
+    private String imageNameVersion;
 
     private String dueDate;
 
@@ -33,12 +35,11 @@ public class ResExperimentInfo {
         this.setId(experiment.getId());
         this.setExperimentName(experiment.getName());
         this.setExperimentDes(experiment.getDescription());
-        this.setCloudwareTypeId(experiment.getCloudwareType());
-        CloudwareTypeEnum cloudwareType = CloudwareTypeEnum.fromInt(experiment.getCloudwareType());
-        this.setCloudwareType(cloudwareType == null ? "" : cloudwareType.toString());
+        this.setImageTypeId(experiment.getImageType());
         this.setDueDate(Utility.formatDate(experiment.getDeadlineDate()));
         this.setPublishDate(Utility.formatDate(experiment.getPublishDate()));
         this.setExperimentContent(experiment.getExperimentContent());
+        this.setImageNameVersion(experiment.getImageNameVersion());
     }
 
     public int getId() {
@@ -65,20 +66,26 @@ public class ResExperimentInfo {
         this.experimentDes = experimentDes;
     }
 
-    public int getCloudwareTypeId() {
-        return cloudwareTypeId;
+    public int getImageTypeId() {
+        return imageTypeId;
     }
 
-    public void setCloudwareTypeId(int cloudwareTypeId) {
-        this.cloudwareTypeId = cloudwareTypeId;
+    public void setImageTypeId(int imageTypeId) {
+        this.imageTypeId = imageTypeId;
+        ImageTypeEnum imageTypeEnum = ImageTypeEnum.fromInt(imageTypeId);
+        this.imageType = imageTypeEnum == null ? "" : imageTypeEnum.toString();
     }
 
-    public String getCloudwareType() {
-        return cloudwareType;
+    public String getImageNameVersion() {
+        return imageNameVersion;
     }
 
-    public void setCloudwareType(String cloudwareType) {
-        this.cloudwareType = cloudwareType;
+    public void setImageNameVersion(String imageNameVersion) {
+        this.imageNameVersion = imageNameVersion;
+    }
+
+    public String getImageType() {
+        return imageType;
     }
 
     public String getDueDate() {

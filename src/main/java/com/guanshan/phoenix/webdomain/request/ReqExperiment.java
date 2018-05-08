@@ -7,7 +7,8 @@ public class ReqExperiment {
     private int id;
     private int moduleId;
     private String experimentName;
-    private int cloudwareType;
+    private int imageType;
+    private String imageNameVersion;
     private String experimentContent;
     private Date experimentCreateDate;
     private Date experimentDueDate;
@@ -38,12 +39,20 @@ public class ReqExperiment {
         this.experimentName = experimentName;
     }
 
-    public int getCloudwareType() {
-        return cloudwareType;
+    public int getImageType() {
+        return imageType;
     }
 
-    public void setCloudwareType(int cloudwareType) {
-        this.cloudwareType = cloudwareType;
+    public void setImageType(int imageType) {
+        this.imageType = imageType;
+    }
+
+    public String getImageNameVersion() {
+        return imageNameVersion;
+    }
+
+    public void setImageNameVersion(String imageNameVersion) {
+        this.imageNameVersion = imageNameVersion;
     }
 
     public String getExperimentContent() {

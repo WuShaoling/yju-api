@@ -11,7 +11,11 @@ public class Experiment {
 
     private String description;
 
-    private Integer cloudwareType;
+    private Integer imageId;
+
+    private Integer imageType;
+
+    private String imageNameVersion;
 
     private Date publishDate;
 
@@ -19,19 +23,23 @@ public class Experiment {
 
     private String experimentContent;
 
-    public Experiment(Integer id, Integer moduleId, String name, String description, Integer cloudwareType, Date publishDate, Date deadlineDate, String experimentContent) {
+    public Experiment(Integer id, Integer moduleId, String name, String description,
+                      Date publishDate, Date deadlineDate, Integer imageType, String imageName, String imageVersion,
+                      String experimentContent) {
         this.id = id;
         this.moduleId = moduleId;
         this.name = name;
         this.description = description;
-        this.cloudwareType = cloudwareType;
+        this.imageType = imageType;
+        this.imageNameVersion = imageName + ":" + imageVersion;
         this.publishDate = publishDate;
         this.deadlineDate = deadlineDate;
         this.experimentContent = experimentContent;
     }
 
-    public Experiment(Integer id, Integer moduleId, String name, String description, Integer cloudwareType, Date publishDate, Date deadlineDate) {
-        this(id, moduleId, name, description, cloudwareType, publishDate, deadlineDate, "");
+    public Experiment(Integer id, Integer moduleId, String name, String description,
+                      Date publishDate, Date deadlineDate, Integer imageType, String imageName, String imageVersion) {
+        this(id, moduleId, name, description, publishDate, deadlineDate, imageType, imageName, imageVersion, "");
     }
 
     public Experiment() {
@@ -70,12 +78,20 @@ public class Experiment {
         this.description = description == null ? null : description.trim();
     }
 
-    public Integer getCloudwareType() {
-        return cloudwareType;
+    public Integer getImageId() {
+        return imageId;
     }
 
-    public void setCloudwareType(Integer cloudwareType) {
-        this.cloudwareType = cloudwareType;
+    public void setImageId(Integer imageId) {
+        this.imageId = imageId;
+    }
+
+    public Integer getImageType() {
+        return imageType;
+    }
+
+    public void setImageType(Integer imageType) {
+        this.imageType = imageType;
     }
 
     public Date getPublishDate() {
@@ -100,5 +116,13 @@ public class Experiment {
 
     public void setExperimentContent(String experimentContent) {
         this.experimentContent = experimentContent == null ? null : experimentContent.trim();
+    }
+
+    public String getImageNameVersion() {
+        return imageNameVersion;
+    }
+
+    public void setImageNameVersion(String imageNameVersion) {
+        this.imageNameVersion = imageNameVersion;
     }
 }

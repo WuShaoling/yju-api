@@ -1,5 +1,7 @@
 package com.guanshan.phoenix.webdomain.response;
 
+import com.guanshan.phoenix.enums.ImageTypeEnum;
+
 import java.util.List;
 
 public class ResHomeworkSubmissionList {
@@ -44,7 +46,8 @@ public class ResHomeworkSubmissionList {
     public static class ResHomeworkList {
         private int homeworkId;
         private String homeworkName;
-        private String cloudwareType;
+        private int imageTypeId;
+        private String imageType;
         private int completedCount;
         private int nonCompletedCount;
 
@@ -66,12 +69,18 @@ public class ResHomeworkSubmissionList {
             this.homeworkName = homeworkName;
         }
 
-        public String getCloudwareType() {
-            return cloudwareType;
+        public String getImageType() {
+            return imageType;
         }
 
-        public void setCloudwareType(String cloudwareType) {
-            this.cloudwareType = cloudwareType;
+        public int getImageTypeId(){
+            return imageTypeId;
+        }
+
+        public void setImageTypeId(int imageTypeId){
+            this.imageTypeId = imageTypeId;
+            ImageTypeEnum imageTypeEnum = ImageTypeEnum.fromInt(imageTypeId);
+            this.imageType = imageTypeEnum == null ? "" : imageTypeEnum.toString();
         }
 
         public int getCompletedCount() {

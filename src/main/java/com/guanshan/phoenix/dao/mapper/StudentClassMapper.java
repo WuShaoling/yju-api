@@ -108,7 +108,7 @@ public interface StudentClassMapper {
     List<Map> getStudentClassInfoByUserId(int studentId);
 
     @Select({
-            "select hw.id homeworkId, hw.name homeworkName, hw.description homeworkDes, hw.cloudware_type cloudwareType,",
+            "select hw.id homeworkId, hw.name homeworkName, hw.description homeworkDes, ",
             "hw.publish_date publishDate, hw.deadline_date deadlineDate, c.id classId, c.name className,",
             "t.name teacherName, shw.id studentHomeworkId, shw.submission_date submissionDate",
             "from student_class sc",

@@ -1,13 +1,16 @@
 package com.guanshan.phoenix.webdomain.response;
 
+import com.guanshan.phoenix.enums.ImageTypeEnum;
+
 public class ResHomeworkDetail {
     private String courseName;
     private String moduleName;
     private String homeworkName;
     private String homeworkDes;
     private int classId;
-    private int cloudwareTypeId;
-    private String cloudwareType;
+    private int imageTypeId;
+    private String imageType;
+    private String imageNameVersion;
     private String dueDate;
     private String publishDate;
     private String homeworkContent;
@@ -52,14 +55,6 @@ public class ResHomeworkDetail {
         this.classId = classId;
     }
 
-    public String getCloudwareType() {
-        return cloudwareType;
-    }
-
-    public void setCloudwareType(String cloudwareType) {
-        this.cloudwareType = cloudwareType;
-    }
-
     public String getDueDate() {
         return dueDate;
     }
@@ -84,11 +79,26 @@ public class ResHomeworkDetail {
         this.homeworkContent = homeworkContent;
     }
 
-    public int getCloudwareTypeId() {
-        return cloudwareTypeId;
+    public int getImageTypeId() {
+        return imageTypeId;
     }
 
-    public void setCloudwareTypeId(int cloudwareTypeId) {
-        this.cloudwareTypeId = cloudwareTypeId;
+    public void setImageTypeId(int imageTypeId) {
+        this.imageTypeId = imageTypeId;
+
+        ImageTypeEnum imageTypeEnum = ImageTypeEnum.fromInt(imageTypeId);
+        imageType = imageTypeEnum.toString();
+    }
+
+    public String getImageType() {
+        return imageType;
+    }
+
+    public String getImageNameVersion() {
+        return imageNameVersion;
+    }
+
+    public void setImageNameVersion(String imageNameVersion) {
+        this.imageNameVersion = imageNameVersion;
     }
 }
