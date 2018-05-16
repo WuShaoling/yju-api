@@ -296,6 +296,7 @@ public class RancherServiceImp implements RancherService {
         //datavolumn
         List<String> dataVolumns = new ArrayList<>();
         dataVolumns.add(userId + ":/root/Desktop/myFile");
+        dataVolumns.add("data:/data:ro");
         vmService.getLaunchConfig().setDataVolumes(dataVolumns);
 
         return vmService;
