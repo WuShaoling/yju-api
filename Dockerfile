@@ -1,8 +1,8 @@
 FROM gradle as builder
 
-WORKDIR /home/gradle/project
+ADD --chown=gradle . /home/gradle/project/
 
-COPY . /home/gradle/project/
+WORKDIR /home/gradle/project
 
 RUN gradle clean && gradle build
 
