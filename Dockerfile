@@ -1,8 +1,10 @@
 FROM gradle as builder
 
-ADD --chown=gradle . /home/gradle/project/
+USER root
 
 WORKDIR /home/gradle/project
+
+COPY . /home/gradle/project/
 
 RUN gradle clean && gradle build
 
