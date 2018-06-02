@@ -11,7 +11,7 @@ RUN gradle clean && gradle build
 
 FROM java:openjdk-8-alpine
 
-COPY --from=builder /home/gradle/project/build/libs/phoenix-api-1.0.0.jar app.jar
+COPY --from=builder /home/gradle/project/build/libs/project-1.0.0.jar app.jar
 COPY --from=builder /home/gradle/project/src/main/resources/application.properties  application.properties
 EXPOSE 8080
 VOLUME ["/home/uploadFiles"]
